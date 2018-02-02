@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+        <RootNamespace>NeoNetsphere</RootNamespace>
+        <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+        <Version>2.0.0</Version>
+        <AssemblyVersion>2018.2.33.71</AssemblyVersion>
+        <FileVersion>2018.2.33.71</FileVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
+      <Optimize>true</Optimize>
+      <DefineConstants>TRACE;OLDIDS_DEBUG;OLDIDS;NETCOREAPP2_0;NETCOREAPP2_0</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Debug|AnyCPU'">
+      <Optimize>true</Optimize>
+      <DefineConstants>TRACE;OLDIDS_DEBUG;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
+      <Optimize>true</Optimize>
+      <DefineConstants>TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Release|AnyCPU'">
+      <DefineConstants>TRACE;OLDIDS_RELEASE;NETCOREAPP2_0;OLDIDS</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Release|AnyCPU'">
+      <DefineConstants>TRACE;NEWIDS_RELEASE;NEWIDS;NETCOREAPP2_0</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Release|AnyCPU'">
+      <DefineConstants>TRACE;LATESTS4;NEWIDS</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Expressmapper" Version="1.9.1" />
+        <PackageReference Include="Hjson" Version="3.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+        <PackageReference Include="MySql.Data" Version="8.0.8-dmr" />
+        <PackageReference Include="Microsoft.Data.SQLite" Version="2.0.0" />
+        <PackageReference Include="Serilog" Version="2.6.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+        <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+        <PackageReference Include="Stateless" Version="4.0.0" />
+        <Reference Include="..\..\libs\SharpLzo.dll" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\AuthServer.ServiceModel\AuthServer.ServiceModel.csproj" />
+        <ProjectReference Include="..\NeoNetsphere.Database\NeoNetsphere.Database.csproj" />
+        <ProjectReference Include="..\NeoNetsphere.Network\NeoNetsphere.Network.csproj" />
+        <ProjectReference Include="..\NeoNetsphere\NeoNetsphere.csproj" />
+        <ProjectReference Include="..\ProudNetSrc\ProudNetSrc.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+    </ItemGroup>
+</Project>

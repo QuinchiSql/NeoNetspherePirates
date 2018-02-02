@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+    <AssemblyVersion>2018.2.33.19</AssemblyVersion>
+    <FileVersion>2018.2.33.19</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BlubLib" Version="0.1.4" />
+    <PackageReference Include="BlubLib.DotNetty" Version="0.1.4" />
+    <PackageReference Include="BlubLib.Serialization" Version="0.1.4" />
+    <PackageReference Include="Iconic.Zlib.Netstandard" Version="1.0.0" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.8.1.3" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
+  </ItemGroup>
+</Project>

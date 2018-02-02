@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <RootNamespace>NeoNetsphere</RootNamespace>
+    <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+    <AssemblyVersion>2018.2.33.17</AssemblyVersion>
+    <FileVersion>2018.2.33.17</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
+    <DefineConstants>TRACE;LATEST_DEBUG;NETCOREAPP2_0;LATESTS4</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Release|AnyCPU'">
+    <DefineConstants>TRACE;LATEST_RELEASE;NETCOREAPP2_0;LATESTS4</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BlubLib" Version="0.1.4" />
+    <PackageReference Include="BlubLib.DotNetty.SimpleRmi" Version="0.1.4" />
+    <PackageReference Include="Hjson" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.8-dmr" />
+    <PackageReference Include="Microsoft.Data.SQLite" Version="2.0.0" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AuthServer.ServiceModel\AuthServer.ServiceModel.csproj" />
+    <ProjectReference Include="..\NeoNetsphere.Database\NeoNetsphere.Database.csproj" />
+    <ProjectReference Include="..\NeoNetsphere.Network\NeoNetsphere.Network.csproj" />
+    <ProjectReference Include="..\NeoNetsphere\NeoNetsphere.csproj" />
+    <ProjectReference Include="..\ProudNetSrc\ProudNetSrc.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+    <AssemblyVersion>2018.2.33.26</AssemblyVersion>
+    <FileVersion>2018.2.33.26</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Debug|AnyCPU'">
+    <DefineConstants>TRACE;NEWIDS_DEBUG;NETSTANDARD2_0;NEWIDS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
+    <DefineConstants>TRACE;LATESTS4;NEWIDS;LATEST_DEBUG;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
+    <DefineConstants>TRACE;OLDIDS_DEBUG;NETSTANDARD2_0;OLDIDS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Release|AnyCPU'">
+    <DefineConstants>TRACE;OLDIDS;OLDIDS_RELEASE;NETSTANDARD2_0;OLDIDS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Release|AnyCPU'">
+    <DefineConstants>TRACE;NEWIDS_RELEASE;NETSTANDARD2_0;NEWIDS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Release|AnyCPU'">
+    <DefineConstants>TRACE;LATEST_RELEASE;NETSTANDARD2_0;NEWIDS;LATESTS4</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BlubLib" Version="0.1.4" />
+    <PackageReference Include="BlubLib.Serialization" Version="0.1.4" />
+	<PackageReference Include="System.Numerics.Vectors" Version="4.4.0" />
+    <Reference Include="..\..\libs\SharpLzo.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeoNetsphere\NeoNetsphere.csproj" />
+    <ProjectReference Include="..\ProudNetSrc\ProudNetSrc.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\libs\miniLzo_x64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\libs\miniLzo_x86.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\libs\liblzo.so">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

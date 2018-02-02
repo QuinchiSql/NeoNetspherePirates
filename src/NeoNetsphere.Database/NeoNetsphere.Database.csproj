@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+    <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+    <AssemblyVersion>2018.2.33.12</AssemblyVersion>
+    <FileVersion>2018.2.33.12</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.2.0" />
+    <PackageReference Include="Dapper.FastCrud" Version="2.4.1" />
+  </ItemGroup>
+</Project>
