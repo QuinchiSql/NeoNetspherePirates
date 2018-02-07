@@ -676,7 +676,7 @@ namespace NeoNetsphere.Network.Services
             //    ? PlayerState.Alive
             //    : PlayerState.Spectating;
 
-            plr.Room.BroadcastBriefing();
+            //plr.Room.BroadcastBriefing();
         }
 
 
