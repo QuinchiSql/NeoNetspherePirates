@@ -22,6 +22,10 @@ namespace ProudNetSrc.Serialization.Messages
     }
 
     [BlubContract]
+    internal class NotifyUdpToTcpFallbackByClientMessage : IMessage
+    { }
+
+    [BlubContract]
     internal class P2PGroup_MemberJoin_AckMessage : IMessage
     {
         [BlubMember(0)]
@@ -40,14 +44,6 @@ namespace ProudNetSrc.Serialization.Messages
     [BlubContract]
     internal class NotifyP2PHolepunchSuccessMessage : IMessage
     {
-        public NotifyP2PHolepunchSuccessMessage()
-        {
-            ABSendAddr = new IPEndPoint(0, 0);
-            ABRecvAddr = ABRecvAddr;
-            BASendAddr = ABRecvAddr;
-            BARecvAddr = ABRecvAddr;
-        }
-
         [BlubMember(0)]
         public uint A { get; set; }
 
@@ -65,6 +61,14 @@ namespace ProudNetSrc.Serialization.Messages
 
         [BlubMember(5, typeof(IPEndPointSerializer))]
         public IPEndPoint BARecvAddr { get; set; }
+
+        public NotifyP2PHolepunchSuccessMessage()
+        {
+            ABSendAddr = new IPEndPoint(0, 0);
+            ABRecvAddr = ABRecvAddr;
+            BASendAddr = ABRecvAddr;
+            BARecvAddr = ABRecvAddr;
+        }
     }
 
     [BlubContract]
@@ -100,8 +104,7 @@ namespace ProudNetSrc.Serialization.Messages
 
     [BlubContract]
     internal class C2S_RequestCreateUdpSocketMessage : IMessage
-    {
-    }
+    { }
 
     [BlubContract]
     internal class C2S_CreateUdpSocketAckMessage : IMessage

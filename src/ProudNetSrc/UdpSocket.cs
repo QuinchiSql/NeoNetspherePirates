@@ -14,35 +14,26 @@ namespace ProudNetSrc
 {
     internal class UdpSocket : IDisposable
     {
-        private readonly ProudServer _owner;
         private bool _disposed;
         private IEventLoopGroup _eventLoopGroup;
+        private readonly ProudServer _owner;
+
+        public IChannel Channel { get; private set; }
 
         public UdpSocket(ProudServer owner)
         {
             _owner = owner;
         }
 
-        public IChannel Channel { get; private set; }
-
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-
-            _disposed = true;
-
-            Channel.CloseAsync().WaitEx();
-            _eventLoopGroup?.ShutdownGracefullyAsync().WaitEx();
-        }
-
         public void Listen(IPEndPoint endPoint, IEventLoopGroup eventLoopGroup)
         {
             ThrowIfDisposed();
 
-            _eventLoopGroup = eventLoopGroup != null
-                ? null
-                : new MultithreadEventLoopGroup();
+            if (eventLoopGroup == null)
+                throw new ArgumentNullException(nameof(eventLoopGroup));
+
+            _eventLoopGroup = eventLoopGroup;
+
             try
             {
                 Channel = new Bootstrap()
@@ -51,15 +42,16 @@ namespace ProudNetSrc
                     .Handler(new ActionChannelInitializer<IChannel>(ch =>
                     {
                         ch.Pipeline
-                            .AddLast(new UdpFrameDecoder((int) _owner.Configuration.MessageMaxLength))
+                            .AddLast(new UdpFrameDecoder((int)_owner.Configuration.MessageMaxLength))
                             .AddLast(new UdpFrameEncoder())
-                            .AddLast(new UdpHandler(this, _owner));
+                            .AddLast(new UdpHandler(this, _owner))
+                            .AddLast(new ErrorHandler(_owner));
                     }))
                     .BindAsync(endPoint).WaitEx();
             }
             catch (Exception ex)
             {
-                _eventLoopGroup?.ShutdownGracefullyAsync();
+                _eventLoopGroup?.ShutdownGracefullyAsync(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10)).WaitEx();
                 _eventLoopGroup = null;
                 Channel = null;
                 ex.Rethrow();
@@ -68,7 +60,16 @@ namespace ProudNetSrc
 
         public Task SendAsync(ICoreMessage message, IPEndPoint endPoint)
         {
-            return Channel.WriteAndFlushAsync(new SendContext {Message = message, UdpEndPoint = endPoint});
+            return Channel.WriteAndFlushAsync(new SendContext { Message = message, UdpEndPoint = endPoint });
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+
+            _disposed = true;
+            _eventLoopGroup?.ShutdownGracefullyAsync(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(10)).WaitEx();
         }
 
         private void ThrowIfDisposed()

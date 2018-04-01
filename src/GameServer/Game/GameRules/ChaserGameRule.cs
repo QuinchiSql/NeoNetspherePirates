@@ -139,20 +139,12 @@ namespace NeoNetsphere.Game.GameRules
         {
             return new ChaserPlayerRecord(plr);
         }
-
-        //public override void OnAttackPointMessage(Player plr, CSlaughterAttackPointReqMessage message)
-        //{
-        //    if (Chaser != null)
-        //    {
-        //        ChaserHealth = ChaserHealth - message.Unk1 / 2; /* /3  /4 ... */   // Let the magic happen, Set Chaser extra HP here
-        //        Chaser.Session.SendAsync(new SChangeHPAckMessage(ChaserHealth)); // Let the magic happen
-        //    }
-        //    base.OnAttackPointMessage(plr, message);
-        //}
-
+        
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget = null, LongPeerId scoreKiller = null, LongPeerId scoreAssist = null)
         {
+            if (_disallowactions)
+                return;
             var stats = GetRecord(killer);
             base.OnScoreKill(killer, assist, target, attackAttribute, scoreTarget, scoreKiller, scoreAssist);
             if (scoreTarget != null && scoreTarget.PeerId.Category != PlayerCategory.Player)
@@ -188,6 +180,8 @@ namespace NeoNetsphere.Game.GameRules
 
         public override void OnScoreSuicide(Player plr, LongPeerId scoreTarget = null)
         {
+            if (_disallowactions)
+                return;
             if (!_waitingNextChaser)
             {
                 base.OnScoreSuicide(plr, scoreTarget);
@@ -337,13 +331,15 @@ namespace NeoNetsphere.Game.GameRules
             var gameRule = (ChaserGameRule) GameRule;
             CurrentChaser = (long) (gameRule.Chaser?.Account.Id ?? 0);
             CurrentChaserTarget = (long) (gameRule.ChaserTarget?.Account.Id ?? 0);
+            Unk8 = new List<long>();
+            Unk9 = new List<long>();
             Unk8.Add(CurrentChaser);
             Unk9.Add(CurrentChaser);
 
 
             Unk6 = 1;
             w.Write(CurrentChaser);
-            w.Write(CurrentChaserTarget);
+            w.Write(CurrentChaser);
             w.Write(Unk3);
             w.Write(Unk4);
             w.Write(Unk5);

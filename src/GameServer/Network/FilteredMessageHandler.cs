@@ -49,7 +49,7 @@ namespace NeoNetsphere.Network
                 if (result)
                     handled = true;
             }
-            if (!handled)
+            if (!handled && message.GetType().Name != "RecvContext")
             {
                 Logger.Error("Unhandled message {messageName}", message.GetType().Name);
                 if (session.GetType() == typeof(GameSession))

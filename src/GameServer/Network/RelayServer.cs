@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
 using NeoNetsphere.Network.Message.Relay;
 using NeoNetsphere.Network.Services;
@@ -21,7 +23,7 @@ namespace NeoNetsphere.Network
         }
 
         public static RelayServer Instance { get; private set; }
-
+        
         public static void Initialize(Configuration config)
         {
             if (Instance != null)

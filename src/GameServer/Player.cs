@@ -17,8 +17,7 @@ namespace NeoNetsphere
     {
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(Player));
-
-
+        
         private uint _ap;
         private uint _coins1;
         private uint _coins2;
@@ -30,6 +29,8 @@ namespace NeoNetsphere
         private uint _totalmatches;
         private uint _totalwins;
         private byte _tutorialState;
+
+        public bool LoggedIn = false;
 
         public Player(GameSession session, Account account, PlayerDto dto)
         {
@@ -116,18 +117,7 @@ namespace NeoNetsphere
             Session.SendAsync(new PlayerAccountInfoAckMessage(this.Map<Player, PlayerAccountInfoDto>()));
             return leveledUp;
         }
-
-        /// <summary>
-        ///     Gets the maximum hp for the current character
-        /// </summary>
-        /// <summary>
-        ///     Gets the total attribute value for the current character
-        /// </summary>
-        /// <param name="attribute">The attribute to retrieve</param>
-        /// <returns></returns>
-        /// <summary>
-        ///     Gets the total attribute rate for the current character
-        /// </summary>
+        
         /// <param name="attribute">The attribute to retrieve</param>
         /// <returns></returns>
         /// <summary>

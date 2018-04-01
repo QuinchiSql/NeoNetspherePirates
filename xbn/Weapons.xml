@@ -1,0 +1,1635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<weaponlist>
+  <weapon item_key="2000000">
+    <ability type="0" category="1" rate_of_fire="1" power="9" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="sword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000001">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="sword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000002">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_sword_r.scn" value2="counter_sword_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000003">
+    <ability type="13" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="bat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000004">
+    <ability type="14" category="1" rate_of_fire="1" power="24" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="nippondo.scn" value2="nippondow.scn" value3="nippondozip.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000005">
+    <ability type="20" category="1" rate_of_fire="1" power="5" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="vital_shock.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_sudden.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000006">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="shortknife.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000007">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="emeraldsword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000008">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="taserplasma.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="3" node_name_1="Effect_Dummy01" file_name_1="lightning_sword_l.seq" node_name_2="Effect_Dummy02" file_name_2="lightning_sword_l.seq" node_name_3="Effect_Dummy03" file_name_3="lightning_sword.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000009">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_crow_r.scn" value2="counter_crow_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper03.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000010">
+    <ability type="26" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="3" />
+    <scene value1="twinsword_r.scn" value2="twinsword_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_twinseord_charge.seq" charge_normal_ogg="twinsword_charge.ogg" charge_max_seq="weapon_twinseord_charge_loop.seq" charge_max_ogg="twinsword_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000011">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_blood.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000012">
+    <ability type="26" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="3" />
+    <scene value1="darkness_twinblade_r.scn" value2="darkness_twinblade_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="TW_EFF_Dummy_L" file_name_1="darknesstwinblasde_l.seq" node_name_2="TW_EFF_Dummy_R" file_name_2="darknesstwinblasde_r.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_twinseord_charge.seq" charge_normal_ogg="twinsword_charge.ogg" charge_max_seq="weapon_twinseord_charge_loop.seq" charge_max_ogg="twinsword_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000013">
+    <ability type="33" category="1" rate_of_fire="1" power="22.5" move_speed_rate="1" attack_move_speed_rate="0.95" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="breaker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_breaker_charge.seq" charge_normal_ogg="breaker_charge.ogg" charge_max_seq="weapon_breaker_charge_loop.seq" charge_max_ogg="breaker_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000014">
+    <ability type="33" category="1" rate_of_fire="1" power="22.5" move_speed_rate="1" attack_move_speed_rate="0.95" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="gate_breaker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_breaker_charge.seq" charge_normal_ogg="breaker_charge.ogg" charge_max_seq="weapon_breaker_charge_loop.seq" charge_max_ogg="breaker_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000015">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_guillotine_r.scn" value2="counter_guillotine_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="cs_hand_dummy" file_name_1="guillotine_Base_effect.seq" />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper04.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000016">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="shortknife.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000017">
+    <ability type="38" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="sigmablade.scn" value2="sigmablade_change.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="icon_sword_sigmablade.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="4" file_name_1="sigmablade_body_change.seq" file_name_2="sigmablade_body_un_change.seq" node_name_3="Sigma_Effect_Dummy" file_name_3="sigmablade_golw.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000018">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_a_case.scn" value2="katana_a.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000019">
+    <ability type="13" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="crash_bat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000020">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_zin_case.scn" value2="katana_zin.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000021">
+    <ability type="38" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="burn_sigmablade.scn" value2="burn_sigmablade_change.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="icon_sword_sigmablade.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="4" file_name_1="sigmablade_body_change.seq" file_name_2="sigmablade_body_un_change.seq" node_name_3="Sigma_Effect_Dummy" file_name_3="burn_sigmablade_golw.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000022">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_viola_case.scn" value2="katana_viola.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="5" node_name_1="viola_katana_part2_alphablend2_nolight" file_name_1="viola_katana_effect01.seq" node_name_2="viola_middle_effect_Dummy" file_name_2="viola_katana_effect02.seq" node_name_3="viola_blade_effect_Dummy" file_name_3="viola_katana_effect03.seq" node_name_4="scale_hideparts_viola_middle_effect_Dummy" file_name_4="viola_katana_effect02.seq" node_name_5="scale_hideparts_viola_blade_effect_Dummy" file_name_5="viola_katana_effect03.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katanaviola_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000023">
+    <ability type="38" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="cogwheel_sigmablade.scn" value2="cogwheel_sigmablade_change.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="icon_sword_sigmablade.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="4" file_name_1="sigmablade_body_change.seq" file_name_2="sigmablade_body_un_change.seq" node_name_3="Sigma_Effect_Dummy" file_name_3="cogwheel_sigmablade_golw.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000024">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="crystal_plasma_sword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="eff_Dummy" file_name_1="crystal_plasma_sword_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000025">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_knight_r.scn" value2="counter_knight_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper05_knight.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000026">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_vermilion_case.scn" value2="katana_vermilion.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="hideparts_bm_katana_eff_Dummy" file_name_1="katana_vermilion_fire.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000027">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_joker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="spydagger_joker_eff_01_Dummy" file_name_1="spydagger_joker_bling.seq" node_name_2="spydagger_joker_eff_02_Dummy" file_name_2="spydagger_joker_bling.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000028">
+    <ability type="13" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="frypan_bat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010000">
+    <ability type="2" category="2" rate_of_fire="8" power="3.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r.scn" value2="gun_l.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010001">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r.scn" value2="gun_l.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010002">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010004">
+    <ability type="4" category="2" rate_of_fire="8" power="5.3" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="90" max_ammo_limit="-1" accuracy="0.01" support_sniper_mode="1" sniper_mode_fov="25" />
+    <scene value1="SMG_02.scn" />
+    <resources reload_sound_file="smg2_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010006">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="dualgun.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010007">
+    <ability type="22" category="3" rate_of_fire="2.5" power="8.4" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="15" cracked_magazine_capacity="10" max_ammo="30" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="handgun.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_handgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010008">
+    <ability type="23" category="3" rate_of_fire="1.2" power="27" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="8" cracked_magazine_capacity="4" max_ammo="16" max_ammo_limit="-1" accuracy="0.07" range="1000" />
+    <scene value1="shotgun.scn" />
+    <resources reload_sound_file="burstshotgun_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010009">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r_fish.scn" value2="gun_l_fish.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010010">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_kid.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010011">
+    <ability type="4" category="2" rate_of_fire="8" power="5.3" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="90" max_ammo_limit="-1" accuracy="0.01" support_sniper_mode="1" sniper_mode_fov="25" />
+    <scene value1="ayaya.scn" />
+    <resources reload_sound_file="smg2_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010012">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="catdualgun.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010013">
+    <ability type="23" category="3" rate_of_fire="1.2" power="27" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="8" cracked_magazine_capacity="4" max_ammo="16" max_ammo_limit="-1" accuracy="0.07" range="1000" />
+    <scene value1="shotpstol.scn" />
+    <resources reload_sound_file="burstshotgun_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010014">
+    <ability type="22" category="3" rate_of_fire="2.5" power="8.4" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="15" cracked_magazine_capacity="10" max_ammo="30" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="toygun.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_handgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010015">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010016">
+    <ability type="27" category="3" rate_of_fire="0.8" power="12.5" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="3" max_ammo_limit="3" accuracy="0" charge_power_rate="2.5" />
+    <scene value1="airgun.scn" />
+    <resources reload_sound_file="airgun_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_air" crosshair_zoomin_file="crosshair_gun_air" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_airgun_smog.seq" charge_normal_ogg="airgun_charge_ing.ogg" charge_max_seq="weapon_airgun_smog.seq" charge_max_ogg="airgun_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="weapon_airgun_rail.seq" charge_normal_attack_ogg="airgun_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="weapon_airgun_rail.seq" charge_max_attack_ogg="airgun_blast.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010017">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r_shark.scn" value2="gun_l_shark.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="icon_gun_shark.dds" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="2" node_name_1="Gun_R_Bullet_Dummy" file_name_1="sharksmg_effect.seq" node_name_2="Gun_L_Bullet_Dummy" file_name_2="sharksmg_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010018">
+    <ability type="32" category="2" rate_of_fire="6" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" />
+    <scene value1="spark_rifle.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010020">
+    <ability type="27" category="3" rate_of_fire="0.8" power="12.5" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="3" max_ammo_limit="3" accuracy="0" charge_power_rate="2.5" />
+    <scene value1="airgun_diamond.scn" />
+    <resources reload_sound_file="airgun_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_air" crosshair_zoomin_file="crosshair_gun_air" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_airgun_smog.seq" charge_normal_ogg="airgun_charge_ing.ogg" charge_max_seq="weapon_airgun_smog.seq" charge_max_ogg="airgun_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="weapon_airgun_rail.seq" charge_normal_attack_ogg="airgun_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="weapon_airgun_rail.seq" charge_max_attack_ogg="airgun_blast.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010021">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle_silverhunter.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence count="1" node_name_1="homing_Dummy" file_name_1="weapon_homing_effe.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010022">
+    <ability type="32" category="2" rate_of_fire="6" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" />
+    <scene value1="shootingstar.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence count="2" node_name_1="shootingstar_light_Dummy" file_name_1="shootingstar_light.seq" node_name_2="shootingstar_light_Dummy01" file_name_2="shootingstar_light.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010019">
+    <ability type="31" category="3" rate_of_fire="1" power="7.5" move_speed_rate="0.95" attack_move_speed_rate="0.9" magazine_capacity="8" cracked_magazine_capacity="4" max_ammo="-1" max_ammo_limit="-1" accuracy="0.07" range="1000" />
+    <scene value1="viper.scn" />
+    <resources reload_sound_file="burstshotgun_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="1" node_name_1="viper_middleParts_Dummy" file_name_1="viper_body.seq" />
+    <other_effects other_type="snipe" charge_normal_parent="ChainlightningGun_Fire_Dummy" charge_normal_attack_seq="skill_gunner_shockwave_rail.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010024">
+    <ability type="34" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" />
+    <scene value1="assult_rifle.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010025">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010026">
+    <ability type="34" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" />
+    <scene value1="assult_piranha.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010027">
+    <ability type="22" category="3" rate_of_fire="2.5" power="8.4" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="15" cracked_magazine_capacity="10" max_ammo="30" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="skull_handgun.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_handgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="2" node_name_1="skull_eye_l_Dummy" file_name_1="skull_eye_l_effect.seq" node_name_2="skull_eye_r_Dummy" file_name_2="skull_eye_r_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010028">
+    <ability type="41" category="2" rate_of_fire="8" power="5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="22" cracked_magazine_capacity="10" max_ammo="66" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="r_dual_gun.scn" value2="l_dual_gun.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010029">
+    <ability type="4" category="2" rate_of_fire="8" power="5.3" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="90" max_ammo_limit="-1" accuracy="0.01" support_sniper_mode="1" sniper_mode_fov="25" />
+    <scene value1="semi_rifle_viola.scn" />
+    <resources reload_sound_file="smg2_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010030">
+    <ability type="34" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" />
+    <scene value1="assult_cogwheel.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence count="1" node_name_1="cog_lightning_Dummy" file_name_1="assult_cogwheel_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010031">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="knight_smash_rifle.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010032">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_luteous.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010033">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r_alice.scn" value2="gun_l_alice.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="icon_gun_shark.dds" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="2" node_name_1="alice_r_eff_Dummy" file_name_1="gun_alice.seq" node_name_2="alice_l_eff_Dummy" file_name_2="gun_alice.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020001">
+    <ability type="5" category="4" rate_of_fire="8" power="11" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="hw.scn" />
+    <resources reload_sound_file="hmg_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020002">
+    <ability type="16" category="2" rate_of_fire="6" power="9" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="25" cracked_magazine_capacity="10" max_ammo="60" max_ammo_limit="-1" accuracy="0.15" />
+    <scene value1="mg2.scn" />
+    <resources reload_sound_file="mg2_reload.ogg" slot_image_file="slot_gun_elec_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020003">
+    <ability type="16" category="2" rate_of_fire="6" power="9" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="25" cracked_magazine_capacity="10" max_ammo="60" max_ammo_limit="-1" accuracy="0.15" />
+    <scene value1="dracula.scn" />
+    <resources reload_sound_file="mg2_reload.ogg" slot_image_file="slot_gun_elec_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020004">
+    <ability type="5" category="4" rate_of_fire="8" power="11" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="dragonmachinegun.scn" />
+    <resources reload_sound_file="hmg_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020005">
+    <ability type="37" category="4" rate_of_fire="9" power="12" move_speed_rate="0.7" attack_move_speed_rate="0.4" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.05" />
+    <scene value1="turret_gun_l.scn" value2="turret_gun_r.scn" value3="turret_backpak.scn" value4="turret.scn" value5="turret_gun.scn" />
+    <resources reload_sound_file="turret_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_turret" crosshair_zoomin_file="crosshair_gun_turret" />
+    <sequence count="4" node_name_1="Bip01" file_name_1="turret_trans.seq" node_name_2="Bip01" file_name_2="turret_trans_un.seq" node_name_3="Bip01" file_name_3="turret_trans_etex.seq" node_name_4="Bip01" file_name_4="turret_trans_un_etex.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020006">
+    <ability type="37" category="4" rate_of_fire="9" power="12" move_speed_rate="0.7" attack_move_speed_rate="0.4" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.05" />
+    <scene value1="turret_gun_l_shadow.scn" value2="turret_gun_r_shadow.scn" value3="turret_backpak_shadow.scn" value4="turret_shadow.scn" value5="turret_gun_shadow.scn" />
+    <resources reload_sound_file="turret_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_turret" crosshair_zoomin_file="crosshair_gun_turret" />
+    <sequence count="4" node_name_1="Bip01" file_name_1="turret_trans_shadow.seq" node_name_2="Bip01" file_name_2="turret_un_trans_shadow.seq" node_name_3="Bip01" file_name_3="turret_trans_shadow_etex.seq" node_name_4="Bip01" file_name_4="turret_un_trans_shadow_etex.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020007">
+    <ability type="31" category="4" rate_of_fire="9.5" power="4.5" move_speed_rate="0.9" attack_move_speed_rate="0.8" magazine_capacity="100" cracked_magazine_capacity="4" max_ammo="500" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="shockwave.scn" />
+    <resources reload_sound_file="shockwave_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_light_machinegun" crosshair_zoomin_file="crosshair_gun_light_machinegun" />
+    <sequence count="1" node_name_1="chainlightninng_upperbody_Dummy" file_name_1="lightninnggun_body.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020008">
+    <ability type="31" category="4" rate_of_fire="9.5" power="4.5" move_speed_rate="0.9" attack_move_speed_rate="0.8" magazine_capacity="100" cracked_magazine_capacity="4" max_ammo="500" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="lightmg_umbrella.scn" />
+    <resources reload_sound_file="shockwave_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_light_machinegun" crosshair_zoomin_file="crosshair_gun_light_machinegun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030001">
+    <ability type="6" category="5" rate_of_fire="2" power="7.8" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="8" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="-1" accuracy="0" charge_power_rate="5" support_sniper_mode="1" sniper_mode_fov="23" />
+    <scene value1="railgun.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="skill_gunner_chargeshot_charge.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="skill_gunner_chargeshot_chargemax.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030002">
+    <ability type="7" category="5" rate_of_fire="0.6" power="18" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="5" cracked_magazine_capacity="2" max_ammo="15" max_ammo_limit="-1" accuracy="0" range="400" charge_power_rate="2.5" support_sniper_mode="1" sniper_mode_fov="15" />
+    <scene value1="area_rail_gun.scn" />
+    <resources reload_sound_file="brail_reload.ogg" slot_image_file="slot_gun_cannonade.tga" crosshair_file="crosshair_gun_connonade" crosshair_zoomin_file="crosshair_gun_connonade_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_canon_charge.seq" charge_normal_ogg="brail_charge.ogg" charge_max_seq="weapon_canon_charge_loop.seq" charge_max_ogg="brail_charge_complete.ogg" charge_normal_parent="AreaRailgun_Fire_Dummy" charge_normal_attack_seq="weapon_canon_fire.seq" charge_normal_attack_ogg="brail_blast.ogg" charge_max_parent="AreaRailgun_Fire_Dummy" charge_max_attack_seq="weapon_canon_fire_max.seq" charge_max_attack_ogg="brail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030003">
+    <ability type="6" category="5" rate_of_fire="2" power="7.8" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="8" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="-1" accuracy="0" charge_power_rate="5" support_sniper_mode="1" sniper_mode_fov="23" />
+    <scene value1="railgun_kid.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="skill_gunner_chargeshot_charge.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="skill_gunner_chargeshot_chargemax.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030004">
+    <ability type="7" category="5" rate_of_fire="0.6" power="18" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="5" cracked_magazine_capacity="2" max_ammo="15" max_ammo_limit="-1" accuracy="0" range="400" charge_power_rate="2.5" support_sniper_mode="1" sniper_mode_fov="15" />
+    <scene value1="dragonade.scn" />
+    <resources reload_sound_file="brail_reload.ogg" slot_image_file="slot_gun_cannonade.tga" crosshair_file="crosshair_gun_connonade" crosshair_zoomin_file="crosshair_gun_connonade_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_canon_charge.seq" charge_normal_ogg="brail_charge.ogg" charge_max_seq="weapon_canon_charge_loop.seq" charge_max_ogg="brail_charge_complete.ogg" charge_normal_parent="AreaRailgun_Fire_Dummy" charge_normal_attack_seq="weapon_canon_fire.seq" charge_normal_attack_ogg="brail_blast.ogg" charge_max_parent="AreaRailgun_Fire_Dummy" charge_max_attack_seq="weapon_canon_fire_max.seq" charge_max_attack_ogg="brail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030005">
+    <ability type="6" category="5" rate_of_fire="0.8" power="15" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="5" cracked_magazine_capacity="1" max_ammo="11" max_ammo_limit="-1" accuracy="0" charge_power_rate="4" support_sniper_mode="1" sniper_mode_fov="10" />
+    <scene value1="railgun.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="skill_gunner_chargeshot_charge.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="skill_gunner_chargeshot_chargemax.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030006">
+    <ability type="40" category="5" rate_of_fire="0.8" power="30" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="11" max_ammo_limit="11" accuracy="0" charge_power_rate="1" sniper_mode_fov="11" new_snipe_mode="1" />
+    <scene value1="SharpShooter.scn" />
+    <resources reload_sound_file="sharpshooter_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_zoomin_file="crosshair_gun_standardrail_zoomin" />
+    <sequence />
+    <other_effects charge_normal_ogg="snipe" charge_normal_parent="skill_gunner_chargeshot_charge.seq" charge_normal_attack_seq="rail_charge.ogg" charge_normal_attack_ogg="skill_gunner_chargeshot_chargemax.seq" charge_max_parent="rail_charge_complete.ogg" charge_max_attack_seq="Railgun_Fire_Dummy" charge_max_attack_ogg="skill_gunner_chargeshot_rail.seq" heal_seq="rail_blast.ogg" heal_ogg="Railgun_Fire_Dummy" attack_line_1_seq="skill_gunner_chargeshot_rail_max.seq" attack_line_2_seq="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030007">
+    <ability type="6" category="5" rate_of_fire="2" power="7.8" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="8" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="-1" accuracy="0" charge_power_rate="5" support_sniper_mode="1" sniper_mode_fov="23" />
+    <scene value1="railgun_rabbit.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="skill_gunner_chargeshot_charge.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="skill_gunner_chargeshot_chargemax.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040001">
+    <ability type="8" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="1" />
+    <scene value1="hack_l.scn" value2="hack_r.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040002">
+    <ability type="9" category="6" rate_of_fire="3" power="30" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="5" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="2" />
+    <scene value1="sentipumbe.scn" value2="senti_eyer.scn" value3="senti_eyel.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_senti_wall.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040003">
+    <ability type="19" category="6" rate_of_fire="0.3" power="20" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="12" />
+    <scene value1="sentioption_basel.scn" value2="sentioption_baser.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_senti_wall.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040004">
+    <ability type="8" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="15" />
+    <scene value1="minibee_l.scn" value2="minibee_r.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040005">
+    <ability type="19" category="6" rate_of_fire="0.3" power="20" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="16" />
+    <scene value1="senti_eyer.scn" value2="senti_eyel.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_senti_wall.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040006">
+    <ability type="36" category="6" rate_of_fire="0.3" power="15" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="17" />
+    <scene value1="sentioption_basel.scn" value2="sentioption_baser.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_senti_wall.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050001">
+    <ability type="10" category="8" rate_of_fire="0.3" power="45" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="4" max_ammo_limit="4" accuracy="0" range="500" />
+    <scene value1="minegun.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="slot_gun_mine.tga" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050002">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="earth_bomber.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050003">
+    <ability type="30" category="8" rate_of_fire="0.1" power="1.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1000" />
+    <scene value1="lightning_bomber.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050004">
+    <ability type="35" category="8" rate_of_fire="0" power="-2.3" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="12" accuracy="0" range="800" />
+    <scene value1="rescue_gun.scn" />
+    <resources reload_sound_file="rescuegun_reload.ogg" slot_image_file="icon_gun_rescuegun.dds" crosshair_file="crosshair_gun_rescue" crosshair_zoomin_file="crosshair_gun_rescue" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050005">
+    <ability type="35" category="8" rate_of_fire="0" power="-2.3" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="12" accuracy="0" range="800" />
+    <scene value1="rescuegun_dj.scn" />
+    <resources reload_sound_file="rescuegun_reload.ogg" slot_image_file="icon_gun_rescuegun.dds" crosshair_file="crosshair_gun_rescue" crosshair_zoomin_file="crosshair_gun_rescue" />
+    <sequence count="3" node_name_1="rcu_light_Dummy03" file_name_1="rc_dj_light01.seq" node_name_2="rcu_light_Dummy04" file_name_2="rc_dj_light02.seq" node_name_3="rcu_light_Dummy04" file_name_3="music_note_bling01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060001">
+    <ability type="11" category="7" rate_of_fire="3" power="10.05" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="20" cracked_magazine_capacity="4" max_ammo="60" max_ammo_limit="-1" accuracy="1" range="3000" />
+    <scene value1="mindenergy_02.scn" />
+    <resources reload_sound_file="mindenergy_reload.ogg" slot_image_file="slot_mind_energy.tga" crosshair_file="crosshair_mind_energy" crosshair_zoomin_file="crosshair_mind_energy" />
+    <sequence />
+    <other_effects other_type="mind" attack_seq="skill_hacker_mindenergy_enemy_body.seq" attack_ogg="mindenergy_enemy.ogg" heal_seq="global_heal.seq" heal_ogg="mindenergy_team.ogg" attack_line_1_seq="skill_hacker_mindenergy_enemy_line1.seq" attack_line_2_seq="skill_hacker_mindenergy_enemy_line2.seq" attack_line_3_seq="skill_hacker_mindenergy_enemy_line3.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_hacker_mindenergy_enemy_hand.seq" heal_hand_seq="skill_hacker_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060002">
+    <ability type="12" category="7" rate_of_fire="3" power="15" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="15" cracked_magazine_capacity="1" max_ammo="45" max_ammo_limit="-1" accuracy="1" range="2000" />
+    <scene value1="mindenergy_03.scn" />
+    <resources reload_sound_file="bmindenergy_reload.ogg" slot_image_file="slot_mind_storm.tga" crosshair_file="crosshair_mind_shock" crosshair_zoomin_file="crosshair_mind_shock" />
+    <sequence />
+    <other_effects other_type="mind" attack_seq="weapon_mindshock_body.seq" attack_ogg="bmindenergy_enemy.ogg" heal_seq="skill_hacker_mindenergy_team_body.seq" heal_ogg="bmindenergy_team.ogg" attack_line_1_seq="weapon_mindshock_line1.seq" attack_line_2_seq="weapon_mindshock_line1.seq" attack_line_3_seq="weapon_mindshock_line1.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_hacker_mindenergy_enemy_hand.seq" heal_hand_seq="skill_hacker_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060003">
+    <ability type="25" category="7" rate_of_fire="3" power="10.05" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="20" cracked_magazine_capacity="4" max_ammo="60" max_ammo_limit="-1" accuracy="1" range="3000" auto_target_distance="0" esper_ref_type="11" />
+    <scene value1="heartwand.scn" />
+    <resources reload_sound_file="mindenergy_reload.ogg" slot_image_file="slot_mind_energy.tga" crosshair_file="crosshair_mind_energy" crosshair_zoomin_file="crosshair_mind_energy" />
+    <sequence count="1" node_name_1="heart_Dummy" file_name_1="ludol.seq" />
+    <other_effects other_type="mind" attack_seq="ludol.seq" attack_ogg="mindenergy_enemy.ogg" heal_seq="skill_hacker_mindenergy_team_body.seq" heal_ogg="mindenergy_team.ogg" attack_line_1_seq="skill_hacker_mindenergy_enemy_line1.seq" attack_line_2_seq="skill_hacker_mindenergy_enemy_line2.seq" attack_line_3_seq="skill_hacker_mindenergy_enemy_line3.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_hacker_mindenergy_enemy_hand.seq" heal_hand_seq="skill_hacker_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060004">
+    <ability type="12" category="7" rate_of_fire="3" power="15" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="15" cracked_magazine_capacity="1" max_ammo="45" max_ammo_limit="-1" accuracy="1" range="2000" />
+    <scene value1="mind_alice.scn" />
+    <resources reload_sound_file="bmindenergy_reload.ogg" slot_image_file="slot_mind_storm.tga" crosshair_file="crosshair_mind_shock" crosshair_zoomin_file="crosshair_mind_shock" />
+    <sequence />
+    <other_effects other_type="mind" attack_seq="weapon_mindshock_body.seq" attack_ogg="bmindenergy_enemy.ogg" heal_seq="skill_hacker_mindenergy_team_body.seq" heal_ogg="bmindenergy_team.ogg" attack_line_1_seq="weapon_mindshock_line1.seq" attack_line_2_seq="weapon_mindshock_line1.seq" attack_line_3_seq="weapon_mindshock_line1.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_hacker_mindenergy_enemy_hand.seq" heal_hand_seq="skill_hacker_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010034">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle_water_gun.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence count="1" node_name_1="bubble_eff_Dummy" file_name_1="weapon_water_gun_effe.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030008">
+    <ability type="40" category="5" rate_of_fire="0.8" power="30" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="11" max_ammo_limit="11" accuracy="0" charge_power_rate="1" sniper_mode_fov="11" new_snipe_mode="1" />
+    <scene value1="sharpshooter_antique.scn" />
+    <resources reload_sound_file="sharpshooter_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_zoomin_file="crosshair_gun_standardrail_zoomin" />
+    <sequence />
+    <other_effects charge_normal_ogg="snipe" charge_normal_parent="skill_gunner_chargeshot_charge.seq" charge_normal_attack_seq="rail_charge.ogg" charge_normal_attack_ogg="skill_gunner_chargeshot_chargemax.seq" charge_max_parent="rail_charge_complete.ogg" charge_max_attack_seq="Railgun_Fire_Dummy" charge_max_attack_ogg="skill_gunner_chargeshot_rail.seq" heal_seq="rail_blast.ogg" heal_ogg="Railgun_Fire_Dummy" attack_line_1_seq="skill_gunner_chargeshot_rail_max.seq" attack_line_2_seq="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010035">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="smash_rifle_clockwork.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence count="1" node_name_1="eff_Dummy" file_name_1="smash_rifle_clockwork_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050006">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="earth_bomber_R.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="earth_bomber_R_sim_eff_dummy" file_name_1="earth_bomber_r_blast_tick.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060005">
+    <ability type="11" category="7" rate_of_fire="3" power="10.05" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="20" cracked_magazine_capacity="4" max_ammo="60" max_ammo_limit="-1" accuracy="1" range="3000" />
+    <scene value1="mind_eg_cube.scn" />
+    <resources reload_sound_file="mindenergy_reload.ogg" slot_image_file="slot_mind_energy.tga" crosshair_file="crosshair_mind_energy" crosshair_zoomin_file="crosshair_mind_energy" />
+    <sequence count="1" node_name_1="magicube_scale_Dummy" file_name_1="magicube_eff_01.seq" />
+    <other_effects other_type="mind" attack_seq="skill_hacker_mindenergy_enemy_body.seq" attack_ogg="mindenergy_enemy.ogg" heal_seq="global_heal.seq" heal_ogg="mindenergy_team.ogg" attack_line_1_seq="skill_hacker_mindenergy_enemy_line1.seq" attack_line_2_seq="skill_hacker_mindenergy_enemy_line2.seq" attack_line_3_seq="skill_hacker_mindenergy_enemy_line3.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_magiccube_mindenergy_enemy_hand.seq" heal_hand_seq="skill_magiccube_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000029">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="deathscythe_unique.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="Dummy" file_name_1="weapon_deathscythe_eff.seq" />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000030">
+    <ability type="43" category="1" rate_of_fire="1" power="15" move_speed_rate="1.3" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="ironboots_01.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper03.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000031">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="deathscythe_normal.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020009">
+    <ability type="37" category="4" rate_of_fire="9" power="8" move_speed_rate="0.7" attack_move_speed_rate="0.4" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.05" />
+    <scene value1="turret_gun_l_shadow.scn" value2="turret_gun_r_shadow.scn" value3="turret_backpak_shadow.scn" value4="turret_shadow.scn" value5="turret_gun_shadow.scn" />
+    <resources reload_sound_file="turret_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_turret" crosshair_zoomin_file="crosshair_gun_turret" />
+    <sequence count="6" node_name_1="Bip01" file_name_1="turret_trans_shadow_3.seq" node_name_2="Bip01" file_name_2="turret_un_trans_shadow_3.seq" node_name_3="Bip01" file_name_3="turret_trans_shadow_3_etex.seq" node_name_4="Bip01" file_name_4="turret_un_trans_shadow_3_etex.seq" node_name_5="Turret_set_Wea_Dummy" file_name_5="turret_mk2_effect01_01.seq" node_name_6="Turret_set_Wea_Dummy" file_name_6="turret_mk2_effect02_02_enemy.seq" />
+    <other_effects />
+    <sequence2 count_2="3" node_name_2_1="Turret_set_Wea_Dummy" file_name_2_1="turret_mk2_effect01_01.seq" node_name_2_2="Turret_set_Wea_Dummy" file_name_2_2="turret_mk2_effect02_02_enemy.seq" node_name_2_3="Bip01" file_name_2_3="gun_hit_mk2.seq" />
+  </weapon>
+  <weapon item_key="2000032">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_blood.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010037">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r_shark.scn" value2="gun_l_shark.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="icon_gun_shark.dds" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="2" node_name_1="Gun_R_Bullet_Dummy" file_name_1="sharksmg_effect.seq" node_name_2="Gun_L_Bullet_Dummy" file_name_2="sharksmg_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000033">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_crow_r.scn" value2="counter_crow_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper03.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010036">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_kid.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010038">
+    <ability type="41" category="2" rate_of_fire="8" power="5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="22" cracked_magazine_capacity="10" max_ammo="66" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="r_dual_gun_u.scn" value2="l_dual_gun_u.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000034">
+    <ability type="26" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="3" />
+    <scene value1="twinblade_02_tg_r.scn" value2="twinblade_02_tg_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_twinseord_charge.seq" charge_normal_ogg="twinsword_charge.ogg" charge_max_seq="weapon_twinseord_charge_loop.seq" charge_max_ogg="twinsword_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020039">
+    <ability type="44" category="2" rate_of_fire="6" power="6.5" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="32" cracked_magazine_capacity="10" max_ammo="60" max_ammo_limit="-1" accuracy="0.15" />
+    <scene value1="gaussrifle_mk2_v01.scn" />
+    <resources reload_sound_file="mg2_reload.ogg" slot_image_file="slot_gun_elec_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="1" node_name_1="Gauss_Rifle_MK2_eff_con_Dummy" file_name_1="Gauss_Rifle_MK2_eff01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050007">
+    <ability type="30" category="8" rate_of_fire="0.1" power="12.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1000" />
+    <scene value1="lightning_bomber_mk2.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="lightning_bomber_MK2_con_Dummy" file_name_1="lightningb_mk2_eff01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050008">
+    <ability type="46" category="8" rate_of_fire="0" power="-15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="12" accuracy="0" range="600" />
+    <scene value1="rescuegunmk2.scn" />
+    <resources reload_sound_file="rescuegun_reload.ogg" slot_image_file="icon_gun_rescuegun.dds" crosshair_file="crosshair_gun_rescue" crosshair_zoomin_file="crosshair_gun_rescue" />
+    <sequence count="4" node_name_1="Bip01" file_name_1="global_ammo.seq" node_name_2="rescuegunMK2_Healbar_L" file_name_2="rescuegunmk2_healbar.seq" node_name_3="rescuegunMK2_SPbar_R" file_name_3="rescuegunmk2_spbar.seq" node_name_4="rescuegunMK2_LBar_eff_Dummy" file_name_4="rescuegunmk2_healbar.seq" />
+    <other_effects other_type="mind" heal_seq="global_ammo.seq" heal_ogg="Rescuegun_emmo.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000035">
+    <ability type="43" category="1" rate_of_fire="1" power="15" move_speed_rate="1.3" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="ironboots_n_01.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper03.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020010">
+    <ability type="45" category="8" rate_of_fire="0.85" power="48" move_speed_rate="0.8" attack_move_speed_rate="0.5" magazine_capacity="1" cracked_magazine_capacity="3" max_ammo="5" max_ammo_limit="5" accuracy="0" range="500" />
+    <scene value1="rocket launcher_n.scn" />
+    <resources reload_sound_file="Rocket_load.ogg" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_RL_smog.seq" charge_normal_ogg="rocket_charge.ogg" charge_max_seq="weapon_RL_smog.seq" charge_max_ogg="airgun_charge_complete.ogg" charge_normal_parent="Minegun_Wea_Dummy" />
+    <sequence2 count_2="1" node_name_2_1="Minegun_Wea_Dummy" file_name_2_1="weapon_RL_rail.seq" />
+  </weapon>
+  <weapon item_key="2020011">
+    <ability type="45" category="8" rate_of_fire="0.85" power="48" move_speed_rate="0.8" attack_move_speed_rate="0.5" magazine_capacity="1" cracked_magazine_capacity="3" max_ammo="5" max_ammo_limit="5" accuracy="0" range="500" />
+    <scene value1="rocket launcher_u.scn" />
+    <resources reload_sound_file="Rocket_load_u.ogg" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_RL_smog.seq" charge_normal_ogg="rocket_charge.ogg" charge_max_seq="weapon_RL_smog.seq" charge_max_ogg="airgun_charge_complete.ogg" charge_normal_parent="Minegun_Wea_Dummy" />
+    <sequence2 count_2="1" node_name_2_1="Minegun_Wea_Dummy" file_name_2_1="weapon_RL_rail.seq" />
+  </weapon>
+  <weapon item_key="2010039">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r.scn" value2="gun_l.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010040">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_kid.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020040">
+    <ability type="44" category="2" rate_of_fire="6" power="6.5" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="32" cracked_magazine_capacity="10" max_ammo="60" max_ammo_limit="-1" accuracy="0.15" />
+    <scene value1="gaussrifle_mk2_v01.scn" />
+    <resources reload_sound_file="mg2_reload.ogg" slot_image_file="slot_gun_elec_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="1" node_name_1="Gauss_Rifle_MK2_eff_con_Dummy" file_name_1="Gauss_Rifle_MK2_eff01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020041">
+    <ability type="44" category="2" rate_of_fire="6" power="6.5" move_speed_rate="1" attack_move_speed_rate="0.7" magazine_capacity="32" cracked_magazine_capacity="10" max_ammo="60" max_ammo_limit="-1" accuracy="0.15" />
+    <scene value1="gaussrifle_mk2_v01.scn" />
+    <resources reload_sound_file="mg2_reload.ogg" slot_image_file="slot_gun_elec_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence count="1" node_name_1="Gauss_Rifle_MK2_eff_con_Dummy" file_name_1="Gauss_Rifle_MK2_eff01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000036">
+    <ability type="47" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="demonic_knuckle_r_01.scn" value2="demonic_knuckle_l_01.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040007">
+    <ability type="52" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="19" />
+    <scene value2="energy_supply_mini.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000037">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_mach3.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050009">
+    <ability type="46" category="8" rate_of_fire="0" power="-15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="12" accuracy="0" range="600" />
+    <scene value1="rescuegunmk2.scn" />
+    <resources reload_sound_file="rescuegun_reload.ogg" slot_image_file="icon_gun_rescuegun.dds" crosshair_file="crosshair_gun_rescue" crosshair_zoomin_file="crosshair_gun_rescue" />
+    <sequence count="4" node_name_1="Bip01" file_name_1="global_ammo.seq" node_name_2="rescuegunMK2_Healbar_L" file_name_2="rescuegunmk2_healbar.seq" node_name_3="rescuegunMK2_SPbar_R" file_name_3="rescuegunmk2_spbar.seq" node_name_4="rescuegunMK2_LBar_eff_Dummy" file_name_4="rescuegunmk2_healbar.seq" />
+    <other_effects other_type="mind" heal_seq="global_ammo.seq" heal_ogg="Rescuegun_emmo.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000038">
+    <ability type="47" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="metallic_knuckle_r_01.scn" value2="metallic_knuckle_l_01.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010041">
+    <ability type="23" category="3" rate_of_fire="1.2" power="20" move_speed_rate="0.95" attack_move_speed_rate="0.9" magazine_capacity="8" cracked_magazine_capacity="4" max_ammo="16" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="bs_mk2_ele.scn" />
+    <resources reload_sound_file="burstshotgun_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000039">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="deathscythe_02_hm.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="Dummy" file_name_1="weapon_deathscythe_eff.seq" />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020012">
+    <ability type="48" category="4" rate_of_fire="6" power="3" move_speed_rate="0.9" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="4" max_ammo="500" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="lmg_mk2_01.scn" />
+    <resources reload_sound_file="shockwave_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_revolver" crosshair_file2="crosshair_gun_lightMK2F" crosshair_zoomin_file="crosshair_gun_light_machinegun" />
+    <sequence count="1" node_name_1="chainlightninng_upperbody_Dummy" file_name_1="lightninnggun_body.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000040">
+    <ability type="33" category="1" rate_of_fire="1" power="22.5" move_speed_rate="1" attack_move_speed_rate="0.95" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="breaker_oriental.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_breaker_charge.seq" charge_normal_ogg="breaker_charge.ogg" charge_max_seq="weapon_breaker_charge_loop.seq" charge_max_ogg="breaker_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000041">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_goldenchain_R.scn" value2="counter_goldenchain_L.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper06_goldenchain.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040008">
+    <ability type="52" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="18" />
+    <scene value2="energy_supply_nm_mini.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000042">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_mach3.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010042">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="catdualgun.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010043">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="catdualgun.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000043">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_guillotine_r.scn" value2="counter_guillotine_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="cs_hand_dummy" file_name_1="guillotine_Base_effect.seq" />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper04.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000044">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_vermilion_case.scn" value2="katana_vermilion.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="hideparts_bm_katana_eff_Dummy" file_name_1="katana_vermilion_fire.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010044">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_luteous.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000045">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="shortknife.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000046">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="plasma_event_wood.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000047">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="plasma_event_wood.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000048">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="plasma_goldengibson.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050010">
+    <ability type="10" category="8" rate_of_fire="0.3" power="45" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="4" max_ammo_limit="4" accuracy="0" range="500" />
+    <scene value1="grenade_summer_night.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="slot_gun_mine.tga" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="summenight_bullet_case_dummy" file_name_1="grenade_summer_night_bling.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020042">
+    <ability type="5" category="4" rate_of_fire="8" power="11" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="heavy_ring.scn" />
+    <resources reload_sound_file="hmg_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010045">
+    <ability type="21" category="2" rate_of_fire="8" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="40" cracked_magazine_capacity="10" max_ammo="50" max_ammo_limit="-1" accuracy="0.025" range="500" />
+    <scene value1="smash_rifle_clockwork.scn" />
+    <resources reload_sound_file="smg3_reload.ogg" slot_image_file="slot_gun_dual.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence count="1" node_name_1="eff_Dummy" file_name_1="smash_rifle_clockwork_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000049">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="shortknife.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010046">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050011">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="earth_bomber.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000050">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="deathscythe_normal.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010047">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="gun_r.scn" value2="gun_l.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040009">
+    <ability type="8" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="1" />
+    <scene value1="hack_l.scn" value2="hack_r.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000051">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_goldenchain_R.scn" value2="counter_goldenchain_L.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper06_goldenchain.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020043">
+    <ability type="5" category="4" rate_of_fire="8" power="11" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="heavy_ring.scn" />
+    <resources reload_sound_file="hmg_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000052">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_sword_r.scn" value2="counter_sword_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000053">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="katana_a_case.scn" value2="katana_a.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010048">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2040010">
+    <ability type="8" category="6" rate_of_fire="0.5" power="5.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" centry_type="1" />
+    <scene value1="hack_l.scn" value2="hack_r.scn" />
+    <resources reload_sound_file="sentrygun_reload.ogg" slot_image_file="slot_sentry_gun.tga" crosshair_file="crosshair_sentrygun" crosshair_zoomin_file="crosshair_sentrygun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000054">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" centry_type="1" />
+    <scene value1="katana_05_bunny_case.scn" value2="katana_05_bunny.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="6" node_name_1="bunny_cover_eff_06_dummy" file_name_1="bummyblade_eff_06.seq" node_name_2="bunny_cover_eff_02_dummy" file_name_2="bummyblade_eff_02.seq" node_name_3="katana_05_bunny_blade_eff_Dummy" file_name_3="bummyblade_eff_02.seq" node_name_4="bunny_cover_eff_03_dummy" file_name_4="bummyblade_eff_06.seq" node_name_5="bunny_cover_eff_04_dummy" file_name_5="bummyblade_eff_06.seq" node_name_6="bunny_cover_eff_05_dummy" file_name_6="bummyblade_eff_06.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katanadel_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010049">
+    <ability type="49" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" centry_type="1" />
+    <scene value1="assult_mafia.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010050">
+    <ability type="41" category="2" rate_of_fire="8" power="5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="22" cracked_magazine_capacity="10" max_ammo="66" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="DU_Luman_R.scn" value2="DU_Luman_L.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000055">
+    <ability type="50" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="counter_vr_shield_nondata.scn" value2="counter_vr_shield.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper07_VR.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030009">
+    <ability type="51" category="5" rate_of_fire="2" power="7.8" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="8" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="-1" accuracy="0" charge_power_rate="5" support_sniper_mode="1" sniper_mode_fov="23" />
+    <scene value1="railgun_stick.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="skill_gunner_chargeshot_charge_02.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="skill_gunner_chargeshot_chargemax_02.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_02_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_02_Dummy" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000056">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="deathscythe_thanatos.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010051">
+    <ability type="32" category="2" rate_of_fire="6" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" />
+    <scene value1="sparkrifle_nb.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010052">
+    <ability type="27" category="3" rate_of_fire="0.8" power="12.5" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="3" cracked_magazine_capacity="1" max_ammo="3" max_ammo_limit="3" accuracy="0" charge_power_rate="2.5" />
+    <scene value1="airgun_NB.scn" />
+    <resources reload_sound_file="airgun_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_air" crosshair_zoomin_file="crosshair_gun_air" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="weapon_airgun_nb_smog.seq" charge_normal_ogg="airgun_charge_ing.ogg" charge_max_seq="weapon_airgun_nb_smog.seq" charge_max_ogg="airgun_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="weapon_airgun_nb_rail.seq" charge_normal_attack_ogg="airgun_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="weapon_airgun_nb_rail.seq" charge_max_attack_ogg="airgun_blast.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2060006">
+    <ability type="53" category="7" rate_of_fire="3" power="15" move_speed_rate="0.9" attack_move_speed_rate="0.9" magazine_capacity="15" cracked_magazine_capacity="1" max_ammo="45" max_ammo_limit="-1" accuracy="1" range="2000" />
+    <scene value1="mindshock_NB.scn" />
+    <resources reload_sound_file="bmindenergy_reload.ogg" slot_image_file="slot_mind_storm.tga" crosshair_file="crosshair_mind_shock" crosshair_zoomin_file="crosshair_mind_shock" />
+    <sequence count="2" node_name_1="mindshock_NB_Dummy" file_name_1="mindshock_NB_smog.seq" node_name_2="mindshock_NB_Dummy" file_name_2="mindshock_NB_eff.seq" />
+    <other_effects other_type="mind" attack_seq="weapon_mindshock_body.seq" attack_ogg="bmindenergy_enemy.ogg" heal_seq="skill_hacker_mindenergy_team_body.seq" heal_ogg="bmindenergy_team.ogg" attack_line_1_seq="weapon_mindshock_line1.seq" attack_line_2_seq="weapon_mindshock_line1.seq" attack_line_3_seq="weapon_mindshock_line1.seq" heal_line_1_seq="skill_hacker_mindenergy_team_line1.seq" heal_line_2_seq="skill_hacker_mindenergy_team_line2.seq" heal_line_3_seq="skill_hacker_mindenergy_team_line3.seq" attack_hand_seq="skill_hacker_mindenergy_enemy_hand.seq" heal_hand_seq="skill_hacker_mindenergy_team_hand.seq" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000057">
+    <ability type="26" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="3" />
+    <scene value1="twinblade_glitch_R.scn" value2="twinblade_glitch_L.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_twin_glitch_charge.seq" charge_normal_ogg="twinsword_charge.ogg" charge_max_seq="weapon_twin_glitch_charge.seq" charge_max_ogg="twinsword_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000058">
+    <ability type="38" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="sigmablade_joy.scn" value2="sigmablade_joy_change.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="icon_sword_sigmablade.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" file_name_1="sigmablade_joy_body_change.seq" file_name_2="sigmablade_joy_body_un_change.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000059">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_glitch.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050012">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="earth_bomber_joy.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050013">
+    <ability type="30" category="8" rate_of_fire="0.1" power="1.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1000" />
+    <scene value1="lightning_bomber_glitch.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="LB_ds_inner_Dummy" file_name_1="lightning_bomber_glitch_eff_01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000060">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="sword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000061">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_blood.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="blood_eye_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="blood_eye_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010053">
+    <ability type="34" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" />
+    <scene value1="assult_piranha.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000063">
+    <ability type="54" category="1" rate_of_fire="1" power="5" move_speed_rate="1.2" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="vital_shock.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_sudden.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000062">
+    <ability type="55" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="1" />
+    <scene value1="taserplasma.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="Effect_Dummy01" file_name_1="lightning_sword_l.seq" node_name_2="Effect_Dummy02" file_name_2="lightning_sword_l.seq" node_name_3="Effect_Dummy03" file_name_3="lightning_sword.seq" />
+    <other_effects other_type="snipe" charge_normal_seq="katana_charge2.seq" charge_normal_ogg="katana_charge.ogg" charge_normal_parent="R_Hand_Dummy" charge_normal_attack_seq="skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Effect_Dummy03" charge_max_attack_seq="skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000064">
+    <ability type="47" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="demonic_cat_knuckle_R.scn" value2="demonic_cat_glove_L.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000065">
+    <ability type="54" category="1" rate_of_fire="1" power="5" move_speed_rate="1.2" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="vital_shock_blackcat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_sudden.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000068">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="PS_Lucifer_2016_green.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="Object02_nolight" file_name_1="ps_lucifer_2016_green_01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000067">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="PS_Lucifer_2016.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="Object02_nolight" file_name_1="ps_lucifer_2016_blue_01.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010054">
+    <ability type="3" category="3" rate_of_fire="1.2" power="30" move_speed_rate="1" attack_move_speed_rate="0.9" magazine_capacity="7" cracked_magazine_capacity="4" max_ammo="14" max_ammo_limit="-1" accuracy="0.08" range="1000" />
+    <scene value1="revolver_marine.scn" />
+    <resources reload_sound_file="revo_reload.ogg" slot_image_file="slot_gun_revolver.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000069">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="crystal_plasma_sword.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="eff_Dummy" file_name_1="crystal_plasma_sword_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000070">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="spydagger_joker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="spydagger_joker_eff_01_Dummy" file_name_1="spydagger_joker_bling.seq" node_name_2="spydagger_joker_eff_02_Dummy" file_name_2="spydagger_joker_bling.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020044">
+    <ability type="31" category="4" rate_of_fire="9.5" power="4.5" move_speed_rate="0.9" attack_move_speed_rate="0.8" magazine_capacity="100" cracked_magazine_capacity="4" max_ammo="500" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="lightmg_umbrella.scn" />
+    <resources reload_sound_file="shockwave_reload.ogg" slot_image_file="slot_gun_shotgun.tga" crosshair_file="crosshair_gun_light_machinegun" crosshair_zoomin_file="crosshair_gun_light_machinegun" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000071">
+    <ability type="13" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="firework_bat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="earth_bomber_R_sim_eff_dummy" file_name_1="earth_bomber_r_blast_tick.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050014">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="earth_bomber_watermelon.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="earth_bomber_R_sim_eff_dummy" file_name_1="earth_bomber_r_blast_tick.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010055">
+    <ability type="28" category="2" rate_of_fire="7" power="4" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="60" accuracy="0" rand_dmg_min="-3" rand_dmg_max="3" rand_dmg_prob="100" />
+    <scene value1="homing_rifle_water_gun.scn" />
+    <resources reload_sound_file="homing_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_homing" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence count="1" node_name_1="bubble_eff_Dummy" file_name_1="weapon_water_gun_effe.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000072">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" centry_type="1" />
+    <scene value1="katana_ninja_a_case.scn" value2="katana_ninja_y.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="6" node_name_1="bunny_cover_eff_06_dummy" file_name_1="bummyblade_eff_06.seq" node_name_2="bunny_cover_eff_02_dummy" file_name_2="bummyblade_eff_02.seq" node_name_3="katana_05_bunny_blade_eff_Dummy" file_name_3="bummyblade_eff_02.seq" node_name_4="bunny_cover_eff_03_dummy" file_name_4="bummyblade_eff_06.seq" node_name_5="bunny_cover_eff_04_dummy" file_name_5="bummyblade_eff_06.seq" node_name_6="bunny_cover_eff_05_dummy" file_name_6="bummyblade_eff_06.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katanadel_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000073">
+    <ability type="39" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" centry_type="1" />
+    <scene value1="katana_ninja_b_case.scn" value2="katana_ninja_b.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="6" node_name_1="bunny_cover_eff_06_dummy" file_name_1="bummyblade_eff_06.seq" node_name_2="bunny_cover_eff_02_dummy" file_name_2="bummyblade_eff_02.seq" node_name_3="katana_05_bunny_blade_eff_Dummy" file_name_3="bummyblade_eff_02.seq" node_name_4="bunny_cover_eff_03_dummy" file_name_4="bummyblade_eff_06.seq" node_name_5="bunny_cover_eff_04_dummy" file_name_5="bummyblade_eff_06.seq" node_name_6="bunny_cover_eff_05_dummy" file_name_6="bummyblade_eff_06.seq" />
+    <other_effects other_type="twin_blade" charge_normal_seq="katanadel_charge2.seq" charge_normal_ogg="katana_charge.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000074">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="ps_eu.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="eff_Dummy" file_name_1="crystal_plasma_sword_eff.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010056">
+    <ability type="41" category="2" rate_of_fire="8" power="5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="22" cracked_magazine_capacity="10" max_ammo="66" max_ammo_limit="-1" accuracy="0.03" range="1000" />
+    <scene value1="du_hallbahr_r.scn" value2="du_hallmarbas_l.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000075">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="113_deathscythe_base.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000076">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="114_counter_sword_r.scn" value2="114_counter_sword_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="counter_sword" attack_seq="114_counter_sword_effect.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000077">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="115_winter season_weapon.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="bloodyeyes_Dummy" file_name_1="115_spy_weapon_eyes_effect.seq" node_name_2="bloodyeyes2_Dummy" file_name_2="115_spy_weapon_eyes_effect.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000078">
+    <ability type="26" category="1" rate_of_fire="1" power="15" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="3" />
+    <scene value1="116_twinb_weapon_r.scn" value2="116_twinb_weapon_l.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_twinseord_charge.seq" charge_normal_ogg="twinsword_charge.ogg" charge_max_seq="weapon_twinseord_charge_loop.seq" charge_max_ogg="twinsword_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010057">
+    <ability type="49" category="2" rate_of_fire="7.5" power="7.5" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="30" cracked_magazine_capacity="8" max_ammo="60" max_ammo_limit="-1" accuracy="0.03" />
+    <scene value1="117_weapon_assult.scn" />
+    <resources reload_sound_file="assultrifle_reload.ogg" slot_image_file="icon_gun_semi_rifle.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_homing" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000079">
+    <ability type="33" category="1" rate_of_fire="1" power="22.5" move_speed_rate="1" attack_move_speed_rate="0.95" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="119_weapon_breaker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_breaker_charge.seq" charge_normal_ogg="breaker_charge.ogg" charge_max_seq="weapon_breaker_charge_loop.seq" charge_max_ogg="breaker_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2020045">
+    <ability type="5" category="4" rate_of_fire="8" power="11" move_speed_rate="0.85" attack_move_speed_rate="0.7" magazine_capacity="100" cracked_magazine_capacity="30" max_ammo="100" max_ammo_limit="-1" accuracy="0.06" />
+    <scene value1="120_weapon_hm.scn" />
+    <resources reload_sound_file="hmg_reload.ogg" slot_image_file="slot_gun_heavy.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2030010">
+    <ability type="6" category="5" rate_of_fire="2" power="7.8" move_speed_rate="1" attack_move_speed_rate="0.8" magazine_capacity="8" cracked_magazine_capacity="1" max_ammo="12" max_ammo_limit="-1" accuracy="0" charge_power_rate="5" support_sniper_mode="1" sniper_mode_fov="23" />
+    <scene value1="121_weapon_railgun.scn" />
+    <resources reload_sound_file="rail_reload.ogg" slot_image_file="slot_gun_rail.tga" crosshair_file="crosshair_gun_rail" crosshair_zoomin_file="crosshair_gun_rail_zoomin" />
+    <sequence />
+    <other_effects other_type="snipe" charge_normal_seq="121_skill_gunner_chargeshot_charge.seq" charge_normal_ogg="rail_charge.ogg" charge_max_seq="121_skill_gunner_chargeshot_chargemax.seq" charge_max_ogg="rail_charge_complete.ogg" charge_normal_parent="Railgun_Fire_Dummy" charge_normal_attack_seq="121_skill_gunner_chargeshot_rail.seq" charge_normal_attack_ogg="rail_blast.ogg" charge_max_parent="Railgun_Fire_Dummy" charge_max_attack_seq="121_skill_gunner_chargeshot_rail_max.seq" charge_max_attack_ogg="rail_blast_max.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000080">
+    <ability type="0" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="122_weapon.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_plasma.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000081">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="123_weapon_SpyDagger.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="spydagger_joker_eff_01_Dummy" file_name_1="spydagger_joker_bling.seq" node_name_2="spydagger_joker_eff_02_Dummy" file_name_2="spydagger_joker_bling.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010058">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="123_weapon_Uzi_R.scn" value2="123_weapon_Uzi_L.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000082">
+    <ability type="13" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="124_weapon_bat.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2010059">
+    <ability type="2" category="2" rate_of_fire="8" power="7" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="36" cracked_magazine_capacity="10" max_ammo="90" max_ammo_limit="-1" accuracy="0.04" />
+    <scene value1="123_weapon_Uzi_R_Gold.scn" value2="123_weapon_Uzi_L_Gold.scn" />
+    <resources reload_sound_file="smg_reload.ogg" slot_image_file="slot_gun_sub.tga" crosshair_file="crosshair_gun_revolver" crosshair_zoomin_file="crosshair_gun_revolver" />
+    <sequence />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000083">
+    <ability type="24" category="1" rate_of_fire="1" power="12.5" move_speed_rate="1.2" attack_move_speed_rate="1.2" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="250" />
+    <scene value1="123_weapon_SpyDagger_Gold.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="icon_knife.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="2" node_name_1="spydagger_joker_eff_01_Dummy" file_name_1="spydagger_joker_bling.seq" node_name_2="spydagger_joker_eff_02_Dummy" file_name_2="spydagger_joker_bling.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050015">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="124_snow_ball.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="Snow_Ball_Eff_Dummy" file_name_1="124_snow_ball.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2050016">
+    <ability type="29" category="8" rate_of_fire="0.1" power="65" move_speed_rate="1" attack_move_speed_rate="1" magazine_capacity="1" cracked_magazine_capacity="1" max_ammo="0" max_ammo_limit="0" accuracy="0" range="1200" />
+    <scene value1="124_snow_ball.scn" />
+    <resources reload_sound_file="grenade_reload.ogg" slot_image_file="earthquake_bomber.dds" crosshair_file="crosshair_gun_mine" crosshair_zoomin_file="crosshair_gun_mine" />
+    <sequence count="1" node_name_1="Snow_Ball_Eff_Dummy" file_name_1="124_snow_ball.seq" />
+    <other_effects />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000084">
+    <ability type="1" category="1" rate_of_fire="1" power="10" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="125_counter_sword_R.scn" value2="125_counter_sword_L.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="1" node_name_1="125_weapon_01_eff" file_name_1="125_weapon_eff_01.seq" />
+    <other_effects other_type="counter_sword" attack_seq="125_weapon_eff_02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000085">
+    <ability type="42" category="1" rate_of_fire="1" power="17" move_speed_rate="1.1" attack_move_speed_rate="1" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" />
+    <scene value1="126_weapon.scn" />
+    <resources reload_sound_file="bsword_reload.ogg" slot_image_file="slot_sword_counter.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence count="3" node_name_1="126_eye_eff_L_Dummy" file_name_1="126_weapon_eye_eff_l.seq" node_name_2="126_eye_eff_R_Dummy" file_name_2="126_weapon_eye_eff_r.seq" node_name_3="126_eff_center_Dummy" file_name_3="126_weapon_center_eff.seq" />
+    <other_effects other_type="counter_sword" attack_seq="weapon_counter_upper02.seq" attack_ogg="bsword_counter.ogg" />
+    <sequence2 />
+  </weapon>
+  <weapon item_key="2000086">
+    <ability type="33" category="1" rate_of_fire="1" power="22.5" move_speed_rate="1" attack_move_speed_rate="0.95" magazine_capacity="-1" cracked_magazine_capacity="-1" max_ammo="-1" max_ammo_limit="-1" accuracy="0" range="500" charge_power_rate="2" />
+    <scene value1="127_weapon_breaker.scn" />
+    <resources reload_sound_file="sword_reload.ogg" slot_image_file="slot_sword_stormbat.tga" crosshair_file="crosshair_sword_plasma" crosshair_zoomin_file="crosshair_sword_plasma" />
+    <sequence />
+    <other_effects other_type="twin_blade" charge_normal_seq="weapon_breaker_charge.seq" charge_normal_ogg="breaker_charge.ogg" charge_max_seq="weapon_breaker_charge_loop.seq" charge_max_ogg="breaker_charge_full.ogg" />
+    <sequence2 />
+  </weapon>
+</weaponlist>

@@ -47,6 +47,7 @@ namespace NeoNetsphere
             GameRuleManager = new GameRuleManager(this);
             Group = group;
             Creator = creator;
+            Master = creator;
             TeamManager.TeamChanged += TeamManager_TeamChanged;
 
             GameRuleManager.GameRuleChanged += GameRuleManager_OnGameRuleChanged;
@@ -424,7 +425,7 @@ namespace NeoNetsphere
             _players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
 
             RoomManager.Channel.BroadcastCencored(new RoomChangeRoomInfoAck2Message(GetRoomInfo()));
-            Broadcast(new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
+            BroadcastExcept(Master, new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
         }
 
         private Player GetPlayerWithLowestPing()

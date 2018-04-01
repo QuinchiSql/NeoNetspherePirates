@@ -99,10 +99,18 @@ namespace Netsphere
             }
         }
 
-        public void Remove(Room room)
+        public void Remove(Room room, bool force = false)
         {
-            if (room.Players.Count > 0)
+            if (room.Players.Count > 0 && !force)
                 throw new RoomException("Players are still in this room");
+
+            if (force)
+            {
+                foreach (var plr in room.Players)
+                {
+                    room.Leave(plr.Value);
+                }
+            }
 
             _rooms.Remove(room.Id);
             Channel.Broadcast(new RoomDisposeAckMessage(room.Id));

@@ -55,6 +55,12 @@ namespace Netsphere.Game.GameRules
             }
         }
 
+        public override void IntrudeCompleted(Player plr)
+        {
+            base.IntrudeCompleted(plr);
+            plr.Session.SendAsync(new FreeAllForChangeTheFirstAckMessage(First?.Account.Id ?? 0));
+        }
+
         public override void Initialize()
         {
             Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.Spectator);

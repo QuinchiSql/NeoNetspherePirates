@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EsperActionlist>
+  <EsperAction Type="0">
+    <ability required_mp="0" decrement_mp="0" power="10" Range="250" />
+    <resources slot_image_file="Resources/Image/EsperAction/EsperBeam.png" />
+    <LuaScriptName scriptName="EsperSkill_EsperBeam" />
+    <sequence />
+    <sequence2 />
+  </EsperAction>
+  <EsperAction Type="1">
+    <ability required_mp="10" decrement_mp="0" power="0" Range="0" />
+    <resources slot_image_file="Resources/Image/EsperAction/Espercoat.png" />
+    <LuaScriptName scriptName="EsperSkill_EsperCoat" />
+    <sequence count="1" node_name_1="" file_name_1="espercoat_active_eff_01.seq" />
+    <sequence2 count="1" node_name_1="Bip01" sound_name_1="" file_name_1="gun_hit_mk2.seq" />
+  </EsperAction>
+  <EsperAction Type="2">
+    <ability required_mp="0" decrement_mp="0" power="30" Range="500" />
+    <resources slot_image_file="Resources/Image/EsperAction/Esperbomb.png" />
+    <LuaScriptName scriptName="EsperSkill_EsperBomb" />
+    <sequence />
+    <sequence2 />
+  </EsperAction>
+  <EsperAction Type="3">
+    <ability required_mp="25" decrement_mp="0" power="0" Range="0" />
+    <resources slot_image_file="Resources/Image/EsperAction/KneeSlide.png" />
+    <LuaScriptName scriptName="EsperSkill_EsperKneeSlide" />
+    <sequence />
+    <sequence2 />
+  </EsperAction>
+  <EsperAction Type="4">
+    <ability />
+    <resources slot_image_file="Resources/Image/EsperAction/MoneyRain.png" />
+    <LuaScriptName />
+    <sequence count="1" node_name_1="" sound_name_1="event_christmas_coinget.ogg" file_name_1="MoneyRainCoin.seq" />
+    <sequence2 />
+  </EsperAction>
+</EsperActionlist>

@@ -45,12 +45,12 @@ namespace NeoNetsphere.Network
         {
             RegisterMappings();
 
-            Logger.Information("To get sure that u know how to work with this server, i've added this");
-            Logger.Information("Remove the lines located in the given file named by this log's prefix");
-
+            //Logger.Information("To get sure that u know how to work with this server, i've added this");
+            //Logger.Information("Remove the lines located in the given file named by this log's prefix");
             //
-            Environment.Exit(-1);
-            //
+            ////
+            //Environment.Exit(-1);
+            ////
 
             //ServerTime = TimeSpan.Zero;
 
@@ -59,6 +59,7 @@ namespace NeoNetsphere.Network
                 .Add(new ReloadCommand())
                 .Add(new GameCommands())
                 .Add(new BanCommands())
+                .Add(new AdminCommands())
                 .Add(new NoticeCommand())
                 .Add(new InventoryCommands());
 
@@ -204,41 +205,36 @@ namespace NeoNetsphere.Network
 
             foreach (var plr in PlayerManager)
             {
-                var curtime = TimeSpan.Parse(plr.PlayTime);
-                plr.PlayTime = (curtime += delta).ToString();
-
-                if (!plr.Session.IsConnected || !plr.Session.IsLoggedIn())
+                if (plr != null)
                 {
-                    plr.Room?.Leave(plr);
-                    plr.Room = null;
-                }
-                else
-                {
-                    var expTable = Instance.ResourceCache.GetExperience();
-                    var expInfo = expTable.GetValueOrDefault(plr.Level);
+                    if (!plr.Session.IsConnected)
+                        plr.LoggedIn = false;
 
-                    if (expInfo.ExperienceToNextLevel != 0 &&
-                        expInfo.ExperienceToNextLevel <= (int)(plr.TotalExperience - expInfo.TotalExperience))
+                    if (!plr.Session.IsConnected || !plr.Session.IsLoggedIn())
                     {
-                        var newLevel = plr.Level + 1;
-                        expInfo = expTable.GetValueOrDefault(newLevel);
-
-                        if (expInfo == null)
-                        {
-                            Logger.ForAccount(plr)
-                                .Warning("Can't level up because level {level} not found", newLevel);
-                            break;
-                        }
-
-                        Logger.ForAccount(plr)
-                            .Debug("Leveled up to {level}", newLevel);
-
-                        // ToDo level rewards
-
-                        plr.Level++;
+                        plr.Room?.Leave(plr);
+                        plr.Room = null;
+                    }
+                    else
+                    {
+                        var curtime = TimeSpan.Parse(plr.PlayTime);
+                        plr.PlayTime = (curtime += delta).ToString();
                     }
                 }
             }
+
+            foreach (var channel in ChannelManager)
+            {
+                foreach (var room in channel.RoomManager.Where(x => !x.Master.IsLoggedIn() || !x.Master.Session.IsConnected))
+                {
+                    if (room.Players.Count - 1 <= 0)
+                        channel?.RoomManager?.Remove(room, true);
+                    else
+                        if (!room.Players.Any(x => x.Value.IsLoggedIn() || x.Value.Session.IsConnected))
+                        channel?.RoomManager?.Remove(room, true);
+                }
+            }
+
             // ToDo Use another thread for this?
             _saveTimer = _saveTimer.Add(delta);
             if (_saveTimer >= Config.Instance.SaveInterval)
@@ -302,6 +298,7 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.PlayersOnline, src => src.Players.Count);
 
             Mapper.Register<PlayerItem, ItemDto>()
+                .Member(dest => dest.Id, src => src.Id)
                 .Function(dest => dest.ExpireTime,
                     src => src.ExpireDate == DateTimeOffset.MinValue ? -1 : src.ExpireDate.ToUnixTimeSeconds())
                 .Function(dest => dest.Durability, src =>

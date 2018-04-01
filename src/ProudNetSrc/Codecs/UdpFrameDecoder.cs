@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using DotNetty.Buffers;
 using DotNetty.Codecs;
@@ -25,7 +24,10 @@ namespace ProudNetSrc.Codecs
             var length = content.ReadInt();
             var id = content.ReadUnsignedInt();
             var fragId = content.ReadUnsignedInt();
-            
+
+            if (length > _maxFrameLength)
+                throw new TooLongFrameException("Received message is too long");
+
             var buffer = content
                 .SkipBytes(2)
                 .ReadStruct();
@@ -33,7 +35,7 @@ namespace ProudNetSrc.Codecs
             // ReadStruct uses a slice
             content.Retain();
 
-            var endPoint = (IPEndPoint) message.Sender;
+            var endPoint = (IPEndPoint)message.Sender;
             output.Add(new UdpMessage
             {
                 Flag = flag,

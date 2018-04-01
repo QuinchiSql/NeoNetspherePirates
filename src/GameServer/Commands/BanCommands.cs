@@ -118,8 +118,9 @@ namespace NeoNetsphere.Commands
                     {
                         AccountId = account.Id,
                         Account = account,
-                        Date = curDate.ToUnixTimeSeconds(),
-                        Duration = DateTimeOffset.Now.Add(duration).ToUnixTimeSeconds()
+                        Date = 0,
+                        Duration = DateTimeOffset.Now.Add(duration).ToUnixTimeSeconds(),
+                        Reason = "GMConsole"
                     };
 
                     var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);

@@ -60,11 +60,7 @@ namespace ProudNetSrc
         RequestServerConnectionHint = 46,
         PolicyRequest = 47,
         P2PReliablePing = 48,
-        P2PReliablePong = 49,
-
-
-        //CUSTOM!!
-        ServerPingTest = 100,
+        P2PReliablePong = 49
     }
 
     public enum ProudOpCode : ushort
@@ -110,12 +106,6 @@ namespace ProudNetSrc
         RequestMeasureSendSpeed = 64517,
         S2C_RequestCreateUdpSocket = 64518,
         S2C_CreateUdpSocketAck = 64519,
-        
-        //C2C
-        HolsterP2PHolepunchTrial = 65001,
-        ReportUdpMessageCount = 65002,
-        ReportServerTimeAndFrameRateAndPing = 65003,
-        ReportServerTimeAndFrameRateAndPong = 65004
     }
 
     public enum HostId : uint
@@ -172,10 +162,7 @@ namespace ProudNetSrc
 
     internal static class ChannelAttributes
     {
-        public static readonly AttributeKey<ProudServer> Server =
-            AttributeKey<ProudServer>.ValueOf($"ProudNet-{nameof(Server)}");
-
-        public static readonly AttributeKey<ProudSession> Session =
-            AttributeKey<ProudSession>.ValueOf($"ProudNet-{nameof(Session)}");
+        public static readonly AttributeKey<ProudServer> Server = AttributeKey<ProudServer>.ValueOf($"ProudNetSrc-{nameof(Server)}");
+        public static readonly AttributeKey<ProudSession> Session = AttributeKey<ProudSession>.ValueOf($"ProudNetSrc-{nameof(Session)}");
     }
 }

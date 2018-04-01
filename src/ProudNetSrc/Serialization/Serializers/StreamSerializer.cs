@@ -6,7 +6,7 @@
 //using Sigil;
 //using Sigil.NonGeneric;
 
-//namespace ProudNet.Serialization.Serializers
+//namespace ProudNetSrc.Serialization.Serializers
 //{
 //    public class StreamSerializer : ISerializerCompiler
 //    {
@@ -36,6 +36,3 @@
 //        }
 //    }
 //}
-
-
-

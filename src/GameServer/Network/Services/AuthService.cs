@@ -24,7 +24,6 @@ using System.Net;
 using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Message.Club;
 using Newtonsoft.Json;
-using ClubInfoAckMessage = NeoNetsphere.Network.Message.Game.ClubInfoAckMessage;
 
 namespace NeoNetsphere.Network.Services
 {
@@ -58,7 +57,7 @@ namespace NeoNetsphere.Network.Services
             Logger.ForAccount(message.AccountId, message.Username)
                 .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint, ipInfo.country_code);
 
-            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.country_code))
+            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.country_code) || Config.Instance.BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
             {
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Information("Denied connection from client in blocked country {country}", ipInfo.country_code);
@@ -175,6 +174,9 @@ namespace NeoNetsphere.Network.Services
                 oldPlr?.Disconnect();
                 if (GameServer.Instance.PlayerManager.Contains(account.Id))
                     GameServer.Instance.PlayerManager.Remove(oldPlr);
+
+                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ExistingExit));
+                return;
             }
 
             if (GameServer.Instance.PlayerManager.Contains(account.Id))
@@ -244,13 +246,13 @@ namespace NeoNetsphere.Network.Services
                         await db.UpdateAsync(plrDto);
                     }
                 }
-                if (expTable.TryGetValue(plrDto.Level, out expValue))
-                    if (plrDto.TotalExperience < expValue.TotalExperience)
-                    {
-                        plrDto.TotalExperience = expValue.TotalExperience;
-                        Logger.Warning("Given exp were to low for given level");
-                        await db.UpdateAsync(plrDto);
-                    }
+                //if (expTable.TryGetValue(plrDto.Level, out expValue))
+                //    if (plrDto.TotalExperience < expValue.TotalExperience)
+                //    {
+                //        plrDto.TotalExperience = expValue.TotalExperience;
+                //        Logger.Warning("Given exp were to low for given level");
+                //        await db.UpdateAsync(plrDto);
+                //    }
                 session.Player = new Player(session, account, plrDto);
             }
 
@@ -379,6 +381,7 @@ namespace NeoNetsphere.Network.Services
         private static async Task LoginAsync(GameSession session)
         {
             var plr = session.Player;
+            plr.LoggedIn = true;
 
             await session.SendAsync(new ItemInventoryInfoAckMessage
             {
@@ -411,8 +414,6 @@ namespace NeoNetsphere.Network.Services
                     Skills = new[] {@char.Skills.GetItem(SkillSlot.Skill)?.Id ?? 0},
                     Clothes = @char.Costumes.GetItems().Select(i => i?.Id ?? 0).ToArray()
                 };
-                //var weapons = @char.Weapons.GetItems().Select(i => i?.Id ?? 0).ToArray();
-                //Array.Copy(weapons, 0, message.Weapons, 6, weapons.Length);
 
                 await session.SendAsync(message);
             }
@@ -421,7 +422,6 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = plr.PEN, AP = plr.AP});
             await session.SendAsync(new MoenyRefreshCoinInfoAckMessage {ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2});
             await session.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
-            //await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World2));
 
             if (plr.Inventory.Count == 0)
             {
@@ -649,5 +649,6 @@ namespace NeoNetsphere.Network.Services
             plr.RoomInfo.IsConnecting = false;
             plr.Room.OnPlayerJoined(new RoomPlayerEventArgs(plr));
         }
+        
     }
 }

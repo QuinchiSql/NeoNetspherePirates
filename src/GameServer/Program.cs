@@ -74,20 +74,37 @@ namespace NeoNetsphere
             CharacterIdGenerator.Initialize();
             DenyIdGenerator.Initialize();
 
-            ChatServer.Initialize(new Configuration());
-            RelayServer.Initialize(new Configuration());
-            GameServer.Initialize(new Configuration());
-
-            FillShop();
             var listenerThreads = new MultithreadEventLoopGroup(Config.Instance.ListenerThreads);
             var workerThreads = new MultithreadEventLoopGroup(Config.Instance.WorkerThreads);
+            var workerThread = new SingleThreadEventLoop();
+            ChatServer.Initialize(new Configuration
+            {
+                SocketListenerThreads = listenerThreads,
+                SocketWorkerThreads = workerThreads,
+                WorkerThread = workerThread
+            });
+            RelayServer.Initialize(new Configuration
+            {
+                SocketListenerThreads = listenerThreads,
+                SocketWorkerThreads = workerThreads,
+                WorkerThread = workerThread,
+#if DEBUG
+                //Logger = Logger,
+#endif
+            });
+            GameServer.Initialize(new Configuration
+            {
+                SocketListenerThreads = listenerThreads,
+                SocketWorkerThreads = workerThreads,
+                WorkerThread = workerThread
+            });
 
-            ChatServer.Instance.Listen(Config.Instance.ChatListener, listenerEventLoopGroup: listenerThreads,
-                workerEventLoopGroup: workerThreads);
+            FillShop();
+
+            ChatServer.Instance.Listen(Config.Instance.ChatListener);
             RelayServer.Instance.Listen(Config.Instance.RelayListener, IPAddress.Parse(Config.Instance.IP),
-                Config.Instance.RelayUdpPorts, listenerThreads, workerThreads);
-            GameServer.Instance.Listen(Config.Instance.Listener, listenerEventLoopGroup: listenerThreads,
-                workerEventLoopGroup: workerThreads);
+                Config.Instance.RelayUdpPorts);
+            GameServer.Instance.Listen(Config.Instance.Listener);
 
             Logger.Information("Serverinstances successfully started, ready for connections!");
             Logger.Information("============================================\n");

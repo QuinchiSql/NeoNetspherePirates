@@ -23,7 +23,7 @@ namespace ProudNetSrc.Serialization.Serializers
             emiter.Call(ReflectionHelper.GetMethod(() => IPAddress.Parse(default(string))));
             emiter.LoadArgument(1);
             emiter.CallVirtual(ReflectionHelper.GetMethod((BinaryReader x) => x.ReadUInt16()));
-            emiter.NewObject(typeof(IPEndPoint).GetConstructor(new[] {typeof(IPAddress), typeof(int)}));
+            emiter.NewObject(typeof(IPEndPoint).GetConstructor(new[] { typeof(IPAddress), typeof(int) }));
             emiter.StoreLocal(value);
         }
 
@@ -65,8 +65,7 @@ namespace ProudNetSrc.Serialization.Serializers
                 emiter.LoadArgument(1);
                 emiter.LoadLocal(address);
                 emiter.LoadConstant(false);
-                emiter.Call(ReflectionHelper.GetMethod((BinaryWriter x) =>
-                    x.WriteProudString(default(string), default(bool))));
+                emiter.Call(ReflectionHelper.GetMethod((BinaryWriter x) => x.WriteProudString(default(string), default(bool))));
 
                 // writer.Write(port)
                 emiter.CallSerializerForType(typeof(ushort), port);

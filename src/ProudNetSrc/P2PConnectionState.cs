@@ -5,12 +5,6 @@ namespace ProudNetSrc
 {
     internal class P2PConnectionState
     {
-        public P2PConnectionState(RemotePeer remotePeer)
-        {
-            RemotePeer = remotePeer;
-            EventId = (uint) DateTime.Now.GetHashCode();
-        }
-
         public RemotePeer RemotePeer { get; }
         public uint EventId { get; }
         public bool IsInitialized { get; set; }
@@ -22,5 +16,11 @@ namespace ProudNetSrc
 
         public IPEndPoint EndPoint { get; set; }
         public IPEndPoint LocalEndPoint { get; set; }
+
+        public P2PConnectionState(RemotePeer remotePeer)
+        {
+            RemotePeer = remotePeer;
+            EventId = (uint)Guid.NewGuid().GetHashCode();
+        }
     }
 }

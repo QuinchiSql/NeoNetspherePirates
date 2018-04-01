@@ -86,7 +86,7 @@ namespace NeoNetsphere.Network.Services
             
             plr.Room.BroadcastBriefing();
 
-            if (plr.Session.UnreliablePing > 800)
+            if (plr.Session.UnreliablePing > 500)
                 plr.Session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
         }
 
@@ -387,9 +387,9 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(InGamePlayerResponseReqMessage))]
         public void InGamePlayerResponseReq(GameSession session, InGamePlayerResponseReqMessage message)
         {
-            //var plr = session.Player;
-            //if (plr.Room != null && plr.RoomInfo?.State != PlayerState.Lobby)
-            //    plr.RoomInfo.State = PlayerState.Alive;
+            var plr = session.Player;
+            if (plr.Room != null && plr.RoomInfo?.State != PlayerState.Lobby)
+                plr.RoomInfo.State = PlayerState.Alive;
             //Todo
         }
         
@@ -1122,9 +1122,7 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Practice)
                 return;
-
-            ((PracticeBriefing) plr.Room.GameRuleManager.GameRule.Briefing).Kills = message.Score;
-            ((PracticePlayerRecord) plr.Room.GameRuleManager.GameRule.GetPlayerRecord(plr)).Kills = (uint)message.Score;
+            
             session.SendAsync(new ScoreMissionScoreAckMessage() {AccountId = session.Player.Account.Id, Score = message.Score});
             return;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using BlubLib.IO;
 using DotNetty.Buffers;
@@ -7,6 +8,24 @@ using Ionic.Zlib;
 
 namespace ProudNetSrc
 {
+    public static class SymmetricAlgorythmExtentions
+    {
+        public static byte[] Decrypt(this SymmetricAlgorithm @this, byte[] buffer)
+        {
+            using (var decryptor = @this.CreateDecryptor())
+            using (var ms = new MemoryStream(buffer))
+            using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                return cs.ReadToEnd();
+        }
+
+        public static byte[] Decrypt(this SymmetricAlgorithm @this, Stream stream)
+        {
+            using (var decryptor = @this.CreateDecryptor())
+            using (var cs = new CryptoStream(stream, decryptor, CryptoStreamMode.Read))
+                return cs.ReadToEnd();
+        }
+    }
+
     public static class ProudNetBinaryReaderExtensions
     {
         public static int ReadScalar(this BinaryReader @this)
@@ -22,7 +41,6 @@ namespace ProudNetSrc
 
                 case 4:
                     return @this.ReadInt32();
-
 
                 default:
                     throw new Exception($"Invalid prefix {prefix}");
@@ -69,12 +87,12 @@ namespace ProudNetSrc
             {
                 case 1:
                     @this.Write(prefix);
-                    @this.Write((byte) value);
+                    @this.Write((byte)value);
                     break;
 
                 case 2:
                     @this.Write(prefix);
-                    @this.Write((short) value);
+                    @this.Write((short)value);
                     break;
 
                 case 4:
@@ -95,7 +113,7 @@ namespace ProudNetSrc
 
         public static void WriteProudString(this BinaryWriter @this, string value, bool unicode = false)
         {
-            @this.Write((byte) (unicode ? 2 : 1));
+            @this.Write((byte)(unicode ? 2 : 1));
 
             var size = value.Length;
             @this.WriteScalar(size);
@@ -113,7 +131,7 @@ namespace ProudNetSrc
         public static byte[] CompressZLib(this byte[] @this)
         {
             using (var ms = new MemoryStream())
-            using (var zlib = new ZlibStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression))
+            using (var zlib = new ZlibStream(ms, CompressionMode.Compress))
             {
                 zlib.Write(@this, 0, @this.Length);
                 zlib.Close();
@@ -124,35 +142,12 @@ namespace ProudNetSrc
         public static byte[] DecompressZLib(this byte[] @this)
         {
             using (var zlib = new ZlibStream(new MemoryStream(@this), CompressionMode.Decompress))
-            {
                 return zlib.ReadToEnd();
-            }
         }
     }
 
     public static class ProudNetIByteBufferExtensions
     {
-        public static byte GetScalarSize(int value)
-        {
-            byte prefix = 4;
-            if (value <= sbyte.MaxValue)
-                prefix = 1;
-            else if (value <= short.MaxValue)
-                prefix = 2;
-
-            switch (prefix)
-            {
-                case 1:
-                    return 2;
-                case 2:
-                    return 3;
-                case 4:
-                    return 5;
-                default:
-                    throw new Exception("Invalid prefix");
-            }
-        }
-
         public static int ReadScalar(this IByteBuffer @this)
         {
             var prefix = @this.ReadByte();
@@ -215,12 +210,12 @@ namespace ProudNetSrc
             {
                 case 1:
                     @this.WriteByte(prefix);
-                    @this.WriteByte((byte) value);
+                    @this.WriteByte((byte)value);
                     break;
 
                 case 2:
                     @this.WriteByte(prefix);
-                    @this.WriteShort((short) value);
+                    @this.WriteShort((short)value);
                     break;
 
                 case 4:
@@ -279,7 +274,7 @@ namespace ProudNetSrc
 
         public static IByteBuffer WriteProudString(this IByteBuffer @this, string value, bool unicode = false)
         {
-            @this.WriteByte((byte) (unicode ? 2 : 1));
+            @this.WriteByte((byte)(unicode ? 2 : 1));
 
             var size = value.Length;
             @this.WriteScalar(size);

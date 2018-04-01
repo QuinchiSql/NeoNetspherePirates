@@ -10,8 +10,9 @@ namespace ProudNetSrc.Codecs
         protected override void Encode(IChannelHandlerContext context, IByteBuffer message, List<object> output)
         {
             var buffer = context.Allocator
-                .Buffer(2 + ProudNetIByteBufferExtensions.GetScalarSize(message.ReadableBytes) + message.ReadableBytes)
+                .Buffer(2 + 1 + message.ReadableBytes)
                 .WithOrder(ByteOrder.LittleEndian)
+
                 .WriteShort(Constants.NetMagic)
                 .WriteScalar(message.ReadableBytes);
 

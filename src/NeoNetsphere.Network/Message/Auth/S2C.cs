@@ -185,17 +185,21 @@ namespace NeoNetsphere.Network.Message.Auth
     [BlubContract]
     public class GameDataAckMessage : IAuthMessage
     {
+
         public GameDataAckMessage()
         {
-            Data = Array.Empty<byte>();
         }
 
-        public GameDataAckMessage(byte[] data)
+        public GameDataAckMessage(uint type, byte[] data)
         {
+            Type = type;
             Data = data;
         }
 
-        [BlubMember(0, typeof(ArraySerializer))]
+        [BlubMember(0)]
+        public uint Type { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithScalarSerializer))]
         public byte[] Data { get; set; }
     }
 }

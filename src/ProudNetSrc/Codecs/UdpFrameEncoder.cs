@@ -18,8 +18,8 @@ namespace ProudNetSrc.Codecs
                 buffer.WriteShort(message.Flag)
                     .WriteShort(message.SessionId)
                     .WriteInt(0)
-                    .WriteInt((int) message.Id)
-                    .WriteInt((int) message.FragId);
+                    .WriteInt((int)message.Id)
+                    .WriteInt((int)message.FragId);
 
                 var headerLength = buffer.ReadableBytes;
                 buffer.WriteShort(Constants.NetMagic)

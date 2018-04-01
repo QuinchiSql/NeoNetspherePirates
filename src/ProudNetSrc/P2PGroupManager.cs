@@ -2,8 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using BlubLib.Collections.Generic;
-using Serilog.Core;
-using Serilog;
 
 namespace ProudNetSrc
 {
@@ -11,8 +9,6 @@ namespace ProudNetSrc
     {
         private readonly ConcurrentDictionary<uint, P2PGroup> _groups = new ConcurrentDictionary<uint, P2PGroup>();
         private readonly ProudServer _server;
-        private static readonly ILogger Logger =
-            Log.ForContext("SourceContext", nameof(P2PGroupManager));
 
         internal P2PGroupManager(ProudServer server)
         {
@@ -23,21 +19,21 @@ namespace ProudNetSrc
         {
             var group = new P2PGroup(_server, allowDirectP2P);
             _groups.TryAdd(group.HostId, group);
-            Logger.Information("Created P2PGroup {id}", group.HostId);
+            _server.Configuration.Logger?.Debug("Created P2PGroup({HostId}) directP2P={AllowDirectP2P}", group.HostId, allowDirectP2P);
             return group;
         }
 
         public void Remove(uint groupHostId)
         {
-            P2PGroup group;
-            if (_groups.TryRemove(groupHostId, out group))
+            if (_groups.TryRemove(groupHostId, out var group))
             {
                 foreach (var member in group.Members)
                     group.Leave(member.Key);
 
-                _server.Configuration.P2PGroupHostIdFactory.Free(groupHostId);
+                _server.Configuration.HostIdFactory.Free(groupHostId);
             }
-            Logger.Information("Removed P2PGroup {id}", group.HostId);
+            
+            _server.Configuration.Logger?.Debug("Removed P2PGroup({HostId})", group.HostId);
         }
 
         public void Remove(P2PGroup group)
@@ -51,27 +47,11 @@ namespace ProudNetSrc
         public IEnumerable<uint> Keys => _groups.Keys;
         public IEnumerable<P2PGroup> Values => _groups.Values;
 
-        public bool ContainsKey(uint key)
-        {
-            return _groups.ContainsKey(key);
-        }
-
-        public bool TryGetValue(uint key, out P2PGroup value)
-        {
-            return _groups.TryGetValue(key, out value);
-        }
-
+        public bool ContainsKey(uint key) => _groups.ContainsKey(key);
+        public bool TryGetValue(uint key, out P2PGroup value) => _groups.TryGetValue(key, out value);
         public P2PGroup this[uint key] => this.GetValueOrDefault(key);
-
-        public IEnumerator<KeyValuePair<uint, P2PGroup>> GetEnumerator()
-        {
-            return _groups.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<KeyValuePair<uint, P2PGroup>> GetEnumerator() => _groups.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

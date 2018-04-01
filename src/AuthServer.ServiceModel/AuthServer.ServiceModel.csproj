@@ -3,8 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
-    <AssemblyVersion>2018.2.33.17</AssemblyVersion>
-    <FileVersion>2018.2.33.17</FileVersion>
+    <AssemblyVersion>2018.2.42.24</AssemblyVersion>
+    <FileVersion>2018.2.42.24</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BlubLib.DotNetty.SimpleRmi" Version="0.1.4" />

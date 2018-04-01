@@ -1005,6 +1005,11 @@ namespace NeoNetsphere.Network.Message.GameRule
             Players = Array.Empty<CaptainLifeDto>();
         }
 
+        public CaptainRoundCaptainLifeInfoAckMessage(CaptainLifeDto[] players)
+        {
+            Players = players;
+        }
+
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public CaptainLifeDto[] Players { get; set; }
     }
@@ -1013,10 +1018,20 @@ namespace NeoNetsphere.Network.Message.GameRule
     public class CaptainSubRoundWinAckMessage : IGameRuleMessage
     {
         [BlubMember(0)]
-        public int Unk1 { get; set; }
+        public int Unk1 { get; set; } //team?
 
         [BlubMember(1)]
-        public byte Unk2 { get; set; }
+        public byte Unk2 { get; set; } 
+
+        public CaptainSubRoundWinAckMessage()
+        {
+        }
+
+        public CaptainSubRoundWinAckMessage(int Team, byte hasWon)
+        {
+            Unk1 = Team;
+            Unk2 = hasWon;
+        }
     }
 
     [BlubContract]
@@ -1027,6 +1042,17 @@ namespace NeoNetsphere.Network.Message.GameRule
 
         [BlubMember(1)]
         public int Unk2 { get; set; }
+
+        public CaptainCurrentRoundInfoAckMessage()
+        {
+
+        }
+
+        public CaptainCurrentRoundInfoAckMessage(int AlphaWins, int BetaWins)
+        {
+            Unk1 = AlphaWins;
+            Unk2 = BetaWins;
+        }
     }
 
     [BlubContract]

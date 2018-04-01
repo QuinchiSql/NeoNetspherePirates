@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using BlubLib.Threading.Tasks;
 using Dapper;
@@ -28,6 +30,8 @@ namespace NeoNetsphere
         private static IChannel s_loginapiHost;
         private static readonly object s_exitMutex = new object();
         private static bool s_hasExited;
+        public static ConcurrentDictionary<XBNType, byte[]> XBNdata = new ConcurrentDictionary<XBNType, byte[]>();
+
 
         private static void Main()
         {
@@ -52,6 +56,20 @@ namespace NeoNetsphere
             AuthDatabase.Initialize();
 
             Logger.Information("Starting server...");
+            
+            if (!Directory.Exists("XBN"))
+                throw new Exception("XBN folder is missing!");
+
+            foreach (var xbn in Enum.GetValues(typeof(XBNType)).Cast<XBNType>().ToList())
+            {
+                var name = $"XBN\\{xbn.ToString()}.xbn";
+                if (File.Exists(name))
+                {
+                    var data = File.ReadAllBytes(name);
+                    XBNdata.TryAdd(xbn, data);
+                }
+            }
+
 
             Network.AuthServer.Initialize(new Configuration());
             Network.AuthServer.Instance.Listen(Config.Instance.Listener);

@@ -1,6 +1,6 @@
 ﻿using System;
-using DotNetty.Transport.Channels;
 using System.Net.Sockets;
+using DotNetty.Transport.Channels;
 
 namespace ProudNetSrc.Handlers
 {

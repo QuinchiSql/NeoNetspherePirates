@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace NeoNetsphere.Network.Service
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(AuthService));
-        
+
         [MessageHandler(typeof(LoginKRReqMessage))]
         public async Task KRLoginHandler(ProudSession session, LoginKRReqMessage message)
         {
@@ -136,7 +137,7 @@ namespace NeoNetsphere.Network.Service
                     var result = await db.FindAsync<AccountDto>(statement => statement
                         .Where($"{nameof(AccountDto.LoginToken):C} = @{nameof(message.token)}")
                         .Include<BanDto>(join => join.LeftOuterJoin())
-                        .WithParameters(new {message.token}));
+                        .WithParameters(new { message.token }));
                     account = result.FirstOrDefault();
 
                     if (account != null)
@@ -162,7 +163,7 @@ namespace NeoNetsphere.Network.Service
                     var result = await db.FindAsync<AccountDto>(statement => statement
                         .Where($"{nameof(AccountDto.AuthToken):C} = @{nameof(message.AuthToken)}")
                         .Include<BanDto>(join => join.LeftOuterJoin())
-                        .WithParameters(new {message.AuthToken}));
+                        .WithParameters(new { message.AuthToken }));
                     account = result.FirstOrDefault();
 
                     if (account != null)
@@ -217,7 +218,7 @@ namespace NeoNetsphere.Network.Service
                 account.newToken = newsessionId;
                 await db.UpdateAsync(account);
             }
-            session.SendAsync(new LoginEUAckMessage(AuthLoginResult.OK, (ulong) account.Id, sessionId, authsessionId,
+            session.SendAsync(new LoginEUAckMessage(AuthLoginResult.OK, (ulong)account.Id, sessionId, authsessionId,
                 newsessionId, datetime));
         }
 
@@ -242,38 +243,10 @@ namespace NeoNetsphere.Network.Service
         [MessageHandler(typeof(GameDataReqMessage))]
         public async Task DataHandler(AuthServer server, ProudSession session)
         {
-            var file1 = File.ReadAllText(@"XBN\XBNFILE_1");
-            var file2 = File.ReadAllText(@"XBN\XBNFILE_2");
-            var file3 = File.ReadAllText(@"XBN\XBNFILE_3");
-            var file4 = File.ReadAllText(@"XBN\XBNFILE_4");
-            var file5 = File.ReadAllText(@"XBN\XBNFILE_5");
-            var file6 = File.ReadAllText(@"XBN\XBNFILE_6");
-            var file7 = File.ReadAllText(@"XBN\XBNFILE_7");
-            var file8 = File.ReadAllText(@"XBN\XBNFILE_8");
-            var file9 = File.ReadAllText(@"XBN\XBNFILE_9");
-            var file10 = File.ReadAllText(@"XBN\XBNFILE_10");
-            var file11 = File.ReadAllText(@"XBN\XBNFILE_11");
-            var file12 = File.ReadAllText(@"XBN\XBNFILE_12");
-            var file13 = File.ReadAllText(@"XBN\XBNFILE_13");
-            var file14 = File.ReadAllText(@"XBN\XBNFILE_14");
-            var file15 = File.ReadAllText(@"XBN\XBNFILE_15");
-
-
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file1)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file2)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file3)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file4)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file5)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file6)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file7)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file8)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file9)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file10)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file11)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file12)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file13)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file14)), SendOptions.ReliableCompress);
-            await session.SendAsync(new GameDataAckMessage(HexStringToByteArray(file15)), SendOptions.ReliableCompress);
+            foreach (var xbn in Program.XBNdata.OrderBy(x => x.Key))
+            {
+                await session.SendAsync(new GameDataAckMessage((uint)xbn.Key, xbn.Value), SendOptions.ReliableCompress);
+            }
         }
     }
 }

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using BlubLib;
+using BlubLib.IO;
 using BlubLib.Serialization;
 
 namespace ProudNetSrc.Serialization
 {
     public class MessageFactory
     {
-        private readonly Dictionary<Type, ushort> _opCodeLookup = new Dictionary<Type, ushort>();
         private readonly Dictionary<ushort, Type> _typeLookup = new Dictionary<ushort, Type>();
+        private readonly Dictionary<Type, ushort> _opCodeLookup = new Dictionary<Type, ushort>();
 
         protected void Register<T>(ushort opCode)
             where T : new()
@@ -44,7 +45,7 @@ namespace ProudNetSrc.Serialization
 #if DEBUG
                 throw new ProudBadOpCodeException(opCode, reader.ReadToEnd());
 #else
-                throw new ProudBadOpCodeException(opCode);
+            throw new ProudBadOpCodeException(opCode);
 #endif
 
             return Serializer.Deserialize(reader, type);
@@ -76,12 +77,12 @@ namespace ProudNetSrc.Serialization
 
         public TMessage GetMessage(TOpCode opCode, Stream stream)
         {
-            return (TMessage) GetMessage(DynamicCast<ushort>.From(opCode), stream);
+            return (TMessage)GetMessage(DynamicCast<ushort>.From(opCode), stream);
         }
 
         public TMessage GetMessage(TOpCode opCode, BinaryReader reader)
         {
-            return (TMessage) GetMessage(DynamicCast<ushort>.From(opCode), reader);
+            return (TMessage)GetMessage(DynamicCast<ushort>.From(opCode), reader);
         }
 
         public bool ContainsOpCode(TOpCode opCode)

@@ -2,6 +2,8 @@
 {
     internal class CoreMessageFactory : MessageFactory<ProudCoreOpCode, ICoreMessage>
     {
+        public static CoreMessageFactory Default { get; } = new CoreMessageFactory();
+
         public CoreMessageFactory()
         {
             // S2C
@@ -36,13 +38,7 @@
             Register<EncryptedReliableMessage>(ProudCoreOpCode.EncryptedReliable);
             Register<Encrypted_UnReliableMessage>(ProudCoreOpCode.Encrypted_UnReliable);
             Register<CompressedMessage>(ProudCoreOpCode.Compressed);
-            Register<S2CRoutedMulticast1Message>(ProudCoreOpCode.S2CRoutedMulticast1);
-            Register<S2CRoutedMulticast2Message>(ProudCoreOpCode.S2CRoutedMulticast2);
-
-            //Custom
-            Register<ServerPingTestMessage>(ProudCoreOpCode.ServerPingTest);
+            Register<ReliableUdp_FrameMessage>(ProudCoreOpCode.ReliableUdp_Frame);
         }
-
-        public static CoreMessageFactory Default { get; } = new CoreMessageFactory();
     }
 }

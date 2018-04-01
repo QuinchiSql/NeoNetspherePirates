@@ -1,24 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using NeoNetsphere;
-using NeoNetsphere.Network.Data.GameRule;
-using NeoNetsphere.Network.Message.GameRule;
+using System.Text;
+using Netsphere;
+using Netsphere.Game;
+using Netsphere.Game.GameRules;
+using Serilog;
+using Serilog.Core;
 
-// ReSharper disable once CheckNamespace
-namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of deathmatch&br
+namespace NeoNetsphere.Game.GameRules
 {
     internal class PracticeGameRule : GameRuleBase
     {
-        private const uint PlayersNeededToStart = 1;
+        // ReSharper disable once InconsistentNaming
+        private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(PracticeGameRule));
+
+        public override GameRule GameRule => GameRule.Practice;
+        public override Briefing Briefing { get; }
+        public override bool CountMatch => false;
 
         public PracticeGameRule(Room room)
             : base(room)
         {
-            Briefing = new PracticeBriefing(this);
+            Briefing = new Briefing(this);
 
             StateMachine.Configure(GameRuleState.Waiting)
-                .PermitIf(GameRuleStateTrigger.StartPrepare, GameRuleState.Preparing, CanStartGame);
+                .Permit(GameRuleStateTrigger.StartPrepare, GameRuleState.Preparing);
 
             StateMachine.Configure(GameRuleState.Preparing)
                 .Permit(GameRuleStateTrigger.StartGame, GameRuleState.FullGame);
@@ -36,156 +43,110 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
                 .Permit(GameRuleStateTrigger.EndGame, GameRuleState.Waiting);
         }
 
-        public override bool CountMatch => false;
-        public override GameRule GameRule => GameRule.Practice;
-        public override Briefing Briefing { get; }
-
         public override void Initialize()
         {
             var teamMgr = Room.TeamManager;
             teamMgr.Add(Team.Alpha, 1, 0);
-
             base.Initialize();
-        }
-
-        public override void Cleanup()
-        {
-            var teamMgr = Room.TeamManager;
-            teamMgr.Remove(Team.Alpha);
-
-            base.Cleanup();
         }
 
         public override void Update(TimeSpan delta)
         {
-            base.Update(delta);
-
-            var teamMgr = Room.TeamManager;
-
             if (StateMachine.IsInState(GameRuleState.Playing) &&
                 !StateMachine.IsInState(GameRuleState.EnteringResult) &&
                 !StateMachine.IsInState(GameRuleState.Result) &&
-                RoundTime >= TimeSpan.FromSeconds(5))
-                if (StateMachine.IsInState(GameRuleState.FullGame))
-                {
-                    // Did we reach round limit?
-                    var roundTimeLimit = TimeSpan.FromMilliseconds(Room.Options.TimeLimit.TotalMilliseconds);
-                    if (RoundTime >= roundTimeLimit)
-                        StateMachine.Fire(GameRuleStateTrigger.StartResult);
-                }
+                RoundTime >= TimeSpan.FromSeconds(5)) // Let the round run for at least 5 seconds - Fixes StartResult trigger on game start(race condition)
+            {
+                if (RoundTime >= Room.Options.TimeLimit)
+                    StateMachine.Fire(GameRuleStateTrigger.StartResult);
+            }
+
+            base.Update(delta);
+        }
+
+        public override void Cleanup()
+        {
+            Room.TeamManager.Remove(Team.Alpha);
+            base.Cleanup();
         }
 
         public override PlayerRecord GetPlayerRecord(Player plr)
         {
-            return new PracticePlayerRecord(plr);
-        }
-
-        public override void OnScoreHeal(Player plr, LongPeerId scoreTarget)
-        {
-            Room.Broadcast(new ScoreHealAssistAckMessage(scoreTarget));
-            //base.OnScoreHeal(plr);
+            return new PracticeRecord(plr);
         }
 
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
-            LongPeerId scoreTarget, LongPeerId scoreKiller, LongPeerId scoreAssist)
+            LongPeerId scoreTarget = null, LongPeerId scoreKiller = null, LongPeerId scoreAssist = null)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
-            if (realplayer.Any())
-                Respawn(realplayer.First());
-            if (scoreAssist != null)
-                Room.Broadcast(
-                    new ScoreKillAssistAckMessage(new ScoreAssistDto(scoreKiller, scoreAssist,
-                        scoreTarget, attackAttribute)));
-            else
-                Room.Broadcast(
-                    new ScoreKillAckMessage(new ScoreDto(scoreKiller, scoreTarget,
-                        attackAttribute)));
+            GetRecord(killer).Kills++;
+
+            base.OnScoreKill(killer, null, target, attackAttribute);
         }
 
-        public override void OnScoreTeamKill(Player killer, Player target, AttackAttribute attackAttribute,
-            LongPeerId scoreKiller, LongPeerId scoreTarget)
+        private static PracticeRecord GetRecord(Player plr)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
-            if (realplayer.Any())
-                Respawn(realplayer.First());
-            Room.Broadcast(
-                new ScoreTeamKillAckMessage(new Score2Dto(scoreKiller, scoreTarget,
-                    attackAttribute)));
+            return (PracticeRecord)plr.RoomInfo.Stats;
         }
 
-        public override void OnScoreSuicide(Player plr, LongPeerId scoreTarget)
-        {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
-            if (realplayer.Any())
-                Respawn(realplayer.First());
-            Room.Broadcast(new ScoreSuicideAckMessage(scoreTarget, AttackAttribute.KillOneSelf));
-            //base.OnScoreSuicide(plr);
-        }
-
-        private bool CanPrepareGame()
+        private bool CanStart()
         {
             return true;
         }
-
-        private bool CanStartGame()
-        {
-            return true;
-        }
-
-        private static PracticePlayerRecord GetRecord(Player plr)
-        {
-            return (PracticePlayerRecord) plr.RoomInfo.Stats;
-        }
     }
 
-    internal class PracticeBriefing : Briefing
+    internal class PracticeRecord : PlayerRecord
     {
-        public int Kills { get; set; }
+        public override uint TotalScore => Kills;
+        public uint Unk1 { get; set; }
+        public uint Unk2 { get; set; }
+        public uint Unk3 { get; set; }
+        public uint Unk4 { get; set; }
+        public uint Unk5 { get; set; }
+        public uint Unk6 { get; set; }
+        public uint Unk7 { get; set; }
+        public uint Unk8 { get; set; }
 
-        public PracticeBriefing(GameRuleBase gameRule)
-            : base(gameRule)
-        {
-            Kills = 0;
-        }
-        
-        protected override void WriteData(BinaryWriter w, bool isResult)
-        {
-            base.WriteData(w, isResult);
-            w.Write(Kills);
-            var gamerule = (PracticeGameRule) GameRule;
-        }
-    }
-
-    internal class PracticePlayerRecord : PlayerRecord
-    {
-        public PracticePlayerRecord(Player plr)
+        public PracticeRecord(Player plr)
             : base(plr)
         {
+            Unk1 = 1;
+            Unk2 = 2;
+            Unk3 = 3;
+            Unk4 = 4;
+            Unk5 = 5;
+            Unk6 = 6;
+            Unk7 = 7;
+            Unk8 = 8;
         }
 
-        public override uint TotalScore => GetTotalScore();
-
-        private uint GetTotalScore()
+        public override void Serialize(BinaryWriter w, bool isResult)
         {
-            return 0;
-        }
+            base.Serialize(w, isResult);
 
-        public override int GetExpGain(out int bonusExp)
-        {
-            bonusExp = 0;
-            return 0;
+            w.Write(Unk1);
+            w.Write(Unk2);
+            w.Write(Unk3);
+            w.Write(Unk4);
+            w.Write(Unk5);
+            w.Write(Unk6);
+            w.Write(Unk7);
+            w.Write(Unk8);
+            w.Write(Unk1);
+            w.Write(Unk2);
+            w.Write(Unk3);
+            w.Write(Unk4);
+            w.Write(Unk5);
+            w.Write(Unk6);
+            w.Write(Unk7);
+            w.Write(Unk8);
+            w.Write(Unk1);
+            w.Write(Unk2);
+            w.Write(Unk3);
+            w.Write(Unk4);
+            w.Write(Unk5);
+            w.Write(Unk6);
+            w.Write(Unk7);
+            w.Write(Unk8);
         }
     }
 }

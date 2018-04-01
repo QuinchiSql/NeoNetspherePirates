@@ -11,13 +11,12 @@ namespace ProudNetSrc
 
     public class HostIdFactory : IHostIdFactory
     {
+        private long _counter = 1000;
         private readonly ConcurrentStack<uint> _pool = new ConcurrentStack<uint>();
-        private long _counter = 10000;
 
         public uint New()
         {
-            uint hostId;
-            return _pool.TryPop(out hostId) ? hostId : (uint) Interlocked.Increment(ref _counter);
+            return _pool.TryPop(out var hostId) ? hostId : (uint)Interlocked.Increment(ref _counter);
         }
 
         public void Free(uint hostId)

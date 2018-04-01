@@ -3,8 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
-    <AssemblyVersion>2018.2.33.2326</AssemblyVersion>
-    <FileVersion>2018.2.33.2326</FileVersion>
+    <AssemblyVersion>2018.2.42.2332</AssemblyVersion>
+    <FileVersion>2018.2.42.2332</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="..\..\libs\SharpLzo.dll" />

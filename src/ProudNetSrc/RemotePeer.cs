@@ -5,6 +5,12 @@ namespace ProudNetSrc
 {
     public class RemotePeer
     {
+        public P2PGroup Group { get; }
+        public uint HostId { get; }
+        internal Crypt Crypt { get; }
+        internal ConcurrentDictionary<uint, P2PConnectionState> ConnectionStates { get; }
+        internal ProudSession Session { get; }
+
         internal RemotePeer(P2PGroup group, ProudSession session, Crypt crypt)
         {
             Group = group;
@@ -14,17 +20,8 @@ namespace ProudNetSrc
             Session = session;
         }
 
-        public P2PGroup Group { get; }
-        public uint HostId { get; }
-        internal Crypt Crypt { get; }
-        internal ConcurrentDictionary<uint, P2PConnectionState> ConnectionStates { get; }
-        internal ProudSession Session { get; }
-
         public Task SendAsync(object message)
         {
-            if (Session == null)
-                return Task.CompletedTask;
-
             return Session.P2PGroup.Members.ContainsKey(Session.HostId)
                 ? Session.SendAsync(message)
                 : Task.CompletedTask;

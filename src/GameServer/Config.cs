@@ -44,6 +44,7 @@ namespace NeoNetsphere
             Database = new DatabasesConfig();
             Game = new GameSettings();
             BlockedCountries = new string[] { };
+            BlockedAddresses = new string[] { };
         }
 
         public static Config Instance { get; }
@@ -86,6 +87,9 @@ namespace NeoNetsphere
 
         [JsonProperty("blocked_countries")]
         public string[] BlockedCountries { get; set; }
+
+        [JsonProperty("blocked_addresses")]
+        public string[] BlockedAddresses { get; set; }
 
         [JsonProperty("auth_webapi")]
         public AuthAPI AuthAPI { get; set; }

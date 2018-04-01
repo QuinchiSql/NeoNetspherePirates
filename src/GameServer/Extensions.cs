@@ -46,21 +46,33 @@ namespace NeoNetsphere
 
         public static bool IsLoggedIn(this GameSession session)
         {
-            return !string.IsNullOrWhiteSpace(session?.Player?.Account.Nickname);
+            if (session == null || session.Player == null)
+                return false;
+
+            return session?.Player.LoggedIn ?? false;
         }
 
         public static bool IsLoggedIn(this ChatSession session)
         {
-            return !string.IsNullOrWhiteSpace(session?.GameSession?.Player?.Account.Nickname);
+            if (session == null || session.GameSession == null || session.GameSession.Player == null)
+                return false;
+
+            return session.GameSession.Player.LoggedIn;
         }
 
         public static bool IsLoggedIn(this RelaySession session)
         {
-            return !string.IsNullOrWhiteSpace(session?.GameSession?.Player?.Account.Nickname);
+            if (session == null || session.GameSession == null || session.GameSession.Player == null)
+                return false;
+
+            return session.GameSession.Player.LoggedIn;
         }
 
         public static bool IsLoggedIn(this Player plr)
         {
+            if (plr == null || plr.Session == null || plr.ChatSession == null)
+                return false;
+
             return plr.Session.IsLoggedIn() && plr.ChatSession.IsLoggedIn();
         }
 

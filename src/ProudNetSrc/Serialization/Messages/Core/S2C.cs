@@ -13,12 +13,14 @@ namespace ProudNetSrc.Serialization.Messages.Core
 {
     [BlubContract]
     internal class ConnectServerTimedoutMessage : ICoreMessage
-    {
-    }
+    { }
 
     [BlubContract(typeof(Serializer))]
     internal class NotifyServerConnectionHintMessage : ICoreMessage
     {
+        public NetConfigDto Config { get; set; }
+        public RSAParameters PublicKey { get; set; }
+
         public NotifyServerConnectionHintMessage()
         {
             Config = new NetConfigDto();
@@ -31,15 +33,9 @@ namespace ProudNetSrc.Serialization.Messages.Core
             PublicKey = publicKey;
         }
 
-        public NetConfigDto Config { get; set; }
-        public RSAParameters PublicKey { get; set; }
-
         internal class Serializer : ISerializer<NotifyServerConnectionHintMessage>
         {
-            public bool CanHandle(Type type)
-            {
-                return type == typeof(NotifyServerConnectionHintMessage);
-            }
+            public bool CanHandle(Type type) => type == typeof(NotifyServerConnectionHintMessage);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Serialize(BinaryWriter writer, NotifyServerConnectionHintMessage value)
@@ -56,10 +52,10 @@ namespace ProudNetSrc.Serialization.Messages.Core
             {
                 var config = BlubLib.Serialization.Serializer.Deserialize<NetConfigDto>(reader);
                 var encodedKey = reader.ReadStruct();
-                var sequence = (DerSequence) Asn1Object.FromByteArray(encodedKey);
-                var modulus = ((DerInteger) sequence[0]).Value.ToByteArrayUnsigned();
-                var exponent = ((DerInteger) sequence[1]).Value.ToByteArrayUnsigned();
-                var publicKey = new RSAParameters {Exponent = exponent, Modulus = modulus};
+                var sequence = (DerSequence)Asn1Object.FromByteArray(encodedKey);
+                var modulus = ((DerInteger)sequence[0]).Value.ToByteArrayUnsigned();
+                var exponent = ((DerInteger)sequence[1]).Value.ToByteArrayUnsigned();
+                var publicKey = new RSAParameters { Exponent = exponent, Modulus = modulus };
                 return new NotifyServerConnectionHintMessage(config, publicKey);
             }
         }
@@ -67,13 +63,11 @@ namespace ProudNetSrc.Serialization.Messages.Core
 
     [BlubContract]
     internal class NotifyCSSessionKeySuccessMessage : ICoreMessage
-    {
-    }
+    { }
 
     [BlubContract]
     internal class NotifyProtocolVersionMismatchMessage : ICoreMessage
-    {
-    }
+    { }
 
     [BlubContract]
     internal class NotifyServerDeniedConnectionMessage : ICoreMessage
@@ -85,6 +79,18 @@ namespace ProudNetSrc.Serialization.Messages.Core
     [BlubContract]
     internal class NotifyServerConnectSuccessMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public uint HostId { get; set; }
+
+        [BlubMember(1)]
+        public Guid Version { get; set; }
+
+        [BlubMember(2, typeof(ArrayWithScalarSerializer))]
+        public byte[] UserData { get; set; }
+
+        [BlubMember(3, typeof(IPEndPointSerializer))]
+        public IPEndPoint EndPoint { get; set; }
+
         public NotifyServerConnectSuccessMessage()
         {
             Version = Guid.Empty;
@@ -99,23 +105,14 @@ namespace ProudNetSrc.Serialization.Messages.Core
             Version = version;
             EndPoint = endPoint;
         }
-
-        [BlubMember(0)]
-        public uint HostId { get; set; }
-
-        [BlubMember(1)]
-        public Guid Version { get; set; }
-
-        [BlubMember(2, typeof(ArrayWithScalarSerializer))]
-        public byte[] UserData { get; set; }
-
-        [BlubMember(3, typeof(IPEndPointSerializer))]
-        public IPEndPoint EndPoint { get; set; }
     }
 
     [BlubContract]
     internal class RequestStartServerHolepunchMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public Guid MagicNumber { get; set; }
+
         public RequestStartServerHolepunchMessage()
         {
             MagicNumber = Guid.Empty;
@@ -125,14 +122,17 @@ namespace ProudNetSrc.Serialization.Messages.Core
         {
             MagicNumber = magicNumber;
         }
-
-        [BlubMember(0)]
-        public Guid MagicNumber { get; set; }
     }
 
     [BlubContract]
     internal class ServerHolepunchAckMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public Guid MagicNumber { get; set; }
+
+        [BlubMember(1, typeof(IPEndPointSerializer))]
+        public IPEndPoint EndPoint { get; set; }
+
         public ServerHolepunchAckMessage()
         {
             MagicNumber = Guid.Empty;
@@ -144,17 +144,14 @@ namespace ProudNetSrc.Serialization.Messages.Core
             MagicNumber = magicNumber;
             EndPoint = endPoint;
         }
-
-        [BlubMember(0)]
-        public Guid MagicNumber { get; set; }
-
-        [BlubMember(1, typeof(IPEndPointSerializer))]
-        public IPEndPoint EndPoint { get; set; }
     }
 
     [BlubContract]
     internal class NotifyClientServerUdpMatchedMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public Guid MagicNumber { get; set; }
+
         public NotifyClientServerUdpMatchedMessage()
         {
             MagicNumber = Guid.Empty;
@@ -164,14 +161,20 @@ namespace ProudNetSrc.Serialization.Messages.Core
         {
             MagicNumber = magicNumber;
         }
-
-        [BlubMember(0)]
-        public Guid MagicNumber { get; set; }
     }
 
     [BlubContract]
     internal class PeerUdp_ServerHolepunchAckMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public Guid MagicNumber { get; set; }
+
+        [BlubMember(1, typeof(IPEndPointSerializer))]
+        public IPEndPoint EndPoint { get; set; }
+
+        [BlubMember(2)]
+        public uint HostId { get; set; }
+
         public PeerUdp_ServerHolepunchAckMessage()
         {
             MagicNumber = Guid.Empty;
@@ -184,40 +187,36 @@ namespace ProudNetSrc.Serialization.Messages.Core
             EndPoint = endPoint;
             HostId = hostId;
         }
-
-        [BlubMember(0)]
-        public Guid MagicNumber { get; set; }
-
-        [BlubMember(1, typeof(IPEndPointSerializer))]
-        public IPEndPoint EndPoint { get; set; }
-
-        [BlubMember(2)]
-        public uint HostId { get; set; }
     }
 
     [BlubContract]
     internal class UnreliablePongMessage : ICoreMessage
     {
+        [BlubMember(0)]
+        public double ClientTime { get; set; }
+
+        [BlubMember(1)]
+        public double ServerTime { get; set; }
+
         public UnreliablePongMessage()
-        {
-        }
+        { }
 
         public UnreliablePongMessage(double clientTime, double serverTime)
         {
             ClientTime = clientTime;
             ServerTime = serverTime;
         }
-
-        [BlubMember(0)]
-        public double ClientTime { get; set; }
-
-        [BlubMember(1)]
-        public double ServerTime { get; set; }
     }
 
     [BlubContract]
     internal class ReliableRelay2Message : ICoreMessage
     {
+        [BlubMember(0)]
+        public RelayDestinationDto Destination { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithScalarSerializer))]
+        public byte[] Data { get; set; }
+
         public ReliableRelay2Message()
         {
             Destination = new RelayDestinationDto();
@@ -228,31 +227,24 @@ namespace ProudNetSrc.Serialization.Messages.Core
             Destination = destination;
             Data = data;
         }
-
-        [BlubMember(0)]
-        public RelayDestinationDto Destination { get; set; }
-
-        [BlubMember(1, typeof(ArrayWithScalarSerializer))]
-        public byte[] Data { get; set; }
     }
 
     [BlubContract]
     internal class UnreliableRelay2Message : ICoreMessage
     {
+        [BlubMember(0)]
+        public uint HostId { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithScalarSerializer))]
+        public byte[] Data { get; set; }
+
         public UnreliableRelay2Message()
-        {
-        }
+        { }
 
         public UnreliableRelay2Message(uint hostId, byte[] data)
         {
             HostId = hostId;
             Data = data;
         }
-
-        [BlubMember(0)]
-        public uint HostId { get; set; }
-
-        [BlubMember(1, typeof(ArrayWithScalarSerializer))]
-        public byte[] Data { get; set; }
     }
 }

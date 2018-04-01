@@ -40,8 +40,7 @@ namespace ProudNetSrc.Serialization.Serializers
             emiter.LoadArgument(1);
             emiter.LoadLocal(value);
             emiter.LoadConstant(false);
-            emiter.Call(ReflectionHelper.GetMethod((BinaryWriter x) =>
-                x.WriteProudString(default(string), default(bool))));
+            emiter.Call(ReflectionHelper.GetMethod((BinaryWriter x) => x.WriteProudString(default(string), default(bool))));
         }
     }
 }

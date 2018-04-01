@@ -6,6 +6,7 @@ using BlubLib.DotNetty;
 using BlubLib.IO;
 using BlubLib.Security.Cryptography;
 using DotNetty.Buffers;
+using ProudNetSrc;
 using ReadOnlyByteBufferStream = BlubLib.DotNetty.ReadOnlyByteBufferStream;
 
 namespace ProudNetSrc
@@ -54,7 +55,7 @@ namespace ProudNetSrc
             }
             else
             {
-                RC4 = new RC4 {KeySize = fastKeySize};
+                RC4 = new RC4 { KeySize = fastKeySize };
                 RC4.GenerateKey();
             }
         }
@@ -98,6 +99,22 @@ namespace ProudNetSrc
             };
         }
 
+        public byte[] DecryptAES(byte[] input)
+        {
+            if (RC4 == null || AES == null)
+                return new byte[0];
+
+            var dst = new MemoryStream();
+
+            using (var encryptor = AES.CreateEncryptor())
+            using (var cs = new CryptoStream(new NonClosingStream(new MemoryStream(input)), encryptor, CryptoStreamMode.Read))
+            using (var w = cs.ToBinaryWriter(false))
+            {
+                cs.CopyTo(dst);
+                return dst.ToArray();
+            }
+        }
+
         public void Encrypt(IByteBufferAllocator allocator, EncryptMode mode, Stream src, Stream dst, bool reliable)
         {
             if (RC4 == null || AES == null)
@@ -116,7 +133,7 @@ namespace ProudNetSrc
 
                 if (reliable)
                 {
-                    var counter = (ushort) (Interlocked.Increment(ref _encryptCounter) - 1);
+                    var counter = (ushort)(Interlocked.Increment(ref _encryptCounter) - 1);
                     data.Buffer.WriteShort(counter);
                 }
 
@@ -125,14 +142,14 @@ namespace ProudNetSrc
                     src.CopyTo(dataStream);
                 }
 
-                w.Write((byte) padding);
+                w.Write((byte)padding);
                 using (var dataStream = new ReadOnlyByteBufferStream(data.Buffer, false))
                 {
                     w.Write(Hash.GetUInt32<CRC32>(dataStream));
                     dataStream.Position = 0;
                     dataStream.CopyTo(cs);
                 }
-                w.Fill((int) padding);
+                w.Fill((int)padding);
             }
         }
 
@@ -140,7 +157,7 @@ namespace ProudNetSrc
         {
             if (RC4 == null || AES == null)
                 return;
-                //throw new ObjectDisposedException(GetType().FullName);
+            //throw new ObjectDisposedException(GetType().FullName);
 
             using (var data = new BufferWrapper(allocator.Buffer().WithOrder(ByteOrder.LittleEndian)))
             using (var decryptor = GetAlgorithm(mode).CreateDecryptor())
@@ -156,7 +173,7 @@ namespace ProudNetSrc
 
                 if (reliable)
                 {
-                    var counter = (ushort) (Interlocked.Increment(ref _decryptCounter) - 1);
+                    var counter = (ushort)(Interlocked.Increment(ref _decryptCounter) - 1);
                     var messageCounter = data.Buffer.GetShort(data.Buffer.ReaderIndex);
 
                     if (counter != messageCounter)
@@ -166,7 +183,7 @@ namespace ProudNetSrc
                 var slice = data.Buffer.ReadSlice(data.Buffer.ReadableBytes - padding);
                 using (var dataStream = new ReadOnlyByteBufferStream(slice, false))
                 {
-                    if (Hash.GetUInt32<CRC32>(dataStream) != (uint) checksum)
+                    if (Hash.GetUInt32<CRC32>(dataStream) != (uint)checksum)
                         throw new ProudException("Invalid checksum");
 
                     dataStream.Position = reliable ? 2 : 0;

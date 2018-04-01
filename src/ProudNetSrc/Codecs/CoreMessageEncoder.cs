@@ -25,7 +25,7 @@ namespace ProudNetSrc.Codecs
             using (var w = new WriteOnlyByteBufferStream(buffer, false).ToBinaryWriter(false))
             {
                 w.WriteEnum(opCode);
-                Serializer.Serialize(w, (object) message);
+                Serializer.Serialize(w, (object)message);
             }
         }
 
@@ -35,7 +35,7 @@ namespace ProudNetSrc.Codecs
             using (var w = new MemoryStream().ToBinaryWriter(false))
             {
                 w.WriteEnum(opCode);
-                Serializer.Serialize(w, (object) message);
+                Serializer.Serialize(w, (object)message);
                 return w.ToArray();
             }
         }

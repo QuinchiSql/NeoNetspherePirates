@@ -14,21 +14,21 @@ namespace NeoNetsphere.Network.Data.GameRule
         }
 
         [BlubMember(0)]
-        public ulong ItemId { get; set; }
+        public ulong ItemId { get; set; } //8
 
         [BlubMember(1)]
-        public ItemNumber ItemNumber { get; set; }
+        public ItemNumber ItemNumber { get; set; } //12
 
         [BlubMember(2)]
-        public uint Color { get; set; }
+        public uint Color { get; set; } //16
 
         [BlubMember(3, typeof(ArrayWithIntPrefixSerializer))]
-        public uint[] Effects { get; set; }
+        public uint[] Effects { get; set; } //20
 
         [BlubMember(4)]
-        public float Power { get; set; }
+        public float Power { get; set; } //24
 
         [BlubMember(5)]
-        public float MoveSpeedRate { get; set; }
+        public float MoveSpeedRate { get; set; } //28
     }
 }

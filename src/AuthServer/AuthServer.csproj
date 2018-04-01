@@ -5,8 +5,8 @@
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <RootNamespace>NeoNetsphere</RootNamespace>
     <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
-    <AssemblyVersion>2018.2.33.17</AssemblyVersion>
-    <FileVersion>2018.2.33.17</FileVersion>
+    <AssemblyVersion>2018.2.42.27</AssemblyVersion>
+    <FileVersion>2018.2.42.27</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
     <DefineConstants>TRACE;LATEST_DEBUG;NETCOREAPP2_0;LATESTS4</DefineConstants>

@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
-using BlubLib;
-using BlubLib.Threading.Tasks;
-using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
 using ProudNetSrc.Serialization;
 using ProudNetSrc.Serialization.Messages.Core;
@@ -23,8 +18,13 @@ namespace ProudNetSrc.Handlers
         public override async void ChannelActive(IChannelHandlerContext context)
         {
             var hostId = _server.Configuration.HostIdFactory.New();
-            var session = _server.Configuration.SessionFactory.Create(hostId, context.Channel);
+            var session = _server.Configuration.SessionFactory.Create(hostId, context.Channel, _server);
             context.Channel.GetAttribute(ChannelAttributes.Session).Set(session);
+
+            var log = _server.Configuration.Logger?
+                .ForContext("HostId", hostId)
+                .ForContext("EndPoint", context.Channel.RemoteAddress.ToString());
+            log?.Debug("New incoming client({HostId}) on {EndPoint}");
 
             var config = new NetConfigDto
             {
@@ -56,8 +56,7 @@ namespace ProudNetSrc.Handlers
                     if (!session.IsConnected)
                         return;
 
-                    //Logger<>.Error($"Handshake timeout for {remoteEndPoint}");
-
+                    log?.Debug("Client({HostId}) handshake timeout");
                     await session.SendAsync(new ConnectServerTimedoutMessage());
                     await session.CloseAsync();
                     return;
@@ -69,16 +68,16 @@ namespace ProudNetSrc.Handlers
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             var session = context.Channel.GetAttribute(ChannelAttributes.Session).Get();
+            _server.Configuration.Logger?
+                .ForContext("HostId", session.HostId)
+                .ForContext("EndPoint", context.Channel.RemoteAddress.ToString())
+                .Debug("Client({HostId}) disconnected");
+
+            session.P2PGroup?.Leave(session.HostId);
             session.Dispose();
             _server.RemoveSession(session);
             _server.Configuration.HostIdFactory.Free(session.HostId);
             base.ChannelInactive(context);
-        }
-
-        public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
-        {
-            //ChannelInactive(context);
-            base.ExceptionCaught(context, exception);
         }
     }
 }

@@ -198,44 +198,48 @@ namespace Netsphere.Game.GameRules
             switch (transition.Destination)
             {
                 case GameRuleState.FullGame:
-                    RoundTime = TimeSpan.Zero;
                     GameTime = TimeSpan.Zero;
-                    foreach (var team in Room.TeamManager.Values)
-                        team.Score = 0;
-                    foreach (var member in Room.Players.Where(p => p.Value.RoomInfo.hasLoaded))
-                        member.Value.RoomInfo.State = member.Value.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
                     Room.hasStarted = true;
                     Room.GameState = GameState.Playing;
-                    Room.BroadcastBriefing();
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
-                    Room.Broadcast(new RoomGameStartAckMessage());
-                    Room.Broadcast(new RoomBeginRoundAckMessage());
-                    UpdateTime();
-                    break;
-                case GameRuleState.FirstHalf:
-                    RoundTime = TimeSpan.Zero;
-                    GameTime = TimeSpan.Zero;
                     foreach (var team in Room.TeamManager.Values)
                         team.Score = 0;
                     foreach (var member in Room.Players.Where(p => p.Value.RoomInfo.hasLoaded))
+                    {
+                        member.Value.Session.SendAsync(new RoomGameStartAckMessage());
+                        member.Value.Session.SendAsync(new RoomBeginRoundAckMessage());
+
                         member.Value.RoomInfo.State = member.Value.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+                    }
+                    UpdateTime();
+                    Room.BroadcastBriefing();
+                    break;
+                case GameRuleState.FirstHalf:
+                    GameTime = TimeSpan.Zero;
                     Room.hasStarted = true;
                     Room.GameState = GameState.Playing;
                     Room.SubGameState = GameTimeState.FirstHalf;
-                    Room.BroadcastBriefing();
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
                     Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
-                    Room.Broadcast(new RoomGameStartAckMessage());
-                    Room.Broadcast(new RoomBeginRoundAckMessage());
+                    foreach (var team in Room.TeamManager.Values)
+                        team.Score = 0;
+                    foreach (var member in Room.Players.Where(p => p.Value.RoomInfo.hasLoaded))
+                    {
+                        member.Value.Session.SendAsync(new RoomGameStartAckMessage());
+                        member.Value.Session.SendAsync(new RoomBeginRoundAckMessage());
+
+                        member.Value.RoomInfo.State = member.Value.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+                    }
                     UpdateTime();
+                    Room.BroadcastBriefing();
                     break;
                 case GameRuleState.HalfTime:
                     Room.SubGameState = GameTimeState.HalfTime;
                     foreach (var member in Room.TeamManager.PlayersPlaying)
                         member.RoomInfo.State = PlayerState.Waiting;
-                    Room.BroadcastBriefing();
                     Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
                     UpdateTime();
+                    Room.BroadcastBriefing();
                     break;
                 case GameRuleState.SecondHalf:
                     Room.SubGameState = GameTimeState.SecondHalf;
@@ -307,8 +311,9 @@ namespace Netsphere.Game.GameRules
         }
 
         #region Scores
-        public void Respawn(Player victim)
+        public virtual void Respawn(Player victim)
         {
+            victim.RoomInfo.State = PlayerState.Dead;
             victim.Session.SendAsync(new InGamePlayerResponseOfDeathAckMessage());
         }
 

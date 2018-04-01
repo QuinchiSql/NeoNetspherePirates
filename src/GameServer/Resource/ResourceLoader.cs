@@ -93,6 +93,8 @@ namespace NeoNetsphere.Resource
                                     map.GameRules.Add(GameRule.Touchdown);
                                 if (!map.GameRules.Contains(GameRule.PassTouchdown))
                                     map.GameRules.Add(GameRule.PassTouchdown);
+                                if (!map.GameRules.Contains(GameRule.Captain))
+                                    map.GameRules.Add(GameRule.Captain);
                                 break;
 
                             case "c":

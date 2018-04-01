@@ -12,20 +12,13 @@ namespace ProudNetSrc
         private readonly List<UdpSocket> _sockets = new List<UdpSocket>();
         private int _counter;
 
-        public UdpSocketManager(ProudServer server)
-        {
-            _server = server;
-        }
-
         public bool IsRunning => Sockets.Count > 0;
         public IReadOnlyList<UdpSocket> Sockets => _sockets;
         public IPAddress Address { get; private set; }
 
-        public void Dispose()
+        public UdpSocketManager(ProudServer server)
         {
-            foreach (var socket in _sockets)
-                socket.Dispose();
-            _sockets.Clear();
+            _server = server;
         }
 
         public void Listen(IPAddress address, IPAddress listenerAddress, int[] ports, IEventLoopGroup eventLoopGroup)
@@ -61,6 +54,14 @@ namespace ProudNetSrc
 
             var counter = Interlocked.Increment(ref _counter);
             return Sockets[counter % Sockets.Count];
+        }
+
+        public void Dispose()
+        {
+            foreach (var socket in _sockets)
+                socket.Dispose();
+
+            _sockets.Clear();
         }
     }
 }
