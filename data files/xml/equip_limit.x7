@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- require_license 속성값
+LICENSE_PLASMA_SWORD	
+LICENSE_COUNTER_SWORD	
+LICENSE_STORM_BAT
+LICENSE_SUBMACHINE_GUN	
+LICENSE_REVOLVER		
+LICENSE_HEAVYMACHINE_GUN
+LICENSE_RAIL_GUN		
+LICENSE_CANNONADE		
+LICENSE_CENTRYGUN		
+LICENSE_CENTIFORCE		
+LICENSE_MINE_GUN		
+LICENSE_MIND_ENERGY		
+LICENSE_MIND_SHOCK
+LICENSE_GAUSS_RIFLE
+LICENSE_ASSASSIN_CLAW
+LICENSE_SPYDAGGER
+
+LICENSE_ANCHORING		
+LICENSE_FLYING			
+LICENSE_INVISIBLE		
+LICENSE_DETECT			
+LICENSE_SHIELD			
+LICENSE_BLOCK			
+LICENSE_BIND			
+LICENSE_METALLIC		
+LICENSE_BERSERKER		
+LICENSE_HEALTH_MASTERY	
+LICENSE_SKILL_MASTERY	
+LICENSE_SPEED_MASTERY
+-->
+<equip_limit string_table="language/xml/equip_limit_string_table.xml">
+	<preset>
+		<sword feature_key="SWORD_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_COUNTER_SWORD" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_SPYDAGGER" />
+		</sword>
+		<rookie feature_key="ROOKIE_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_SUBMACHINE_GUN" />
+			<require_license name="LICENSE_REVOLVER" />
+			<require_license name="LICENSE_SEMI_RIFLE" />
+			<require_license name="LICENSE_HEAVYMACHINE_GUN" />
+			<require_license name="LICENSE_GAUSS_RIFLE" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_HAND_GUN" />
+			<require_license name="LICENSE_SPYDAGGER" />
+			<require_license name="LICENSE_CHECK_NONE" />	
+		</rookie>
+		<super feature_key="SUPER_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_SUBMACHINE_GUN" />
+			<require_license name="LICENSE_REVOLVER" />
+			<require_license name="LICENSE_SEMI_RIFLE" />
+			<require_license name="LICENSE_COUNTER_SWORD" />
+			<require_license name="LICENSE_MIND_SHOCK" />
+			<require_license name="LICENSE_HEAVYMACHINE_GUN" />
+			<require_license name="LICENSE_GAUSS_RIFLE" />
+			<require_license name="LICENSE_SHIELD" />
+			<require_license name="LICENSE_BLOCK" />
+			<require_license name="LICENSE_INVISIBLE" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_SENTINEL" />
+			<require_license name="LICENSE_DETECT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_HAND_GUN" />
+			<require_license name="LICENSE_SMG3" />
+			<require_license name="LICENSE_SMG4" />
+			<require_license name="LICENSE_SPYDAGGER" />
+			<require_license name="LICENSE_CHECK_NONE" />
+		</super>
+		<s4 feature_key="S4_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_SUBMACHINE_GUN" />
+			<require_license name="LICENSE_REVOLVER" />
+			<require_license name="LICENSE_SEMI_RIFLE" />
+			<require_license name="LICENSE_ANCHORING" />
+			<require_license name="LICENSE_COUNTER_SWORD" />
+			<require_license name="LICENSE_MIND_SHOCK" />
+			<require_license name="LICENSE_HEAVYMACHINE_GUN" />
+			<require_license name="LICENSE_GAUSS_RIFLE" />
+			<require_license name="LICENSE_SHIELD" />
+			<require_license name="LICENSE_BLOCK" />
+			<require_license name="LICENSE_INVISIBLE" />
+			<require_license name="LICENSE_FLYING" />
+			<require_license name="LICENSE_MIND_ENERGY" />
+			<require_license name="LICENSE_CANNONADE" />
+			<require_license name="LICENSE_RAIL_GUN" />
+			<require_license name="LICENSE_CENTRYGUN" />
+			<require_license name="LICENSE_BIND" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_METALLIC" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_SENTINEL" />
+			<require_license name="LICENSE_DETECT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_HAND_GUN" />
+			<require_license name="LICENSE_SMG3" />
+			<require_license name="LICENSE_SMG4" />
+			<require_license name="LICENSE_SPYDAGGER" />
+			<require_license name="LICENSE_CHECK_NONE" />
+		</s4>
+		<arcade feature_key="ARCADE_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_SUBMACHINE_GUN" />
+			<require_license name="LICENSE_REVOLVER" />
+			<require_license name="LICENSE_SEMI_RIFLE" />
+			<!--require_license name="LICENSE_ANCHORING" /-->
+			<require_license name="LICENSE_COUNTER_SWORD" />
+			<require_license name="LICENSE_MIND_SHOCK" />
+			<require_license name="LICENSE_HEAVYMACHINE_GUN" />
+			<require_license name="LICENSE_GAUSS_RIFLE" />
+			<require_license name="LICENSE_SHIELD" />
+			<!--require_license name="LICENSE_BLOCK" /-->
+			<!-- require_license name="LICENSE_INVISIBLE" /-->
+			<!-- require_license name="LICENSE_FLYING" /-->
+			<require_license name="LICENSE_MIND_ENERGY" />
+			<require_license name="LICENSE_CANNONADE" />
+			<require_license name="LICENSE_RAIL_GUN" />
+			<!--require_license name="LICENSE_CENTRYGUN" /-->
+			<require_license name="LICENSE_BIND" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_METALLIC" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<!--require_license name="LICENSE_SENTINEL" /-->
+			<require_license name="LICENSE_DETECT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_HAND_GUN" />
+			<require_license name="LICENSE_SMG3" />
+			<require_license name="LICENSE_SMG4" />
+			<require_license name="LICENSE_SPYDAGGER" />
+			<require_license name="LICENSE_CHECK_NONE" />
+		</arcade>
+		<slaughter feature_key="SLAUGHTER_FEATURE">
+			<require_license name="LICENSE_PLASMA_SWORD" />
+			<require_license name="LICENSE_SUBMACHINE_GUN" />
+			<require_license name="LICENSE_REVOLVER" />
+			<require_license name="LICENSE_SEMI_RIFLE" />
+			<require_license name="LICENSE_ANCHORING" />
+			<require_license name="LICENSE_COUNTER_SWORD" />
+			<!--<require_license name="LICENSE_MIND_SHOCK" />-->
+			<require_license name="LICENSE_HEAVYMACHINE_GUN" />
+			<require_license name="LICENSE_GAUSS_RIFLE" />
+			<require_license name="LICENSE_SHIELD" />
+			<!--require_license name="LICENSE_BLOCK" /-->
+			<require_license name="LICENSE_INVISIBLE" />
+			<require_license name="LICENSE_FLYING" />
+			<!--<require_license name="LICENSE_MIND_ENERGY" />-->
+			<require_license name="LICENSE_CANNONADE" />
+			<require_license name="LICENSE_RAIL_GUN" />
+			<require_license name="LICENSE_CENTRYGUN" />
+			<require_license name="LICENSE_BIND" />
+			<require_license name="LICENSE_STORM_BAT" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_METALLIC" />
+			<require_license name="LICENSE_MINE_GUN" />
+			<require_license name="LICENSE_SENTINEL" />
+			<require_license name="LICENSE_DETECT" />
+			<require_license name="LICENSE_ASSASSIN_CLAW" />
+			<require_license name="LICENSE_HAND_GUN" />
+			<require_license name="LICENSE_SMG3" />
+			<require_license name="LICENSE_SMG4" />
+			<require_license name="LICENSE_SPYDAGGER" />
+			<require_license name="LICENSE_CHECK_NONE" />
+		</slaughter>
+	</preset>
+	<!-- kr -->
+	<limit type="1" min_require_level="0" max_require_level="999" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="2" min_require_level="0" max_require_level="999" min_require_kdrate="0.0" max_require_kdrate="1.0" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="3" min_require_level="0" max_require_level="9" min_require_kdrate="0.0" max_require_kdhate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="4" min_require_level="0" max_require_level="999" min_require_kdrate="0.0" max_require_kdrate="1.0" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="5" min_require_level="0" max_require_level="999" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<!-- eu -->
+	<limit type="6" min_require_level="0" max_require_level="9" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="7" min_require_level="10" max_require_level="20" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="8" min_require_level="21" max_require_level="100" min_require_kdrate="0.0" max_require_kdhate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="9" min_require_level="21" max_require_level="50" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+	<limit type="10" min_require_level="0" max_require_level="999" min_require_kdrate="0.0" max_require_kdrate="999" min_require_tp="0" max_require_tp="999" require_preset_equip="2" preset="s4" sword="1" rookie="1" super="1" s4="1" arcade="1" slaughter="1" roomlevel="1" />
+</equip_limit>

@@ -1,0 +1,3950 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<task string_table="language/xml/task_list_string_table.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nonamespaceSchemaLocation="s4_task_list.xsd">
+	<ex_pensetup>
+		<set period="TP_WEEKLY" level="2" count="1" />
+		<set period="TP_WEEKLY" level="3" count="1" />
+	</ex_pensetup>
+	<compulsory_task>
+		<base_setting name_key="BASE_STRING_1" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="벽점프 하기">
+			<lang>
+				<nation id="2" name_code="ddd" />
+			</lang>
+			<level_setting id="1001" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="" />
+					<touch_down_score value="" />
+					<have_license value="" />
+					<have_weapon value="" />
+					<min_level value="" />
+					<max_level value="" />
+					<exp_rate value="" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_BOUNDJUMP" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_1" />
+					<massage02 string_key="MESSAGE02_1" />
+					<lang>
+						<nation id="2" massage01_code="ddd" massage02_code="ddd" />
+					</lang>
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_2" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="회피하기">
+			<level_setting id="1002" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_DODGE" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_2" />
+					<massage02 string_key="MESSAGE02_2" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_3" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="서브머신건 연습">
+			<level_setting id="1003" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_3" />
+					<massage02 string_key="MESSAGE02_3" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_4" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="플라즈마스워드 강베기">
+			<level_setting id="1004" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_ATTACK_STRONG_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_4" />
+					<massage02 string_key="MESSAGE02_4" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_5" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="플라즈마스워드 점프공격">
+			<level_setting id="1005" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_ATTACK_JUMP_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_5" />
+					<massage02 string_key="MESSAGE02_5" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_6" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="플라즈마스워드 돌진하기">
+			<level_setting id="1006" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_ATTACK_2_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_6" />
+					<massage02 string_key="MESSAGE02_6" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_7" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="서브머신건 실전연습">
+			<level_setting id="1007" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_7" />
+					<massage02 string_key="MESSAGE02_7" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_8" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="기절회피 연습">
+			<level_setting id="1008" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_DODGE_ATFER_STUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_8" />
+					<massage02 string_key="MESSAGE02_8" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_9" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="플라즈마스워드 실전연습">
+			<level_setting id="1009" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_9" />
+					<massage02 string_key="MESSAGE02_9" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_10" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="3레벨로 성장하기">
+			<level_setting id="1010" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="1" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_LEVEL_UP" data="3" />
+				</complet_condition>
+				<reward>
+					<pen value="1300" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_10" />
+					<massage02 string_key="MESSAGE02_10" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_11" mode_type="TMT_DEATH_MATCH" category="TC_JOIN" name="팀데스매치 경기하기">
+			<level_setting id="1011" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_11" />
+					<massage02 string_key="MESSAGE02_11" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_12" mode_type="TMT_DEATH_MATCH" category="TC_TUTORIAL" name="팀 데스매치 킬 연습">
+			<level_setting id="1012" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_12" />
+					<massage02 string_key="MESSAGE02_12" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_13" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="5레벨로 성장하기">
+			<level_setting id="1013" level="4" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="1" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_LEVEL_UP" data="5" />
+				</complet_condition>
+				<reward>
+					<pen value="1300" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_13" />
+					<massage02 string_key="MESSAGE02_13" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_14" mode_type="TMT_TOUCH_DOWN" category="TC_JOIN" name="터치다운 경기하기">
+			<level_setting id="1014" level="4" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ATTEND_GAME" data="" />
+				</complet_condition>
+				<reward>
+					<pen value="1300" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_14" />
+					<massage02 string_key="MESSAGE02_14" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_15" mode_type="TMT_TOUCH_DOWN" category="TC_TUTORIAL" name="터치다운 오펜스 연습">
+			<level_setting id="1015" level="4" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="0" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_OFFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="1600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_15" />
+					<massage02 string_key="MESSAGE02_15" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+	</compulsory_task>
+	<weekly_task>
+		<base_setting name_key="BASE_STRING_16" mode_type="TMT_DEATH_MATCH" category="TC_JOIN" name="팀 데스매치 경기하기">
+			<level_setting id="2001" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_16" />
+					<massage02 string_key="MESSAGE02_16" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2002" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_17" />
+					<massage02 string_key="MESSAGE02_17" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2003" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.4" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_18" />
+					<massage02 string_key="MESSAGE02_18" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2004" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="6" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="1300" chance_value="10" />
+					<ex_pen value="3900" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_19" />
+					<massage02 string_key="MESSAGE02_19" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_17" mode_type="TMT_DEATH_MATCH" category="TC_WIN" name="팀 데스매치 승리하기">
+			<level_setting id="2005" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_20" />
+					<massage02 string_key="MESSAGE02_20" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2006" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_21" />
+					<massage02 string_key="MESSAGE02_21" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2007" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.4" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+					<ex_pen value="2000" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_22" />
+					<massage02 string_key="MESSAGE02_22" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2008" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_23" />
+					<massage02 string_key="MESSAGE02_23" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_18" mode_type="TMT_DEATH_MATCH" category="TC_NEW_RECORD" name="팀 데스매치 킬 연습">
+			<level_setting id="2009" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_24" />
+					<massage02 string_key="MESSAGE02_24" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2010" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_25" />
+					<massage02 string_key="MESSAGE02_25" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2011" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="40" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_26" />
+					<massage02 string_key="MESSAGE02_26" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2012" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="50" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_27" />
+					<massage02 string_key="MESSAGE02_27" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_19" mode_type="TMT_TOUCH_DOWN" category="TC_NEW_RECORD" name="터치다운 득점하기">
+			<level_setting id="2013" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_GOAL" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_28" />
+					<massage02 string_key="MESSAGE02_28" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2014" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_GOAL" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_29" />
+					<massage02 string_key="MESSAGE02_29" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2015" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_GOAL" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+					<ex_pen value="2200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_30" />
+					<massage02 string_key="MESSAGE02_30" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2016" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_GOAL" />
+				</complet_condition>
+				<reward>
+					<pen value="1700" chance_value="10" />
+					<ex_pen value="5100" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_31" />
+					<massage02 string_key="MESSAGE02_31" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_20" mode_type="TMT_TOUCH_DOWN" category="TC_NEW_RECORD" name="터치다운 디펜스 연습">
+			<level_setting id="2017" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_DEFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_32" />
+					<massage02 string_key="MESSAGE02_32" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2018" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_DEFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_33" />
+					<massage02 string_key="MESSAGE02_33" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2019" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_DEFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+					<ex_pen value="2200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_34" />
+					<massage02 string_key="MESSAGE02_34" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2020" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="40" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_DEFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="1600" chance_value="10" />
+					<ex_pen value="4800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_35" />
+					<massage02 string_key="MESSAGE02_35" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_21" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="레일건 킬">
+			<level_setting id="2021" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_RAIL_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_36" />
+					<massage02 string_key="MESSAGE02_36" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2022" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_RAIL_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_37" />
+					<massage02 string_key="MESSAGE02_37" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2023" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="13" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_RAIL_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_38" />
+					<massage02 string_key="MESSAGE02_38" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2024" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_RAIL_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_39" />
+					<massage02 string_key="MESSAGE02_39" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_22" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="리볼버 킬">
+			<level_setting id="2025" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_40" />
+					<massage02 string_key="MESSAGE02_40" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2026" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_41" />
+					<massage02 string_key="MESSAGE02_41" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2027" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_42" />
+					<massage02 string_key="MESSAGE02_42" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2028" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_43" />
+					<massage02 string_key="MESSAGE02_43" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_23" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="마인드쇼크 킬">
+			<level_setting id="2029" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2060002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MIND_SHOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_44" />
+					<massage02 string_key="MESSAGE02_44" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2030" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2060002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MIND_SHOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_45" />
+					<massage02 string_key="MESSAGE02_45" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2031" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2060002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MIND_SHOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_46" />
+					<massage02 string_key="MESSAGE02_46" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2032" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2060002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MIND_SHOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_47" />
+					<massage02 string_key="MESSAGE02_47" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_24" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="서브머신건 킬">
+			<level_setting id="2033" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_48" />
+					<massage02 string_key="MESSAGE02_48" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2034" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_49" />
+					<massage02 string_key="MESSAGE02_49" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2035" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_50" />
+					<massage02 string_key="MESSAGE02_50" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2036" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SUBMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_51" />
+					<massage02 string_key="MESSAGE02_51" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_25" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="세미라이플 킬">
+			<level_setting id="2037" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010004" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SEMI_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_52" />
+					<massage02 string_key="MESSAGE02_52" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2038" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010004" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SEMI_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_53" />
+					<massage02 string_key="MESSAGE02_53" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2039" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010004" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SEMI_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_54" />
+					<massage02 string_key="MESSAGE02_54" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2040" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010004" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SEMI_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_55" />
+					<massage02 string_key="MESSAGE02_55" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_26" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="센트리건 킬">
+			<level_setting id="2041" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2040001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CENTRYGUN" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_56" />
+					<massage02 string_key="MESSAGE02_56" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2042" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2040001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CENTRYGUN" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_57" />
+					<massage02 string_key="MESSAGE02_57" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2043" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2040001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CENTRYGUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_58" />
+					<massage02 string_key="MESSAGE02_58" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2044" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2040001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CENTRYGUN" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_59" />
+					<massage02 string_key="MESSAGE02_59" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_27" mode_type="TMT_COMMON" category="TC_TUTORIAL" name="기절회피 연습">
+			<level_setting id="2085" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_DODGE_ATFER_STUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_60" />
+					<massage02 string_key="MESSAGE02_60" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2086" level="1" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_ACTOR_STATE" data="CNTI_DODGE_ATFER_STUN" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_61" />
+					<massage02 string_key="MESSAGE02_61" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_28" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="스톰배트 킬">
+			<level_setting id="2045" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000003" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_STORM_BAT" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_62" />
+					<massage02 string_key="MESSAGE02_62" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2046" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000003" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_STORM_BAT" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_63" />
+					<massage02 string_key="MESSAGE02_63" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2047" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000003" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_STORM_BAT" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1600" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_64" />
+					<massage02 string_key="MESSAGE02_64" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2048" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000003" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_STORM_BAT" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_65" />
+					<massage02 string_key="MESSAGE02_65" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--여기까지작업-->
+		<base_setting name_key="BASE_STRING_29" mode_type="TMT_COMMON" category="TC_WIN" name="경기 승리하기">
+			<level_setting id="2049" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_66" />
+					<massage02 string_key="MESSAGE02_66" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2050" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_67" />
+					<massage02 string_key="MESSAGE02_67" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2051" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.4" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_68" />
+					<massage02 string_key="MESSAGE02_68" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2052" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+					<ex_pen value="3300" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_69" />
+					<massage02 string_key="MESSAGE02_69" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_30" mode_type="TMT_TOUCH_DOWN" category="TC_NEW_RECORD" name="터치다운 오펜스 연습">
+			<level_setting id="2053" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_OFFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_70" />
+					<massage02 string_key="MESSAGE02_70" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2054" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_OFFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_71" />
+					<massage02 string_key="MESSAGE02_71" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2055" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="40" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_OFFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="1100" chance_value="10" />
+					<ex_pen value="2200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_72" />
+					<massage02 string_key="MESSAGE02_72" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2056" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="60" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_OFFENSE" />
+				</complet_condition>
+				<reward>
+					<pen value="1600" chance_value="10" />
+					<ex_pen value="4800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_73" />
+					<massage02 string_key="MESSAGE02_73" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_31" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="카운터스워드 킬">
+			<level_setting id="2057" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_COUNTER_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_74" />
+					<massage02 string_key="MESSAGE02_74" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2058" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_COUNTER_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_75" />
+					<massage02 string_key="MESSAGE02_75" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2059" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_COUNTER_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_76" />
+					<massage02 string_key="MESSAGE02_76" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2060" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_COUNTER_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_77" />
+					<massage02 string_key="MESSAGE02_77" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_32" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="캐노네이드 킬">
+			<level_setting id="2061" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CANNONADE" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_78" />
+					<massage02 string_key="MESSAGE02_78" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2062" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CANNONADE" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_79" />
+					<massage02 string_key="MESSAGE02_79" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2063" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CANNONADE" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_80" />
+					<massage02 string_key="MESSAGE02_80" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2064" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2030002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_CANNONADE" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_81" />
+					<massage02 string_key="MESSAGE02_81" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_33" mode_type="TMT_TOUCH_DOWN" category="TC_JOIN" name="터치다운 경기하기">
+			<level_setting id="2065" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_82" />
+					<massage02 string_key="MESSAGE02_82" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2066" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_83" />
+					<massage02 string_key="MESSAGE02_83" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2067" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="0.75" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+					<ex_pen value="2000" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_84" />
+					<massage02 string_key="MESSAGE02_84" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2068" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="1.2" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+					<ex_pen value=" 4500" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_85" />
+					<massage02 string_key="MESSAGE02_85" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_34" mode_type="TMT_TOUCH_DOWN" category="TC_WIN" name="터치다운 승리하기">
+			<level_setting id="2069" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_86" />
+					<massage02 string_key="MESSAGE02_86" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2070" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_87" />
+					<massage02 string_key="MESSAGE02_87" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2071" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="0.75" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="1200" chance_value="10" />
+					<ex_pen value="2400" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_88" />
+					<massage02 string_key="MESSAGE02_88" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2072" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="1.2" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_WIN_COUNT" />
+				</complet_condition>
+				<reward>
+					<pen value="1800" chance_value="10" />
+					<ex_pen value="5400" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_89" />
+					<massage02 string_key="MESSAGE02_89" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_35" mode_type="TMT_TOUCH_DOWN" category="TC_NEW_RECORD" name="터치다운 킬 연습">
+			<level_setting id="2073" level="0" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_90" />
+					<massage02 string_key="MESSAGE02_90" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2074" level="1" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_91" />
+					<massage02 string_key="MESSAGE02_91" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2075" level="2" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="0.75" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="1200" chance_value="10" />
+					<ex_pen value="2400" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_92" />
+					<massage02 string_key="MESSAGE02_92" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2076" level="3" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<touch_down_score value="1.2" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_KILL" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+					<ex_pen value="4500" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_93" />
+					<massage02 string_key="MESSAGE02_93" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_36" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="플라즈마스워드 킬">
+			<level_setting id="2077" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_94" />
+					<massage02 string_key="MESSAGE02_94" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2078" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_95" />
+					<massage02 string_key="MESSAGE02_95" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2079" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_96" />
+					<massage02 string_key="MESSAGE02_96" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2080" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2000001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="30" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_PLASMA_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_97" />
+					<massage02 string_key="MESSAGE02_97" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_37" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="헤비머신건 킬">
+			<level_setting id="2081" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_HEAVYMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_98" />
+					<massage02 string_key="MESSAGE02_98" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2082" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_HEAVYMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_99" />
+					<massage02 string_key="MESSAGE02_99" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2083" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_HEAVYMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_100" />
+					<massage02 string_key="MESSAGE02_100" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2084" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_HEAVYMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_101" />
+					<massage02 string_key="MESSAGE02_101" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_38" mode_type="TMT_COMMON" category="TC_LICENSE" name="레일건 라이센스">
+			<level_setting id="2087" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_RAIL_GUN" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_RAIL_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_102" />
+					<massage02 string_key="MESSAGE02_102" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_39" mode_type="TMT_COMMON" category="TC_LICENSE" name="리볼버 라이센스">
+			<level_setting id="2088" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_REVOLVER" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_REVOLVER" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_103" />
+					<massage02 string_key="MESSAGE02_103" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_40" mode_type="TMT_COMMON" category="TC_LICENSE" name="마인드쇼크 라이센스">
+			<level_setting id="2089" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_MIND_SHOCK" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_MIND_SHOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_104" />
+					<massage02 string_key="MESSAGE02_104" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_41" mode_type="TMT_COMMON" category="TC_LICENSE" name="마인드에너지 라이센스">
+			<level_setting id="2090" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_MIND_ENERGY" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_MIND_ENERGY" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_105" />
+					<massage02 string_key="MESSAGE02_105" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_42" mode_type="TMT_COMMON" category="TC_LICENSE" name="바인드 라이센스">
+			<level_setting id="2091" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_BIND" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_BIND" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_106" />
+					<massage02 string_key="MESSAGE02_106" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_43" mode_type="TMT_COMMON" category="TC_LICENSE" name="블록 라이센스">
+			<level_setting id="2092" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_BLOCK" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_BLOCK" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_107" />
+					<massage02 string_key="MESSAGE02_107" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_44" mode_type="TMT_COMMON" category="TC_LICENSE" name="세미라이플 라이센스">
+			<level_setting id="2093" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_SEMI_RIFLE" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_SEMI_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_108" />
+					<massage02 string_key="MESSAGE02_108" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_45" mode_type="TMT_COMMON" category="TC_LICENSE" name="센트리건 라이센스">
+			<level_setting id="2094" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_CENTRYGUN" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_CENTRYGUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_109" />
+					<massage02 string_key="MESSAGE02_109" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_46" mode_type="TMT_COMMON" category="TC_LICENSE" name="쉴드 라이센스">
+			<level_setting id="2095" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_SHIELD" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_SHIELD" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_110" />
+					<massage02 string_key="MESSAGE02_110" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_47" mode_type="TMT_COMMON" category="TC_LICENSE" name="스톰배트 라이센스">
+			<level_setting id="2096" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_STORM_BAT" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_STORM_BAT" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_111" />
+					<massage02 string_key="MESSAGE02_111" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_48" mode_type="TMT_COMMON" category="TC_LICENSE" name="앵커링 라이센스">
+			<level_setting id="2097" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_ANCHORING" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_ANCHORING" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_112" />
+					<massage02 string_key="MESSAGE02_112" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_49" mode_type="TMT_COMMON" category="TC_LICENSE" name="인비저블 라이센스">
+			<level_setting id="2098" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_INVISIBLE" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_INVISIBLE" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_113" />
+					<massage02 string_key="MESSAGE02_113" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_50" mode_type="TMT_COMMON" category="TC_LICENSE" name="카운터스워드 라이센스">
+			<level_setting id="2099" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_COUNTER_SWORD" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_COUNTER_SWORD" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_114" />
+					<massage02 string_key="MESSAGE02_114" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_51" mode_type="TMT_COMMON" category="TC_LICENSE" name="캐노네이드 라이센스">
+			<level_setting id="2100" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_CANNONADE" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_CANNONADE" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_115" />
+					<massage02 string_key="MESSAGE02_115" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_52" mode_type="TMT_COMMON" category="TC_LICENSE" name="플라잉 라이센스">
+			<level_setting id="2101" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_FLYING" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_FLYING" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_116" />
+					<massage02 string_key="MESSAGE02_116" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_53" mode_type="TMT_COMMON" category="TC_LICENSE" name="헤비머신건 라이센스">
+			<level_setting id="2102" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_HEAVYMACHINE_GUN" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_HEAVYMACHINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_117" />
+					<massage02 string_key="MESSAGE02_117" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_54" mode_type="TMT_COMMON" category="TC_LICENSE" name="가우스라이플 라이센스">
+			<level_setting id="2103" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_GAUSS_RIFLE" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_GAUSS_RIFLE" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_118" />
+					<massage02 string_key="MESSAGE02_118" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_55" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="가우스라이플 킬">
+			<level_setting id="2104" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MG2" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_119" />
+					<massage02 string_key="MESSAGE02_119" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2105" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MG2" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_120" />
+					<massage02 string_key="MESSAGE02_120" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2106" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MG2" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_121" />
+					<massage02 string_key="MESSAGE02_121" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2107" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2020002" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MG2" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_122" />
+					<massage02 string_key="MESSAGE02_122" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--그레네이드 미션 제거-->
+		<!--
+		<base_setting name_key="BASE_STRING_56" mode_type="TMT_COMMON" category="TC_LICENSE" name="그레네이드건 라이센스">
+			<level_setting id="2108" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_MINE_GUN" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_MINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_123" />
+					<massage02 string_key="MESSAGE02_123" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_57" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="그레네이드건 킬">
+			<level_setting id="2109" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2050001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="3" />
+					<goal_of_match value="0" />
+					<repetetion value="13" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_124" />
+					<massage02 string_key="MESSAGE02_124" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2110" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2050001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="3" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_125" />
+					<massage02 string_key="MESSAGE02_125" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2111" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2050001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="3" />
+					<goal_of_match value="0" />
+					<repetetion value="26" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_126" />
+					<massage02 string_key="MESSAGE02_126" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2112" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2050001" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="3" />
+					<goal_of_match value="0" />
+					<repetetion value="40" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_MINE_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_127" />
+					<massage02 string_key="MESSAGE02_127" />
+				</help_massage>
+			</level_setting>
+		</base_setting>-->
+		<!--제거된 미션 목록-->
+		<base_setting name_key="BASE_STRING_58" mode_type="TMT_DEATH_MATCH" category="TC_MAP_PLAY" name="팀 데스매치 경기:네덴3">
+			<level_setting id="2113" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="7" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_128" />
+					<massage02 string_key="MESSAGE02_128" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2114" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="7" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_129" />
+					<massage02 string_key="MESSAGE02_129" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_59" mode_type="TMT_DEATH_MATCH" category="TC_MAP_PLAY" name="팀 데스매치 경기:하이웨이">
+			<level_setting id="2117" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="10" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_130" />
+					<massage02 string_key="MESSAGE02_130" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2118" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="10" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_131" />
+					<massage02 string_key="MESSAGE02_131" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_60" mode_type="TMT_DEATH_MATCH" category="TC_MAP_PLAY" name="팀 데스매치 경기:서클">
+			<level_setting id="2121" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="11" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_132" />
+					<massage02 string_key="MESSAGE02_132" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2122" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="11" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_133" />
+					<massage02 string_key="MESSAGE02_133" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_61" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:터널">
+			<level_setting id="2125" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="9" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_134" />
+					<massage02 string_key="MESSAGE02_134" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2126" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="9" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_135" />
+					<massage02 string_key="MESSAGE02_135" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_62" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:네덴3">
+			<level_setting id="2129" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="3" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_136" />
+					<massage02 string_key="MESSAGE02_136" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2130" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="3" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_137" />
+					<massage02 string_key="MESSAGE02_137" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_63" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:하이웨이">
+			<level_setting id="2133" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="6" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_138" />
+					<massage02 string_key="MESSAGE02_138" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2134" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="6" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_139" />
+					<massage02 string_key="MESSAGE02_139" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_64" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:올드스쿨">
+			<level_setting id="2137" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="8" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_140" />
+					<massage02 string_key="MESSAGE02_140" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2138" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="8" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_141" />
+					<massage02 string_key="MESSAGE02_141" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_67" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:템플-M">
+			<level_setting id="2145" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="12" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_146" />
+					<massage02 string_key="MESSAGE02_146" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2146" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="12" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_147" />
+					<massage02 string_key="MESSAGE02_147" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--추가된 맵 미션-->
+		<base_setting name_key="BASE_STRING_65" mode_type="TMT_DEATH_MATCH" category="TC_MAP_PLAY" name="팀 데스매치 경기:네덴1">
+			<level_setting id="2141" level="0" chance_value="10" add_chance_value="20" add_chan_limit_lv="7">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="1" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_142" />
+					<massage02 string_key="MESSAGE02_142" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2142" level="1" chance_value="10" add_chance_value="20" add_chan_limit_lv="7">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="1" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_143" />
+					<massage02 string_key="MESSAGE02_143" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_66" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:스테이션2">
+			<level_setting id="2143" level="0" chance_value="10" add_chance_value="20" add_chan_limit_lv="7">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="5" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_144" />
+					<massage02 string_key="MESSAGE02_144" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2144" level="1" chance_value="10" add_chance_value="20" add_chan_limit_lv="7">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="5" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_145" />
+					<massage02 string_key="MESSAGE02_145" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_2195" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기:콜로세움">
+			<level_setting id="2200" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="16" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="M1_2195" />
+					<massage02 string_key="MESSAGE02_144" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2201" level="1" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="16" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="M1_2196" />
+					<massage02 string_key="MESSAGE02_144" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--체이서 미션 추가-->
+		<base_setting name_key="BASE_STRING_68" mode_type="TMT_CHASER" category="TC_JOIN" name="체이서 경기하기">
+			<level_setting id="2147" level="0" chance_value="10" add_chance_value="20" add_chan_limit_lv="15">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_148" />
+					<massage02 string_key="MESSAGE02_148" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2148" level="1" chance_value="10" add_chance_value="20" add_chan_limit_lv="15">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="600" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_149" />
+					<massage02 string_key="MESSAGE02_149" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2149" level="2" chance_value="10" add_chance_value="20" add_chan_limit_lv="15">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_150" />
+					<massage02 string_key="MESSAGE02_150" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2150" level="3" chance_value="10" add_chance_value="20" add_chan_limit_lv="15">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="6" />
+					<checker_type value="TCCT_ATTEND_GAME" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_151" />
+					<massage02 string_key="MESSAGE02_151" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_69" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="체이서 순위 3위 달성">
+			<level_setting id="2151" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_152" />
+					<massage02 string_key="MESSAGE02_152" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2152" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_153" />
+					<massage02 string_key="MESSAGE02_153" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_70" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="체이서 순위 2위 달성">
+			<level_setting id="2153" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_154" />
+					<massage02 string_key="MESSAGE02_154" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2154" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_155" />
+					<massage02 string_key="MESSAGE02_155" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_71" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="체이서 순위 1위 달성">
+			<level_setting id="2155" level="2" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_156" />
+					<massage02 string_key="MESSAGE02_156" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2156" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_STANDARD" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_157" />
+					<massage02 string_key="MESSAGE02_157" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_72" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="체이서 모두 킬">
+			<level_setting id="2157" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_ALLKILL" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_158" />
+					<massage02 string_key="MESSAGE02_158" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2158" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_ALLKILL" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_159" />
+					<massage02 string_key="MESSAGE02_159" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_73" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="체이서 보너스 모두 킬">
+			<level_setting id="2159" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_ALLKILL_BONUS" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_160" />
+					<massage02 string_key="MESSAGE02_160" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2160" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<kill_per_death value="0.64" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_ALLKILL_BONUS" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_161" />
+					<massage02 string_key="MESSAGE02_161" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_74" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="레인지데미지 랭킹 3위">
+			<level_setting id="2161" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_162" />
+					<massage02 string_key="MESSAGE02_162" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2162" level="1" chance_value="7" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_163" />
+					<massage02 string_key="MESSAGE02_163" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_75" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="레인지데미지 랭킹 2위">
+			<level_setting id="2163" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_164" />
+					<massage02 string_key="MESSAGE02_164" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2164" level="2" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_165" />
+					<massage02 string_key="MESSAGE02_165" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_76" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="레인지데미지 랭킹 1위">
+			<level_setting id="2165" level="2" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_166" />
+					<massage02 string_key="MESSAGE02_166" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2166" level="3" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_RANGE" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_167" />
+					<massage02 string_key="MESSAGE02_167" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_77" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="근접데미지 랭킹 3위">
+			<level_setting id="2167" level="0" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_168" />
+					<massage02 string_key="MESSAGE02_168" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2168" level="1" chance_value="7" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="3" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_169" />
+					<massage02 string_key="MESSAGE02_169" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_78" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="근접데미지 랭킹 2위">
+			<level_setting id="2169" level="1" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_170" />
+					<massage02 string_key="MESSAGE02_170" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2170" level="2" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="2" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_171" />
+					<massage02 string_key="MESSAGE02_171" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_79" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="근접데미지 랭킹 1위">
+			<level_setting id="2171" level="2" chance_value="0" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_172" />
+					<massage02 string_key="MESSAGE02_172" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2172" level="3" chance_value="5" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_RANKING" data="RNK_MELEE" integer="1" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_173" />
+					<massage02 string_key="MESSAGE02_173" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_80" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="라운드 생존하기">
+			<level_setting id="2173" level="0" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="4" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_174" />
+					<massage02 string_key="MESSAGE02_174" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2174" level="1" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="6" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_175" />
+					<massage02 string_key="MESSAGE02_175" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2191" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="8" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+					<ex_pen value="2000" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_176" />
+					<massage02 string_key="MESSAGE02_176" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2192" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+					<ex_pen value="4500" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_177" />
+					<massage02 string_key="MESSAGE02_177" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_81" mode_type="TMT_CHASER" category="TC_NEW_RECORD" name="모든 라운드 생존하기">
+			<level_setting id="2175" level="2" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL_ALL" />
+				</complet_condition>
+				<reward>
+					<pen value="1000" chance_value="10" />
+					<ex_pen value="2000" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_178" />
+					<massage02 string_key="MESSAGE02_178" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2176" level="3" chance_value="10" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_person value="4" />
+					<goal_of_match value="0" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_NEW_RECORD" data="TSCT_CHASER_SURVIVAL_ALL" />
+				</complet_condition>
+				<reward>
+					<pen value="1500" chance_value="10" />
+					<ex_pen value="4500" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_179" />
+					<massage02 string_key="MESSAGE02_179" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--무기 미션 추가-->
+		<base_setting name_key="BASE_STRING_82" mode_type="TMT_COMMON" category="TC_LICENSE" name="핸드건 라이센스">
+			<level_setting id="2177" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_HAND_GUN" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_HAND_GUN" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_180" />
+					<massage02 string_key="MESSAGE02_180" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_83" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="핸드건 킬">
+			<level_setting id="2178" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010007" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER2" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_181" />
+					<massage02 string_key="MESSAGE02_181" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2179" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010007" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER2" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_182" />
+					<massage02 string_key="MESSAGE02_182" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2180" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010007" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER2" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_183" />
+					<massage02 string_key="MESSAGE02_183" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2181" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010007" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_REVOLVER2" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_184" />
+					<massage02 string_key="MESSAGE02_184" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_84" mode_type="TMT_COMMON" category="TC_LICENSE" name="스매쉬 라이플 라이센스">
+			<level_setting id="2182" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_SMG3" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_SMG3" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_185" />
+					<massage02 string_key="MESSAGE02_185" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_85" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="스매쉬 라이플 킬">
+			<level_setting id="2183" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010006" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG3" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_186" />
+					<massage02 string_key="MESSAGE02_186" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2184" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010006" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG3" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_187" />
+					<massage02 string_key="MESSAGE02_187" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2185" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010006" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG3" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_188" />
+					<massage02 string_key="MESSAGE02_188" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2186" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010006" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG3" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_189" />
+					<massage02 string_key="MESSAGE02_189" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--
+		<base_setting name_key="BASE_STRING_89" mode_type="TMT_COMMON" category="TC_LICENSE" name="버스트 샷건 라이센스">
+			<level_setting id="2195" level="0" chance_value="20" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_license value="LICENSE_SMG4" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="15" />
+					<repetetion value="1" />
+					<checker_type value="TCCT_GET_LICENSE" data="LICENSE_SMG4" />
+				</complet_condition>
+				<reward>
+					<pen value="400" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_196" />
+					<massage02 string_key="MESSAGE02_185" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_90" mode_type="TMT_COMMON" category="TC_WEAPON_NEW_RECORD" name="버스트 샷건 킬">
+			<level_setting id="2196" level="0" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010008" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="5" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG4" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_197" />
+					<massage02 string_key="MESSAGE02_186" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2197" level="1" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010008" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="10" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG4" />
+				</complet_condition>
+				<reward>
+					<pen value="700" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_198" />
+					<massage02 string_key="MESSAGE02_187" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2198" level="2" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010008" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="15" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG4" />
+				</complet_condition>
+				<reward>
+					<pen value="900" chance_value="10" />
+					<ex_pen value="1800" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_199" />
+					<massage02 string_key="MESSAGE02_188" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2199" level="3" chance_value="6" add_chance_value="0" add_chan_limit_lv="0">
+				<select_condition>
+					<have_weapon value="2010008" />
+				</select_condition>
+				<complet_condition>
+					<game_play_ts value="0" />
+					<number_of_team_person value="2" />
+					<goal_of_match value="0" />
+					<repetetion value="20" />
+					<checker_type value="TCCT_WEAPON_KILL" data="ATTACKITEM_SMG4" />
+				</complet_condition>
+				<reward>
+					<pen value="1400" chance_value="10" />
+					<ex_pen value="4200" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_200" />
+					<massage02 string_key="MESSAGE02_189" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		-->
+		<!--체이서 맵 미션-->
+		<base_setting name_key="BASE_STRING_86" mode_type="TMT_CHASER" category="TC_MAP_PLAY" name="체이서 경기:템플-0">
+			<level_setting id="2187" level="0" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="13" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_190" />
+					<massage02 string_key="MESSAGE02_190" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2188" level="1" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="13" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_191" />
+					<massage02 string_key="MESSAGE02_191" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<base_setting name_key="BASE_STRING_87" mode_type="TMT_CHASER" category="TC_MAP_PLAY" name="체이서 경기:커네스트2">
+			<level_setting id="2189" level="0" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="14" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_192" />
+					<massage02 string_key="MESSAGE02_192" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2190" level="1" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="14" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_193" />
+					<massage02 string_key="MESSAGE02_193" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--
+		<base_setting name_key="BASE_STRING_88" mode_type="TMT_CHASER" category="TC_MAP_PLAY" name="체이서 경기:서클2">
+			<level_setting id="2193" level="0" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="15" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_194" />
+					<massage02 string_key="MESSAGE02_194" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2194" level="1" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="15" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="15" />
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_195" />
+					<massage02 string_key="MESSAGE02_195" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		-->
+				<!--사이드 3 맵 미션-->
+		<base_setting name_key="BASE_STRING_92" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기: 사이드-3">
+			<level_setting id="2204" level="0" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="20" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_203" />
+					<massage02 string_key="MESSAGE02_194" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2205" level="1" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="20" />
+					<!-- mode_type: mapmodetype, category : 여러개,  data: mapindex or 미션 방식 구분자 -->
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_204" />
+					<massage02 string_key="MESSAGE02_195" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--하이퍼리움 맵 미션-->
+		<base_setting name_key="BASE_STRING_93" mode_type="TMT_TOUCH_DOWN" category="TC_MAP_PLAY" name="터치다운 경기: 하이퍼리움">
+			<level_setting id="2206" level="0" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="2" />
+					<checker_type value="TCCT_MAP_PLAY" data="21" />
+				</complet_condition>
+				<reward>
+					<pen value="500" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_205" />
+					<massage02 string_key="MESSAGE02_194" />
+				</help_massage>
+			</level_setting>
+			<level_setting id="2207" level="1" add_chance_value="20" add_chan_limit_lv="15" chance_value="20">
+				<select_condition />
+				<complet_condition>
+					<game_play_ts value="10" />
+					<number_of_person value="4" />
+					<goal_of_match value="1" />
+					<repetetion value="3" />
+					<checker_type value="TCCT_MAP_PLAY" data="21" />
+					<!-- mode_type: mapmodetype, category : 여러개,  data: mapindex or 미션 방식 구분자 -->
+				</complet_condition>
+				<reward>
+					<pen value="800" chance_value="10" />
+				</reward>
+				<help_massage>
+					<massage01 string_key="MESSAGE01_206" />
+					<massage02 string_key="MESSAGE02_195" />
+				</help_massage>
+			</level_setting>
+		</base_setting>
+		<!--마지막 id 2207 -->
+	</weekly_task>
+</task>

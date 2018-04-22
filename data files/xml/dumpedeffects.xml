@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S4_Effects>
+    <Effect ID="0" Name="None" Power_Level="0"/>
+    <Effect ID="1100302001" Name="Defense +3%" Power_Level="30"/>
+    <Effect ID="1100313001" Name="Rifle Defense(Head)+3%" Power_Level="30"/>
+    <Effect ID="1100313002" Name="Rifle Defense(Head)+5%" Power_Level="50"/>
+    <Effect ID="1100313003" Name="Rifle Defense(Head)+7%" Power_Level="70"/>
+    <Effect ID="1100313004" Name="Rifle Defense(Head)+9%" Power_Level="90"/>
+    <Effect ID="1100313005" Name="Rifle Defense(Head)+11%" Power_Level="110"/>
+    <Effect ID="1100313006" Name="Rifle Defense(Head)+13%" Power_Level="130"/>
+    <Effect ID="1100313007" Name="Rifle Defense(Head)+15%" Power_Level="150"/>
+    <Effect ID="1100315001" Name="Guns Weapon Defense (Head)+3%" Power_Level="30"/>
+    <Effect ID="1100315002" Name="Guns Weapon Defense (Head)+5%" Power_Level="50"/>
+    <Effect ID="1100315003" Name="Guns Weapon Defense (Head)+7%" Power_Level="70"/>
+    <Effect ID="1100315004" Name="Guns Weapon Defense (Head)+9%" Power_Level="90"/>
+    <Effect ID="1100315005" Name="Guns Weapon Defense (Head)+11%" Power_Level="110"/>
+    <Effect ID="1100315006" Name="Guns Weapon Defense (Head)+13%" Power_Level="130"/>
+    <Effect ID="1100315007" Name="Guns Weapon Defense (Head)+15%" Power_Level="150"/>
+    <Effect ID="1100317001" Name="Heavy Guns Weapon Defense (Head)+3%" Power_Level="30"/>
+    <Effect ID="1100317002" Name="Heavy Guns Weapon Defense (Head)+5%" Power_Level="50"/>
+    <Effect ID="1100317003" Name="Heavy Guns Weapon Defense (Head)+7%" Power_Level="70"/>
+    <Effect ID="1100317004" Name="Heavy Guns Weapon Defense (Head)+9%" Power_Level="90"/>
+    <Effect ID="1100317005" Name="Heavy Guns Weapon Defense (Head)+11%" Power_Level="110"/>
+    <Effect ID="1100317006" Name="Heavy Guns Weapon Defense (Head)+13%" Power_Level="130"/>
+    <Effect ID="1100317007" Name="Heavy Guns Weapon Defense (Head)+15%" Power_Level="150"/>
+    <Effect ID="1100800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1101301001" Name="SP+1" Power_Level="1"/>
+    <Effect ID="1101301002" Name="SP+2" Power_Level="2"/>
+    <Effect ID="1101301003" Name="SP+3" Power_Level="3"/>
+    <Effect ID="1101301004" Name="SP+4" Power_Level="4"/>
+    <Effect ID="1101301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1101301006" Name="SP+6" Power_Level="6"/>
+    <Effect ID="1101301007" Name="SP+7" Power_Level="7"/>
+    <Effect ID="1101301008" Name="SP+8" Power_Level="8"/>
+    <Effect ID="1101302002" Name="" Power_Level="50"/>
+    <Effect ID="1101800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1101800002" Name="" Power_Level="200"/>
+    <Effect ID="1102303001" Name="Attack+1%" Power_Level="10"/>
+    <Effect ID="1102303002" Name="Attack+3%" Power_Level="30"/>
+    <Effect ID="1102303003" Name="Attack+5%" Power_Level="50"/>
+    <Effect ID="1102303004" Name="Attack+7%" Power_Level="70"/>
+    <Effect ID="1102303005" Name="Attack+9%" Power_Level="90"/>
+    <Effect ID="1102303006" Name="Attack+10%" Power_Level="100"/>
+    <Effect ID="1102303007" Name="Attack+11%" Power_Level="110"/>
+    <Effect ID="1102303008" Name="Attack+12%" Power_Level="120"/>
+    <Effect ID="1102800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1103302001" Name="Defense+2%" Power_Level="20"/>
+    <Effect ID="1103302002" Name="Defense+3%" Power_Level="30"/>
+    <Effect ID="1103302003" Name="Defense+4%" Power_Level="40"/>
+    <Effect ID="1103302004" Name="Defense+5%" Power_Level="50"/>
+    <Effect ID="1103302005" Name="Defense+7%" Power_Level="70"/>
+    <Effect ID="1103302006" Name="Defense+10%" Power_Level="100"/>
+    <Effect ID="1103302007" Name="Defense+12%" Power_Level="120"/>
+    <Effect ID="1103302008" Name="Defense+13%" Power_Level="130"/>
+    <Effect ID="1103302009" Name="Defense+14%" Power_Level="140"/>
+    <Effect ID="1103311002" Name="Melee Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="1103311004" Name="Melee Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="1103311005" Name="Melee Weapon Defense+8%" Power_Level="80"/>
+    <Effect ID="1103311006" Name="Melee Weapon Defense+10%" Power_Level="100"/>
+    <Effect ID="1103311007" Name="Melee Weapon Defense+12%" Power_Level="120"/>
+    <Effect ID="1103311008" Name="Melee Weapon Defense+13%" Power_Level="130"/>
+    <Effect ID="1103312002" Name="Rifle Defense+3%" Power_Level="30"/>
+    <Effect ID="1103312004" Name="Rifle Defense+5%" Power_Level="50"/>
+    <Effect ID="1103312005" Name="Rifle Defense+8%" Power_Level="80"/>
+    <Effect ID="1103312006" Name="Rifle Defense+10%" Power_Level="100"/>
+    <Effect ID="1103312007" Name="Rifle Defense+12%" Power_Level="120"/>
+    <Effect ID="1103312008" Name="Rifle Defense+13%" Power_Level="130"/>
+    <Effect ID="1103314002" Name="Guns Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="1103314004" Name="Guns Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="1103314005" Name="Guns Weapon Defense+8%" Power_Level="80"/>
+    <Effect ID="1103314006" Name="Guns Weapon Defense+10%" Power_Level="100"/>
+    <Effect ID="1103314007" Name="Guns Weapon Defense+12%" Power_Level="120"/>
+    <Effect ID="1103314008" Name="Guns Weapon Defense+13%" Power_Level="130"/>
+    <Effect ID="1103316002" Name="Heavy Guns Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="1103316004" Name="Heavy Guns Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="1103316005" Name="Heavy Guns Weapon Defense+8%" Power_Level="80"/>
+    <Effect ID="1103316006" Name="Heavy Guns Weapon Defense+10%" Power_Level="100"/>
+    <Effect ID="1103316007" Name="Heavy Guns Weapon Defense+12%" Power_Level="120"/>
+    <Effect ID="1103316008" Name="Heavy Guns Weapon Defense+13%" Power_Level="130"/>
+    <Effect ID="1103318002" Name="Snipe Defense+3%" Power_Level="30"/>
+    <Effect ID="1103318004" Name="Snipe Defense+5%" Power_Level="50"/>
+    <Effect ID="1103318005" Name="Snipe Defense+8%" Power_Level="80"/>
+    <Effect ID="1103318006" Name="Snipe Defense+10%" Power_Level="100"/>
+    <Effect ID="1103318007" Name="Snipe Defense+12%" Power_Level="120"/>
+    <Effect ID="1103318008" Name="Snipe Defense+13%" Power_Level="130"/>
+    <Effect ID="1103321002" Name="Throwing Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="1103321004" Name="Throwing Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="1103321005" Name="Throwing Weapon Defense+8%" Power_Level="80"/>
+    <Effect ID="1103321006" Name="Throwing Weapon Defense+10%" Power_Level="100"/>
+    <Effect ID="1103321007" Name="Throwing Weapon Defense+12%" Power_Level="120"/>
+    <Effect ID="1103321008" Name="Throwing Weapon Defense+13%" Power_Level="130"/>
+    <Effect ID="1103800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1104300001" Name="HP+1" Power_Level="1"/>
+    <Effect ID="1104300002" Name="HP+2" Power_Level="2"/>
+    <Effect ID="1104300003" Name="HP+3" Power_Level="3"/>
+    <Effect ID="1104300004" Name="HP+4" Power_Level="4"/>
+    <Effect ID="1104300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1104300006" Name="HP+6" Power_Level="6"/>
+    <Effect ID="1104300007" Name="HP+7" Power_Level="7"/>
+    <Effect ID="1104300008" Name="HP+8" Power_Level="8"/>
+    <Effect ID="1104800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1105300001" Name="HP+1" Power_Level="1"/>
+    <Effect ID="1105300002" Name="HP+2" Power_Level="2"/>
+    <Effect ID="1105300003" Name="HP+3" Power_Level="3"/>
+    <Effect ID="1105300004" Name="HP+4" Power_Level="4"/>
+    <Effect ID="1105300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1105300006" Name="HP+6" Power_Level="6"/>
+    <Effect ID="1105300007" Name="HP+7" Power_Level="7"/>
+    <Effect ID="1105300008" Name="HP+8" Power_Level="8"/>
+    <Effect ID="1105800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1106301001" Name="SP+1" Power_Level="1"/>
+    <Effect ID="1106301002" Name="SP+2" Power_Level="2"/>
+    <Effect ID="1106301003" Name="SP+3" Power_Level="3"/>
+    <Effect ID="1106301004" Name="SP+4" Power_Level="4"/>
+    <Effect ID="1106301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1106301006" Name="SP+6" Power_Level="6"/>
+    <Effect ID="1106301007" Name="SP+7" Power_Level="7"/>
+    <Effect ID="1106301008" Name="SP+8" Power_Level="8"/>
+    <Effect ID="1106800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1107301001" Name="SP+1" Power_Level="1"/>
+    <Effect ID="1107301002" Name="SP+2" Power_Level="2"/>
+    <Effect ID="1107301003" Name="SP+3" Power_Level="3"/>
+    <Effect ID="1107301004" Name="SP+4" Power_Level="4"/>
+    <Effect ID="1107301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1107301006" Name="SP+6" Power_Level="6"/>
+    <Effect ID="1107301007" Name="SP+7" Power_Level="7"/>
+    <Effect ID="1107301008" Name="SP+8" Power_Level="8"/>
+    <Effect ID="1107302002" Name="Defense+3%" Power_Level="30"/>
+    <Effect ID="1107302005" Name="Defense +5%" Power_Level="50"/>
+    <Effect ID="1107303202" Name="Attack (TD Only) +2%" Power_Level="20"/>
+    <Effect ID="1107306003" Name="Chaser Movement+10%" Power_Level="100"/>
+    <Effect ID="1107307001" Name="Movement Speed+1%" Power_Level="10"/>
+    <Effect ID="1107307002" Name="Move Speed +2%" Power_Level="20"/>
+    <Effect ID="1107307003" Name="Move Speed +3%" Power_Level="30"/>
+    <Effect ID="1107800000" Name="EXP+20%" Power_Level="200"/>
+    <Effect ID="1107802001" Name="Chaser Chance UP" Power_Level="1000"/>
+    <Effect ID="1107802002" Name="Chase Chance Down" Power_Level="-100"/>
+    <Effect ID="1107802003" Name="Chaser Chance+10000" Power_Level="10000"/>
+    <Effect ID="1201300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1201301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1202300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1202300006" Name="HP+6" Power_Level="6"/>
+    <Effect ID="1202301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1202301006" Name="SP +6" Power_Level="6"/>
+    <Effect ID="1202361001" Name="Magnum SP Reduce " Power_Level="0"/>
+    <Effect ID="1202362001" Name="Twinblade charge time reduce" Power_Level="700"/>
+    <Effect ID="1202363001" Name="Ironboots SP Reduce " Power_Level="500"/>
+    <Effect ID="1202364001" Name="" Power_Level="1"/>
+    <Effect ID="1203300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1203301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1204300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1204301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1205300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1205301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1206308001" Name="Stationary Weapon HP+10%" Power_Level="100"/>
+    <Effect ID="1206601001" Name="Magazine+1" Power_Level="1"/>
+    <Effect ID="1207300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1207301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1208300005" Name="HP+5" Power_Level="5"/>
+    <Effect ID="1208301005" Name="SP+5" Power_Level="5"/>
+    <Effect ID="1208613001" Name="Magazine+1" Power_Level="1"/>
+    <Effect ID="1229613099" Name="Snowballs only!" Power_Level="99"/>
+    <Effect ID="1299600001" Name="Attack+1%" Power_Level="10"/>
+    <Effect ID="1299600002" Name="Attack+3%" Power_Level="30"/>
+    <Effect ID="1299600003" Name="Attack+5%" Power_Level="50"/>
+    <Effect ID="1299600004" Name="Attack+7%" Power_Level="70"/>
+    <Effect ID="1299600005" Name="Attack+8%" Power_Level="80"/>
+    <Effect ID="1299600006" Name="Attack+10%" Power_Level="100"/>
+    <Effect ID="1299600007" Name="Attack+11%" Power_Level="110"/>
+    <Effect ID="1299600008" Name="Attack +12%" Power_Level="120"/>
+    <Effect ID="1299602002" Name="Movement Speed+3%" Power_Level="30"/>
+    <Effect ID="1300301012" Name="SP+40" Power_Level="40"/>
+    <Effect ID="1999000001" Name="Delete Enchant Option." Power_Level="0"/>
+    <Effect ID="1999300009" Name="HP+15" Power_Level="15"/>
+    <Effect ID="1999300010" Name="HP+20" Power_Level="20"/>
+    <Effect ID="1999300011" Name="HP+30" Power_Level="30"/>
+    <Effect ID="1999300012" Name="HP+25" Power_Level="25"/>
+    <Effect ID="1999301009" Name="SP+10" Power_Level="10"/>
+    <Effect ID="1999301010" Name="SP+12" Power_Level="12"/>
+    <Effect ID="1999301011" Name="SP+20" Power_Level="20"/>
+    <Effect ID="1999301013" Name="SP+25" Power_Level="25"/>
+    <Effect ID="1999307002" Name="Movement Speed+3%" Power_Level="30"/>
+    <Effect ID="1999800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="1999800002" Name="EXP+8%" Power_Level="80"/>
+    <Effect ID="1999800003" Name="EXP+10%" Power_Level="100"/>
+    <Effect ID="1999800004" Name="EXP+14%" Power_Level="140"/>
+    <Effect ID="1999800006" Name="EXP+30%" Power_Level="300"/>
+    <Effect ID="1999800007" Name="EXP+20%" Power_Level="200"/>
+    <Effect ID="1999801001" Name="PEN+50%" Power_Level="500"/>
+    <Effect ID="1999801002" Name="PEN+100%" Power_Level="1000"/>
+    <Effect ID="1999801003" Name="PEN+10%" Power_Level="100"/>
+    <Effect ID="1999801004" Name="PEN+20%" Power_Level="200"/>
+    <Effect ID="1999801005" Name="PEN+30%" Power_Level="300"/>
+    <Effect ID="1999801006" Name="PEN+40%" Power_Level="400"/>
+    <Effect ID="1999801007" Name="PEN+60%" Power_Level="600"/>
+    <Effect ID="1999801008" Name="PEN+70%" Power_Level="700"/>
+    <Effect ID="1999801009" Name="PEN+80%" Power_Level="800"/>
+    <Effect ID="1999801010" Name="PEN+90%" Power_Level="900"/>
+    <Effect ID="1999807001" Name="Mastery Point(MP)+50%" Power_Level="500"/>
+    <Effect ID="1999807002" Name="Mastery Point(MP)+100%" Power_Level="1000"/>
+    <Effect ID="1999807100" Name="MP Guage is filled with fixed value" Power_Level="168"/>
+    <Effect ID="1999808001" Name="Enchant Jackpot Double Chance" Power_Level="500"/>
+    <Effect ID="1999809001" Name="Success Chance+10%" Power_Level="100"/>
+    <Effect ID="1999809002" Name="Success Chance+20%" Power_Level="200"/>
+    <Effect ID="1999810001" Name="Prevents reset" Power_Level="1000"/>
+    <Effect ID="1999811001" Name="x1.5 Unique Booster" Power_Level="1"/>
+    <Effect ID="1999811002" Name="x2 Unique Booster" Power_Level="2"/>
+    <Effect ID="1999811003" Name="x3 Unique Booster" Power_Level="3"/>
+    <Effect ID="1999811004" Name="x4 Unique Booster" Power_Level="4"/>
+    <Effect ID="1999811005" Name="x5 Unique Booster" Power_Level="5"/>
+    <Effect ID="1999811006" Name="100% Unique Booster" Power_Level="100"/>
+    <Effect ID="1999812001" Name="" Power_Level="10"/>
+    <Effect ID="1999813001" Name="" Power_Level="0"/>
+    <Effect ID="1999813002" Name="" Power_Level="0"/>
+    <Effect ID="1999813003" Name="" Power_Level="0"/>
+    <Effect ID="1999813004" Name="" Power_Level="0"/>
+    <Effect ID="1999814001" Name="Success Chance+100%" Power_Level="1000"/>
+    <Effect ID="1999815001" Name="Prevents destruction" Power_Level="1000"/>
+    <Effect ID="2100332001" Name="SP Regen + 2%" Power_Level="20"/>
+    <Effect ID="2102301001" Name="SP +2" Power_Level="2"/>
+    <Effect ID="2102302001" Name="All weapons Def. +2" Power_Level="20"/>
+    <Effect ID="2102302002" Name="DEF + 3%" Power_Level="30"/>
+    <Effect ID="2102304001" Name="Reload+10%" Power_Level="100"/>
+    <Effect ID="2102304002" Name="Reload+20%" Power_Level="200"/>
+    <Effect ID="2102310001" Name="Stationary Weapon Install Speed+25%" Power_Level="250"/>
+    <Effect ID="2102310002" Name="Stationary Weapon Install Speed+50%" Power_Level="500"/>
+    <Effect ID="2102311001" Name="Melee Weapons DEF +5%" Power_Level="50"/>
+    <Effect ID="2102311002" Name="Melee Weapons DEF +10%" Power_Level="100"/>
+    <Effect ID="2102312001" Name="Automatic Fire Weapons DEF +5%" Power_Level="50"/>
+    <Effect ID="2102312002" Name="Automatic Fire Weapons DEF +10%" Power_Level="100"/>
+    <Effect ID="2102314001" Name="Single Shot Weapons DEF +5%" Power_Level="50"/>
+    <Effect ID="2102314002" Name="Single Shot Weapons DEF +10%" Power_Level="100"/>
+    <Effect ID="2102316001" Name="Heavy Weapons DEF +5%" Power_Level="50"/>
+    <Effect ID="2102316002" Name="Heavy Weapons DEF +10%" Power_Level="100"/>
+    <Effect ID="2102318001" Name="Ranged Weapon DEF +5%" Power_Level="50"/>
+    <Effect ID="2102318002" Name="Ranged Weapon DEF +10%" Power_Level="100"/>
+    <Effect ID="2102330001" Name="Stun Duration -3%" Power_Level="30"/>
+    <Effect ID="2102330002" Name="Stun Duration -5%" Power_Level="50"/>
+    <Effect ID="2102331001" Name="Regen by Heal +5%" Power_Level="50"/>
+    <Effect ID="2102331002" Name="Regen by Heal +10%" Power_Level="100"/>
+    <Effect ID="2102337001" Name="Random Crit Power +3%" Power_Level="30"/>
+    <Effect ID="2102337002" Name="Random Crit Power +5%" Power_Level="50"/>
+    <Effect ID="2102342001" Name="Wall Jump SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2102342002" Name="Wall Jump SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2102343001" Name="EVA SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2102343002" Name="EVA SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2102357001" Name="Blow Distance -3%" Power_Level="30"/>
+    <Effect ID="2102357002" Name="Blow Distance -5%" Power_Level="50"/>
+    <Effect ID="2102358001" Name="Knockback Distance -3%" Power_Level="30"/>
+    <Effect ID="2102358002" Name="Knockback Distance -5%" Power_Level="50"/>
+    <Effect ID="2102600001" Name="Random ATK +0~2%" Power_Level="0"/>
+    <Effect ID="2102600002" Name="Random ATK +0~5%" Power_Level="0"/>
+    <Effect ID="2102800001" Name="EXP +10%" Power_Level="100"/>
+    <Effect ID="2102800002" Name="EXP +20%" Power_Level="200"/>
+    <Effect ID="2102800003" Name="EXP +30%" Power_Level="300"/>
+    <Effect ID="2102800004" Name="EXP +40%" Power_Level="400"/>
+    <Effect ID="2102800005" Name="EXP +50%" Power_Level="500"/>
+    <Effect ID="2102801001" Name="PEN +10%" Power_Level="100"/>
+    <Effect ID="2102801002" Name="PEN +20%" Power_Level="200"/>
+    <Effect ID="2102801003" Name="PEN +30%" Power_Level="300"/>
+    <Effect ID="2102801004" Name="PEN +40%" Power_Level="400"/>
+    <Effect ID="2102801005" Name="PEN +50%" Power_Level="500"/>
+    <Effect ID="2103300001" Name="HP +1" Power_Level="1"/>
+    <Effect ID="2103300002" Name="HP +2" Power_Level="2"/>
+    <Effect ID="2103300003" Name="HP +3" Power_Level="3"/>
+    <Effect ID="2103300004" Name="HP +4" Power_Level="4"/>
+    <Effect ID="2103300005" Name="HP +5" Power_Level="5"/>
+    <Effect ID="2103300006" Name="HP +6" Power_Level="6"/>
+    <Effect ID="2103300007" Name="HP +7" Power_Level="7"/>
+    <Effect ID="2103300008" Name="HP +8" Power_Level="8"/>
+    <Effect ID="2103300009" Name="HP +10" Power_Level="10"/>
+    <Effect ID="2103301001" Name="SP +1" Power_Level="1"/>
+    <Effect ID="2103301002" Name="SP +2" Power_Level="2"/>
+    <Effect ID="2103301003" Name="SP +3" Power_Level="3"/>
+    <Effect ID="2103301004" Name="SP +4" Power_Level="4"/>
+    <Effect ID="2103301005" Name="SP +5" Power_Level="5"/>
+    <Effect ID="2103301006" Name="SP +6" Power_Level="6"/>
+    <Effect ID="2103301007" Name="SP +7" Power_Level="7"/>
+    <Effect ID="2103301008" Name="SP +8" Power_Level="8"/>
+    <Effect ID="2103301009" Name="SP +10" Power_Level="10"/>
+    <Effect ID="2103302001" Name="DEF + 3%" Power_Level="30"/>
+    <Effect ID="2103302002" Name="DEF +3%" Power_Level="30"/>
+    <Effect ID="2103302003" Name="DEF +4%" Power_Level="40"/>
+    <Effect ID="2103302004" Name="DEF +5%" Power_Level="50"/>
+    <Effect ID="2103302005" Name="DEF +10%" Power_Level="100"/>
+    <Effect ID="2103307001" Name="MOVE SPD +1%" Power_Level="10"/>
+    <Effect ID="2103307002" Name="MOVE SPD +2%" Power_Level="20"/>
+    <Effect ID="2103307003" Name="MOVE SPD +3%" Power_Level="30"/>
+    <Effect ID="2103331001" Name="Regen by Heal +5%" Power_Level="50"/>
+    <Effect ID="2103331002" Name="Regen by Heal +10%" Power_Level="100"/>
+    <Effect ID="2103606001" Name="DEF Piercing Chance +1%" Power_Level="1000"/>
+    <Effect ID="2103606002" Name="DEF Piercing Chance +2%" Power_Level="1000"/>
+    <Effect ID="2103606003" Name="DEF Piercing Chance +3%" Power_Level="1000"/>
+    <Effect ID="2103606004" Name="DEF Piercing Chance +5%" Power_Level="1000"/>
+    <Effect ID="2103606005" Name="DEF Piercing Chance +8%" Power_Level="1000"/>
+    <Effect ID="2103606006" Name="DEF Piercing Chance +10%" Power_Level="1000"/>
+    <Effect ID="2103800001" Name="EXP +10%" Power_Level="100"/>
+    <Effect ID="2103800002" Name="EXP +20%" Power_Level="200"/>
+    <Effect ID="2103800003" Name="EXP +30%" Power_Level="300"/>
+    <Effect ID="2103800004" Name="EXP +40%" Power_Level="400"/>
+    <Effect ID="2103800005" Name="EXP +50%" Power_Level="500"/>
+    <Effect ID="2103801001" Name="PEN +10%" Power_Level="100"/>
+    <Effect ID="2103801002" Name="PEN +20%" Power_Level="200"/>
+    <Effect ID="2103801003" Name="PEN +30%" Power_Level="300"/>
+    <Effect ID="2103801004" Name="PEN +40%" Power_Level="400"/>
+    <Effect ID="2103801005" Name="PEN +50%" Power_Level="500"/>
+    <Effect ID="2104300001" Name="HP+1" Power_Level="1"/>
+    <Effect ID="2104300002" Name="HP+2" Power_Level="2"/>
+    <Effect ID="2104300003" Name="HP+3" Power_Level="3"/>
+    <Effect ID="2104301001" Name="SP +1" Power_Level="1"/>
+    <Effect ID="2104301002" Name="SP +2" Power_Level="2"/>
+    <Effect ID="2104301003" Name="SP +5" Power_Level="5"/>
+    <Effect ID="2104301004" Name="SP +4" Power_Level="4"/>
+    <Effect ID="2104301005" Name="SP +3" Power_Level="3"/>
+    <Effect ID="2104301006" Name="SP +6" Power_Level="6"/>
+    <Effect ID="2104301007" Name="SP +7" Power_Level="7"/>
+    <Effect ID="2104301008" Name="SP +8" Power_Level="8"/>
+    <Effect ID="2104301009" Name="SP +10" Power_Level="10"/>
+    <Effect ID="2104303001" Name="ATK +1%" Power_Level="10"/>
+    <Effect ID="2104303002" Name="ATK +3%" Power_Level="30"/>
+    <Effect ID="2104303003" Name="ATK +5%" Power_Level="50"/>
+    <Effect ID="2104303004" Name="ATK +10%" Power_Level="100"/>
+    <Effect ID="2104338001" Name="Random Crit Chance +1" Power_Level="1"/>
+    <Effect ID="2104338002" Name="Random Crit Chance +2" Power_Level="2"/>
+    <Effect ID="2104338003" Name="Random Crit Chance +3" Power_Level="3"/>
+    <Effect ID="2104342001" Name="Wall Jump SP Consumption -2%" Power_Level="20"/>
+    <Effect ID="2104342002" Name="Wall Jump SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2104342003" Name="Wall Jump SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2104343001" Name="Decrease of Dodge SP consumption by 2%" Power_Level="20"/>
+    <Effect ID="2104343002" Name="EVA SP Consumption -2%" Power_Level="20"/>
+    <Effect ID="2104343003" Name="EVA SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2104343004" Name="EVA SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2104354001" Name="Knockback Distance+3%" Power_Level="30"/>
+    <Effect ID="2104354002" Name="Knockback Distance + 3%" Power_Level="30"/>
+    <Effect ID="2104354003" Name="Knockback Distance +3%" Power_Level="30"/>
+    <Effect ID="2104354004" Name="Knockback Distance +5%" Power_Level="50"/>
+    <Effect ID="2104355001" Name="Stun Duration +3%" Power_Level="30"/>
+    <Effect ID="2104355002" Name="Stun Duration +5%" Power_Level="50"/>
+    <Effect ID="2104356001" Name="Blow +3%" Power_Level="30"/>
+    <Effect ID="2104356002" Name="Blow Distance +3%" Power_Level="30"/>
+    <Effect ID="2104356003" Name="Blow Distance +5%" Power_Level="50"/>
+    <Effect ID="2104800001" Name="EXP +10%" Power_Level="100"/>
+    <Effect ID="2104800002" Name="EXP +20%" Power_Level="200"/>
+    <Effect ID="2104800003" Name="EXP +30%" Power_Level="300"/>
+    <Effect ID="2104800004" Name="EXP +40%" Power_Level="400"/>
+    <Effect ID="2104800005" Name="EXP +50%" Power_Level="500"/>
+    <Effect ID="2104801001" Name="PEN +10%" Power_Level="100"/>
+    <Effect ID="2104801002" Name="PEN +20%" Power_Level="200"/>
+    <Effect ID="2104801003" Name="PEN +30%" Power_Level="300"/>
+    <Effect ID="2104801004" Name="PEN +40%" Power_Level="400"/>
+    <Effect ID="2104801005" Name="PEN +50%" Power_Level="500"/>
+    <Effect ID="2105300001" Name="HP +1" Power_Level="1"/>
+    <Effect ID="2105300002" Name="HP +2" Power_Level="2"/>
+    <Effect ID="2105300003" Name="HP +3" Power_Level="3"/>
+    <Effect ID="2105300004" Name="HP +4" Power_Level="4"/>
+    <Effect ID="2105300005" Name="HP +5" Power_Level="5"/>
+    <Effect ID="2105300006" Name="HP +6" Power_Level="6"/>
+    <Effect ID="2105300007" Name="HP +7" Power_Level="7"/>
+    <Effect ID="2105300008" Name="HP +8" Power_Level="8"/>
+    <Effect ID="2105301001" Name="SP +2" Power_Level="2"/>
+    <Effect ID="2105307001" Name="MOVE SPD +1%" Power_Level="10"/>
+    <Effect ID="2105307002" Name="MOVE SPD +1%" Power_Level="10"/>
+    <Effect ID="2105307003" Name="MOVE SPD +3%" Power_Level="30"/>
+    <Effect ID="2105330001" Name="Decrease stun time by 2%" Power_Level="20"/>
+    <Effect ID="2105330002" Name="Stun Duration -3%" Power_Level="30"/>
+    <Effect ID="2105330003" Name="Stun Duration -5%" Power_Level="50"/>
+    <Effect ID="2105332001" Name="SP Regen +1%" Power_Level="10"/>
+    <Effect ID="2105332002" Name="SP Regen +2%" Power_Level="20"/>
+    <Effect ID="2105332003" Name="SP Regen +3%" Power_Level="30"/>
+    <Effect ID="2105337001" Name="Random Crit Power +1%" Power_Level="10"/>
+    <Effect ID="2105337002" Name="Random Crit Power +3%" Power_Level="30"/>
+    <Effect ID="2105338001" Name="Random Crit Chance +1" Power_Level="1"/>
+    <Effect ID="2105338002" Name="Random Crit Chance +2" Power_Level="2"/>
+    <Effect ID="2105338003" Name="Random Crit Chance +3" Power_Level="3"/>
+    <Effect ID="2105342001" Name="Wall Jump SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="2105342002" Name="Wall Jump SP Consumption -2%" Power_Level="20"/>
+    <Effect ID="2105342003" Name="Wall Jump SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2105342004" Name="Wall Jump SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2105343001" Name="Evade SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="2105343002" Name="EVA SP Consumption - 3%" Power_Level="30"/>
+    <Effect ID="2105343003" Name="EVA SP Consumption -2%" Power_Level="20"/>
+    <Effect ID="2105343004" Name="EVA SP Consumption -3%" Power_Level="30"/>
+    <Effect ID="2105343005" Name="EVA SP Consumption -5%" Power_Level="50"/>
+    <Effect ID="2105357001" Name="Blow  Reduce 2%" Power_Level="20"/>
+    <Effect ID="2105357002" Name="Blow Distance -3%" Power_Level="30"/>
+    <Effect ID="2105357003" Name="Blow Distance -5%" Power_Level="50"/>
+    <Effect ID="2105358001" Name=" Knockback Distance Reduce 2%" Power_Level="20"/>
+    <Effect ID="2105358002" Name="Knockback Distance -5%" Power_Level="50"/>
+    <Effect ID="2105358004" Name="Knockback Distance -3%" Power_Level="30"/>
+    <Effect ID="2105800001" Name="EXP+5%" Power_Level="50"/>
+    <Effect ID="2105800002" Name="EXP+8%" Power_Level="80"/>
+    <Effect ID="2105800003" Name="EXP+10%" Power_Level="100"/>
+    <Effect ID="2105800004" Name="EXP +20%" Power_Level="200"/>
+    <Effect ID="2105800005" Name="EXP +30%" Power_Level="300"/>
+    <Effect ID="2105800006" Name="EXP +40%" Power_Level="400"/>
+    <Effect ID="2105800007" Name="EXP +50%" Power_Level="500"/>
+    <Effect ID="2105801001" Name="PEN +10%" Power_Level="100"/>
+    <Effect ID="2105801002" Name="PEN +20%" Power_Level="200"/>
+    <Effect ID="2105801003" Name="PEN +30%" Power_Level="300"/>
+    <Effect ID="2105801004" Name="PEN +40%" Power_Level="400"/>
+    <Effect ID="2105801005" Name="PEN +50%" Power_Level="500"/>
+    <Effect ID="2107332001" Name=" SP Recover+1%" Power_Level="10"/>
+    <Effect ID="2107344001" Name=" Invincible Time(Respawn)+3%" Power_Level="20"/>
+    <Effect ID="2107800001" Name="EXP +2%" Power_Level="20"/>
+    <Effect ID="2107801001" Name="PEN +2%" Power_Level="20"/>
+    <Effect ID="2202601001" Name="Magazine+3" Power_Level="3"/>
+    <Effect ID="2202601002" Name="Magazine+6" Power_Level="6"/>
+    <Effect ID="2203601001" Name="Magazine+2" Power_Level="2"/>
+    <Effect ID="2203601002" Name="Magazine+3" Power_Level="3"/>
+    <Effect ID="2204601001" Name="Magazine+10" Power_Level="10"/>
+    <Effect ID="2204601002" Name="Magazine+20" Power_Level="20"/>
+    <Effect ID="2205601001" Name="Magazine+1" Power_Level="1"/>
+    <Effect ID="2205601002" Name="Magazine+2" Power_Level="2"/>
+    <Effect ID="2206309001" Name="Stationary Weapon Distance+10%" Power_Level="100"/>
+    <Effect ID="2206309002" Name="Stationary Weapon Distance+20%" Power_Level="200"/>
+    <Effect ID="2207601001" Name="Magazine+2" Power_Level="2"/>
+    <Effect ID="2207601002" Name="Magazine+4" Power_Level="4"/>
+    <Effect ID="2299303001" Name="All weapons +1" Power_Level="10"/>
+    <Effect ID="2299303002" Name="ATK + 2%" Power_Level="20"/>
+    <Effect ID="2299303003" Name="ATK + 20%" Power_Level="30"/>
+    <Effect ID="2299600001" Name="Random Attack+0~1%" Power_Level="0"/>
+    <Effect ID="2299605001" Name="Object Attack+2%" Power_Level="20"/>
+    <Effect ID="3100800001" Name="1Lv. EXP+2%" Power_Level="20"/>
+    <Effect ID="3100800002" Name="2Lv. EXP+4%" Power_Level="40"/>
+    <Effect ID="3100800003" Name="3Lv. EXP+6%" Power_Level="60"/>
+    <Effect ID="3100800004" Name="4Lv. EXP+8%" Power_Level="80"/>
+    <Effect ID="3100800005" Name="5Lv. EXP+10%" Power_Level="100"/>
+    <Effect ID="3100800101" Name="1Lv. EXP(Death Match only)+3%" Power_Level="30"/>
+    <Effect ID="3100800102" Name="2Lv. EXP(Death Match only)+6%" Power_Level="60"/>
+    <Effect ID="3100800103" Name="3Lv. EXP(Death Match only)+10%" Power_Level="100"/>
+    <Effect ID="3100800104" Name="4Lv. EXP(Death Match only)+14%" Power_Level="140"/>
+    <Effect ID="3100800105" Name="5Lv. EXP(Death Match only)+20%" Power_Level="200"/>
+    <Effect ID="3100800201" Name="1Lv. EXP(Touch Down only)+3%" Power_Level="30"/>
+    <Effect ID="3100800202" Name="2Lv. EXP(Touch Down only)+6%" Power_Level="60"/>
+    <Effect ID="3100800203" Name="3Lv. EXP(Touch Down only)+10%" Power_Level="100"/>
+    <Effect ID="3100800204" Name="4Lv. EXP(Touch Down only)+14%" Power_Level="140"/>
+    <Effect ID="3100800205" Name="5Lv. EXP(Touch Down only)+20%" Power_Level="200"/>
+    <Effect ID="3100800301" Name="1Lv. EXP(Arcade only)+3%" Power_Level="30"/>
+    <Effect ID="3100800302" Name="2Lv. EXP(Arcade only)+6%" Power_Level="60"/>
+    <Effect ID="3100800303" Name="3Lv. EXP(Arcade only)+10%" Power_Level="100"/>
+    <Effect ID="3100800304" Name="4Lv. EXP(Arcade only)+14%" Power_Level="140"/>
+    <Effect ID="3100800305" Name="5Lv. EXP(Arcade only)+20%" Power_Level="200"/>
+    <Effect ID="3100800401" Name="1Lv. EXP(Chaser Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3100800402" Name="2Lv. EXP(Chaser Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3100800403" Name="3Lv. EXP(Chaser Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3100800404" Name="4Lv. EXP(Chaser Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3100800405" Name="5Lv. EXP(Chaser Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3100800501" Name="1Lv. EXP(Battle Royal only)+3%" Power_Level="30"/>
+    <Effect ID="3100800502" Name="2Lv. EXP(Battle Royal only)+6%" Power_Level="60"/>
+    <Effect ID="3100800503" Name="3Lv. EXP(Battle Royal only)+10%" Power_Level="100"/>
+    <Effect ID="3100800504" Name="4Lv. EXP(Battle Royal only)+14%" Power_Level="140"/>
+    <Effect ID="3100800505" Name="5Lv. EXP(Battle Royal only)+20%" Power_Level="200"/>
+    <Effect ID="3100800601" Name="1Lv. EXP(Captain Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3100800602" Name="2Lv. EXP(Captain Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3100800603" Name="3Lv. EXP(Captain Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3100800604" Name="4Lv. EXP(Captain Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3100800605" Name="5Lv. EXP(Captain Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3100800701" Name="1Lv. EXP(Siege Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3100800702" Name="2Lv. EXP(Siege Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3100800703" Name="3Lv. EXP(Siege Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3100800704" Name="4Lv. EXP(Siege Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3100800705" Name="5Lv. EXP(Siege Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3101801001" Name="1Lv. PEN+2%" Power_Level="20"/>
+    <Effect ID="3101801002" Name="2Lv. PEN+4%" Power_Level="40"/>
+    <Effect ID="3101801003" Name="3Lv. PEN+6%" Power_Level="60"/>
+    <Effect ID="3101801004" Name="4Lv. PEN+8%" Power_Level="80"/>
+    <Effect ID="3101801005" Name="5Lv. PEN+10%" Power_Level="100"/>
+    <Effect ID="3101801101" Name="1Lv. PEN(Death Match only)+3%" Power_Level="30"/>
+    <Effect ID="3101801102" Name="2Lv. PEN(Death Match only)+6%" Power_Level="60"/>
+    <Effect ID="3101801103" Name="3Lv. PEN(Death Match only)+10%" Power_Level="100"/>
+    <Effect ID="3101801104" Name="4Lv. PEN(Death Match only)+14%" Power_Level="140"/>
+    <Effect ID="3101801105" Name="5Lv. PEN(Death Match only)+20%" Power_Level="200"/>
+    <Effect ID="3101801201" Name="1Lv. PEN(Touch Down only)+3%" Power_Level="30"/>
+    <Effect ID="3101801202" Name="2Lv. PEN(Touch Down only)+6%" Power_Level="60"/>
+    <Effect ID="3101801203" Name="3Lv. PEN(Touch Down only)+10%" Power_Level="100"/>
+    <Effect ID="3101801204" Name="4Lv. PEN(Touch Down only)+14%" Power_Level="140"/>
+    <Effect ID="3101801205" Name="5Lv. PEN(Touch Down only)+20%" Power_Level="200"/>
+    <Effect ID="3101801301" Name="1Lv. PEN(Arcade only)+3%" Power_Level="30"/>
+    <Effect ID="3101801302" Name="2Lv. PEN(Arcade only)+6%" Power_Level="60"/>
+    <Effect ID="3101801303" Name="3Lv. PEN(Arcade only)+10%" Power_Level="100"/>
+    <Effect ID="3101801304" Name="4Lv. PEN(Arcade only)+14%" Power_Level="140"/>
+    <Effect ID="3101801305" Name="5Lv. PEN(Arcade only)+20%" Power_Level="200"/>
+    <Effect ID="3101801401" Name="1Lv. PEN(Chaser Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3101801402" Name="2Lv. PEN(Chaser Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3101801403" Name="3Lv. PEN(Chaser Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3101801404" Name="4Lv. PEN(Chaser Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3101801405" Name="5Lv. PEN(Chaser Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3101801501" Name="1Lv. PEN(Battle Royal only)+3%" Power_Level="30"/>
+    <Effect ID="3101801502" Name="2Lv. PEN(Battle Royal only)+6%" Power_Level="60"/>
+    <Effect ID="3101801503" Name="3Lv. PEN(Battle Royal only)+10%" Power_Level="100"/>
+    <Effect ID="3101801504" Name="4Lv. PEN(Battle Royal only)+14%" Power_Level="140"/>
+    <Effect ID="3101801505" Name="5Lv. PEN(Battle Royal only)+20%" Power_Level="200"/>
+    <Effect ID="3101801601" Name="1Lv. PEN(Captain Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3101801602" Name="2Lv. PEN(Captain Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3101801603" Name="3Lv. PEN(Captain Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3101801604" Name="4Lv. PEN(Captain Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3101801605" Name="5Lv. PEN(Captain Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3101801701" Name="1Lv. PEN(Siege Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3101801702" Name="2Lv. PEN(Siege Mode only)+6%" Power_Level="60"/>
+    <Effect ID="3101801703" Name="3Lv. PEN(Siege Mode only)+10%" Power_Level="100"/>
+    <Effect ID="3101801704" Name="4Lv. PEN(Siege Mode only)+14%" Power_Level="140"/>
+    <Effect ID="3101801705" Name="5Lv. PEN(Siege Mode only)+20%" Power_Level="200"/>
+    <Effect ID="3102311001" Name="1Lv. Melee Weapon Defense+1%" Power_Level="10"/>
+    <Effect ID="3102311002" Name="2Lv. Melee Weapon Defense+2%" Power_Level="20"/>
+    <Effect ID="3102311003" Name="3Lv. Melee Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="3102311004" Name="4Lv. Melee Weapon Defense+4%" Power_Level="40"/>
+    <Effect ID="3102311005" Name="5Lv. Melee Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="3102312001" Name="1Lv. Rifle Defense+1%" Power_Level="10"/>
+    <Effect ID="3102312002" Name="2Lv. Rifle Defense+2%" Power_Level="20"/>
+    <Effect ID="3102312003" Name="3Lv. Rifle Defense+3%" Power_Level="30"/>
+    <Effect ID="3102312004" Name="4Lv. Rifle Defense+4%" Power_Level="40"/>
+    <Effect ID="3102312005" Name="6Lv. Rifle Defense+5%" Power_Level="50"/>
+    <Effect ID="3102314001" Name="1Lv. Guns Defense+1%" Power_Level="10"/>
+    <Effect ID="3102314002" Name="2Lv. Guns Defense+2%" Power_Level="20"/>
+    <Effect ID="3102314003" Name="3Lv. Guns Defense+3%" Power_Level="30"/>
+    <Effect ID="3102314004" Name="4Lv. Guns Defense+4%" Power_Level="40"/>
+    <Effect ID="3102314005" Name="5Lv. Guns Defense+5%" Power_Level="50"/>
+    <Effect ID="3102316001" Name="1Lv. Heavy gun Defense+1%" Power_Level="10"/>
+    <Effect ID="3102316002" Name="2Lv. Heavy gun Defense+2%" Power_Level="20"/>
+    <Effect ID="3102316003" Name="3Lv. Heavy gun Defense+3%" Power_Level="30"/>
+    <Effect ID="3102316004" Name="4Lv. Heavy gun Defense+4%" Power_Level="40"/>
+    <Effect ID="3102316005" Name="5Lv. Heavy gun Defense+5%" Power_Level="50"/>
+    <Effect ID="3102318001" Name="1Lv. Snipe Defense+1%" Power_Level="10"/>
+    <Effect ID="3102318002" Name="2Lv. Snipe Defense+2%" Power_Level="20"/>
+    <Effect ID="3102318003" Name="3Lv. Snipe Defense+3%" Power_Level="30"/>
+    <Effect ID="3102318004" Name="4Lv. Snipe Defense+4%" Power_Level="40"/>
+    <Effect ID="3102318005" Name="5Lv. Snipe Defense+5%" Power_Level="50"/>
+    <Effect ID="3102319001" Name="1Lv. Stationary Weapon Defense+1%" Power_Level="10"/>
+    <Effect ID="3102319002" Name="2Lv. Stationary Weapon Defense+2%" Power_Level="20"/>
+    <Effect ID="3102319003" Name="3Lv. Stationary Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="3102319004" Name="4Lv. Stationary Weapon Defense+4%" Power_Level="40"/>
+    <Effect ID="3102319005" Name="5Lv. Stationary Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="3102320001" Name="1Lv. Mental Weapon Defense+1%" Power_Level="10"/>
+    <Effect ID="3102320002" Name="2Lv. Mental Weapon Defense+2%" Power_Level="20"/>
+    <Effect ID="3102320003" Name="3Lv. Mental Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="3102320004" Name="4Lv. Mental Weapon Defense+4%" Power_Level="40"/>
+    <Effect ID="3102320005" Name="5Lv. Mental Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="3102321001" Name="1Lv. Throwing Weapon Defense+1%" Power_Level="10"/>
+    <Effect ID="3102321002" Name="2Lv. Throwing Weapon Defense+2%" Power_Level="20"/>
+    <Effect ID="3102321003" Name="3Lv. Throwing Weapon Defense+3%" Power_Level="30"/>
+    <Effect ID="3102321004" Name="4Lv. Throwing Weapon Defense+4%" Power_Level="40"/>
+    <Effect ID="3102321005" Name="5Lv. Throwing Weapon Defense+5%" Power_Level="50"/>
+    <Effect ID="3102359001" Name="1Lv. Attack(Below 10% HP)+1%" Power_Level="10"/>
+    <Effect ID="3102359002" Name="2Lv. Attack(Below 10% HP)+2%" Power_Level="20"/>
+    <Effect ID="3102359003" Name="3Lv. Attack(Below 10% HP)+3%" Power_Level="30"/>
+    <Effect ID="3102359004" Name="4Lv. Attack(Below 10% HP)+4%" Power_Level="40"/>
+    <Effect ID="3102359005" Name="5Lv. Attack(Below 10% HP)+5%" Power_Level="50"/>
+    <Effect ID="3103302101" Name="1Lv. Defense(Death Match only)+1%" Power_Level="10"/>
+    <Effect ID="3103302102" Name="2Lv. Defense(Death Match only)+2%" Power_Level="20"/>
+    <Effect ID="3103302103" Name="3Lv. Defense(Death Match only)+3%" Power_Level="30"/>
+    <Effect ID="3103302104" Name="4Lv. Defense(Death Match only)+4%" Power_Level="40"/>
+    <Effect ID="3103302105" Name="5Lv. Defense(Death Match only)+5%" Power_Level="50"/>
+    <Effect ID="3103302201" Name="1Lv. Defense(Touch Down only)+1%" Power_Level="10"/>
+    <Effect ID="3103302202" Name="2Lv. Defense(Touch Down only)+2%" Power_Level="20"/>
+    <Effect ID="3103302203" Name="3Lv. Defense(Touch Down only)+3%" Power_Level="30"/>
+    <Effect ID="3103302204" Name="4Lv. Defense(Touch Down only)+4%" Power_Level="40"/>
+    <Effect ID="3103302205" Name="5Lv. Defense(Touch Down only)+5%" Power_Level="50"/>
+    <Effect ID="3103302301" Name="1Lv. Defense(Arcade only)+1%" Power_Level="10"/>
+    <Effect ID="3103302302" Name="2Lv. Defense(Arcade only)+2%" Power_Level="20"/>
+    <Effect ID="3103302303" Name="3Lv. Defense(Arcade only)+3%" Power_Level="30"/>
+    <Effect ID="3103302304" Name="4Lv. Defense(Arcade only)+4%" Power_Level="40"/>
+    <Effect ID="3103302305" Name="5Lv. Defense(Arcade only)+5%" Power_Level="50"/>
+    <Effect ID="3103302401" Name="1Lv. Defense(Chaser Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3103302402" Name="2Lv. Defense(Chaser Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3103302403" Name="3Lv. Defense(Chaser Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3103302404" Name="4Lv. Defense(Chaser Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3103302405" Name="5Lv. Defense(Chaser Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3103302501" Name="1Lv. Defense(Battle Royal only)+1%" Power_Level="10"/>
+    <Effect ID="3103302502" Name="2Lv. Defense(Battle Royal only)+2%" Power_Level="20"/>
+    <Effect ID="3103302503" Name="3Lv. Defense(Battle Royal only)+3%" Power_Level="30"/>
+    <Effect ID="3103302504" Name="4Lv. Defense(Battle Royal only)+4%" Power_Level="40"/>
+    <Effect ID="3103302505" Name="5Lv. Defense(Battle Royal only)+5%" Power_Level="50"/>
+    <Effect ID="3103302601" Name="1Lv. Defense(Captain Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3103302602" Name="2Lv. Defense(Captain Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3103302603" Name="3Lv. Defense(Captain Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3103302604" Name="4Lv. Defense(Captain Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3103302605" Name="5Lv. Defense(Captain Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3103302701" Name="1Lv. Defense(Siege Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3103302702" Name="2Lv. Defense(Siege Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3103302703" Name="3Lv. Defense(Siege Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3103302704" Name="4Lv. Defense(Siege Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3103302705" Name="5Lv. Defense(Siege Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3103360001" Name="1Lv. Defense(Below 10% HP)+1%" Power_Level="10"/>
+    <Effect ID="3103360002" Name="2Lv. Defense(Below 10% HP)+2%" Power_Level="20"/>
+    <Effect ID="3103360003" Name="3Lv. Defense(Below 10% HP)+3%" Power_Level="30"/>
+    <Effect ID="3103360004" Name="4Lv. Defense(Below 10% HP)+4%" Power_Level="40"/>
+    <Effect ID="3103360005" Name="5Lv. Defense(Below 10% HP)+5%" Power_Level="50"/>
+    <Effect ID="3104331001" Name="1Lv. Recovery by Heal+3%" Power_Level="30"/>
+    <Effect ID="3104331002" Name="2Lv. Recovery by Heal+6%" Power_Level="60"/>
+    <Effect ID="3104331003" Name="3Lv. Recovery by Heal+10%" Power_Level="100"/>
+    <Effect ID="3104331004" Name="4Lv. Recovery by Heal+14%" Power_Level="140"/>
+    <Effect ID="3104331005" Name="5Lv. Recovery by Heal+20%" Power_Level="200"/>
+    <Effect ID="3104337001" Name="1Lv. Random Critical Rate+4%" Power_Level="40"/>
+    <Effect ID="3104337002" Name="2Lv. Random Critical Rate+8%" Power_Level="80"/>
+    <Effect ID="3104337003" Name="3Lv. Random Critical Rate+14%" Power_Level="140"/>
+    <Effect ID="3104337004" Name="4Lv. Random Critical Rate+20%" Power_Level="200"/>
+    <Effect ID="3104337005" Name="5Lv. Random Critical Rate+30%" Power_Level="300"/>
+    <Effect ID="3104338001" Name="1Lv. Random Critical Probability+1%" Power_Level="1"/>
+    <Effect ID="3104338002" Name="2Lv. Random Critical Probability+2%" Power_Level="2"/>
+    <Effect ID="3104338003" Name="3Lv. Random Critical Probability+3%" Power_Level="3"/>
+    <Effect ID="3104341001" Name="1Lv. Damage Revised by the distance+4%" Power_Level="40"/>
+    <Effect ID="3104341002" Name="2Lv. Damage Revised by the distance+8%" Power_Level="80"/>
+    <Effect ID="3104341003" Name="3Lv. Damage Revised by the distance+13%" Power_Level="130"/>
+    <Effect ID="3104341004" Name="4Lv. Damage Revised by the distance+18%" Power_Level="180"/>
+    <Effect ID="3104341005" Name="5Lv. Damage Revised by the distance+25%" Power_Level="250"/>
+    <Effect ID="3104345001" Name="1Lv. Accuracy+1%" Power_Level="10"/>
+    <Effect ID="3104345002" Name="2Lv. Accuracy+2%" Power_Level="20"/>
+    <Effect ID="3104345003" Name="3Lv. Accuracy+3%" Power_Level="30"/>
+    <Effect ID="3104345004" Name="4Lv. Accuracy+4%" Power_Level="40"/>
+    <Effect ID="3104345005" Name="5Lv. Accuracy+5%" Power_Level="50"/>
+    <Effect ID="3104354001" Name="1Lv. Knockback Distance+3%" Power_Level="30"/>
+    <Effect ID="3104354002" Name="2Lv. Knockback Distance+6%" Power_Level="60"/>
+    <Effect ID="3104354003" Name="3Lv. Knockback Distance+10%" Power_Level="100"/>
+    <Effect ID="3104354004" Name="4Lv. Knockback Distance+14%" Power_Level="140"/>
+    <Effect ID="3104354005" Name="5Lv. Knockback Distance+20%" Power_Level="200"/>
+    <Effect ID="3104355001" Name="1Lv. Stun Time+2%" Power_Level="20"/>
+    <Effect ID="3104355002" Name="2Lv. Stun Time+4%" Power_Level="40"/>
+    <Effect ID="3104355003" Name="3Lv. Stun Time+6%" Power_Level="60"/>
+    <Effect ID="3104355004" Name="4Lv. Stun Time+8%" Power_Level="80"/>
+    <Effect ID="3104355005" Name="5Lv. Stun Time+10%" Power_Level="100"/>
+    <Effect ID="3104356001" Name="1Lv. Blow +3%" Power_Level="30"/>
+    <Effect ID="3104356002" Name="2Lv. Blow +6%" Power_Level="60"/>
+    <Effect ID="3104356003" Name="3Lv. Blow +10%" Power_Level="100"/>
+    <Effect ID="3104356004" Name="4Lv. Blow +14%" Power_Level="140"/>
+    <Effect ID="3104356005" Name="5Lv. Blow +20%" Power_Level="200"/>
+    <Effect ID="3105307001" Name="1Lv. Movement Speed+1%" Power_Level="10"/>
+    <Effect ID="3105307002" Name="2Lv. Movement Speed+2%" Power_Level="20"/>
+    <Effect ID="3105307003" Name="3Lv. Movement Speed+3%" Power_Level="30"/>
+    <Effect ID="3105330001" Name="1Lv. Stun Time Reduce+2%" Power_Level="20"/>
+    <Effect ID="3105330002" Name="2Lv. Stun Time Reduce+4%" Power_Level="40"/>
+    <Effect ID="3105330003" Name="3Lv. Stun Time Reduce+6%" Power_Level="60"/>
+    <Effect ID="3105330004" Name="4Lv. Stun Time Reduce+8%" Power_Level="80"/>
+    <Effect ID="3105330005" Name="5Lv. Stun Time Reduce+10%" Power_Level="100"/>
+    <Effect ID="3105342001" Name="1Lv. Wall Jump SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3105342002" Name="2Lv. Wall Jump SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3105342003" Name="3Lv. Wall Jump SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3105342004" Name="4Lv. Wall Jump SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3105342005" Name="5Lv. Wall Jump SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3105343001" Name="1Lv. Evade SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3105343002" Name="2Lv. Evade SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3105343003" Name="3Lv. Evade SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3105343004" Name="4Lv. Evade SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3105343005" Name="5Lv. Evade SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3105344001" Name="1Lv. Invincible Time(Respawn)+3%" Power_Level="30"/>
+    <Effect ID="3105344002" Name="2Lv. Invincible Time(Respawn)+6%" Power_Level="60"/>
+    <Effect ID="3105344003" Name="3Lv. Invincible Time(Respawn)+10%" Power_Level="100"/>
+    <Effect ID="3105344004" Name="4Lv. Invincible Time(Respawn)+14%" Power_Level="140"/>
+    <Effect ID="3105344005" Name="5Lv. Invincible Time(Respawn)+20%" Power_Level="200"/>
+    <Effect ID="3105357001" Name="1Lv. Blow  Reduce 2%" Power_Level="20"/>
+    <Effect ID="3105357002" Name="2Lv. Blow  Reduce 4%" Power_Level="40"/>
+    <Effect ID="3105357003" Name="3Lv. Blow  Reduce 6%" Power_Level="60"/>
+    <Effect ID="3105357004" Name="4Lv. Blow  Reduce 8%" Power_Level="80"/>
+    <Effect ID="3105357005" Name="5Lv. Blow  Reduce 10%" Power_Level="100"/>
+    <Effect ID="3105358001" Name="1Lv. Knockback Distance Reduce 2%" Power_Level="20"/>
+    <Effect ID="3105358002" Name="2Lv. Knockback Distance Reduce 4%" Power_Level="40"/>
+    <Effect ID="3105358003" Name="3Lv. Knockback Distance Reduce 6%" Power_Level="60"/>
+    <Effect ID="3105358004" Name="4Lv. Knockback Distance Reduce 8%" Power_Level="80"/>
+    <Effect ID="3105358005" Name="5Lv. Knockback Distance Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106333001" Name="1Lv. Metallic Reflect Damage+2%" Power_Level="20"/>
+    <Effect ID="3106333002" Name="2Lv. Metallic Reflect Damage+4%" Power_Level="40"/>
+    <Effect ID="3106333003" Name="3Lv. Metallic Reflect Damage+6%" Power_Level="60"/>
+    <Effect ID="3106333004" Name="4Lv. Metallic Reflect Damage+8%" Power_Level="80"/>
+    <Effect ID="3106333005" Name="5Lv. Metallic Reflect Damage+10%" Power_Level="100"/>
+    <Effect ID="3106334001" Name="1Lv. Block HP+2%" Power_Level="20"/>
+    <Effect ID="3106334002" Name="2Lv. Block HP+4%" Power_Level="40"/>
+    <Effect ID="3106334003" Name="3Lv. Block HP+6%" Power_Level="60"/>
+    <Effect ID="3106334004" Name="4Lv. Block HP+8%" Power_Level="80"/>
+    <Effect ID="3106334005" Name="5Lv. Block HP+10%" Power_Level="100"/>
+    <Effect ID="3106335001" Name="1Lv. Invisible Time Reduce 5%" Power_Level="50"/>
+    <Effect ID="3106335002" Name="2Lv. Invisible Time Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106335003" Name="3Lv. Invisible Time Reduce 15%" Power_Level="150"/>
+    <Effect ID="3106335004" Name="4Lv. Invisible Time Reduce 20%" Power_Level="200"/>
+    <Effect ID="3106335005" Name="5Lv. Invisible Time Reduce 25%" Power_Level="250"/>
+    <Effect ID="3106336001" Name="1Lv. Bind Time Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106336002" Name="2Lv. Bind Time Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106336003" Name="3Lv. Bind Time Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106336004" Name="4Lv. Bind Time Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106336005" Name="5Lv. Bind Time Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106346001" Name="1Lv. anchoring SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106346002" Name="2Lv. anchoring SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106346003" Name="3Lv. anchoring SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106346004" Name="4Lv. anchoring SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106346005" Name="5Lv. anchoring SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106347001" Name="1Lv. Detect Range+2%" Power_Level="20"/>
+    <Effect ID="3106347002" Name="2Lv. Detect Range+4%" Power_Level="40"/>
+    <Effect ID="3106347003" Name="3Lv. Detect Range+6%" Power_Level="60"/>
+    <Effect ID="3106347004" Name="4Lv. Detect Range+8%" Power_Level="80"/>
+    <Effect ID="3106347005" Name="5Lv. Detect Range+10%" Power_Level="100"/>
+    <Effect ID="3106348001" Name="1Lv. Flying SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106348002" Name="2Lv. Flying SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106348003" Name="3Lv. Flying SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106348004" Name="4Lv. Flying SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106348005" Name="5Lv. Flying SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106349001" Name="1Lv. Invisible SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106349002" Name="2Lv. Invisible SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106349003" Name="3Lv. Invisible SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106349004" Name="4Lv. Invisible SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106349005" Name="5Lv. Invisible SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106350001" Name="1Lv. Shield SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106350002" Name="2Lv. Shield SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106350003" Name="3Lv. Shield SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106350004" Name="4Lv. Shield SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106350005" Name="5Lv. Shield SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106351001" Name="1Lv. Block SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106351002" Name="2Lv. Block SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106351003" Name="3Lv. Block SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106351004" Name="4Lv. Block SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106351005" Name="5Lv. Block SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106352001" Name="1Lv. Bind SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106352002" Name="2Lv. Bind SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106352003" Name="3Lv. Bind SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106352004" Name="4Lv. Bind SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106352005" Name="5Lv. Bind SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3106353001" Name="1Lv. Metallic SP Reduce 2%" Power_Level="20"/>
+    <Effect ID="3106353002" Name="2Lv. Metallic SP Reduce 4%" Power_Level="40"/>
+    <Effect ID="3106353003" Name="3Lv. Metallic SP Reduce 6%" Power_Level="60"/>
+    <Effect ID="3106353004" Name="4Lv. Metallic SP Reduce 8%" Power_Level="80"/>
+    <Effect ID="3106353005" Name="5Lv. Metallic SP Reduce 10%" Power_Level="100"/>
+    <Effect ID="3107332001" Name="1Lv. SP Recover+1%" Power_Level="10"/>
+    <Effect ID="3107332002" Name="2Lv. SP Recover+2%" Power_Level="20"/>
+    <Effect ID="3107332003" Name="3Lv. SP Recover+3%" Power_Level="30"/>
+    <Effect ID="3107339001" Name="1Lv. Chaser Attack+1%" Power_Level="10"/>
+    <Effect ID="3107339002" Name="2Lv. Chaser Attack+2%" Power_Level="20"/>
+    <Effect ID="3107339003" Name="3Lv. Chaser Attack+3%" Power_Level="30"/>
+    <Effect ID="3107339004" Name="4Lv. Chaser Attack+4%" Power_Level="40"/>
+    <Effect ID="3107339005" Name="5Lv. Chaser Attack+5%" Power_Level="50"/>
+    <Effect ID="3107340001" Name="1Lv. Captain Attack+1%" Power_Level="10"/>
+    <Effect ID="3107340002" Name="2Lv. Captain Attack+2%" Power_Level="20"/>
+    <Effect ID="3107340003" Name="3Lv. Captain Attack+3%" Power_Level="30"/>
+    <Effect ID="3107340004" Name="4Lv. Captain Attack+4%" Power_Level="40"/>
+    <Effect ID="3107340005" Name="5Lv. Captain Attack+5%" Power_Level="50"/>
+    <Effect ID="3107803001" Name="1Lv. Fast Seige +4%" Power_Level="40"/>
+    <Effect ID="3107803002" Name="2Lv. Fast Seige +8%" Power_Level="80"/>
+    <Effect ID="3107803003" Name="3Lv. Fast Seige +13%" Power_Level="130"/>
+    <Effect ID="3107803004" Name="4Lv. Fast Seige +18%" Power_Level="180"/>
+    <Effect ID="3107803005" Name="5Lv. Fast Seige +25%" Power_Level="250"/>
+    <Effect ID="3107804001" Name="1Lv. Get Coin by Killing Enemy 1%" Power_Level="1"/>
+    <Effect ID="3107804002" Name="2Lv. Get Coin by Killing Enemy 2%" Power_Level="1"/>
+    <Effect ID="3107804003" Name="3Lv. Get Coin by Killing Enemy 3%" Power_Level="1"/>
+    <Effect ID="3107804004" Name="4Lv. Get Coin by Killing Enemy 4%" Power_Level="1"/>
+    <Effect ID="3107804005" Name="5Lv. Get Coin by Killing Enemy 5%" Power_Level="1"/>
+    <Effect ID="3107805001" Name="1Lv. Get 10 EXP by Killing Enemy 5%" Power_Level="10"/>
+    <Effect ID="3107805002" Name="2Lv. Get 10 EXP by Killing Enemy 10%" Power_Level="10"/>
+    <Effect ID="3107805003" Name="3Lv. Get 10 EXP by Killing Enemy 15%" Power_Level="10"/>
+    <Effect ID="3107805004" Name="4Lv. Get 10 EXP by Killing Enemy 20%" Power_Level="10"/>
+    <Effect ID="3107805005" Name="5Lv. Get 10 EXP by Killing Enemy 25%" Power_Level="10"/>
+    <Effect ID="3107806001" Name="1Lv. Get 10 PEN by Killing Enemy 5%" Power_Level="10"/>
+    <Effect ID="3107806002" Name="2Lv. Get 10 PEN by Killing Enemy 10%" Power_Level="10"/>
+    <Effect ID="3107806003" Name="3Lv. Get 10 PEN by Killing Enemy 15%" Power_Level="10"/>
+    <Effect ID="3107806004" Name="4Lv. Get 10 PEN by Killing Enemy 20%" Power_Level="10"/>
+    <Effect ID="3107806005" Name="5Lv. Get 10 PEN by Killing Enemy 25%" Power_Level="10"/>
+    <Effect ID="3107806101" Name="1Lv. Get 20 PEN by Killing Enemy 5%" Power_Level="20"/>
+    <Effect ID="3107806102" Name="2Lv. Get 20 PEN by Killing Enemy 10%" Power_Level="20"/>
+    <Effect ID="3107806103" Name="3Lv. Get 20 PEN by Killing Enemy 15%" Power_Level="20"/>
+    <Effect ID="3107806104" Name="4Lv. Get 20 PEN by Killing Enemy 20%" Power_Level="20"/>
+    <Effect ID="3107806105" Name="5Lv. Get 20 PEN by Killing Enemy 25%" Power_Level="20"/>
+    <Effect ID="3202613001" Name="1Lv. Add Magazine+3" Power_Level="3"/>
+    <Effect ID="3202613002" Name="2Lv. Add Magazine+6" Power_Level="6"/>
+    <Effect ID="3202613003" Name="3Lv. Add Magazine+9" Power_Level="9"/>
+    <Effect ID="3202613004" Name="4Lv. Add Magazine+12" Power_Level="12"/>
+    <Effect ID="3202613005" Name="5Lv. Add Magazine+15" Power_Level="15"/>
+    <Effect ID="3203613001" Name="1Lv. Add Magazine+1" Power_Level="1"/>
+    <Effect ID="3203613002" Name="2Lv. Add Magazine+2" Power_Level="2"/>
+    <Effect ID="3203613003" Name="3Lv. Add Magazine+3" Power_Level="3"/>
+    <Effect ID="3203613004" Name="4Lv. Add Magazine+4" Power_Level="4"/>
+    <Effect ID="3203613005" Name="5Lv. Add Magazine+5" Power_Level="5"/>
+    <Effect ID="3204613001" Name="1Lv. Add Magazine+10" Power_Level="10"/>
+    <Effect ID="3204613002" Name="2Lv. Add Magazine+20" Power_Level="20"/>
+    <Effect ID="3204613003" Name="3Lv. Add Magazine+30" Power_Level="30"/>
+    <Effect ID="3204613004" Name="4Lv. Add Magazine+40" Power_Level="40"/>
+    <Effect ID="3204613005" Name="5Lv. Add Magazine+50" Power_Level="50"/>
+    <Effect ID="3205607001" Name="1Lv. Charge Time Reduce 3%" Power_Level="30"/>
+    <Effect ID="3205607002" Name="2Lv. Charge Time Reduce 6%" Power_Level="60"/>
+    <Effect ID="3205607003" Name="3Lv. Charge Time Reduce 10%" Power_Level="100"/>
+    <Effect ID="3205607004" Name="4Lv. Charge Time Reduce 14%" Power_Level="140"/>
+    <Effect ID="3205607005" Name="5Lv. Charge Time Reduce 20%" Power_Level="200"/>
+    <Effect ID="3205608001" Name="1Lv. Charge Attack+1%" Power_Level="10"/>
+    <Effect ID="3205608002" Name="2Lv. Charge Attack+2%" Power_Level="20"/>
+    <Effect ID="3205608003" Name="3Lv. Charge Attack+3%" Power_Level="30"/>
+    <Effect ID="3205608004" Name="4Lv. Charge Attack+4%" Power_Level="40"/>
+    <Effect ID="3205608005" Name="5Lv. Charge Attack+5%" Power_Level="50"/>
+    <Effect ID="3205609001" Name="1Lv. Zoom+3%" Power_Level="30"/>
+    <Effect ID="3205609002" Name="2Lv. Zoom+6%" Power_Level="60"/>
+    <Effect ID="3205609003" Name="3Lv. Zoom+10%" Power_Level="100"/>
+    <Effect ID="3205609004" Name="4Lv. Zoom+14%" Power_Level="140"/>
+    <Effect ID="3205609005" Name="5Lv. Zoom+20%" Power_Level="200"/>
+    <Effect ID="3205613001" Name="1Lv. Add Magazine+1" Power_Level="1"/>
+    <Effect ID="3205613002" Name="2Lv. Add Magazine+2" Power_Level="2"/>
+    <Effect ID="3205613003" Name="3Lv. Add Magazine+3" Power_Level="3"/>
+    <Effect ID="3206601001" Name="1Lv. Magazine+1" Power_Level="1"/>
+    <Effect ID="3207613001" Name="1Lv. Add Magazine+2" Power_Level="2"/>
+    <Effect ID="3207613002" Name="2Lv. Add Magazine+4" Power_Level="4"/>
+    <Effect ID="3207613003" Name="3Lv. Add Magazine+6" Power_Level="6"/>
+    <Effect ID="3207613004" Name="4Lv. Add Magazine+8" Power_Level="8"/>
+    <Effect ID="3207613005" Name="5Lv. Add Magazine+10" Power_Level="10"/>
+    <Effect ID="3208613001" Name="1Lv. Add Magazine+1" Power_Level="1"/>
+    <Effect ID="3299600001" Name="1Lv. Random Attack+0~1%" Power_Level="0"/>
+    <Effect ID="3299600002" Name="2Lv. Random Attack+0~2%" Power_Level="0"/>
+    <Effect ID="3299600003" Name="3Lv. Random Attack+0~3%" Power_Level="0"/>
+    <Effect ID="3299600004" Name="4Lv. Random Attack+0~4%" Power_Level="0"/>
+    <Effect ID="3299600005" Name="5Lv. Random Attack+0~5%" Power_Level="0"/>
+    <Effect ID="3299600101" Name="1Lv. Attack(Death Match only)+1%" Power_Level="10"/>
+    <Effect ID="3299600102" Name="2Lv. Attack(Death Match only)+2%" Power_Level="20"/>
+    <Effect ID="3299600103" Name="3Lv. Attack(Death Match only)+3%" Power_Level="30"/>
+    <Effect ID="3299600104" Name="4Lv. Attack(Death Match only)+4%" Power_Level="40"/>
+    <Effect ID="3299600105" Name="5Lv. Attack(Death Match only)+5%" Power_Level="50"/>
+    <Effect ID="3299600201" Name="1Lv. Attack(Touch Down only)+1%" Power_Level="10"/>
+    <Effect ID="3299600202" Name="2Lv. Attack(Touch Down only)+2%" Power_Level="20"/>
+    <Effect ID="3299600203" Name="3Lv. Attack(Touch Down only)+3%" Power_Level="30"/>
+    <Effect ID="3299600204" Name="4Lv. Attack(Touch Down only)+4%" Power_Level="40"/>
+    <Effect ID="3299600205" Name="5Lv. Attack(Touch Down only)+5%" Power_Level="50"/>
+    <Effect ID="3299600301" Name="1Lv. Attack(Arcade only)+1%" Power_Level="10"/>
+    <Effect ID="3299600302" Name="2Lv. Attack(Arcade only)+2%" Power_Level="20"/>
+    <Effect ID="3299600303" Name="3Lv. Attack(Arcade only)+3%" Power_Level="30"/>
+    <Effect ID="3299600304" Name="4Lv. Attack(Arcade only)+4%" Power_Level="40"/>
+    <Effect ID="3299600305" Name="5Lv. Attack(Arcade only)+5%" Power_Level="50"/>
+    <Effect ID="3299600401" Name="1Lv. Attack(Chaser Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3299600402" Name="2Lv. Attack(Chaser Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3299600403" Name="3Lv. Attack(Chaser Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3299600404" Name="4Lv. Attack(Chaser Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3299600405" Name="5Lv. Attack(Chaser Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3299600501" Name="1Lv. Attack(Battle Royal only)+1%" Power_Level="10"/>
+    <Effect ID="3299600502" Name="2Lv. Attack(Battle Royal only)+2%" Power_Level="20"/>
+    <Effect ID="3299600503" Name="3Lv. Attack(Battle Royal only)+3%" Power_Level="30"/>
+    <Effect ID="3299600504" Name="4Lv. Attack(Battle Royal only)+4%" Power_Level="40"/>
+    <Effect ID="3299600505" Name="5Lv. Attack(Battle Royal only)+5%" Power_Level="50"/>
+    <Effect ID="3299600601" Name="1Lv. Attack(Captain Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3299600602" Name="2Lv. Attack(Captain Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3299600603" Name="3Lv. Attack(Captain Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3299600604" Name="4Lv. Attack(Captain Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3299600605" Name="5Lv. Attack(Captain Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3299600701" Name="1Lv. Attack(Siege Mode only)+1%" Power_Level="10"/>
+    <Effect ID="3299600702" Name="2Lv. Attack(Siege Mode only)+2%" Power_Level="20"/>
+    <Effect ID="3299600703" Name="3Lv. Attack(Siege Mode only)+3%" Power_Level="30"/>
+    <Effect ID="3299600704" Name="4Lv. Attack(Siege Mode only)+4%" Power_Level="40"/>
+    <Effect ID="3299600705" Name="5Lv. Attack(Siege Mode only)+5%" Power_Level="50"/>
+    <Effect ID="3299605001" Name="1Lv. Object Attack+2%" Power_Level="20"/>
+    <Effect ID="3299605002" Name="2Lv. Object Attack+4%" Power_Level="40"/>
+    <Effect ID="3299605003" Name="3Lv. Object Attack+6%" Power_Level="60"/>
+    <Effect ID="3299605004" Name="4Lv. Object Attack+8%" Power_Level="80"/>
+    <Effect ID="3299605005" Name="5Lv. Object Attack+11%" Power_Level="110"/>
+    <Effect ID="3299605006" Name="6Lv. Object Attack+14%" Power_Level="140"/>
+    <Effect ID="3299605007" Name="7Lv. Object Attack+17%" Power_Level="170"/>
+    <Effect ID="3299605008" Name="8Lv. Object Attack+20%" Power_Level="200"/>
+    <Effect ID="3299605009" Name="9Lv. Object Attack+24%" Power_Level="240"/>
+    <Effect ID="3299605010" Name="10Lv. Object Attack+30%" Power_Level="300"/>
+    <Effect ID="3299606001" Name="1Lv. Defense Piercing +1%" Power_Level="1000"/>
+    <Effect ID="3299606002" Name="2Lv. Defense Piercing +2%" Power_Level="1000"/>
+    <Effect ID="3299606003" Name="3Lv. Defense Piercing +3%" Power_Level="1000"/>
+    <Effect ID="3299606004" Name="4Lv. Defense Piercing +4%" Power_Level="1000"/>
+    <Effect ID="3299606005" Name="5Lv. Defense Piercing +5%" Power_Level="1000"/>
+    <Effect ID="3299606006" Name="6Lv. Defense Piercing +6%" Power_Level="1000"/>
+    <Effect ID="3299606007" Name="7Lv. Defense Piercing +7%" Power_Level="1000"/>
+    <Effect ID="3299606008" Name="8Lv. Defense Piercing +8%" Power_Level="1000"/>
+    <Effect ID="3299606009" Name="9Lv. Defense Piercing +9%" Power_Level="1000"/>
+    <Effect ID="3299606010" Name="10Lv. Defense Piercing +10%" Power_Level="1000"/>
+</S4_Effects>

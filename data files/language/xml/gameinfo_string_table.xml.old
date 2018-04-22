@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<string_table>
+	<string key="TITLE_1" kor="경험하지 못한 액션! S4 리그!" ger="Action für Neulinge!" eng="Unexperienced action!" fre="De l'action comme tu n'en as jamais vu!" spa="Acción sin precedentes!" ita="Grandi emozioni!" rus="Начинающие игроки!" ame="Unexperienced action!"/>
+	<string key="TITLE_2" kor="쿨한 액션을 즐겨라! S4 리그!" ger="Viel Spaß bei S4 League!" eng="Enjoy S4 League!" fre="Amuse-toi dans S4 League !" spa="Disfruta S4 League!" ita="Goditi S4 League!" rus="Только лучшие матчи!" ame="Enjoy S4 League!"/>
+	<string key="TITLE_3" kor="슈퍼액션 슈퍼스타일! S4 리그!" ger="Super Action, S4 League!" eng="Super action, S4 League!" fre="Super action, S4 League !" spa="Super acción, S4 League!" ita="Super S4 League!" rus="Бросаю вызов, в S4 League!" ame="Super action, S4 League!"/>
+	<string key="TITLE_4" kor="우리만의 액션 스타일! S4 리그!" ger="S4 League - Einfach cool!" eng="Fantastic S4 League!" fre="Fantastic S4 League !" spa="El fantástico S4 League!" ita="S4 League, fantastico!" rus="Фантастическая S4 League!" ame="Fantastic S4 League!"/>
+	<string key="TITLE_5" kor="좋아! S4 리그로 가는 거야!" ger="Los gehts mit S4 League!" eng="Let's go to S4 League!" fre="C'est parti pour S4 League!" spa="Vamos a S4 League!" ita="Giochiamo a S4 League!" rus="Все в S4 League!" ame="Let's go to S4 League!"/>
+	<string key="RANDOM" kor="랜덤" ger="Zufall" eng="Random" fre="Aléatoire" spa="Aleatorio" ita="Casuale" rus="Случайно" ame="Random"/>
+	<string key="SCORE_30" kor="30점" ger="30 P" eng="30 P" fre="30 P" spa="30 P" ita="30 P" rus="30 P" ame="30 P"/>
+	<string key="SCORE_40" kor="40점" ger="40 P" eng="40 P" fre="40 P" spa="40 P" ita="40 P" rus="40 P" ame="40 P"/>
+	<string key="SCORE_60" kor="60점" ger="60 P" eng="60 P" fre="60 P" spa="60 P" ita="60 P" rus="60 P" ame="60 P"/>
+	<string key="SCORE_70" kor="70점" ger="70 P" eng="70 P" fre="70 P" spa="70 P" ita="70 P" rus="70 P" ame="70 P"/>
+	<string key="SCORE_80" kor="80점" ger="80 P" eng="80 P" fre="80 P" spa="80 P" ita="80 P" rus="80 P" ame="80 P"/>
+	<string key="SCORE_100" kor="100점" ger="100 P" eng="100 P" fre="100 P" spa="100 P" ita="100 P" rus="100 P" ame="100 P"/>
+	<string key="SCORE_4" kor="4점" ger="4 P" eng="4 P" fre="4 P" spa="4 P" ita="4 P" rus="4 P" ame="4 P"/>
+	<string key="SCORE_6" kor="6점" ger="6 P" eng="6 P" fre="6 P" spa="6 P" ita="6 P" rus="6 P" ame="6 P"/>
+	<string key="SCORE_8" kor="8점" ger="8 P" eng="8 P" fre="8 P" spa="8 P" ita="8 P" rus="8 P" ame="8 P"/>
+	<string key="SCORE_10" kor="10점" ger="10 P" eng="10 P" fre="10 P" spa="10 P" ita="10 P" rus="10 P" ame="10 P"/>
+	<string key="WIN_4" kor="4승" ger="Gewinne 4 Spiele" eng="Win 4 games" fre="Remporte 4 jeux" spa="4 juegos ganados" ita="Vinci 4 match" rus="Выиграть 4 игры" ame="Win 4 games"/>
+	<string key="WIN_6" kor="6승" ger="Gewinne 6 Spiele" eng="Win 6 games" fre="Remporte 6 jeux" spa="6 juegos ganados" ita="Vinci 6 match" rus="Выиграть 6 игр" ame="Win 6 games"/>
+	<string key="WIN_8" kor="8승" ger="Gewinne 8 Spiele" eng="Win 8 games" fre="Remporte 8 jeux" spa="8 juegos ganados" ita="Vinci 8 match" rus="Выиграть 8 игр" ame="Win 8 games"/>
+	<string key="WIN_10" kor="10승" ger="Gewinne 10 Spiele" eng="Win 10 games" fre="Remporte 10 jeux" spa="10 juegos ganados" ita="Vinci 10 match" rus="Выиграть 10 игр" ame="Win 10 games"/>
+	<string key="UNLIMIT" kor="제한없음" ger="Unbegrenzt" eng="Unlimited" fre="Illimité" spa="Ilimitado" ita="Illimitato" rus="Бесконечно" ame="Unlimited"/>
+	<string key="SCORE_50" kor="50점" ger="50 P" eng="50 P" fre="50 P" spa="50 P" ita="50 P" rus="50 P" ame="50 P"/>
+	<string key="SCORE_75" kor="75점" ger="75 P" eng="75 P" fre="75 P" spa="75 P" ita="75 P" rus="75 P" ame="75 P"/>
+	<string key="SCORE_300" kor="300점" ger="300 P" eng="300 P" fre="300 P" spa="300 P" ita="300 P" rus="300 P" ame="300 P"/>
+	<string key="SCORE_450" kor="450점" ger="450 P" eng="450 P" fre="450 P" spa="450 P" ita="450 P" rus="450 P" ame="450 P"/>
+	<string key="SCORE_600" kor="600점" ger="600 P" eng="600 P" fre="600 P" spa="600 P" ita="600 P" rus="600 P" ame="600 P"/>
+	<string key="SCORE_900" kor="900점" ger="900 P" eng="900 P" fre="900 P" spa="900 P" ita="900 P" rus="900 P" ame="900 P"/>
+	<string key="SCORE_-" kor="-" ger="-" eng="-" fre="-" spa="-" ita="-" rus="-" ame="-"/>
+	<string key="TIME_5" kor="5분" ger="5 Min." eng="5 min." fre="5 min." spa="5 min." ita="5 min." rus="5 мин." ame="5 min."/>
+	<string key="TIME_10" kor="10분" ger="10 Min." eng="10 min." fre="10 min." spa="10 min." ita="10 min." rus="10 мин." ame="10 min."/>
+	<string key="TIME_15" kor="15분" ger="15 Min." eng="15 min." fre="15 min." spa="15 min." ita="15 min." rus="15 мин." ame="15 min."/>
+	<string key="TIME_20" kor="20분" ger="20 Min." eng="20 min." fre="20 min." spa="20 min." ita="20 min." rus="20 мин." ame="20 min."/>
+	<string key="TIME_30" kor="30분" ger="30 Min." eng="30 min." fre="30 min." spa="30 min." ita="30 min." rus="30 мин." ame="30 min."/>
+	<string key="MESSION_TIME_4" kor="4분(초급)" ger="4 Min (Leicht)" eng="4min(Easy)" fre="4 min(Easy)" spa="4 min(Easy)" ita="4 min(Fácil)" rus="4 минуты" ame="4min(Easy)"/>
+	<string key="MESSION_TIME_5" kor="5분(중급)" ger="5 Min (Normal)" eng="5min(Normal)" fre="5min(Normal)" spa="5min(Normal)" ita="5min(Normal)" rus="5 минут" ame="5min(Normal)"/>
+	<string key="MESSION_TIME_6" kor="6분(상급)" ger="6 Min (Schwer)" eng="6min(Hard)" fre="6min(Hard)" spa="6min(Hard)" ita="6min(Difícil)" rus="6 минут" ame="6min(Hard)"/>
+	<string key="MESSION_TIME_7" kor="7분(최상급)" ger="7 Min (Extreme)" eng="7min(Extreme)" fre="7min(Extrême)" spa="7min(Extreme)" ita="7min(Extremo)" rus="7 минут" ame="7min(Extreme)"/>
+	<string key="ARCADE_1" kor="보통" ger="Normal" eng="Normal" fre="Normal" spa="Normal" ita="Normale" rus="Обычный" ame="Normal"/>
+	<string key="ARCADE_2" kor="어려움" ger="Schwierig" eng="Hard" fre="Difficile" spa="Difícil" ita="Difficile" rus="Сложный" ame="Difficult"/>
+	<string key="ARCADE_3" kor="에스퍼" ger="eSper" eng="eSper" fre="eSper" spa="eSper" ita="eSper" rus="Экстрим" ame="eSper"/>
+	<string key="ROUND_3" kor="3라운드" ger="3 R" eng="3 R" fre="3 R" spa="3 R" ita="3 R" rus="3 R" ame="3 R"/>
+	<string key="ROUND_5" kor="5라운드" ger="5 R" eng="5 R" fre="5 R" spa="5 R" ita="5 R" rus="5 R" ame="5 R"/>
+	<string key="ROUND_9" kor="9라운드" ger="9 R" eng="9 R" fre="9 R" spa="9 R" ita="9 R" rus="9 R" ame="9 R"/>
+	<string key="POINT_2" kor="2점" ger="2 P" eng="2 P" fre="2 P" spa="2 P" ita="2 P" rus="2 P" ame="2 P"/>
+	<string key="POINT_3" kor="3점" ger="3 P" eng="3 P" fre="3 P" spa="3 P" ita="3 P" rus="3 P" ame="3 P"/>
+	<string key="POINT_5" kor="5점" ger="5 P" eng="5 P" fre="5 P" spa="5 P" ita="5 P" rus="5 P" ame="5 P"/>
+	<string key="NEUTRAL_TEAM" kor="중립팁" ger="Neutral Team" eng="Neutral Team" fre="Team Neutre" spa="Neutral Team" ita="Neutral Team" rus="Нейтральная" ame="Neutral Team"/>
+	<string key="ALPHA_TEAM" kor="알파팀" ger="Alpha Team" eng="Alpha Team" fre="Team Alpha" spa="Alpha Team" ita="Alpha Team" rus="Альфа" ame="Alpha Team"/>
+	<string key="BETA_TEAM" kor="베타팀" ger="Beta Team" eng="Beta Team" fre="Team Bêta" spa="Beta Team" ita="Beta Team" rus="Бета" ame="Beta Team"/>
+	<string key="LIVE" kor="라이브" ger="Alive" eng="Alive" fre="Alive" spa="Vivo" ita="Vivo" rus="Играет" ame="Alive"/>
+	<string key="DEATH" kor="다운" ger="Down" eng="Down" fre="Down" spa="Caído" ita="Down" rus="Убит" ame="Down"/>
+	<string key="WAIT" kor="대기" ger="Wartend" eng="Waiting" fre="En attente" spa="Esperando" ita="Attesa" rus="Ожидает" ame="Waiting"/>
+	<string key="SPECTATE" kor="관전" ger="Zuschauend" eng="Observing" fre="Spectateur" spa="Observando" ita="Osserva" rus="Наблюдает" ame="Observing"/>
+	<string key="LOBBY" kor="로비" ger="Lobby" eng="Lobby" fre="Lobby" spa="Lobby" ita="Lobby" rus="Лобби" ame="Lobby"/>
+	<string key="WAIT_STATE" kor="대기중" ger="Wartend" eng="Waiting" fre="En attente" spa="Esperando" ita="Attesa" rus="Ожидает" ame="Waiting"/>
+	<string key="PLAY_STATE" kor="게임중" ger="Spielend" eng="Playing" fre="Jeu" spa="Jugando" ita="Gioca" rus="Играет" ame="Playing"/>
+	<string key="RESULT_STATE" kor="결과중" ger="Laufend" eng="Inprogress" fre="En cours" spa="Enprogreso" ita="In corso" rus="В процессе" ame="Inprogress"/>
+	<string key="FIRST_HALF" kor="전반전" ger="First Half" eng="First Half" fre="Première mi-temps" spa="1erTiempo" ita="Parte I" rus="Первый тайм" ame="First Half"/>
+	<string key="HALF_TIME" kor="하프타임" ger="Half Time" eng="Half time" fre="Mi-temps" spa="Entretiempo" ita="Metà tempo" rus="Перерыв" ame="Half time"/>
+	<string key="SECOND_HARF" kor="후반전" ger="Second Half" eng="Second Half" fre="Deuxième mi-temps" spa="2doTiempo" ita="Parte II" rus="Второй тайм" ame="Second Half"/>
+	<string key="TOUCH_DOWN" kor="터치다운" ger="TD" eng="TD" fre="TD" spa="TD" ita="TD" rus="TD" ame="TD"/>
+	<string key="DEATH_MATCH" kor="팀 데스매치" ger="DM" eng="DM" fre="DM" spa="DM" ita="DM" rus="DM" ame="DM"/>
+	<string key="SURVIVAL" kor="서바이벌" ger="Survival" eng="Survival" fre="Survival" spa="Survival" ita="Survival" rus="Выживание" ame="Survival"/>
+	<string key="MISSION" kor="연습모드" ger="Training" eng="Practice" fre="Exercice" spa="Practica" ita="Pratica" rus="Практика" ame="Practice"/>
+	<string key="ARCADE" kor="아케이드" ger="Arcade" eng="Arcade" fre="Arcade" spa="Arcade" ita="Arcade" rus="Аркада" ame="Arcade"/>
+	<string key="SLAUGHTER" kor="체이서" ger="Chaser" eng="Chaser" fre="Chaser" spa="Chaser" ita="Chaser" rus="Chaser" ame="Chaser"/>
+	<string key="FREE_FOR_ALL" kor="배틀로얄" ger="BR" eng="BR" fre="BR" spa="BR" ita="BR" rus="BR" ame="BR"/>
+	<string key="CAPTAIN" kor="캡틴모드" ger="CAPTAIN" eng="CAPTAIN" fre="CAPTAIN" spa="CAPTAIN" ita="CAPTAIN" rus="CAPTAIN" ame="CAPTAIN"/>
+	<string key="MAX_P" kor="최대인원" ger="Maxium" eng="Maximum" fre="Maxium" spa="Máximo" ita="Max" rus="Максимум" ame="Maximum"/>
+	<string key="4_P" kor="4명" ger="4" eng="4" fre="4" spa="4" ita="4" rus="4" ame="4"/>
+	<string key="6_P" kor="6명" ger="6" eng="6" fre="6" spa="6" ita="6" rus="6" ame="6"/>
+	<string key="8_P" kor="8명" ger="8" eng="8" fre="8" spa="8" ita="8" rus="8" ame="8"/>
+	<string key="10_P" kor="10명" ger="10" eng="10" fre="10" spa="10" ita="10" rus="10" ame="10"/>
+	<string key="12_P" kor="12명" ger="12" eng="12" fre="12" spa="12" ita="12" rus="12" ame="12"/>
+	<string key="16_P" kor="16명" ger="16" eng="16" fre="16" spa="16" ita="16" rus="16" ame="16"/>
+	<string key="1_P" kor="1명" ger="1 Person" eng="1 person" fre="1 personne" spa="1 persona" ita="1 persona" rus="1 игрок" ame="1 person"/>
+	<string key="2_P" kor="2명" ger="2 Personen" eng="2 persons" fre="2 personnes" spa="2 personas" ita="2 persone" rus="2 игрока" ame="2 persons"/>
+	<string key="3_P" kor="3명" ger="3 Personen" eng="3 persons" fre="3 personnes" spa="3 personas" ita="3 persone" rus="3 игрока" ame="3 persons"/>
+	<string key="MAPNAME_1" kor="랜덤" ger="Zufall" eng="Random" fre="Aléatoire" spa="Aleatorio" ita="Casuale" rus="Случайно" ame="Random"/>
+	<string key="MAPNAME_2" kor="네덴-1" ger="Neden-1" eng="Neden-1" fre="Neden-1" spa="Neden-1" ita="Neden-1" rus="Neden-1" ame="Neden-1"/>
+	<string key="MAPNAME_3" kor="네덴-1" ger="Neden-1" eng="Neden-1" fre="Neden-1" spa="Neden-1" ita="Neden-1" rus="Neden-1" ame="Neden-1"/>
+	<string key="MAPNAME_4" kor="터-널" ger="Tunnel" eng="Tunnel" fre="Tunnel" spa="Tunnel" ita="Tunnel" rus="Tunnel" ame="Tunnel"/>
+	<string key="MAPNAME_5" kor="스테이션-1" ger="Station-1" eng="Station-1" fre="Station-1" spa="Station-1" ita="Station-1" rus="Station-1" ame="Station-1"/>
+	<string key="MAPNAME_6" kor="네덴-2" ger="Neden-2" eng="Neden-2" fre="Neden-2" spa="Neden-2" ita="Neden-2" rus="Neden-2" ame="Neden-2"/>
+	<string key="MAPNAME_7" kor="네덴-3" ger="Neden-3" eng="Neden-3" fre="Neden-3" spa="Neden-3" ita="Neden-3" rus="Neden-3" ame="Neden-3"/>
+	<string key="MAPNAME_8" kor="스테이션-2" ger="Station-2" eng="Station-2" fre="Station-2" spa="Station-2" ita="Station-2" rus="Station-2" ame="Station-2"/>
+	<string key="MAPNAME_9" kor="네덴-3" ger="Neden-3" eng="Neden-3" fre="Neden-3" spa="Neden-3" ita="Neden-3" rus="Neden-3" ame="Neden-3"/>
+	<string key="MAPNAME_10" kor="하이웨이" ger="Highway" eng="Highway" fre="Highway" spa="Highway" ita="Highway" rus="Highway" ame="Highway"/>
+	<string key="MAPNAME_11" kor="하이웨이" ger="Highway" eng="Highway" fre="Highway" spa="Highway" ita="Highway" rus="Highway" ame="Highway"/>
+	<string key="MAPNAME_12" kor="서-클" ger="Circle" eng="Circle" fre="Circle" spa="Circle" ita="Circle" rus="Circle" ame="Circle"/>
+	<string key="MAPNAME_13" kor="템플-O" ger="Temple-O" eng="Temple-O" fre="Temple-O" spa="Temple-O" ita="Temple-O" rus="Temple-O" ame="Temple-O"/>
+	<string key="MAPNAME_14" kor="커네스트2" ger="Connest 2" eng="Connest 2" fre="Connest 2" spa="Connest 2" ita="Connest 2" rus="Connest 2" ame="Connest 2"/>
+	<string key="MAPNAME_15" kor="올드스쿨" ger="Old School" eng="Old School" fre="Old School" spa="Old School" ita="Old School" rus="Old School" ame="Old School"/>
+	<string key="MAPNAME_16" kor="커네스트" ger="Connest" eng="Connest" fre="Connest" spa="Connest" ita="Connest" rus="Connest" ame="Connest"/>
+	<string key="MAPNAME_17" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_18" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_19" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_20" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_21" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_22" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_23" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_24" kor="템플-M" ger="Temple-M" eng="Temple-M" fre="Temple-M" spa="Temple-M" ita="Temple-M" rus="Temple-M" ame="Temple-M"/>
+	<string key="MAPNAME_25" kor="서-클2" ger="Circle 4" eng="Circle 2" fre="Circle 5" spa="Circle 7" ita="Circle 6" rus="Circle 8" ame="Circle 2"/>
+	<string key="MAPNAME_26" kor="오피스" ger="Office" eng="Office" fre="Office" spa="Office" ita="Office" rus="Office" ame="Office"/>
+	<string key="MAPNAME_27" kor="터-널" ger="Tunnel" eng="Tunnel" fre="Tunnel" spa="Tunnel" ita="Tunnel" rus="Tunnel" ame="Tunnel"/>
+	<string key="MAPNAME_28" kor="스테이션-1" ger="Station-1" eng="Station-1" fre="Station-1" spa="Station-1" ita="Station-1" rus="Station-1" ame="Station-1"/>
+	<string key="MAPNAME_29" kor="네덴-1" ger="Neden-1" eng="Neden-1" fre="Neden-1" spa="Neden-1" ita="Neden-1" rus="Neden-1" ame="Neden-1"/>
+	<string key="MAPNAME_30" kor="스테이션-2" ger="Station-2" eng="Station-2" fre="Station-2" spa="Station-2" ita="Station-2" rus="Station-2" ame="Station-2"/>
+	<string key="MAPNAME_31" kor="하이웨이" ger="Highway" eng="Highway" fre="Highway" spa="Highway" ita="Highway" rus="Highway" ame="Highway"/>
+	<string key="MAPNAME_32" kor="test" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_33" kor="콜로세움" ger="Colosseum" eng="Colosseum" fre="Colosseum" spa="Colosseum" ita="Colosseum" rus="Colosseum" ame="Colosseum"/>
+	<string key="MAPNAME_34" kor="블록버스터" ger="BlockBuster" eng="BlockBuster" fre="BlockBuster" spa="BlockBuster" ita="BlockBuster" rus="BlockBuster"/>
+	<string key="MAPNAME_35" kor="블록버스터" ger="BlockBuster" eng="BlockBuster" fre="BlockBuster" spa="BlockBuster" ita="BlockBuster" rus="BlockBuster"/>
+	<string key="MAPNAME_51" kor="레포데" ger="test" eng="test" fre="test" spa="test" ita="test" rus="test" ame="test"/>
+	<string key="MAPNAME_60" kor="아케이드2" ger="acade2" eng="acade2" fre="acade2" spa="acade2" ita="acade2" rus="acade2" ame="acade2"/>
+	<string key="MAPNAME_36" kor="사이드-3" ger="Side-3" eng="Side-3" fre="Side-3" spa="Side-3" ita="Side-3" rus="Side-3" ame="Side-3"/>
+	<string key="MAPNAME_37" kor="하이퍼리움" ger="Hyperium" eng="Hyperium" fre="Hyperium" spa="Hyperium" ita="Hyperium" rus="Hyperium" ame="Hyperium"/>
+	<string key="MAPNAME_200" kor="갤리온" ger="Galleon" eng="Galleon" fre="Galleon" spa="Galleon" ita="Galleon" rus="Galleon" ame="Galleon"/>
+	<string key="MAPNAME_201" kor="네오니악" ger="Neoniac" eng="Neoniac" fre="Neoniac" spa="Neoniac" ita="Neoniac" rus="Neoniac" ame="Neoniac"/>
+	<string key="MAPNAME_202" kor="올드문" ger="OldMoon" eng="OldMoon" fre="OldMoon" spa="OldMoon" ita="OldMoon" rus="OldMoon" ame="OldMoon"/>
+	<string key="MAPNAME_203" kor="루나-2" ger="Luna-2" eng="Luna-2" fre="Luna-2" spa="Luna-2" ita="Luna-2" rus="Luna-2" ame="Luna-2"/>
+	<string key="MAPNAME_204" kor="언더월드" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_205" kor="포토존" ger="PhotoZone" eng="PhotoZone" fre="PhotoZone" spa="PhotoZone" ita="PhotoZone" rus="PhotoZone" ame="PhotoZone"/>
+	<string key="MAPNAME_206" kor="나이트메어" ger="Nightmare" eng="Nightmare" fre="Nightmare" spa="Nightmare" ita="Nightmare" rus="Nightmare" ame="Nightmare"/>
+	<string key="MAPNAME_207" kor="무기테스트용" ger="weapon_TEST" eng="weapon_TEST" fre="weapon_TEST" spa="weapon_TEST" ita="weapon_TEST" rus="weapon_TEST" ame="weapon_TEST"/>
+	<string key="MAPNAME_208" kor="스타워즈" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_209" kor="부실공사현장" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_210" kor="튜토리얼" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_211" kor="캡틴모드테스트" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_212" kor="홀리데이" ger="HoliDay" eng="HoliDay" fre="HoliDayt" spa="HoliDay" ita="HoliDay" rus="HoliDay" ame="HoliDay"/>
+	<string key="MAPNAME_213" kor="로코코" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_214" kor="네덴-0" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_215" kor="시티-0" ger="Test" eng="Test" fre="Test" spa="Test" ita="Test" rus="Test" ame="Test"/>
+	<string key="MAPNAME_216" kor="갤리온" ger="Galleon" eng="Galleon" fre="Galleon" spa="Galleon" ita="Galleon" rus="Galleon" ame="Galleon"/>
+	<string key="MAPNAME_217" kor="네오니악" ger="Neoniac" eng="Neoniac" fre="Neoniac" spa="Neoniac" ita="Neoniac" rus="Neoniac" ame="Neoniac"/>
+</string_table>

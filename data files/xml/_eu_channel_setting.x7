@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<channel_setting string_table="language/xml/channel_setting_string_table.xml">
+	<setting channel_cnt="9" limit_player="600" default_category_id="0" />
+	<tool_tip possible_key="TOOL_TIP_POSSIBLE" impossible_key="TOOL_TIP_IMPOSSIBLE" impossible_level_key="IMPOSSIBLE_LEVEL" />
+	<category_info id="0" name_key="CATEGORY_SPEED" />
+	<category_info id="3" name_key="CATEGORY_CLUB" />
+	<!-- 매니아 채널  시작-->
+	<channel_info id="1" type="6" category="0" name_key="name_key_Speed_Rookie_01" text1_key="text1_key_Rookie_01" text2_key="text2_key_Rookie_01" color="4280614656" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<channel_info id="2" type="7" category="0" name_key="name_key_Speed_SuperRookie_01" text1_key="text1_key_SuperRookie_01" text2_key="text2_key_SuperRookie_01" color="4280614656" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<channel_info id="3" type="8" category="0" name_key="name_key_Speed_Pro_01" text1_key="text1_key_Pro_01" text2_key="text2_key_Pro_01" color="4294900480" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<!-- channel_info id="4" type="9" category="0" name_key="SPEED_PRO2" text1_key="PRO-2" text2_key="50LEVEL_KILL_DEATH_UNLIMITED" color="4294888192" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" / -->
+	<channel_info id="4" type="10" category="0" name_key="name_key_Speed_Free_01" text1_key="text1_key_Free_01" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<channel_info id="5" type="10" category="0" name_key="name_key_Speed_Free_02" text1_key="text1_key_Free_02" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<!-- 유럽 요청으로 자유채널 추가 9월 추가 패치 -->
+	<channel_info id="6" type="10" category="0" name_key="name_key_Speed_Free_03" text1_key="text1_key_Free_03" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<channel_info id="7" type="10" category="0" name_key="name_key_Speed_Free_04" text1_key="text1_key_Free_04" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="0" game_tempo="GAMETEMPO_FREE" />
+	<!-- 매니아 채널 종료 -->
+	<!-- 클럽채널 시작-->
+	<channel_info id="8" type="10" category="3" name_key="CLUB1" text1_key="CLUB-1" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="1" game_tempo="GAMETEMPO_CLUB" />
+	<channel_info id="9" type="10" category="3" name_key="CLUB2" text1_key="CLUB-2" text2_key="text2_key_Free_01" color="4294938624" speed_channel="1" club_channel="1" game_tempo="GAMETEMPO_CLUB" />
+
+	<sub_server_info>
+		<sub_naming nation="Russian" />
+		<sub_naming nation="Spanish" />
+		<sub_naming nation="English" />
+	</sub_server_info>
+
+	<sub_channel_info>
+		<sub_naming nation="Russian" type="10" category="0" name_key="text1_key_Free_Nation" />
+		<sub_naming nation="Russian" type="10" category="0" name_key="text1_key_Free_Russian" />
+		<sub_naming nation="Russian" type="10" category="0" name_key="text1_key_Free_Polish" />
+		<sub_naming nation="Russian" type="10" category="0" name_key="text1_key_Free_Turkish" />
+
+		<sub_naming nation="Spanish" type="10" category="0" name_key="text1_key_Free_Nation" />
+		<sub_naming nation="Spanish" type="10" category="0" name_key="text1_key_Free_Spanish" />
+		<sub_naming nation="Spanish" type="10" category="0" name_key="text1_key_Free_Italian" />
+		<sub_naming nation="Spanish" type="10" category="0" name_key="text1_key_Free_Portuguese" />
+
+		<sub_naming nation="English" type="10" category="0" name_key="text1_key_Free_Nation_1" />
+		<sub_naming nation="English" type="10" category="0" name_key="text1_key_Free_Nation_2" />
+		<sub_naming nation="English" type="10" category="0" name_key="text1_key_Free_EastCoast" />
+		<sub_naming nation="English" type="10" category="0" name_key="text1_key_Free_WestCoast" />
+
+	</sub_channel_info>
+
+	<!-- 클럽채널 종료 -->
+</channel_setting>

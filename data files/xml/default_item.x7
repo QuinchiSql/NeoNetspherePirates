@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<default_item string_table="language/xml/default_item_string_table.xml">
+	<male name_key="MALE">
+		<!-- hair -->
+		<item category="1" sub_category="0" number="1" variation="0">hair</item>
+		<item category="1" sub_category="0" number="1" variation="1">hair</item>
+		<item category="1" sub_category="0" number="1" variation="2">hair</item>
+		<!-- face -->
+		<item category="1" sub_category="1" number="3" variation="0">face</item>
+		<item category="1" sub_category="1" number="4" variation="0">face</item>
+		<!-- coat -->
+		<item category="1" sub_category="2" number="2" variation="0">coat</item>
+		<item category="1" sub_category="2" number="2" variation="1">coat</item>
+		<item category="1" sub_category="2" number="2" variation="2">coat</item>
+		<!-- pants -->
+		<item category="1" sub_category="3" number="2" variation="0">pants</item>
+		<item category="1" sub_category="3" number="2" variation="1">pants</item>
+		<item category="1" sub_category="3" number="2" variation="2">pants</item>
+		<!-- gloves -->
+		<item category="1" sub_category="4" number="2" variation="0">gloves</item>
+		<!-- shoes -->
+		<item category="1" sub_category="5" number="2" variation="0">shoes</item>
+		<!-- voice -->
+	</male>
+	<female name_key="FEMALE">
+		<!-- hair -->
+		<item category="1" sub_category="0" number="2" variation="0">hair</item>
+		<item category="1" sub_category="0" number="2" variation="1">hair</item>
+		<item category="1" sub_category="0" number="2" variation="2">hair</item>
+		<!-- face -->
+		<item category="1" sub_category="1" number="1" variation="0">face</item>
+		<item category="1" sub_category="1" number="2" variation="0">face</item>
+		<!-- coat -->
+		<item category="1" sub_category="2" number="1" variation="0">coat</item>
+		<item category="1" sub_category="2" number="1" variation="1">coat</item>
+		<item category="1" sub_category="2" number="1" variation="2">coat</item>
+		<!-- pants -->
+		<item category="1" sub_category="3" number="1" variation="0">pants</item>
+		<item category="1" sub_category="3" number="1" variation="1">pants</item>
+		<item category="1" sub_category="3" number="1" variation="2">pants</item>
+		<!-- gloves -->
+		<item category="1" sub_category="4" number="1" variation="0">gloves</item>
+		<!-- shoes -->
+		<item category="1" sub_category="5" number="1" variation="0">shoes</item>
+		<!-- voice -->
+	</female>
+</default_item>

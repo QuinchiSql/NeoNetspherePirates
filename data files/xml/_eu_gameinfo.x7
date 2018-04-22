@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- edited with XMLSpy v2007 sp1 (http://www.altova.com) by Administrator (EMBRACE) -->
+<gameinfo string_table="language/xml/gameinfo_string_table.xml">
+	<default>
+		<!-- 방만들기시에 기본 셋팅 ( 모든 index 는 0부터 시작 ) -->
+		<option death_match="1" touch_down="3" mission="1" survival="1" semi_td="4" arcade="1" slaughter="3" free_for_all="2" captain="2" />
+		<map>
+			<make_room death_match="0" touch_down="0" survival="0" mission="0" semi_td="0" arcade="0" slaughter="0" free_for_all="0" captain="0"/>
+			<quick_enter death_match="0" touch_down="0" survival="0" mission="0" semi_td="0" arcade="0" slaughter="0" free_for_all="0" captain="0"/>
+		</map>
+		<game_rule>
+			<!-- 디폴트로 보여질 모드를 설정한다. 아래의 game_rule 인덱스 참고-->
+			<make_room index="5" />
+			<quick_enter index="0" />
+		</game_rule>
+		<limit_player>
+			<!--기본으로 인원은 최대인원으로 되어 있다. -->
+			<make_room index="0" />
+			<quick_enter index="0" />
+		</limit_player>
+	</default>
+	<room_title>
+		<data title_key="TITLE_1" />
+		<data title_key="TITLE_2" />
+		<data title_key="TITLE_3" />
+		<data title_key="TITLE_4" />
+		<data title_key="TITLE_5" />
+	</room_title>
+	<map>
+		<!-- respawn_type : 0 - 팀리스폰지원안함  1 - 팀리스폰지원 -->
+		<data id="-1" map_name_key="MAPNAME_1" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Random.ini" />
+		<data id="250" map_name_key="MAPNAME_206" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Nightmare_sl.ini" />
+		<data id="247" map_name_key="MAPNAME_202" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-oldmoon.ini" />		
+		<data id="19" map_name_key="MAPNAME_26" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lily_office.ini" />
+		<data id="245" map_name_key="MAPNAME_200" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ship_inside_ffa.ini" dev_mode="true" />
+		<data id="210" map_name_key="MAPNAME_100" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-testlevel_td.ini" dev_mode="true" />
+		<data id="211" map_name_key="MAPNAME_101" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-testlevel_sl.ini" dev_mode="true" />
+		<data id="213" map_name_key="MAPNAME_102" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-testlevel_tdm.ini" dev_mode="true" />
+		<data id="246" map_name_key="MAPNAME_201" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-neoniac_ffa.ini" />
+		
+		<data id="245" map_name_key="MAPNAME_200" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-galleon_ffa.ini" />
+		<data id="21" map_name_key="MAPNAME_37" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-hyperium.ini" />
+		<data id="20" map_name_key="MAPNAME_36" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-side3.ini" />
+		<data id="1" map_name_key="MAPNAME_2" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-Neden01.ini" />
+		<data id="2" map_name_key="MAPNAME_3" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Neden01_surv.ini" />
+		<data id="9" map_name_key="MAPNAME_4" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-beginner.ini" />
+		<data id="0" map_name_key="MAPNAME_5" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-SStation01.ini" />
+		<data id="4" map_name_key="MAPNAME_6" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-Neden02.ini" />
+		<data id="3" map_name_key="MAPNAME_7" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Neden03.ini" />
+		<data id="66" map_name_key="MAPNAME_8" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-SStation02.ini" />
+		<data id="7" map_name_key="MAPNAME_9" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-Neden03_death.ini" />
+		<data id="6" map_name_key="MAPNAME_10" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-city_highway.ini" />
+		<data id="10" map_name_key="MAPNAME_11" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-city_highway_death.ini" />
+		<data id="11" map_name_key="MAPNAME_12" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-19days.ini" />
+		<data id="13" map_name_key="MAPNAME_13" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-slhouse.ini" />
+		<data id="14" map_name_key="MAPNAME_14" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-slpve.ini" />
+		<data id="8" map_name_key="MAPNAME_15" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-oldschool.ini" />
+		<data id="18" map_name_key="MAPNAME_35" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-blockbuster_death.ini" />
+		<data id="51" map_name_key="MAPNAME_51" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-left4dead.ini" dev_mode="true" />
+		<data id="50" map_name_key="MAPNAME_16" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-conest.ini" />
+		<data id="101" map_name_key="MAPNAME_17" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_countersword.ini" />
+		<data id="102" map_name_key="MAPNAME_18" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_sub.ini" />
+		<data id="103" map_name_key="MAPNAME_19" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_anc.ini" />
+		<data id="104" map_name_key="MAPNAME_20" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_practice.ini" />
+		<data id="105" map_name_key="MAPNAME_21" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_rail.ini" />
+		<data id="106" map_name_key="MAPNAME_22" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_shock.ini" />
+		<data id="107" map_name_key="MAPNAME_23" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-lc_shield.ini" />
+		<data id="12" map_name_key="MAPNAME_24" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Neden00.ini" />
+		<data id="15" map_name_key="MAPNAME_25" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-19dayssl.ini" />
+		<data id="16" map_name_key="MAPNAME_33" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-colosseum.ini" />
+		<data id="17" map_name_key="MAPNAME_34" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-sixsense.ini" />
+
+		<!--<data id="108" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Steelcage2.ini"/>-->
+		<!--<data id="109" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ship_inside.ini"/>-->
+		<!--<data id="111" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-SStation02_death.ini" />-->
+		<!--<data id="112" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-SStation01_death.ini" />-->
+		<!--<data id="113" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo_Tunnel_slt.ini" />-->
+		<!--<data id="51" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-conest_d.ini" />-->
+		<data id="198" map_name_key="MAPNAME_26" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-test_003.ini" dev_mode="true" />
+		<!-- 연습모드 지원 맵 목록 -->
+		<data id="200" map_name_key="MAPNAME_27" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_Tunnel.ini" />
+		<data id="201" map_name_key="MAPNAME_28" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_SStation01.ini" />
+		<data id="202" map_name_key="MAPNAME_29" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_Neden01.ini" />
+		<data id="204" map_name_key="MAPNAME_30" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_SStation.ini" />
+		<!--<data id="207" map_name_key="MAPNAME_31" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-MS_city_highway.ini" />-->
+		<!--<data id="208" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Neden01.ini" />-->
+		<!-- 미공개 연습모드 지원 맵 
+		<data id="205" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_Neden02.ini" />
+		<data id="206" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Ms_Neden03.ini" />
+		<data id="208" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-MS_19days.ini" />
+		-->
+		<data id="242" map_name_key="MAPNAME_206" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-captain_Nightmare.ini" />
+		<data id="31" map_name_key="MAPNAME_202" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-captain_oldmoon.ini"/>
+		<data id="255" map_name_key="MAPNAME_32" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-tuto_test.ini" />
+		<!--<data id="12" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-Neden00.ini" />-->
+		<!--<data id="7" require_level="0" require_server="0" require_channel="0" respawn_type="1" bginfo_path="Resources/MapInfo/bginfo-city_square2.ini"/>-->
+		<!--<data id="8" require_level="0" require_server="0" require_channel="0" respawn_type="0" bginfo_path="Resources/MapInfo/bginfo-city_square.ini"/>-->
+	</map>
+	<tutorial map_id="255" />
+	<score>
+		<death_match>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="40" score_string_key="SCORE_40" />
+			<data score="60" score_string_key="SCORE_60" />
+			<data score="80" score_string_key="SCORE_80" />
+			<data score="100" score_string_key="SCORE_100" />
+		</death_match>
+		<touch_down>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="4" score_string_key="SCORE_4" />
+			<data score="6" score_string_key="SCORE_6" />
+			<data score="8" score_string_key="SCORE_8" />
+			<data score="10" score_string_key="SCORE_10" />
+		</touch_down>
+		<survival>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="4" score_string_key="WIN_4" />
+			<data score="6" score_string_key="WIN_6" />
+			<data score="8" score_string_key="WIN_8" />
+			<data score="10" score_string_key="WIN_10" />
+		</survival>
+		<mission>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="254" score_string_key="UNLIMIT" />
+			<data score="50" score_string_key="SCORE_50" />
+			<data score="75" score_string_key="SCORE_75" />
+			<data score="100" score_string_key="SCORE_100" />
+		</mission>
+		<semi_td>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="300" score_string_key="SCORE_300" />
+			<data score="450" score_string_key="SCORE_450" />
+			<data score="600" score_string_key="SCORE_600" />
+			<data score="900" score_string_key="SCORE_900" />
+		</semi_td>
+		<arcade>
+			<data score="-1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+		</arcade>
+		<slaughter>
+			<data score="-1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+			<data score="1" score_string_key="SCORE_-" />
+		</slaughter>
+		<free_for_all>
+			<data score="-1" score_string_key="SCORE_-" />
+			<data score="30" score_string_key="SCORE_30" />
+			<data score="50" score_string_key="SCORE_50" />
+			<data score="70" score_string_key="SCORE_70" />
+		</free_for_all>
+		<captain>
+			<data score="-1" score_string_key="RANDOM" />
+			<data score="2" score_string_key="POINT_2" />
+			<data score="3" score_string_key="POINT_3" />
+			<data score="5" score_string_key="POINT_5" />
+		</captain>		
+	</score>
+	<time>
+		<death_match>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+			<data time="20" time_string_key="TIME_20" />
+			<data time="30" time_string_key="TIME_30" />
+		</death_match>
+		<touch_down>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+			<data time="20" time_string_key="TIME_20" />
+			<data time="30" time_string_key="TIME_30" />
+		</touch_down>
+		<survival>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+			<data time="20" time_string_key="TIME_20" />
+			<data time="30" time_string_key="TIME_30" />
+		</survival>
+		<mission>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="4" time_string_key="MESSION_TIME_4" />
+			<data time="5" time_string_key="MESSION_TIME_5" />
+			<data time="6" time_string_key="MESSION_TIME_6" />
+			<data time="7" time_string_key="MESSION_TIME_7" />
+		</mission>
+		<semi_td>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+			<data time="20" time_string_key="TIME_20" />
+		</semi_td>
+		<arcade>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="1" time_string_key="ARCADE_1" />
+			<data time="2" time_string_key="ARCADE_2" />
+			<data time="3" time_string_key="ARCADE_3" />
+		</arcade>
+		<slaughter>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+			<data time="20" time_string_key="TIME_20" />
+			<data time="30" time_string_key="TIME_30" />
+		</slaughter>
+		<free_for_all>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="5" time_string_key="TIME_5" />
+			<data time="10" time_string_key="TIME_10" />
+			<data time="15" time_string_key="TIME_15" />
+		</free_for_all>
+		<captain>
+			<data time="-1" time_string_key="RANDOM" />
+			<data time="3" time_string_key="ROUND_3" />
+			<data time="5" time_string_key="ROUND_5" />
+			<data time="9" time_string_key="ROUND_9" />
+		</captain>			
+	</time>
+	<team neutral_key="NEUTRAL_TEAM" alpha_key="ALPHA_TEAM" beta_key="BETA_TEAM" />
+	<player_status live_key="LIVE" death_key="DEATH" wait_key="WAIT" spectate_key="SPECTATE" lobby_key="LOBBY" />
+	<game_state wait_key="WAIT_STATE" play_key="PLAY_STATE" result_key="RESULT_STATE" />
+	<game_substate firsthalf_key="FIRST_HALF" halftime_key="HALF_TIME" secondhalf_key="SECOND_HARF" />
+	<game_rule touch_down_key="TOUCH_DOWN" death_match_key="DEATH_MATCH" survival_key="SURVIVAL" mission_key="MISSION" arcade_key="ARCADE" slaughter_key="SLAUGHTER" free_for_all_key="FREE_FOR_ALL" captain_key="CAPTAIN" />
+	<!--<game_rule touch_down="TOUCH_DOWN" death_match="DEATH_MATCH" survival="SURVIVAL" mission="MISSION" semi_td="SEMI_TD" />-->
+	<limit_player>
+		<death_match random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<touch_down random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<survival random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<mission random_key="MAX_P" player1_key="1_P" />
+		<semi_td random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<arcade random_key="MAX_P" player1_key="1_P" player2_key="2_P" player3_key="3_P" player4_key="4_P" />
+		<slaughter random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<free_for_all random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" player16_key="16_P" />
+		<captain random_key="MAX_P" player4_key="4_P" player6_key="6_P" player8_key="8_P" player10_key="10_P" player12_key="12_P" />
+	</limit_player>
+</gameinfo>

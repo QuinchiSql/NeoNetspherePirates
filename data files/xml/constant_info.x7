@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Constant_info>
+	<!-- 각각의 데이타는 무기의 이름을 기준으로 생성되어진다   -->
+	<s32>
+		<param_s32				data="0"/>
+		<param_s32				data="1"/>
+		<param_s32				data="2"/>
+		<param_s32				data="3"/>
+		<param_s32				data="4"/>
+		<param_s32				data="5"/>
+		<param_s32				data="6"/>
+		<param_s32				data="7"/>
+		<param_s32				data="8"/>
+		<param_s32				data="9"/>
+
+		<param_s32				data="10"/>
+		<param_s32				data="11"/>
+		<param_s32				data="12"/>
+		<param_s32				data="13"/>
+		<param_s32				data="14"/>
+		<param_s32				data="15"/>
+		<param_s32				data="16"/>
+		<param_s32				data="17"/>
+		<param_s32				data="18"/>
+		<param_s32				data="19"/>
+		<param_s32				data="20"/>
+		<param_s32				data="25"/>
+		<param_s32				data="30"/>
+		<param_s32				data="40"/>
+		<param_s32				data="45"/>
+		<param_s32				data="50"/>
+		<param_s32				data="60"/>
+		<param_s32				data="70"/>
+		<param_s32				data="90"/>
+
+		<param_s32				data="100"/>
+		<param_s32				data="125"/>
+		<param_s32				data="150"/>
+		<param_s32				data="180"/>
+		<param_s32				data="200"/>
+		<param_s32				data="201"/>
+		<param_s32				data="210"/>
+		<param_s32				data="240"/>
+		<param_s32				data="250"/>
+		<param_s32				data="251"/>
+		<param_s32				data="260"/>
+		<param_s32				data="280"/>
+		<param_s32				data="300"/>
+		<param_s32				data="301"/>
+		<param_s32				data="310"/>
+		<param_s32				data="320"/>
+		<param_s32				data="333"/>
+		<param_s32				data="350"/>
+		<param_s32				data="360"/>
+		<param_s32				data="400"/>
+		<param_s32				data="401"/>
+		<param_s32				data="410"/>
+		<param_s32				data="450"/>
+		<param_s32				data="460"/>
+		<param_s32				data="499"/>
+		<param_s32				data="500"/>
+		<param_s32				data="510"/>
+		<param_s32				data="530"/>
+		<param_s32				data="550"/>
+		<param_s32				data="560"/>
+		<param_s32				data="580"/>
+		<param_s32				data="600"/>
+		<param_s32				data="610"/>
+		<param_s32				data="650"/>
+		<param_s32				data="651"/>
+		<param_s32				data="666"/>
+		<param_s32				data="680"/>
+		<param_s32				data="700"/>
+		<param_s32				data="701"/>
+		<param_s32				data="730"/>
+		<param_s32				data="750"/>
+		<param_s32				data="751"/>
+		<param_s32				data="780"/>
+		<param_s32				data="800"/>
+		<param_s32				data="801"/>
+		<param_s32				data="830"/>
+		<param_s32				data="850"/>
+		<param_s32				data="851"/>
+		<param_s32				data="900"/>
+		<param_s32				data="901"/>
+		<param_s32				data="930"/>
+		<param_s32				data="980"/>
+		<param_s32				data="999"/>
+
+		<param_s32				data="1000"/>
+		<param_s32				data="1001"/>
+		<param_s32				data="1100"/>
+		<param_s32				data="1150"/>
+		<param_s32				data="1200"/>
+		<param_s32				data="1201"/>
+		<param_s32				data="1250"/>
+		<param_s32				data="1300"/>
+		<param_s32				data="1330"/>
+		<param_s32				data="1350"/>
+		<param_s32				data="1400"/>
+		<param_s32				data="1450"/>
+		<param_s32				data="1451"/>
+		<param_s32				data="1480"/>
+		<param_s32				data="1481"/>
+		<param_s32				data="1500"/>
+		<param_s32				data="1501"/>
+		<param_s32				data="1560"/>
+		<param_s32				data="1600"/>
+		<param_s32				data="1700"/>
+		<param_s32				data="1800"/>
+		<param_s32				data="1850"/>
+		<param_s32				data="1900"/>
+		<param_s32				data="2000"/>
+		<param_s32				data="2500"/>
+		<param_s32				data="2999"/>
+		<param_s32				data="3000"/>
+		<param_s32				data="3110"/>
+		<param_s32				data="3300"/>
+		<param_s32				data="3500"/>
+		<param_s32				data="4000"/>
+		<param_s32				data="4999"/>
+		<param_s32				data="5000"/>
+		<param_s32				data="5999"/>
+		<param_s32				data="6999"/>
+		<param_s32				data="9999"/>
+
+		<param_s32				data="10000"/>
+		<param_s32				data="15000"/>
+		<param_s32				data="30000"/>
+		<param_s32				data="60000"/>
+
+		<param_s32				data="180000"/>
+
+		<param_s32				data="1000000" />
+		<param_s32				data="4040001"/>
+		<param_s32				data="6000001" />		
+
+	</s32>
+
+	<float>
+		<param_float				data="0.0" />	 
+		<param_float				data="0.0001" />	 
+		<param_float				data="-0.008" />	 
+		<param_float				data="0.001" />	 
+		<param_float				data="0.0015" />	 
+		<param_float				data="0.0025" />	 
+		<param_float				data="0.005" />	 
+		<param_float				data="0.0075" />	 
+		<param_float				data="0.01" />	 
+		<param_float				data="-0.01" />	 
+		<param_float				data="0.014" />	 
+		<param_float				data="0.015" />	 
+		<param_float				data="-0.015" />	 
+		<param_float				data="0.02" />	 
+		<param_float				data="-0.02" />	 
+		<param_float				data="-0.023" />	 
+		<param_float				data="0.03" />	 
+		<param_float				data="-0.03" />	 
+		<param_float				data="-0.031" />	 
+		<param_float				data="0.04" />	 
+		<param_float				data="-0.04" />	 
+		<param_float				data="0.05" />	 
+		<param_float				data="-0.05" />	 
+		<param_float				data="0.1" />	 
+		<param_float				data="0.125" />	 
+		<param_float				data="0.15" />	 
+		<param_float				data="0.2" />	 
+		<param_float				data="0.25" />	 
+		<param_float				data="0.3" />	 
+		<param_float				data="0.33" />	 
+		<param_float				data="0.333" />	 
+		<param_float				data="0.35" />	 
+		<param_float				data="0.4" />	 
+		<param_float				data="0.5" />	 
+		<param_float				data="-0.5" />	 
+		<param_float				data="0.6" />	 
+		<param_float				data="0.65" />	 
+		<param_float				data="0.7" />	 
+		<param_float				data="0.75" />	 
+		<param_float				data="0.7854" />	 
+		<param_float				data="0.8" />	 
+		<param_float				data="0.875" />	 
+		<param_float				data="0.9" />	 
+		<param_float				data="-0.9" />	 
+		<param_float				data="0.95" />	 
+		<param_float				data="0.99" />	 
+		<param_float				data="0.9999" />	 
+		<param_float				data="1.0" />	 
+		<param_float				data="-1.0" />	 
+		<param_float				data="1.1" />	 
+		<param_float				data="1.15" />	 
+		<param_float				data="1.2" />	 
+		<param_float				data="1.25" />	 
+		<param_float				data="1.3" />	 
+		<param_float				data="1.5" />	 
+		<param_float				data="1.6" />	 
+		<param_float				data="1.7" />	 
+		<param_float				data="1.8" />	 
+		<param_float				data="1.9" />	 
+		<param_float				data="2.0" />	 
+		<param_float				data="2.5" />	 
+		<param_float				data="3.0" />	 
+		<param_float				data="3.3" />	 
+		<param_float				data="3.5" />	 
+		<param_float				data="4.0" />	 
+		<param_float				data="4.8" />	 
+		<param_float				data="5.0" />	 
+		<param_float				data="6.0" />	 
+		<param_float				data="7.0" />	 
+		<param_float				data="7.5" />	 
+		<param_float				data="8.0" />	 
+		<param_float				data="9.0" />	 
+
+		<param_float				data="10.0" />	 
+		<param_float				data="11.0" />	 
+		<param_float				data="12.0" />	 
+		<param_float				data="13.0" />	 
+		<param_float				data="14.0" />	 
+		<param_float				data="15.0" />	 
+		<param_float				data="16.0" />	 
+		<param_float				data="17.0" />	 
+		<param_float				data="18.0" />	 
+		<param_float				data="19.0" />	 
+		<param_float				data="20.0" />	 
+		<param_float				data="25.0" />	 
+		<param_float				data="30.0" />	 
+		<param_float				data="40.0" />	 
+		<param_float				data="-40.0" />	 
+		<param_float				data="45.0" />	 
+		<param_float				data="-45.0" />	 
+		<param_float				data="50.0" />	 
+		<param_float				data="-50.0" />	 
+		<param_float				data="55.0" />	 
+		<param_float				data="60.0" />	 
+		<param_float				data="80.0" />	 
+		<param_float				data="90.0" />	 
+		<param_float				data="-90.0" />	 
+
+		<param_float				data="100.0" />	 
+		<param_float				data="-100.0" />	 
+
+		<param_float				data="120.0" />	 
+		<param_float				data="130.0" />	 
+		<param_float				data="135.0" />	 
+		<param_float				data="140.0" />	 
+		<param_float				data="150.0" />	 
+		<param_float				data="160.0" />	 
+		<param_float				data="170.0" />	 
+		<param_float				data="175.0" />	 
+		<param_float				data="180.0" />	 
+		<param_float				data="190.0" />	 
+		<param_float				data="200.0" />	 
+		<param_float				data="225.0" />	 
+		<param_float				data="-230.0" />	 
+		<param_float				data="250.0" />	 
+		<param_float				data="-250.0" />	 
+		<param_float				data="260.0" />	 
+		<param_float				data="270.0" />	 
+		<param_float				data="275.0" />	 
+		<param_float				data="280.0" />	 
+		<param_float				data="300.0" />	 
+		<param_float				data="-300.0" />	 
+		<param_float				data="315.0" />	 
+		<param_float				data="320.0" />	 
+		<param_float				data="360.0" />	 
+		<param_float				data="400.0" />	 
+		<param_float				data="450.0" />	 
+		<param_float				data="500.0" />	 
+		<param_float				data="700.0" />	 
+		<param_float				data="750.0" />	 
+		<param_float				data="800.0" />	 
+
+		<param_float				data="1000.0" />	 
+		<param_float				data="-1000.0" />	 
+		<param_float				data="1100.0" />	 
+		<param_float				data="1200.0" />	 
+		<param_float				data="1300.0" />	 
+		<param_float				data="1400.0" />	 
+		<param_float				data="1500.0" />	 
+		<param_float				data="-1875.0" />	 
+		<param_float				data="2000.0" />	 
+		<param_float				data="2500.0" />	 
+		<param_float				data="-2500.0" />	 
+		<param_float				data="2600.0" />	 
+		<param_float				data="3000.0" />	 
+		<param_float				data="-3000.0" />	 
+		<param_float				data="3300.0" />	 
+		<param_float				data="4000.0" />	 
+		<param_float				data="-4000.0" />	 
+		<param_float				data="5000.0" />	 
+		<param_float				data="-5000.0" />	 
+		<param_float				data="6000.0" />	 
+		<param_float				data="-6000.0" />	 
+
+		<param_float				data="9000.0" />	 
+		<param_float				data="10000.0" />	 
+
+		<param_float				data="-10000.0" />	 
+		<param_float				data="-20000.0" />	 
+		<param_float				data="-50000.0" />	 
+
+		<param_float				data="100000.0" />	 
+
+		<param_float				data="1000000.0" />	 
+		<param_float				data="6250000.0" />	 
+
+		<param_float				data="25000000.0" />	 
+		<param_float				data="81000000.0" />	 
+	</float>
+
+	<string>
+		<param_string	name="effect"		data=""/>			
+	</string>
+
+	<GameTempoMainKey>
+		<Type	value = "GAMETEMPO" />
+	</GameTempoMainKey>
+
+		<GameTempoType>
+		<Type	value = "GAMETEMPO_LT5" second_value = "0"/>
+		<Type	value = "GAMETEMPO_LT12" second_value = "1"/>
+		<Type	value = "GAMETEMPO_FREE" second_value = "2"/>
+		<Type	value = "GAMETEMPO_CLUB" second_value = "3"/>
+	</GameTempoType>
+
+	<GameTempoIDValue>
+		<Type	value = "GAMETEMPO_fastrun_required_mp" second_value = "0" />
+		<Type	value = "GAMETEMPO_fastrun_decrement_mp" second_value = "1" />
+		<Type	value = "GAMETEMPO_fastrun_decrement_mp_delay" second_value = "2" />
+		<Type	value = "GAMETEMPO_fastrun_speed_rate" second_value = "3" />
+		<Type	value = "GAMETEMPO_dodge_required_mp" second_value = "4" />
+		<Type	value = "GAMETEMPO_dodge_speed" second_value = "5" />
+		<Type	value = "GAMETEMPO_dodge_decel" second_value = "6" />
+		<Type	value = "GAMETEMPO_dodge_dodge_time" second_value = "7" />
+		<Type	value = "GAMETEMPO_dodge_delay" second_value = "8" />
+		<Type	value = "GAMETEMPO_dodge_after_stun_required_mp" second_value = "9" />
+		<Type	value = "GAMETEMPO_walljump_required_mp" second_value = "10" />
+		<Type	value = "GAMETEMPO_walljump_jump_force" second_value = "11" />
+		<Type	value = "GAMETEMPO_walljump_delay_before_jump" second_value = "12" />
+		<Type	value = "GAMETEMPO_walljump_jump_time" second_value = "13" />
+		<Type	value = "GAMETEMPO_walljump_landing_time" second_value = "14" />
+		<Type	value = "GAMETEMPO_foot_sound_volume" second_value = "15" />
+		<Type	value = "GAMETEMPO_actor_default_hp_max" second_value = "16" />
+		<Type	value = "GAMETEMPO_actor_default_mp_max" second_value = "17" />
+		<Type	value = "GAMETEMPO_gravity" second_value = "18" />
+		<Type	value = "GAMETEMPO_max_gravity_velocity" second_value = "19" />
+		<Type	value = "GAMETEMPO_backhit_bonus" second_value = "20" />
+		<Type	value = "GAMETEMPO_actor_default_move_speed" second_value = "21" />
+		<Type	value = "GAMETEMPO_actor_default_animation_move_speed" second_value = "22" />
+		<Type	value = "GAMETEMPO_front_speed_rate" second_value = "23" />
+		<Type	value = "GAMETEMPO_side_speed_rate" second_value = "24" />
+		<Type	value = "GAMETEMPO_back_speed_rate" second_value = "25" />
+		<Type	value = "GAMETEMPO_sit_speed_rate" second_value = "26" />
+		<Type	value = "GAMETEMPO_jump_force" second_value = "27" />
+		<Type	value = "GAMETEMPO_jump_move_rate" second_value = "28" />
+		<Type	value = "GAMETEMPO_land_move_rate" second_value = "29" />
+		<Type	value = "GAMETEMPO_jump_time" second_value = "30" />
+		<Type	value = "GAMETEMPO_jump_predelay" second_value = "31" />
+		<Type	value = "GAMETEMPO_jump_landdelay" second_value = "32" />
+		<Type	value = "GAMETEMPO_ray_maxdistance" second_value = "33" />
+		<Type	value = "GAMETEMPO_damage_multiplier" second_value = "34" />
+	</GameTempoIDValue>
+
+	<GAMEINFOLIST>
+
+		<GAMETEMPO>
+			<TEMPVALUE value ="GAMETEMPO_LT5" />
+
+			<GAMETEPMO_COMMON_TOTAL_VALUE GAMETEMPO_fastrun_required_mp="1" GAMETEMPO_fastrun_decrement_mp="10" 
+			GAMETEMPO_fastrun_decrement_mp_delay="0" GAMETEMPO_fastrun_speed_rate="1.3" GAMETEMPO_dodge_required_mp="20" 
+			GAMETEMPO_dodge_speed="1800" GAMETEMPO_dodge_decel="4500" GAMETEMPO_dodge_dodge_time="0.3" GAMETEMPO_dodge_delay="0.4" GAMETEMPO_dodge_after_stun_required_mp="90" GAMETEMPO_walljump_required_mp="20" GAMETEMPO_walljump_jump_force="2700" GAMETEMPO_walljump_delay_before_jump="0.2" GAMETEMPO_walljump_jump_time="0.5" GAMETEMPO_walljump_landing_time="0.2" GAMETEMPO_foot_sound_volume="0.5"	 GAMETEMPO_actor_default_hp_max="100.0" GAMETEMPO_actor_default_mp_max="100.0" 
+			GAMETEMPO_gravity="-5000.0" GAMETEMPO_max_gravity_velocity="-5000.0" GAMETEMPO_backhit_bonus="1.0" 
+			GAMETEMPO_actor_default_move_speed="900.0" GAMETEMPO_actor_default_animation_move_speed="915.0" GAMETEMPO_front_speed_rate="1.0" GAMETEMPO_side_speed_rate="0.95" GAMETEMPO_back_speed_rate="0.9" GAMETEMPO_sit_speed_rate="0.5" GAMETEMPO_jump_force="2160.0" GAMETEMPO_jump_move_rate="1.0" GAMETEMPO_land_move_rate="0.6" GAMETEMPO_jump_time="700.0" GAMETEMPO_jump_predelay="0" GAMETEMPO_jump_landdelay="500" GAMETEMPO_ray_maxdistance="25000.0" GAMETEMPO_damage_multiplier="2.0" />
+
+		</GAMETEMPO>
+
+		<GAMETEMPO>
+			<TEMPVALUE	value = "GAMETEMPO_FREE" />
+
+			<GAMETEPMO_COMMON_TOTAL_VALUE GAMETEMPO_fastrun_required_mp="1" GAMETEMPO_fastrun_decrement_mp="10" 
+			GAMETEMPO_fastrun_decrement_mp_delay="0" GAMETEMPO_fastrun_speed_rate="1.5" GAMETEMPO_dodge_required_mp="20" 
+			GAMETEMPO_dodge_speed="2250" GAMETEMPO_dodge_decel="4500" GAMETEMPO_dodge_dodge_time="0.225" GAMETEMPO_dodge_delay="0.375" GAMETEMPO_dodge_after_stun_required_mp="90" GAMETEMPO_walljump_required_mp="20" GAMETEMPO_walljump_jump_force="3125" GAMETEMPO_walljump_delay_before_jump="0.2" GAMETEMPO_walljump_jump_time="0.5" GAMETEMPO_walljump_landing_time="0.2" GAMETEMPO_foot_sound_volume="0.5" GAMETEMPO_actor_default_hp_max="100.0" GAMETEMPO_actor_default_mp_max="100.0" 
+			GAMETEMPO_gravity="-7500.0" GAMETEMPO_max_gravity_velocity="-7500.0" GAMETEMPO_backhit_bonus="1.0" 
+			GAMETEMPO_actor_default_move_speed="1100.0" GAMETEMPO_actor_default_animation_move_speed="915.0" GAMETEMPO_front_speed_rate="1.0" GAMETEMPO_side_speed_rate="0.95" GAMETEMPO_back_speed_rate="0.9" GAMETEMPO_sit_speed_rate="0.5" GAMETEMPO_jump_force="2700.0" GAMETEMPO_jump_move_rate="1.0" GAMETEMPO_land_move_rate="0.6" GAMETEMPO_jump_time="700.0" GAMETEMPO_jump_predelay="0" GAMETEMPO_jump_landdelay="300" GAMETEMPO_ray_maxdistance="25000.0" GAMETEMPO_damage_multiplier="2.0" />
+
+		</GAMETEMPO>
+
+		<GAMETEMPO>
+
+			<TEMPVALUE	value = "GAMETEMPO_CLUB" />
+
+			<GAMETEPMO_COMMON_TOTAL_VALUE GAMETEMPO_fastrun_required_mp="1" GAMETEMPO_fastrun_decrement_mp="10" 
+			GAMETEMPO_fastrun_decrement_mp_delay="0" GAMETEMPO_fastrun_speed_rate="1.5" GAMETEMPO_dodge_required_mp="20" 
+			GAMETEMPO_dodge_speed="2250" GAMETEMPO_dodge_decel="4500" GAMETEMPO_dodge_dodge_time="0.225" GAMETEMPO_dodge_delay="0.375" GAMETEMPO_dodge_after_stun_required_mp="90" GAMETEMPO_walljump_required_mp="20" GAMETEMPO_walljump_jump_force="3125" GAMETEMPO_walljump_delay_before_jump="0.2" GAMETEMPO_walljump_jump_time="0.5" GAMETEMPO_walljump_landing_time="0.2" GAMETEMPO_foot_sound_volume="0.5" GAMETEMPO_actor_default_hp_max="100.0" GAMETEMPO_actor_default_mp_max="100.0" 
+			GAMETEMPO_gravity="-7500.0" GAMETEMPO_max_gravity_velocity="-7500.0" GAMETEMPO_backhit_bonus="1.0" 
+			GAMETEMPO_actor_default_move_speed="1100.0" GAMETEMPO_actor_default_animation_move_speed="915.0" GAMETEMPO_front_speed_rate="1.0" GAMETEMPO_side_speed_rate="0.95" GAMETEMPO_back_speed_rate="0.9" GAMETEMPO_sit_speed_rate="0.5" GAMETEMPO_jump_force="2700.0" GAMETEMPO_jump_move_rate="1.0" GAMETEMPO_land_move_rate="0.6" GAMETEMPO_jump_time="700.0" GAMETEMPO_jump_predelay="0" GAMETEMPO_jump_landdelay="300" GAMETEMPO_ray_maxdistance="25000.0" GAMETEMPO_damage_multiplier="2.0" />
+
+		</GAMETEMPO>
+
+	</GAMEINFOLIST>
+
+</Constant_info>

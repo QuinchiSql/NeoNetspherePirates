@@ -1,0 +1,1 @@
+extract mapinfo of s4client into data\resources\mapinfo\

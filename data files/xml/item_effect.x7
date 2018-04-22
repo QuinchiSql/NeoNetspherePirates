@@ -1,0 +1,1443 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<item_effect string_table="language/xml/item_effect_string_table.xml">
+	<!--
+item_group  상점에서 보여줄 아이템세트
+    item          아이템 고유의 아이디( 1번부터 시작할 것)
+
+item
+    id            해당아이템 고유의 아이디( 1번부터 시작할 것)
+    text          GUI에 보여질 텍스트
+
+  price_1h, price_3h, price_5h, price_7h, price_10h, price_7d, price_15d, price_30d, price_unlimit
+    pen           구입에 필요한 펜
+    cash          구입에 필요한 캐시
+    
+ attribute  하나의 아이템에 여러개 등록될 수도 있다.
+    effect        적용될 효과의 종류
+    value         +- 수치
+    rate          +- 퍼센트
+    
+    
+  effect			효과의 종류
+hp							HP
+mp							MP
+exp							경험치
+pen							펜
+melee_defense				근접무기 방어력
+heavy_defense				중화기 방어력
+install_defense				설치무기 방어력
+throw_defense				투척무기 방어력
+mind_defense				정신무기 방어력
+missile_defense				발사무기 방어력
+missile_defense_head		발사무기 머리방어력
+missile_defense_upper		발사무기 상체방어력
+missile_defense_lower		발사무기 하체방어력
+snipe_defense				저격무기 방어력
+snipe_defense_head			저격무기 머리방어력
+snipe_defense_upper			저격무기 상체방어력
+snipe_defense_lower			저격무기 하체방어력
+all_weapon_defense			무기 방어력
+plasma_attack				플라즈마소드 공격력
+counter_attack				카운터소드 공격력
+storm_attack				스톰배트 공격력
+katana_attack				카타나 공격력
+heavy_attack				헤비머신건 공격력
+sentry_attack				센트리건 공격력
+sentiwall_attack			센티월 공격력
+sentinel_attack				센티넬 공격력
+mine_attack					마인건 공격력
+mind_energy					마인드에너지 공격력
+mind_shock					마인드쇼크 공격력
+card_attack					카드 공격력
+submachine_attack			서브머신건 공격력
+semi_attack					세미라이플 공격력
+revolver_attack				리볼버 공격력
+gaussrifle_attack			가우스라이플 공격력			
+rail_attack					레일건 공격력
+cannonade_attack			캐노네이드 공격력
+claw_attack					기습검 공격력
+smg3_attack					쌍권총 공격력
+revolver2_attack			리볼버2 공격력
+smg4_attack					서브머신류 신무기 공격력
+spydagger_attack			스파이대거 공격력
+mind_orora					마인드 오로라 공격
+doublesword_attack			쌍검 공격
+airgun_attack				에어건 공격
+smg2_homing_attack			호밍라이플 공격
+earth_bomb_attack			어스봄버 공격
+light_bomb_attack			라이트닝봄버 공격
+chain_light_gun_attack		체인라이트닝건 공격
+spark_rifle_attack			스파크라이플 공격
+all_weapon_attack			무기 공격력
+submachine_reload			서브머신건 리로드
+semi_reload					세미라이플 리로드
+revolver_reload				리볼버 리로드
+revolver2_reload			핸드건 리로드
+gaussrifle_reload			가우스라이플 리로드
+mine_reload					마인건 리로드
+heavy_reload				헤비머신건 리로드
+rail_reload					레일건 리로드
+cannonade_reload			캐노네이드 리로드
+mind_energy_reload			마인드에너지 리로드
+mind_shock_reload			마인드쇼크 리로드
+smg3_reload					SMG3 리로드
+smg4_reload					서브머신류 신무기 리로드
+mind_orora_reload			마인드 에너지 리로드
+airgun_reload				에어건 리로드
+smg2_homing_reload			호밍라이플리로드
+earth_bomb_reload			어스봄버리로드
+light_bomb_reload			라이트닝봄버리로드
+chain_light_gun_reload		체인라이트닝건리로드
+spark_rifle_reload			스파크라이플리로드
+submachine_reloadammo		서브머신건 장탄
+semi_reloadammo				세미라이플 장탄
+revolver_reloadammo			리볼버 장탄
+revolver2_reloadammo		핸드건 장탄
+gaussrifle_reloadammo		가우스라이플 장탄
+mine_reloadammo				마인건 장탄
+heavy_reloadammo			헤비머신건 장탄
+rail_reloadammo				레일건 장탄
+cannonade_reloadammo		캐노네이드 장탄
+mind_energy_reloadammo		마인드에너지 장탄
+mind_shock_reloadammo		마인드쇼크 장탄
+sentry_reloadammo			센트리건 장탄
+sentiwall_reloadammo		센티월 장탄
+sentinel_reloadammo			센티넬 장탄
+smg3_reloadammo				SMG3 장탄
+smg4_reloadammo				서브머신류 신무기 장탄
+mind_orora_reloadammo		마인드 오로라 장탄
+airgun_reloadammo			에어건 장탄
+smg2_homing_reloadammo		호밍라이플 장탄
+earth_bomb_reloadammo		어스봄버 장탄
+light_bomb_reloadammo		라이트닝봄버 장탄
+chain_light_gun_reloadammo	체인라이트닝건 장탄
+spark_rifle_reloadammo		스파크라이플 장탄
+mine_maxammo				마인건 총탄
+earth_bomb_maxammo			어스봄버 총탄
+light_bomb_maxammo			라이트닝봄버 총탄
+chaser_cast_rate			체이서 선정될 확률
+chaser_movespeed			체이서 이동 속도
+movespeed					이동속도
+ai_attack_melee				WEAPONTYPE_MELEE			,		// AI액터가 사용
+ai_attack_heavy				WEAPONTYPE_HEAVY			,		// AI액터가 사용
+ai_attack_install			WEAPONTYPE_INSTALL			,		// AI액터가 사용
+ai_attack_throw				WEAPONTYPE_THROW			,		// AI액터가 사용
+ai_attack_mind				WEAPONTYPE_MIND				,		// AI액터가 사용
+ai_attack_missile			WEAPONTYPE_MISSILE			,		// AI액터가 사용
+ai_attack_snipe				WEAPONTYPE_SNIPE			,		// AI액터가 사용
+sentry_hp					센트리류 HP
+sentry_atk_distance			센트리류 공격 거리
+sentry_build_time			센트리류 빌드 시간
+							
+  
+  ( s4_costumes.xml, s4_actions.xml, s4_weapons.xml ) < base effect_group = itemgroupid >를 넣어주면 됨! )
+-->
+	<!-- Graphs -->
+	<graphs>
+		<graph id="HP" min="0" max="161" normal="100" text_key="G_HP">
+			<import effect="hp" />
+		</graph>
+		<!--포스팩 HP+5, 포스팩 HP+5, 포스팩 HP+5, 프리미어 장갑 HP+8, 프리미어 신발 HP+8, 체력마스터리HP+30 -->
+		<graph id="SP" min="0" max="169" normal="100" text_key="G_MP">
+			<import effect="mp" />
+		</graph>
+		<!--포스팩SP+5, 포스팩SP+5, 포스팩SP+5, 프리미어 장식SP+8, 펜얼굴SP+6, 스킬마스터리SP+40 -->
+		<graph id="skill" min="0" max="0" normal="0" text_key="G_SKILL" />
+		<graph id="attack" min="0" max="29" normal="0" text_key="G_ATTACK">
+			<import effect="plasma_attack" />
+			<import effect="counter_attack" />
+			<import effect="storm_attack" />
+			<import effect="katana_attack" />
+			<import effect="heavy_attack" />
+			<import effect="sentry_attack" />
+			<import effect="sentiwall_attack" />
+			<import effect="sentinel_attack" />
+			<import effect="mine_attack" />
+			<import effect="mind_energy" />
+			<import effect="mind_shock" />
+			<import effect="card_attack" />
+			<import effect="submachine_attack" />
+			<import effect="semi_attack" />
+			<import effect="revolver_attack" />
+			<import effect="gaussrifle_attack" />
+			<import effect="rail_attack" />
+			<import effect="cannonade_attack" />
+			<import effect="claw_attack" />
+			<import effect="smg3_attack" />
+			<import effect="revolver2_attack" />
+			<import effect="all_weapon_attack" />
+			<import effect="smg2_homing_attack" />
+			<import effect="airgun_attack" />
+			<import effect="submachine_reload" />
+			<import effect="semi_reload" />
+			<import effect="revolver_reload" />
+			<import effect="revolver2_reload" />
+			<import effect="gaussrifle_reload" />
+			<import effect="mine_reload" />
+			<import effect="heavy_reload" />
+			<import effect="rail_reload" />
+			<import effect="cannonade_reload" />
+			<import effect="mind_energy_reload" />
+			<import effect="mind_shock_reload" />
+			<import effect="smg3_reload" />
+			<import effect="submachine_reloadammo" />
+			<import effect="semi_reloadammo" />
+			<import effect="revolver_reloadammo" />
+			<import effect="revolver2_reloadammo" />
+			<import effect="gaussrifle_reloadammo" />
+			<import effect="mine_reloadammo" />
+			<import effect="heavy_reloadammo" />
+			<import effect="rail_reloadammo" />
+			<import effect="cannonade_reloadammo" />
+			<import effect="mind_energy_reloadammo" />
+			<import effect="mind_shock_reloadammo" />
+			<import effect="sentry_reloadammo" />
+			<import effect="sentiwall_reloadammo" />
+			<import effect="sentinel_reloadammo" />
+			<import effect="smg3_reloadammo" />
+			<import effect="mine_maxammo" />
+			<import effect="smg4_attack" />
+			<import effect="spydagger_attack" />
+			<import effect="mind_energy" />
+			<import effect="smg4_reload" />
+			<import effect="smg4_reloadammo" />
+			<import effect="smg2_homing_reload" />
+			<import effect="smg2_homing_reloadammo" />
+			<import effect="airgun_reload" />
+			<import effect="airgun_reloadammo" />
+			<import effect="earth_bomb_attack" />
+			<import effect="earth_bomb_reload" />
+			<import effect="earth_bomb_reloadammo" />
+			<import effect="earth_bomb_maxammo" />
+			<import effect="spark_rifle_attack" />
+			<import effect="spark_rifle_reload" />
+			<import effect="spark_rifle_reloadammo" />
+			<import effect="doublesword_attack" />
+		</graph>
+		<graph id="defense" min="0" max="16" normal="0" text_key="G_DEFENSE">
+			<import effect="melee_defense" />
+			<import effect="heavy_defense" />
+			<import effect="install_defense" />
+			<import effect="throw_defense" />
+			<import effect="mind_defense" />
+			<import effect="missile_defense" />
+			<import effect="snipe_defense" />
+			<import effect="all_weapon_defense" />
+			<import effect="missile_defense_head" />
+		</graph>
+		<graph id="move" min="0" max="110" normal="100" text_key="G_MOVE">
+			<import effect="movespeed" />
+		</graph>
+	</graphs>
+	<item id="00000" NAME="능력치 옵션 없음" text_key="TEXT_179" image="Resources/Image/fumbishop/ability.tga" />
+		<attribute effect="" graph_value="" value="0" rate="0" />
+	<!--[Hp 이펙트] ID넘버링규칙: HP이펙트구분값01 + 상승수치bbb = 01bbb-->
+	<item id="01001" NAME="HP +1" text_key="TEXT_1">
+		<attribute effect="hp" graph_value="1" value="1" rate="0" />
+	</item>
+	<item id="01002" NAME="HP +2" text_key="TEXT_2" pumbi_star="1" image="Resources/Image/fumbishop/ability_hp.tga">
+		<attribute effect="hp" graph_value="2" value="2" rate="0" />
+	</item>
+	<item id="01003" NAME="HP +3" text_key="TEXT_3" pumbi_star="3" image="Resources/Image/fumbishop/ability_hp.tga">
+		<attribute effect="hp" graph_value="3" value="3" rate="0" />
+	</item>
+	<item id="01004" NAME="HP +4" text_key="TEXT_4" pumbi_star="5" image="Resources/Image/fumbishop/ability_hp.tga">
+		<attribute effect="hp" graph_value="4" value="4" rate="0" />
+	</item>
+	<item id="01005" NAME="HP +5" text_key="TEXT_5">
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="01006" NAME="HP +6" text_key="TEXT_6">
+		<attribute effect="hp" graph_value="6" value="6" rate="0" />
+	</item>
+	<item id="01007" NAME="HP +7" text_key="TEXT_7">
+		<attribute effect="hp" graph_value="7" value="7" rate="0" />
+	</item>
+	<item id="01008" NAME="HP +8" text_key="TEXT_8">
+		<attribute effect="hp" graph_value="8" value="8" rate="0" />
+	</item>
+	<item id="01015" NAME="HP +15" text_key="T01015">
+		<attribute effect="hp" graph_value="15" value="15" rate="0" />
+	</item>
+	<item id="01030" NAME="HP +30" text_key="T01030">
+		<attribute effect="hp" graph_value="30" value="30" rate="0" />
+	</item>
+	<!--[SP 이펙트] ID넘버링규칙: SP이펙트구분값02 + 상승수치bbb = 02bbb-->
+	<item id="02003" NAME="SP +3" text_key="TEXT_9">
+		<attribute effect="mp" graph_value="3" value="3" rate="0" />
+	</item>
+	<item id="02005" NAME="SP +5" text_key="TEXT_10">
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="02006" NAME="SP +6" text_key="TEXT_11" pumbi_star="1">
+		<attribute effect="mp" graph_value="6" value="6" rate="0" />
+	</item>
+	<item id="02007" NAME="SP +7" text_key="TEXT_12" pumbi_star="3">
+		<attribute effect="mp" graph_value="7" value="7" rate="0" />
+	</item>
+	<item id="02008" NAME="SP +8" text_key="TEXT_13" pumbi_star="5">
+		<attribute effect="mp" graph_value="8" value="8" rate="0" />
+	</item>
+	<item id="02010" NAME="SP +10" text_key="02010">
+		<attribute effect="mp" graph_value="10" value="10" rate="0" />
+	</item>
+	<item id="02012" NAME="SP +12" text_key="02012">
+		<attribute effect="mp" graph_value="12" value="12" rate="0" />
+	</item>
+	<item id="02040" NAME="SP +40" text_key="T02040">
+		<attribute effect="mp" graph_value="40" value="40" rate="0" />
+	</item>
+	<!--[체이서 이펙트] ID넘버링규칙: 체이서이펙트구분값03 + 순차적으로번호적용bbb = 03bbb-->
+	<item id="03001" NAME="체이서 선정확률 Up" text_key="TEXT_184">
+		<attribute effect="chaser_cast_rate" value="1000" rate="0" />
+	</item>
+	<item id="03002" NAME="체이서 선정확률 Down" text_key="TEXT_185">
+		<attribute effect="chaser_cast_rate" value="-100" rate="0" />
+	</item>
+	<item id="03003" NAME="체이서 이동속도 +10%" text_key="TEXT_186">
+		<attribute effect="chaser_movespeed" value="0" rate="0.1" />
+	</item>
+	<item id="03004" NAME="체이서 선정확률 100%" text_key="3004">
+		<attribute effect="chaser_cast_rate" value="10000" rate="0" />
+	</item>	
+	<!--[방어력 이펙트] ID넘버링규칙: 방어력이펙트구분값1 + 무기서브카테고리a + 방어력bbb = 1abbb-->
+	<item id="10002" NAME="근접 무기 방어력 +2" text_key="TEXT_24" pumbi_star="1" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="melee_defense" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="10004" NAME="근접 무기 방어력 +4" text_key="TEXT_25" pumbi_star="2" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="melee_defense" graph_value="4" value="0" rate="0.05" />
+	</item>
+	<item id="10005" NAME="근접 무기 방어력 +5" text_key="TEXT_26" pumbi_star="3" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="melee_defense" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="10006" NAME="근접 무기 방어력 +6" text_key="TEXT_27" pumbi_star="4" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="melee_defense" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="10007" NAME="근접 무기 방어력 +7" text_key="TEXT_28" pumbi_star="5" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="melee_defense" graph_value="7" value="0" rate="0.12" />
+	</item>
+	<item id="10008" NAME="근접 무기 방어력 +8" text_key="TEXT_29">
+		<attribute effect="melee_defense" graph_value="8" value="0" rate="0.13" />
+	</item>
+	<item id="11002" NAME="발사 무기 방어력 +2" text_key="TEXT_18" pumbi_star="1" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="11004" NAME="발사 무기 방어력 +4" text_key="TEXT_19" pumbi_star="2" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense" graph_value="4" value="0" rate="0.05" />
+	</item>
+	<item id="11005" NAME="발사 무기 방어력 +5" text_key="TEXT_20" pumbi_star="3" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="11006" NAME="발사 무기 방어력 +6" text_key="TEXT_21" pumbi_star="4" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="11007" NAME="발사 무기 방어력 +7" text_key="TEXT_22" pumbi_star="5" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense" graph_value="7" value="0" rate="0.12" />
+	</item>
+	<item id="11008" NAME="발사 무기 방어력 +8" text_key="TEXT_23">
+		<attribute effect="missile_defense" graph_value="8" value="0" rate="0.13" />
+	</item>
+	<item id="13002" NAME="저격 무기 방어력 +2" text_key="TEXT_30" pumbi_star="1" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="snipe_defense" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="13004" NAME="저격 무기 방어력 +4" text_key="TEXT_31" pumbi_star="2" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="snipe_defense" graph_value="4" value="0" rate="0.05" />
+	</item>
+	<item id="13005" NAME="저격 무기 방어력 +5" text_key="TEXT_32" pumbi_star="3" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="snipe_defense" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="13006" NAME="저격 무기 방어력 +6" text_key="TEXT_33" pumbi_star="4" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="snipe_defense" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="13007" NAME="저격 무기 방어력 +7" text_key="TEXT_34" pumbi_star="5" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="snipe_defense" graph_value="7" value="0" rate="0.12" />
+	</item>
+	<item id="13008" NAME="저격 무기 방어력 +8" text_key="TEXT_35">
+		<attribute effect="snipe_defense" graph_value="8" value="0" rate="0.13" />
+	</item>
+	<item id="15002" NAME="투척 무기 방어력 +2" text_key="TEXT_36" pumbi_star="1" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="throw_defense" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="15004" NAME="투척 무기 방어력 +4" text_key="TEXT_37" pumbi_star="2" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="throw_defense" graph_value="4" value="0" rate="0.05" />
+	</item>
+	<item id="15005" NAME="투척 무기 방어력 +5" text_key="TEXT_38" pumbi_star="3" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="throw_defense" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="15006" NAME="투척 무기 방어력 +6" text_key="TEXT_39" pumbi_star="4" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="throw_defense" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="15007" NAME="투척 무기 방어력 +7" text_key="TEXT_40" pumbi_star="5" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="throw_defense" graph_value="7" value="0" rate="0.12" />
+	</item>
+	<item id="15008" NAME="투척 무기 방어력 +8" text_key="TEXT_41">
+		<attribute effect="throw_defense" graph_value="8" value="0" rate="0.13" />
+	</item>
+	<item id="19801" NAME="발사 무기 방어력(머리) +1" text_key="TEXT_42" pumbi_star="1" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense_head" graph_value="1" value="0" rate="0.03" />
+	</item>
+	<item id="19802" NAME="발사 무기 방어력(머리) +2" text_key="TEXT_43" pumbi_star="3" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense_head" graph_value="2" value="0" rate="0.05" />
+	</item>
+	<item id="19803" NAME="발사 무기 방어력(머리) +3" text_key="TEXT_44" pumbi_star="5" image="Resources/Image/fumbishop/ability_guard.tga">
+		<attribute effect="missile_defense_head" graph_value="3" value="0" rate="0.07" />
+	</item>
+	<item id="19804" NAME="발사 무기 방어력(머리) +4" text_key="TEXT_45">
+		<attribute effect="missile_defense_head" graph_value="4" value="0" rate="0.09" />
+	</item>
+	<item id="19805" NAME="발사 무기 방어력(머리) +5" text_key="TEXT_46">
+		<attribute effect="missile_defense_head" graph_value="5" value="0" rate="0.11" />
+	</item>
+	<item id="19806" NAME="발사 무기 방어력(머리) +6" text_key="TEXT_47">
+		<attribute effect="missile_defense_head" graph_value="6" value="0" rate="0.13" />
+	</item>
+	<item id="19807" NAME="발사 무기 방어력(머리) +7" text_key="TEXT_48">
+		<attribute effect="missile_defense_head" graph_value="7" value="0" rate="0.15" />
+	</item>
+	<item id="19904" NAME="모든 무기 방어력 +4" text_key="TEXT_14">
+		<attribute effect="all_weapon_defense" graph_value="4" value="0" rate="0.05" />
+	</item>
+	<item id="19907" NAME="모든 무기 방어력 +7" text_key="TEXT_15">
+		<attribute effect="all_weapon_defense" graph_value="7" value="0" rate="0.12" />
+	</item>
+	<item id="19908" NAME="모든 무기 방어력 +8" text_key="TEXT_16">
+		<attribute effect="all_weapon_defense" graph_value="8" value="0" rate="0.13" />
+	</item>
+	<item id="19909" NAME="모든 무기 방어력 +9" text_key="TEXT_17">
+		<attribute effect="all_weapon_defense" graph_value="9" value="0" rate="0.14" />
+	</item>
+	<!--[공격력 이펙트] ID넘버링규칙: 공격력구분값2 + 무기서브카테고리a + 무기넘버b + 공격력cc = 2abcc-->
+	<item id="20101" NAME="플라즈마 스워드 공격력 +1" text_key="TEXT_53">
+		<attribute effect="plasma_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="20102" NAME="플라즈마 스워드 공격력 +2" text_key="TEXT_54" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="plasma_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="20103" NAME="플라즈마 스워드 공격력 +3" text_key="TEXT_55" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="plasma_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="20104" NAME="플라즈마 스워드 공격력 +4" text_key="TEXT_56" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="plasma_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="20105" NAME="플라즈마 스워드 공격력 +5" text_key="TEXT_57" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="plasma_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="20106" NAME="플라즈마 스워드 공격력 +6" text_key="TEXT_58" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="plasma_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="20107" NAME="플라즈마 스워드 공격력 +7" text_key="TEXT_59">
+		<attribute effect="plasma_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="20201" NAME="카운터 스워드 공격력 +1" text_key="TEXT_60">
+		<attribute effect="counter_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="20202" NAME="카운터 스워드 공격력 +2" text_key="TEXT_61" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="counter_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="20203" NAME="카운터 스워드 공격력 +3" text_key="TEXT_62" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="counter_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="20204" NAME="카운터 스워드 공격력 +4" text_key="TEXT_63" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="counter_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="20205" NAME="카운터 스워드 공격력 +5" text_key="TEXT_64" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="counter_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="20206" NAME="카운터 스워드 공격력 +6" text_key="TEXT_65" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="counter_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="20207" NAME="카운터 스워드 공격력 +7" text_key="TEXT_66">
+		<attribute effect="counter_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="20301" NAME="스톰배트 공격력 +1" text_key="TEXT_67">
+		<attribute effect="storm_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="20302" NAME="스톰배트 공격력 +2" text_key="TEXT_68" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="storm_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="20303" NAME="스톰배트 공격력 +3" text_key="TEXT_69" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="storm_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="20304" NAME="스톰배트 공격력 +4" text_key="TEXT_70" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="storm_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="20305" NAME="스톰배트 공격력 +5" text_key="TEXT_71" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="storm_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="20306" NAME="스톰배트 공격력 +6" text_key="TEXT_72" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="storm_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="20307" NAME="스톰배트 공격력 +7" text_key="TEXT_73">
+		<attribute effect="storm_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	
+	<item id="20601" NAME="스파이대거 공격력 +1" text_key="20601">
+		<attribute effect="spydagger_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="20602" NAME="스파이대거 공격력 +2" text_key="20602" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spydagger_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="20603" NAME="스파이대거 공격력 +3" text_key="20603" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spydagger_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="20604" NAME="스파이대거 공격력 +4" text_key="20604" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spydagger_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="20605" NAME="스파이대거 공격력 +5" text_key="20605" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spydagger_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="20606" NAME="스파이대거 공격력 +6" text_key="20606" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spydagger_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="20607" NAME="스파이대거 공격력 +7" text_key="20607">
+		<attribute effect="spydagger_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	
+	<item id="21101" NAME="서브머신건 공격력 +1" text_key="TEXT_74">
+		<attribute effect="submachine_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21102" NAME="서브머신건 공격력 +2" text_key="TEXT_75" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="submachine_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21103" NAME="서브머신건 공격력 +3" text_key="TEXT_76" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="submachine_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21104" NAME="서브머신건 공격력 +4" text_key="TEXT_77" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="submachine_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21105" NAME="서브머신건 공격력 +5" text_key="TEXT_78" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="submachine_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21106" NAME="서브머신건 공격력 +6" text_key="TEXT_79" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="submachine_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21107" NAME="서브머신건 공격력 +7" text_key="TEXT_80">
+		<attribute effect="submachine_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="21201" NAME="리볼버 공격력 +1" text_key="TEXT_81">
+		<attribute effect="revolver_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21202" NAME="리볼버 공격력 +2" text_key="TEXT_82" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21203" NAME="리볼버 공격력 +3" text_key="TEXT_83" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21204" NAME="리볼버 공격력 +4" text_key="TEXT_84" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21205" NAME="리볼버 공격력 +5" text_key="TEXT_85" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21206" NAME="리볼버 공격력 +6" text_key="TEXT_86" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21207" NAME="리볼버 공격력 +7" text_key="TEXT_87">
+		<attribute effect="revolver_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="21401" NAME="세미라이플 공격력 +1" text_key="TEXT_88">
+		<attribute effect="semi_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21402" NAME="세미라이플 공격력 +2" text_key="TEXT_89" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="semi_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21403" NAME="세미라이플 공격력 +3" text_key="TEXT_90" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="semi_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21404" NAME="세미라이플 공격력 +4" text_key="TEXT_91" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="semi_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21405" NAME="세미라이플 공격력 +5" text_key="TEXT_92" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="semi_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21406" NAME="세미라이플 공격력 +6" text_key="TEXT_93" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="semi_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21407" NAME="세미라이플 공격력 +7" text_key="TEXT_94">
+		<attribute effect="semi_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="21601" NAME="스매쉬라이플 공격력 +1" text_key="TEXT_95">
+		<attribute effect="smg3_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21602" NAME="스매쉬라이플 공격력 +2" text_key="TEXT_96" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg3_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21603" NAME="스매쉬라이플 공격력 +3" text_key="TEXT_97" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg3_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21604" NAME="스매쉬라이플 공격력 +4" text_key="TEXT_98" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg3_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21605" NAME="스매쉬라이플 공격력 +5" text_key="TEXT_99" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg3_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21606" NAME="스매쉬라이플 공격력 +6" text_key="TEXT_100" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg3_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21607" NAME="스매쉬라이플 공격력 +7" text_key="TEXT_101">
+		<attribute effect="smg3_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="21701" NAME="핸드건 공격력 +1" text_key="TEXT_172">
+		<attribute effect="revolver2_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21702" NAME="핸드건 공격력 +2" text_key="TEXT_173" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver2_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21703" NAME="핸드건 공격력 +3" text_key="TEXT_174" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver2_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21704" NAME="핸드건 공격력 +4" text_key="TEXT_175" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver2_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21705" NAME="핸드건 공격력 +5" text_key="TEXT_176" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver2_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21706" NAME="핸드건 공격력 +6" text_key="TEXT_177" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="revolver2_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21707" NAME="핸드건 공격력 +7" text_key="TEXT_178">
+		<attribute effect="revolver2_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="21801" NAME="버스트샷건 공격력 +1" text_key="TEXT_165">
+		<attribute effect="smg4_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="21802" NAME="버스트샷건 공격력 +2" text_key="TEXT_166" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg4_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="21803" NAME="버스트샷건 공격력 +3" text_key="TEXT_167" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg4_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="21804" NAME="버스트샷건 공격력 +4" text_key="TEXT_168" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg4_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="21805" NAME="버스트샷건 공격력 +5" text_key="TEXT_169" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg4_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="21806" NAME="버스트샷건 공격력 +6" text_key="TEXT_170" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="smg4_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="21807" NAME="버스트샷건 공격력 +7" text_key="TEXT_171">
+		<attribute effect="smg4_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="22101" NAME="헤비머신건 공격력 +1" text_key="TEXT_102">
+		<attribute effect="heavy_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="22102" NAME="헤비머신건 공격력 +2" text_key="TEXT_103" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="heavy_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="22103" NAME="헤비머신건 공격력 +3" text_key="TEXT_104" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="heavy_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="22104" NAME="헤비머신건 공격력 +4" text_key="TEXT_105" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="heavy_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="22105" NAME="헤비머신건 공격력 +5" text_key="TEXT_106" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="heavy_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="22106" NAME="헤비머신건 공격력 +6" text_key="TEXT_107" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="heavy_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="22107" NAME="헤비머신건 공격력 +7" text_key="TEXT_108">
+		<attribute effect="heavy_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="22201" NAME="가우스라이플 공격력 +1" text_key="TEXT_109">
+		<attribute effect="gaussrifle_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="22202" NAME="가우스라이플 공격력 +2" text_key="TEXT_110" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="gaussrifle_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="22203" NAME="가우스라이플 공격력 +3" text_key="TEXT_111" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="gaussrifle_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="22204" NAME="가우스라이플 공격력 +4" text_key="TEXT_112" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="gaussrifle_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="22205" NAME="가우스라이플 공격력 +5" text_key="TEXT_113" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="gaussrifle_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="22206" NAME="가우스라이플 공격력 +6" text_key="TEXT_114" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="gaussrifle_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="22207" NAME="가우스라이플 공격력 +7" text_key="TEXT_115">
+		<attribute effect="gaussrifle_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="23101" NAME="레일건 공격력 +1" text_key="TEXT_116">
+		<attribute effect="rail_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="23102" NAME="레일건 공격력 +2" text_key="TEXT_117" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="rail_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="23103" NAME="레일건 공격력 +3" text_key="TEXT_118" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="rail_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="23104" NAME="레일건 공격력 +4" text_key="TEXT_119" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="rail_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="23105" NAME="레일건 공격력 +5" text_key="TEXT_120" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="rail_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="23106" NAME="레일건 공격력 +6" text_key="TEXT_121" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="rail_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="23107" NAME="레일건 공격력 +7" text_key="TEXT_122">
+		<attribute effect="rail_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="23201" NAME="캐노네이드 공격력 +1" text_key="TEXT_123">
+		<attribute effect="cannonade_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="23202" NAME="캐노네이드 공격력 +2" text_key="TEXT_124" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="cannonade_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="23203" NAME="캐노네이드 공격력 +3" text_key="TEXT_125" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="cannonade_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="23204" NAME="캐노네이드 공격력 +4" text_key="TEXT_126" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="cannonade_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="23205" NAME="캐노네이드 공격력 +5" text_key="TEXT_127" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="cannonade_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="23206" NAME="캐노네이드 공격력 +6" text_key="TEXT_128" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="cannonade_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="23207" NAME="캐노네이드 공격력 +7" text_key="TEXT_129">
+		<attribute effect="cannonade_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="24101" NAME="센트리건 공격력 +1" text_key="TEXT_130">
+		<attribute effect="sentry_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="24102" NAME="센트리건 공격력 +2" text_key="TEXT_131" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentry_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="24103" NAME="센트리건 공격력 +3" text_key="TEXT_132" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentry_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="24104" NAME="센트리건 공격력 +4" text_key="TEXT_133" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentry_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="24105" NAME="센트리건 공격력 +5" text_key="TEXT_134" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentry_attack" graph_value="5" value="0" rate="0.08" />		
+	</item>
+	<item id="24106" NAME="센트리건 공격력 +6" text_key="TEXT_135" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentry_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="24107" NAME="센트리건 공격력 +7" text_key="TEXT_136">
+		<attribute effect="sentry_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="24301" NAME="센티넬 공격력 +1" text_key="TEXT_137">
+		<attribute effect="sentinel_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="24302" NAME="센티넬 공격력 +2" text_key="TEXT_138" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentinel_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="24303" NAME="센티넬 공격력 +3" text_key="TEXT_139" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentinel_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="24304" NAME="센티넬 공격력 +4" text_key="TEXT_140" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentinel_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="24305" NAME="센티넬 공격력 +5" text_key="TEXT_141" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentinel_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="24306" NAME="센티넬 공격력 +6" text_key="TEXT_142" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="sentinel_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="24307" NAME="센티넬 공격력 +7" text_key="TEXT_143">
+		<attribute effect="sentinel_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="25101" NAME="그레네이드건 공격력 +1" text_key="TEXT_144">
+		<attribute effect="mine_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="25102" NAME="그레네이드건 공격력 +2" text_key="TEXT_145" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mine_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="25103" NAME="그레네이드건 공격력 +3" text_key="TEXT_146" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mine_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="25104" NAME="그레네이드건 공격력 +4" text_key="TEXT_147" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mine_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="25105" NAME="그레네이드건 공격력 +5" text_key="TEXT_148" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mine_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="25106" NAME="그레네이드건 공격력 +6" text_key="TEXT_149" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mine_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="25107" NAME="그레네이드건 공격력 +7" text_key="TEXT_150">
+		<attribute effect="mine_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="26101" NAME="마인드에너지 회복력 +1" text_key="TEXT_151">
+		<attribute effect="mind_energy" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="26102" NAME="마인드에너지 회복력 +2" text_key="TEXT_152" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_energy" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="26103" NAME="마인드에너지 회복력 +3" text_key="TEXT_153" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_energy" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="26104" NAME="마인드에너지 회복력 +4" text_key="TEXT_154" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_energy" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="26105" NAME="마인드에너지 회복력 +5" text_key="TEXT_155" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_energy" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="26106" NAME="마인드에너지 회복력 +6" text_key="TEXT_156" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_energy" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="26107" NAME="마인드에너지 회복력 +7" text_key="TEXT_157">
+		<attribute effect="mind_energy" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="26201" NAME="마인드쇼크 공격력 +1" text_key="TEXT_158">
+		<attribute effect="mind_shock" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="26202" NAME="마인드쇼크 공격력 +2" text_key="TEXT_159" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_shock" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="26203" NAME="마인드쇼크 공격력 +3" text_key="TEXT_160" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_shock" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="26204" NAME="마인드쇼크 공격력 +4" text_key="TEXT_161" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_shock" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="26205" NAME="마인드쇼크 공격력 +5" text_key="TEXT_162" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_shock" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="26206" NAME="마인드쇼크 공격력 +6" text_key="TEXT_163" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="mind_shock" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="26207" NAME="마인드쇼크 공격력 +7" text_key="TEXT_164">
+		<attribute effect="mind_shock" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<!-- [추가 신규무기 공격력] ID넘버링규칙: 공격력구분값2 + 무기서브카테고리a + 무기넘버b + 공격력c = 2abbc-->
+	<item id="211501" NAME="호밍 라이플 공격력 +1" text_key="211501">
+		<attribute effect="smg2_homing_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="211502" NAME="호밍 라이플 공격력 +2" text_key="211502" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="smg2_homing_attack" graph_value="2" value="0" rate="0.03"/>
+	</item>
+	<item id="211503" NAME="호밍 라이플 공격력 +3" text_key="211503" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="smg2_homing_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="211504" NAME="호밍 라이플 공격력 +4" text_key="211504" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="smg2_homing_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="211505" NAME="호밍 라이플 공격력 +5" text_key="211505" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="smg2_homing_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="211506" NAME="호밍 라이플 공격력 +6" text_key="211506" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="smg2_homing_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="211507" NAME="호밍 라이플 공격력 +7" text_key="211507">
+		<attribute effect="smg2_homing_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="211601" NAME="에어건 공격력 +1" text_key="211601">
+		<attribute effect="airgun_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="211602" NAME="에어건 공격력 +2" text_key="211602" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="airgun_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="211603" NAME="에어건 공격력 +3" text_key="211603" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="airgun_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="211604" NAME="에어건 공격력 +4" text_key="211604" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="airgun_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="211605" NAME="에어건 공격력 +5" text_key="211605" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="airgun_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="211606" NAME="에어건 공격력 +6" text_key="211606" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="airgun_attack" graph_value="6" value="0" rate="0.1"/>
+	</item>
+	<item id="211607" NAME="에어건 공격력 +7" text_key="211607">
+		<attribute effect="airgun_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="25201" NAME="어스 봄버 공격력 +1" text_key="25201">
+		<attribute effect="earth_bomb_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="25202" NAME="어스 봄버 공격력 +2" text_key="25202" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="earth_bomb_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="25203" NAME="어스 봄버 공격력 +3" text_key="25203" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="earth_bomb_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="25204" NAME="어스 봄버 공격력 +4" text_key="25204" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="earth_bomb_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="25205" NAME="어스 봄버 공격력 +5" text_key="25205" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="earth_bomb_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="25206" NAME="어스 봄버 공격력 +6" text_key="25206" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="earth_bomb_attack" graph_value="6" value="0" rate="0.1"/>
+	</item>
+	<item id="25207" NAME="어스 봄버 공격력 +7" text_key="25207">
+		<attribute effect="earth_bomb_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="211801" NAME="스파크라이플 공격력 +1" text_key="211801">
+		<attribute effect="spark_rifle_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="211802" NAME="스파크라이플 공격력 +2" text_key="211802" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spark_rifle_attack" graph_value="2" value="0" rate="0.03" />
+	</item>
+	<item id="211803" NAME="스파크라이플 공격력 +3" text_key="211803" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spark_rifle_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="211804" NAME="스파크라이플 공격력 +4" text_key="211804" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spark_rifle_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="211805" NAME="스파크라이플 공격력 +5" text_key="211805" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spark_rifle_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="211806" NAME="스파크라이플 공격력 +6" text_key="211806" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga">
+		<attribute effect="spark_rifle_attack" graph_value="6" value="0" rate="0.1"/>
+	</item>
+	<item id="211807" NAME="스파크라이플 공격력 +7" text_key="211807">
+		<attribute effect="spark_rifle_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="201001" NAME="트윈블레이드 공격력 +1" text_key="201001">
+		<attribute effect="doublesword_attack" graph_value="1" value="0" rate="0.01" />
+	</item>
+	<item id="201002" NAME="트윈블레이드 공격력 +2" text_key="201002" pumbi_star="1" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="doublesword_attack" graph_value="2" value="0" rate="0.03"/>
+	</item>
+	<item id="201003" NAME="트윈블레이드  공격력 +3" text_key="201003" pumbi_star="2" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="doublesword_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="201004" NAME="트윈블레이드  공격력 +4" text_key="201004" pumbi_star="3" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="doublesword_attack" graph_value="4" value="0" rate="0.07" />
+	</item>
+	<item id="201005" NAME="트윈블레이드 공격력 +5" text_key="201005" pumbi_star="4" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="doublesword_attack" graph_value="5" value="0" rate="0.08" />
+	</item>
+	<item id="201006" NAME="트윈블레이드 공격력 +6" text_key="201006" pumbi_star="5" image="Resources/Image/fumbishop/ability_attack.tga" >
+		<attribute effect="doublesword_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="201007" NAME="트윈블레이드 공격력 +7" text_key="201007">
+		<attribute effect="doublesword_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="29903" NAME="모든 무기 공격력 +3" text_key="TEXT_49">
+		<attribute effect="all_weapon_attack" graph_value="3" value="0" rate="0.05" />
+	</item>
+	<item id="29906" NAME="모든 무기 공격력 +6 " text_key="TEXT_50">
+		<attribute effect="all_weapon_attack" graph_value="6" value="0" rate="0.1" />
+	</item>
+	<item id="29907" NAME="모든 무기 공격력 +7 " text_key="TEXT_51">
+		<attribute effect="all_weapon_attack" graph_value="7" value="0" rate="0.11" />
+	</item>
+	<item id="29908" NAME="모든 무기 공격력 +8 " text_key="TEXT_52">
+		<attribute effect="all_weapon_attack" graph_value="8" value="0" rate="0.12" />
+	</item>
+	<!--[공격력 이펙트 - 탄창] ID넘버링규칙: 공격력구분값2 + 무기서브카테고리a + 무기넘버b + 탄창구분값8 + 상승수치c = 2ab8c -->
+	<item id="21181" NAME="서브머신건 탄창 +1" text_key="TEXT_187">
+		<attribute effect="submachine_reloadammo" graph_value="1" value="3" rate="0" />
+		<attribute effect="submachine_reload" value="0" rate="-0.1" />
+	</item>
+	<item id="21182" NAME="서브머신건 탄창 +2" text_key="TEXT_207">
+		<attribute effect="submachine_reloadammo" graph_value="2" value="6" rate="0" />
+		<attribute effect="submachine_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="21281" NAME="리볼버 탄창 +1" text_key="TEXT_191">
+		<attribute effect="revolver_reloadammo" graph_value="1" value="1" rate="0" />
+		<attribute effect="revolver_reload" value="0" rate="-0.142" />
+	</item>
+	<item id="21282" NAME="리볼버 탄창 +2" text_key="TEXT_211">
+		<attribute effect="revolver_reloadammo" graph_value="2" value="2" rate="0" />
+		<attribute effect="revolver_reload" value="0" rate="-0.285" />
+	</item>
+	<item id="21481" NAME="세미라이플 탄창 +1" text_key="TEXT_189">
+		<attribute effect="semi_reloadammo" graph_value="1" value="3" rate="0" />
+		<attribute effect="semi_reload" value="0" rate="-0.1" />
+	</item>
+	<item id="21482" NAME="세미라이플 탄창 +2" text_key="TEXT_209">
+		<attribute effect="semi_reloadammo" graph_value="2" value="6" rate="0" />
+		<attribute effect="semi_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="21681" NAME="스매쉬라이플 탄창 +1" text_key="TEXT_297">
+		<attribute effect="smg3_reloadammo" graph_value="1" value="3" rate="0" />
+		<attribute effect="smg3_reload" value="0" rate="-0.1" />
+	</item>
+	<item id="21682" NAME="스매쉬라이플 탄창 +2" text_key="TEXT_299">
+		<attribute effect="smg3_reloadammo" graph_value="2" value="6" rate="0" />
+		<attribute effect="smg3_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="21781" NAME="핸드건 탄창 +1" text_key="TEXT_193">
+		<attribute effect="revolver2_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="revolver2_reload" value="0" rate="-0.133" />
+	</item>
+	<item id="21782" NAME="핸드건 탄창 +2" text_key="TEXT_213">
+		<attribute effect="revolver2_reloadammo" graph_value="2" value="3" rate="0" />
+		<attribute effect="revolver2_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="22181" NAME="헤비머신건 탄창 +1" text_key="TEXT_197">
+		<attribute effect="heavy_reloadammo" graph_value="1" value="10" rate="0" />
+		<attribute effect="heavy_reload" value="0" rate="-0.1" />
+	</item>
+	<item id="22182" NAME="헤비머신건 탄창 +2" text_key="TEXT_217">
+		<attribute effect="heavy_reloadammo" graph_value="2" value="20" rate="0" />
+		<attribute effect="heavy_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="22281" NAME="가우스라이플 탄창 +1" text_key="TEXT_195">
+		<attribute effect="gaussrifle_reloadammo" graph_value="1" value="3" rate="0" />
+		<attribute effect="gaussrifle_reload" value="0" rate="-0.12" />
+	</item>
+	<item id="22282" NAME="가우스라이플 탄창 +2" text_key="TEXT_215">
+		<attribute effect="gaussrifle_reloadammo" graph_value="2" value="5" rate="0" />
+		<attribute effect="gaussrifle_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="23181" NAME="레일건 탄창 +1" text_key="TEXT_199">
+		<attribute effect="rail_reloadammo" graph_value="1" value="1" rate="0" />
+		<attribute effect="rail_reload" value="0" rate="0" />
+	</item>
+	<item id="23182" NAME="레일건 탄창 +2" text_key="TEXT_219">
+		<attribute effect="rail_reloadammo" graph_value="2" value="2" rate="0" />
+		<attribute effect="rail_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="23281" NAME="캐노네이드 탄창 +1" text_key="TEXT_201">
+		<attribute effect="cannonade_reloadammo" graph_value="1" value="1" rate="0" />
+		<attribute effect="cannonade_reload" value="0" rate="0" />
+	</item>
+	<item id="23282" NAME="캐노네이드 탄창 +2" text_key="TEXT_221">
+		<attribute effect="cannonade_reloadammo" graph_value="2" value="2" rate="0" />
+		<attribute effect="cannonade_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="26181" NAME="마인드에너지 탄창 +1" text_key="TEXT_203">
+		<attribute effect="mind_energy_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="mind_energy_reload" value="0" rate="-0.1" />
+	</item>
+	<item id="26182" NAME="마인드에너지 탄창 +2" text_key="TEXT_223">
+		<attribute effect="mind_energy_reloadammo" graph_value="2" value="4" rate="0" />
+		<attribute effect="mind_energy_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="26281" NAME="마인드쇼크 탄창 +1" text_key="TEXT_205">
+		<attribute effect="mind_shock_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="mind_shock_reload" value="0" rate="-0.133" />
+	</item>
+	<item id="26282" NAME="마인드쇼크 탄창 +2" text_key="TEXT_225">
+		<attribute effect="mind_shock_reloadammo" graph_value="2" value="3" rate="0" />
+		<attribute effect="mind_shock_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="21881" NAME="버스트 샷건 탄창 +1" text_key="21881">
+		<attribute effect="smg4_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="smg4_reload" value="0" rate="-0.133" />
+	</item>
+	<item id="21882" NAME="버스트 샷건 탄창 +2" text_key="21882">
+		<attribute effect="smg4_reloadammo" graph_value="2" value="3" rate="0" />
+		<attribute effect="smg4_reload" value="0" rate="-0.2" />
+	</item>
+	<!--추가 신규무기 탄창--> 
+	<item id="211581" NAME="호밍 라이플 탄창 +1" text_key="211581">
+		<attribute effect="smg2_homing_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="smg2_homing_reload" value="0" rate="-0.133" />
+	</item>
+	<item id="211582" NAME="호밍 라이플 탄창 +2" text_key="211582">
+		<attribute effect="smg2_homing_reloadammo" graph_value="2" value="3" rate="0" />
+		<attribute effect="smg2_homing_reload" value="0" rate="-0.2" />
+	</item>
+	<item id="211681" NAME="에어건 탄창 +1" text_key="211681">
+		<attribute effect="airgun_reloadammo" graph_value="1" value="2" rate="0" />
+		<attribute effect="airgun_reload" value="0" rate="-0.133" />
+	</item>
+	<item id="211682" NAME="에어건 탄창 +2" text_key="211682">
+		<attribute effect="airgun_reloadammo" graph_value="2" value="3" rate="0" />
+		<attribute effect="airgun_reload" value="0" rate="-0.2" />
+	</item>
+	<!--[공격력 이펙트 - 장전속도] ID넘버링규칙: 공격력구분값2 + 무기서브카테고리a + 무기넘버b + 장전속도구분값9 + 상승수치c = 2ab9c -->
+	<item id="21191" NAME="서브머신건 장전속도 +1" text_key="TEXT_188">
+		<attribute effect="submachine_reload" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="21192" NAME="서브머신건 장전속도 +2" text_key="TEXT_208">
+		<attribute effect="submachine_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="21291" NAME="리볼버 장전속도 +1" text_key="TEXT_192">
+		<attribute effect="revolver_reload" graph_value="1" value="0" rate="0.142" />
+	</item>
+	<item id="21292" NAME="리볼버 장전속도 +2" text_key="TEXT_212">
+		<attribute effect="revolver_reload" graph_value="2" value="0" rate="0.285" />
+	</item>
+	<item id="21491" NAME="세미라이플 장전속도 +1" text_key="TEXT_190">
+		<attribute effect="semi_reload" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="21492" NAME="세미라이플 장전속도 +2" text_key="TEXT_210">
+		<attribute effect="semi_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="21691" NAME="스매쉬라이플 장전속도 +1" text_key="TEXT_298">
+		<attribute effect="smg3_reload" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="21692" NAME="스매쉬라이플 장전속도 +2" text_key="TEXT_300">
+		<attribute effect="smg3_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="21791" NAME="핸드건 장전속도 +1" text_key="TEXT_194">
+		<attribute effect="revolver2_reload" graph_value="1" value="0" rate="0.133" />
+	</item>
+	<item id="21792" NAME="핸드건 장전속도 +2" text_key="TEXT_214">
+		<attribute effect="revolver2_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="22191" NAME="헤비머신건 장전속도 +1" text_key="TEXT_198">
+		<attribute effect="heavy_reload" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="22192" NAME="헤비머신건 장전속도 +2" text_key="TEXT_218">
+		<attribute effect="heavy_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="22291" NAME="가우스라이플 장전속도 +1" text_key="TEXT_196">
+		<attribute effect="gaussrifle_reload" graph_value="1" value="0" rate="0.12" />
+	</item>
+	<item id="22292" NAME="가우스라이플 장전속도 +2" text_key="TEXT_216">
+		<attribute effect="gaussrifle_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="23191" NAME="레일건 장전속도 +1" text_key="TEXT_200">
+		<attribute effect="rail_reload" graph_value="1" value="0" rate="0" />
+	</item>
+	<item id="23192" NAME="레일건 장전속도 +2" text_key="TEXT_220">
+		<attribute effect="rail_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="23291" NAME="캐노네이드 장전속도 +1" text_key="TEXT_202">
+		<attribute effect="cannonade_reload" graph_value="1" value="0" rate="0" />
+	</item>
+	<item id="23292" NAME="캐노네이드 장전속도 +2" text_key="TEXT_222">
+		<attribute effect="cannonade_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="26191" NAME="마인드에너지 장전속도 +1" text_key="TEXT_204">
+		<attribute effect="mind_energy_reload" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="26192" NAME="마인드에너지 장전속도 +2" text_key="TEXT_224">
+		<attribute effect="mind_energy_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="26291" NAME="마인드쇼크 장전속도 +1" text_key="TEXT_206">
+		<attribute effect="mind_shock_reload" graph_value="1" value="0" rate="0.133" />
+	</item>
+	<item id="26292" NAME="마인드쇼크 장전속도 +2" text_key="TEXT_226">
+		<attribute effect="mind_shock_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="21891" NAME="버스트 샷건 장전속도 +1" text_key="21891">
+		<attribute effect="smg4_reload" graph_value="1" value="0" rate="0.133" />
+	</item>
+	<item id="21892" NAME="버스트 샷건 장전속도 +2" text_key="21892">
+		<attribute effect="smg4_reload" graph_value="2" value="0" rate="0.2" />
+	</item>	
+	<!--추가 신규무기 장전속도-->
+	<item id="211591" NAME="호밍 라이플 장전속도 +1" text_key="211591">
+		<attribute effect="smg2_homing_reload" graph_value="1" value="0" rate="0.133" />
+	</item>
+	<item id="211592" NAME="호밍 라이플 장전속도 +2" text_key="211592">
+		<attribute effect="smg2_homing_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<item id="211691" NAME="에어건 장전속도 +1" text_key="211691">
+		<attribute effect="airgun_reload" graph_value="1" value="0" rate="0.133" />
+	</item>
+	<item id="211692" NAME="에어건 장전속도 +2" text_key="211692">
+		<attribute effect="airgun_reload" graph_value="2" value="0" rate="0.2" />
+	</item>
+<!--센트리건류 설치속도-->	
+	<item id="24191" NAME="센트리건 설치속도 +1" text_key="24191">
+		<attribute effect="sentry_build_time" graph_value="-1" value="0" rate="0.25" />
+	</item>
+		<item id="24192" NAME="센트리건 설치속도 +2" text_key="24192">
+		<attribute effect="sentry_build_time" graph_value="-2" value="0" rate="0.5" />
+	</item>
+<!--센티넬 설치속도-->	
+	<item id="24391" NAME="센티넬 설치속도 +1" text_key="24391">
+		<attribute effect="sentry_build_time" graph_value="-1" value="0" rate="0.25" />
+	</item>
+		<item id="24392" NAME="센티넬 설치속도 +2" text_key="24392">
+		<attribute effect="sentry_build_time" graph_value="-2" value="0" rate="0.5" />
+	</item>
+	<!--[경험치 능력치] ID넘버링규칙: 부스터이펙트구분값3 + 부스터종류a + 경험치값bbb = 3abbb -->
+	<item id="30010" NAME="경험치 +10%" text_key="TEXT_180">
+		<attribute effect="exp" value="0" rate="0.1" />
+	</item>
+	<item id="30005" NAME="경험치 증가 +5%" text_key="TEXT_181">
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="30008" NAME="경험치 증가 +8%" text_key="TEXT_182">
+		<attribute effect="exp" value="0" rate="0.08" />
+	</item>
+	<item id="30014" NAME="경험치 증가 +14%" text_key="TEXT_183">
+		<attribute effect="exp" value="0" rate="0.14" />
+	</item>
+	<item id="30030" NAME="경험치 증가 +30%" text_key="TEXT_227">
+		<attribute effect="exp" value="0" rate="0.3" />
+	</item>
+	<item id="31050" NAME="펜 지급 증가 +50%" text_key="TEXT_228">
+		<attribute effect="pen" value="0" rate="0.5" />
+	</item>
+	<item id="31100" NAME="펜 지급 증가 +100%" text_key="TEXT_229">
+		<attribute effect="pen" value="0" rate="1" />
+	</item>
+	<!--센트리건 사거리-->	<!--[이펙트 - 사거리] ID넘버링규칙: 공격력구분값2 + 무기서브카테고리a + 무기넘버b + 사거리구분값7 + 상승수치c = 2ab8c -->
+	<item id="24171" NAME="센트리건 사거리 +10%" text_key="24171">
+		<attribute effect="sentry_atk_distance" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="24172" NAME="센트리건 사거리 +20%" text_key="24172">
+		<attribute effect="sentry_atk_distance" graph_value="2" value="0" rate="0.2" />
+	</item>
+	<!--센티넬 사거리-->	
+	<item id="24371" NAME="센티넬 사거리 +10%" text_key="24371">
+		<attribute effect="sentry_atk_distance" graph_value="1" value="0" rate="0.1" />
+	</item>
+	<item id="24372" NAME="센티넬 사거리 +20%" text_key="24372">
+		<attribute effect="sentry_atk_distance" graph_value="2" value="0" rate="0.2" />
+	</item>		
+	<!--[포스 팩 능력치] ID넘버링규칙: 포스 팩 이펙트구분값4 +무기서브카테고리aa + 무기넘버bb = 4aabb -->
+	<item id="40101" NAME="서브머신건 포스 팩" text_key="40101" desc_key="D40101">
+		<attribute effect="submachine_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40102" NAME="리볼버 포스 팩" text_key="40102" desc_key="D40101">
+		<attribute effect="revolver_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40104" NAME="세미라이플 포스 팩" text_key="40104" desc_key="D40101">
+		<attribute effect="semi_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40106" NAME="스매쉬라이플 포스 팩" text_key="40106" desc_key="D40101">
+		<attribute effect="smg3_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40302" NAME="캐노네이드 포스 팩" text_key="40302" desc_key="D40101">
+		<attribute effect="cannonade_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40301" NAME="레일건 포스 팩" text_key="40301" desc_key="D40101">
+		<attribute effect="rail_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40108" NAME="버스트 샷건 포스 팩" text_key="40108" desc_key="D40101">
+		<attribute effect="smg4_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0" />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40202" NAME="가우스라이플 포스 팩" text_key="40202" desc_key="D40101">
+		<attribute effect="gaussrifle_attack" graph_value="7" value="0" rate="0.1"   />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40107" NAME="핸드건 포스 팩" text_key="40107" desc_key="D40101">
+		<attribute effect="revolver2_attack" graph_value="7" value="0" rate="0.1"   />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40203" NAME="헤비머신건 포스 팩" text_key="40203" desc_key="D40101">
+		<attribute effect="heavy_attack" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40601" NAME="마인드 에너지 포스 팩" text_key="40601" desc_key="D40101">
+		<attribute effect="mind_energy" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40602" NAME="마인드 쇼크 포스 팩" text_key="40602" desc_key="D40101">
+		<attribute effect="mind_shock" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40001" NAME="플라즈마 스워드 포스 팩" text_key="40001" desc_key="D40101">
+		<attribute effect="plasma_attack" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40401" NAME="센트리건 포스 팩" text_key="40401" desc_key="D40102">
+		<attribute effect="sentry_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="sentry_hp" graph_value="10" value="0" rate="0.1" />
+		<attribute effect="sentry_reloadammo" graph_value="0" value="1" rate="0" />
+	</item>
+	<item id="40403" NAME="센티넬 포스 팩" text_key="40403" desc_key="D40103">
+		<attribute effect="sentinel_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="sentry_hp" graph_value="10" value="0" rate="0.1" />
+		<attribute effect="sentinel_reloadammo" graph_value="0" value="1" rate="0" />
+	</item>
+	<item id="40006" NAME="스파이대거 포스 팩" text_key="40006" desc_key="D40101">
+		<attribute effect="spydagger_attack" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<item id="40120" NAME="에어건 포스 팩" text_key="40120" desc_key="D40101">
+		<attribute effect="airgun_attack" graph_value="7" value="0" rate="0.1" />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+	<!--
+	<item id="283" text="플라즈마 스워드 포스 팩" text_key="ITEM1_TEXT_306">
+		<attribute effect="plasma_attack" value="0" rate="0.1"  />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="284" text="카운터스워드 포스 팩" text_key="ITEM1_TEXT_307">
+		<attribute effect="counter_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="285" text="스톰배트 포스 팩" text_key="ITEM1_TEXT_308">
+		<attribute effect="storm_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />LICENSE_CHECK_NONE
+	</item>
+	<item id="288" text="세미라이플 포스 팩" text_key="ITEM1_TEXT_311">
+		<attribute effect="semi_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="289" text="헤비머신건 포스 팩" text_key="ITEM1_TEXT_312">
+		<attribute effect="heavy_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="290" text="레일건 포스 팩" text_key="ITEM1_TEXT_313">
+		<attribute effect="rail_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="291" text="캐노네이드 포스 팩" text_key="ITEM1_TEXT_314">
+		<attribute effect="cannonade_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="292" text="센트리건 포스 팩" text_key="ITEM1_TEXT_315">
+		<attribute effect="sentry_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="293" text="마인드쇼크 포스 팩" text_key="ITEM1_TEXT_316">
+		<attribute effect="mind_shock" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="294" text="마인드에너지 포스 팩" text_key="ITEM1_TEXT_317">
+		<attribute effect="mind_shock" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="295" text="가우스라이플 포스 팩" text_key="ITEM1_TEXT_318">
+		<attribute effect="gaussrifle_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="296" text="그레네이드건 포스 팩" text_key="ITEM1_TEXT_319">
+		<attribute effect="mine_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="297" text="센티넬 포스 팩" text_key="ITEM1_TEXT_320">
+		<attribute effect="sentinel_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="298" text="스매쉬라이플 포스 팩" text_key="ITEM1_TEXT_321">
+		<attribute effect="smg3_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="299" text="핸드건 포스 팩" text_key="ITEM1_TEXT_322">
+		<attribute effect="revolver2_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	<item id="303" text="버스트 샷건 포스 팩" text_key="ITEM1_TEXT_323">
+		<attribute effect="smg4_attack" value="0" rate="0.1"   />
+		<attribute effect="movespeed" value="0" rate="0.03" />
+		<attribute effect="hp" value="5" rate="0"  />
+		<attribute effect="mp" value="5" rate="0" />
+	</item>
+	-->
+	<!--[스마트 팩 능력치] ID넘버링규칙: 포스 팩 이펙트구분값5 +복장서브카테고리aa + 무기넘버bb = 4aabb -->
+	<item id="50001" NAME="액세서리 스마트 팩" text_key="50001" desc_key="D50001">
+		<attribute effect="all_weapon_defense" graph_value="1" value="0" rate="0.03" />
+		<attribute effect="movespeed" graph_value="1" value="0" rate="0.01" />
+		<attribute effect="exp" value="0" rate="0.2" />
+		<attribute effect="mp" graph_value="6" value="6" rate="0" />
+	</item>
+	<!--[이동속도 능력치] ID넘버링규칙: 이동속도 이펙트구분값6 + 증가 %aaaa = 5aaaa -->
+	<item id="60003" NAME="이동속도 +3%" text_key="60003">
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+	</item>	
+	<item id="40002" NAME="카운터스워드 포스 팩" text_key="40002" desc_key="D40101">
+		<attribute effect="counter_attack" graph_value="7" value="0" rate="0.1"   />
+		<attribute effect="movespeed" graph_value="3" value="0" rate="0.03" />
+		<attribute effect="hp" graph_value="5" value="5" rate="0"  />
+		<attribute effect="mp" graph_value="5" value="5" rate="0" />
+	</item>
+		<!--[듀얼 이펙트] ID넘버링규칙: 듀얼이펙트구분값04 + 순차적으로번호적용bbb = 04bbb-->
+		<item id="04001" NAME="HP/SP 듀얼 마스터리" text_key="04001">
+		<attribute effect="hp" graph_value="20" value="20" rate="0" />
+		<attribute effect="mp" graph_value="20" value="20" rate="0" />
+	</item>
+		<!--[EU 프로모션 능력치] ID넘버링규칙: 프로모션 이펙트구분값7 + 복장 카테고리a + 복장 서브 카테고리 bb + 수치 증가 c = 7abbc-->
+	<item id="71028" NAME="이벤트 상의" text_key="71028">
+		<attribute effect="all_weapon_attack" graph_value="8" value="0" rate="0.12" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71039" NAME="이벤트 하의" text_key="71039">
+		<attribute effect="all_weapon_defense" graph_value="9" value="0" rate="0.14" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71048" NAME="이벤트 장갑" text_key="71048">
+		<attribute effect="hp" graph_value="8" value="8" rate="0" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71058" NAME="이벤트 신발" text_key="71058">
+		<attribute effect="hp" graph_value="8" value="8" rate="0" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71068" NAME="이벤트 장식" text_key="71068">
+		<attribute effect="mp" graph_value="8" value="8" rate="0" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>	
+	<item id="71007" NAME="이벤트 헤어" text_key="71007">
+		<attribute effect="missile_defense_head" graph_value="7" value="0" rate="0.15" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>	
+	<item id="71027" NAME="이벤트 상의(국내용)" text_key="71027">
+		<attribute effect="all_weapon_attack" graph_value="7" value="0" rate="0.11" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71038" NAME="이벤트 하의(국내용)" text_key="71038">
+		<attribute effect="all_weapon_defense" graph_value="8" value="0" rate="0.13" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71047" NAME="이벤트 장갑(국내용)" text_key="71047">
+		<attribute effect="hp" graph_value="7" value="7" rate="0" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>
+	<item id="71057" NAME="이벤트 신발(국내용)" text_key="71057">
+		<attribute effect="hp" graph_value="7" value="7" rate="0" />
+		<attribute effect="exp" value="0" rate="0.05" />
+	</item>	
+</item_effect>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<coin_info>
+	<!-- 최대 코인이나 디폴트 코인은 DB Proc에서 직접 셋팅합니다.  -->
+	<element name="loudspeaker_channel" 		use_coin="1" />
+	<element name="loudspeaker_server" 			use_coin="2" />
+	<element name="random_shop_chance" 			use_coin="1" />
+	<!--즉시 리스폰-->
+	<element name="ingame_response"				use_coin="2" />
+	<!--럭키샷 펜 플러스-->
+	<element name="ingame_lucky_pen" 			use_coin="2">
+		<param_s32 name="time"				data="120"/>
+		<param_s32 name="probability"			data="60"/>
+		<param_s32 name="pen"					data="30"/>
+		<param_s32 name="max"					data="300"/>			
+		<param_string name="effect"				file="Resources/Effects/ADDTEAT.seq"/>			
+		<param_string name="effect_dummy"		file="Bip01 Spine"/>			
+	</element>	
+	<!--럭키샷 경험치 플러스-->
+	<element name="ingame_lucky_exp" 			use_coin="1">
+		<param_s32 name="time"				data="120"/>
+		<param_s32 name="probability"			data="60"/>
+		<param_s32 name="exp"					data="30"/>
+		<param_s32 name="max"					data="300"/>	
+		<param_string name="effect"				file="Resources/Effects/ADDTEAT.seq"/>			
+		<param_string name="effect_dummy"		file="Bip01 Spine"/>			
+	</element>
+	<!--트래킹 타겟-->
+	<element name="ingame_tracking"				use_coin="2">
+		<param_s32 name="targeting_time"		data="60" />
+	</element>
+	<!--HP 플러스-->
+	<element name="ingame_hp"					use_coin="3">
+		<param_s32 name="hp_time"				data="120" />
+		<param_s32 name="hp"					data="5"/>
+	</element>
+	<!--SP 플러스-->
+	<element name="ingame_sp"					use_coin="3">
+		<param_s32 name="sp_time"				data="120" />	 
+		<param_s32 name="sp"					data="5"/>
+	</element>	
+</coin_info>
