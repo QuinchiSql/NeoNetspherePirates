@@ -28,9 +28,9 @@ namespace ProudNetSrc.Handlers
 
                 if (data.Length > server.Configuration.MessageMaxLength)
                     throw new ProudException("Message is longer than max messagelength!");
-                else if (data.Length > server.Configuration.MaxUncompressedMessageLength &&
-                    coreMessage.GetType() != typeof(CompressedMessage))
-                    message.SendOptions.Compress = true;
+                //else if (data.Length > server.Configuration.MaxUncompressedMessageLength &&
+                //    coreMessage.GetType() != typeof(CompressedMessage))
+                //    message.SendOptions.Compress = true;
 
                 if (message.SendOptions.Compress)
                 {

@@ -135,6 +135,7 @@ namespace ProudNetSrc
                 _listenerChannel = new ServerBootstrap()
                     .Group(_socketListenerThreads, _socketWorkerThreads)
                     .Channel<TcpServerSocketChannel>()
+                    .Option(ChannelOption.SoSndbuf, Configuration.MaxClientSocketBuf)
                     .Handler(new ActionChannelInitializer<IServerSocketChannel>(ch => { }))
                     .ChildHandler(new ActionChannelInitializer<ISocketChannel>(ch =>
                     {
@@ -168,6 +169,7 @@ namespace ProudNetSrc
                             .AddLast(new ErrorHandler(this));
                     }))
                     .ChildOption(ChannelOption.TcpNodelay, !Configuration.EnableNagleAlgorithm)
+                    .ChildOption(ChannelOption.SoSndbuf, Configuration.MaxClientSocketBuf)
                     .ChildAttribute(ChannelAttributes.Session, default(ProudSession))
                     .ChildAttribute(ChannelAttributes.Server, this)
                     .BindAsync(tcpListener).WaitEx();

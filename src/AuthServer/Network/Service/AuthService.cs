@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
 using BlubLib.Security.Cryptography;
 using Dapper.FastCrud;
+using DotNetty.Transport.Channels;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Network.Message.Auth;
 using ProudNetSrc;
@@ -243,9 +244,25 @@ namespace NeoNetsphere.Network.Service
         [MessageHandler(typeof(GameDataReqMessage))]
         public async Task DataHandler(AuthServer server, ProudSession session)
         {
-            foreach (var xbn in Program.XBNdata.OrderBy(x => x.Key))
+            foreach (var xbn in Enum.GetValues(typeof(XBNType)).Cast<XBNType>().ToList())
             {
-                await session.SendAsync(new GameDataAckMessage((uint)xbn.Key, xbn.Value), SendOptions.ReliableCompress);
+                if (Program.XBNdata.TryGetValue(xbn, out var xbninfo))
+                {
+                    int readoffset = 0;
+                    while (readoffset != xbninfo.Length)
+                    {
+                        var size = xbninfo.Length - readoffset;
+
+                        if (size > 40000)
+                            size = 40000;
+
+                        var data = new byte[size];
+                        Array.Copy(xbninfo, readoffset, data, 0, size);
+
+                        session.SendAsync(new GameDataAckMessage((uint)xbn, data, (uint)xbninfo.Length), SendOptions.ReliableSecureCompress).Wait();
+                        readoffset += size;
+                    }
+                }
             }
         }
     }

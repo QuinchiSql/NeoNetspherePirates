@@ -67,6 +67,7 @@ namespace NeoNetsphere
                 {
                     var data = File.ReadAllBytes(name);
                     XBNdata.TryAdd(xbn, data);
+                    Logger.Information($"Cached xbnfile: {name}");
                 }
             }
 

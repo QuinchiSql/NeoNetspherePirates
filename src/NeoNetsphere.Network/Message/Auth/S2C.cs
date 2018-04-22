@@ -190,10 +190,11 @@ namespace NeoNetsphere.Network.Message.Auth
         {
         }
 
-        public GameDataAckMessage(uint type, byte[] data)
+        public GameDataAckMessage(uint type, byte[] data, uint totalLength)
         {
             Type = type;
             Data = data;
+            TotalLength = totalLength;
         }
 
         [BlubMember(0)]
@@ -201,5 +202,8 @@ namespace NeoNetsphere.Network.Message.Auth
 
         [BlubMember(1, typeof(ArrayWithScalarSerializer))]
         public byte[] Data { get; set; }
+
+        [BlubMember(2)]
+        public uint TotalLength { get; set; }
     }
 }
