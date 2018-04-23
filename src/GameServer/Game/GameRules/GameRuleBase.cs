@@ -50,6 +50,12 @@ namespace Netsphere.Game.GameRules
         {
         }
 
+        public virtual void UpdateTime(Player plr)
+        {
+            plr.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState,
+                (int)(Room.RoundTime.TotalMilliseconds + 100)));
+        }
+
         public virtual void UpdateTime()
         {
             foreach (var member in Room.Players.Values)
@@ -62,9 +68,9 @@ namespace Netsphere.Game.GameRules
 
         public virtual void IntrudeCompleted(Player plr)
         {
+            UpdateTime(plr);
             plr.Session.SendAsync(new RoomGameStartAckMessage());
             Room.BroadcastBriefing();
-            UpdateTime();
         }
 
         public virtual void Update(TimeSpan delta)
@@ -181,17 +187,19 @@ namespace Netsphere.Game.GameRules
             {
                 case GameRuleStateTrigger.StartPrepare:
                     Room.isPreparing = true;
-                    Room.GameState = GameState.Loading;
-                    Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
-                    GameStartState = 1;
+
                     foreach (var plr in Room.Players.Values.Where(plr =>
-                                        plr.RoomInfo.IsReady || Room.Master == plr ||
-                                        plr.RoomInfo.Mode == PlayerGameMode.Spectate))
+                        plr.RoomInfo.IsReady || Room.Master == plr ||
+                        plr.RoomInfo.Mode == PlayerGameMode.Spectate))
                     {
                         plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+                        plr.Session.SendAsync(new RoomBeginRoundAckMessage());
                         plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Waiting;
                     }
-                    Room.BroadcastBriefing();
+
+                    GameStartState = 1;
+                    Room.GameState = GameState.Loading;
+                    Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
                     break;
             }
 
@@ -200,54 +208,51 @@ namespace Netsphere.Game.GameRules
                 case GameRuleState.FullGame:
                     GameTime = TimeSpan.Zero;
                     Room.hasStarted = true;
-                    Room.GameState = GameState.Playing;
-                    Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
+                    
                     foreach (var team in Room.TeamManager.Values)
                         team.Score = 0;
-                    foreach (var member in Room.Players.Where(p => p.Value.RoomInfo.hasLoaded))
+                    foreach (var plr in Room.TeamManager.Values.SelectMany(team => team.Values.Where(plr => plr.RoomInfo.hasLoaded)))
                     {
-                        member.Value.Session.SendAsync(new RoomGameStartAckMessage());
-                        member.Value.Session.SendAsync(new RoomBeginRoundAckMessage());
-
-                        member.Value.RoomInfo.State = member.Value.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+                        UpdateTime(plr);
+                        plr.Session.SendAsync(new RoomGameStartAckMessage());
+                        plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
                     }
-                    UpdateTime();
-                    Room.BroadcastBriefing();
+
+                    Room.GameState = GameState.Playing;
+                    Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
                     break;
                 case GameRuleState.FirstHalf:
                     GameTime = TimeSpan.Zero;
                     Room.hasStarted = true;
+
+                    foreach (var team in Room.TeamManager.Values)
+                        team.Score = 0;
+                    foreach (var plr in Room.TeamManager.Values.SelectMany(team =>
+                        team.Values.Where(plr => plr.RoomInfo.hasLoaded)))
+                    {
+                        UpdateTime(plr);
+                        plr.Session.SendAsync(new RoomGameStartAckMessage());
+                        plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+                    }
+
                     Room.GameState = GameState.Playing;
                     Room.SubGameState = GameTimeState.FirstHalf;
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
                     Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
-                    foreach (var team in Room.TeamManager.Values)
-                        team.Score = 0;
-                    foreach (var member in Room.Players.Where(p => p.Value.RoomInfo.hasLoaded))
-                    {
-                        member.Value.Session.SendAsync(new RoomGameStartAckMessage());
-                        member.Value.Session.SendAsync(new RoomBeginRoundAckMessage());
-
-                        member.Value.RoomInfo.State = member.Value.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
-                    }
-                    UpdateTime();
-                    Room.BroadcastBriefing();
                     break;
                 case GameRuleState.HalfTime:
-                    Room.SubGameState = GameTimeState.HalfTime;
                     foreach (var member in Room.TeamManager.PlayersPlaying)
                         member.RoomInfo.State = PlayerState.Waiting;
+
+                    Room.SubGameState = GameTimeState.HalfTime;
                     Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
-                    UpdateTime();
-                    Room.BroadcastBriefing();
                     break;
                 case GameRuleState.SecondHalf:
-                    Room.SubGameState = GameTimeState.SecondHalf;
                     foreach (var member in Room.TeamManager.PlayersPlaying)
                         member.RoomInfo.State = PlayerState.Alive;
-                    Room.BroadcastBriefing();
+
+                    Room.SubGameState = GameTimeState.SecondHalf;
                     Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
-                    UpdateTime();
                     break;
                 case GameRuleState.Result:
                     foreach (var plr in Room.TeamManager.Players.Where(plr => plr.RoomInfo.State != PlayerState.Lobby))
@@ -285,11 +290,11 @@ namespace Netsphere.Game.GameRules
                             }
                         }
                     }
+
                     Room.hasStarted = false;
                     Room.GameState = GameState.Result;
                     Room.SubGameState = GameTimeState.None;
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
-                    UpdateTime();
                     Room.BroadcastBriefing(true);
                     break;
                 case GameRuleState.Waiting:
@@ -301,6 +306,7 @@ namespace Netsphere.Game.GameRules
                         plr.RoomInfo.Reset();
                         plr.RoomInfo.State = PlayerState.Lobby;
                     }
+
                     Room.hasStarted = false;
                     Room.GameState = GameState.Waiting;
                     Room.SubGameState = GameTimeState.None;

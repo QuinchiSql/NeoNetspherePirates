@@ -85,9 +85,6 @@ namespace NeoNetsphere.Network.Services
                 plr.Session.SendAsync(new RoomChangeRefereeAckMessage(plr.Room.Host.Account.Id));
             
             plr.Room.BroadcastBriefing();
-
-            if (plr.Session.UnreliablePing > 500)
-                plr.Session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
         }
 
         [MessageHandler(typeof(RoomMakeReqMessage))]
@@ -504,16 +501,13 @@ namespace NeoNetsphere.Network.Services
                 plr.Room.BroadcastBriefing();
                 return;
             }
-            else
-            {
-                foreach(var member in plr.Room.Players.Where(x => x.Value.RoomInfo.hasLoaded))
-                {
-                    plr.Session.SendAsync(new RoomGameEndLoadingAckMessage(member.Value.Account.Id));
-                }
 
-                plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+            foreach(var member in plr.Room.Players.Where(x => x.Value.RoomInfo.hasLoaded))
+            {
+                plr.Session.SendAsync(new RoomGameEndLoadingAckMessage(member.Value.Account.Id));
             }
             
+            plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
             plr.Room.GameRuleManager.GameRule.IntrudeCompleted(plr);
         }
 
@@ -1124,6 +1118,7 @@ namespace NeoNetsphere.Network.Services
                 return;
             
             session.SendAsync(new ScoreMissionScoreAckMessage() {AccountId = session.Player.Account.Id, Score = message.Score});
+            
             return;
         }
         #endregion

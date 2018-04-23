@@ -76,7 +76,8 @@ namespace NeoNetsphere
 
         public P2PGroup Group { get; }
 
-        public bool IsChangingRules { get; private set; }
+        public bool IsChangingRules { get; private set; } = false;
+        private bool IsChangingRulesCooldown { get; set; } = false;
 
         public void Update(TimeSpan delta)
         {
@@ -103,14 +104,20 @@ namespace NeoNetsphere
             if (IsChangingRules)
             {
                 _changingRulesTimer += delta;
-                if (_changingRulesTimer >= _changingRulesTime)
+                if (_changingRulesTimer >= _changingRulesTime && IsChangingRulesCooldown != true)
                 {
                     GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapID];
                     GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
                     Broadcast(new RoomChangeRuleAckMessage(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
                     Broadcast(new RoomChangeRuleFailAckMessage {Result = 0});
                     BroadcastBriefing();
+                    IsChangingRulesCooldown = true;
+                }
+
+                if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                {
                     IsChangingRules = false;
+                    IsChangingRulesCooldown = false;
                 }
             }
 
@@ -122,7 +129,7 @@ namespace NeoNetsphere
             if (plr.Room != null)
                 throw new RoomException("Player is already inside a room");
 
-            if (_players.Count >= Options.PlayerLimit)
+            if (Math.Max((int)Options.PlayerLimit, 1) < Players.Count)
                 throw new RoomLimitReachedException();
 
             if (_kickedPlayers.ContainsKey(plr.Account.Id))
@@ -188,7 +195,7 @@ namespace NeoNetsphere
             var ClubList = new List<PlayerClubInfoDto>();
             foreach (var player in _players.Values.Where(p => p.Club != null))
             {
-                if (!ClubList.Any(club => club.Id == player.Club.Clan_ID))
+                if (ClubList.All(club => club.Id != player.Club.Clan_ID))
                 {
                     ClubList.Add(new PlayerClubInfoDto()
                     {
@@ -201,7 +208,7 @@ namespace NeoNetsphere
 
             plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
             plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
-            plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(0, plr.RoomInfo.Slot));
+            plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
             plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values.Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
             plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(ClubList.ToArray()));
 
@@ -216,6 +223,7 @@ namespace NeoNetsphere
             {
                 if (plr.RelaySession?.HostId != null)
                     Group?.Leave(plr.RelaySession.HostId);
+
                 Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
                 Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
 
@@ -251,12 +259,14 @@ namespace NeoNetsphere
             }
             catch (Exception ex)
             {
-                Logger.Error(ex.StackTrace);
-                plr?.Session?.SendAsync(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
+                Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
+                Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
 
                 if (_players.Count == 1)
                     plr?.Channel?.RoomManager?.Remove(this);
+
                 _players?.Remove(plr.Account.Id);
+                Logger.Error(ex.ToString());
             }
         }
 

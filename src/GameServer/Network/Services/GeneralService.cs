@@ -18,6 +18,9 @@ namespace NeoNetsphere.Network.Services
                 ClientTime = message.Time,
                 ServerTime = (uint) Program.AppTime.ElapsedMilliseconds
             });
+            
+            if (session.Player?.Room == null && session.UnreliablePing > 400)
+                session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
         }
         [MessageHandler(typeof(CheckhashKeyvaluereqMessage))]
         public void CheckhashKeyvaluereq(GameSession session, CheckhashKeyvaluereqMessage message)
