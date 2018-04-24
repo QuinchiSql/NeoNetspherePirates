@@ -435,7 +435,7 @@ namespace NeoNetsphere
             _players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
 
             RoomManager.Channel.BroadcastCencored(new RoomChangeRoomInfoAck2Message(GetRoomInfo()));
-            BroadcastExcept(Master, new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
+            Broadcast(new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
         }
 
         private Player GetPlayerWithLowestPing()

@@ -1,0 +1,64 @@
+﻿<Window x:Class="WPFS4Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFS4Launcher"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="583.664" Width="994.318" Visibility="Visible" Foreground="#FFD5D5DC"
+        MinWidth="994.318" MinHeight="583.664" MaxWidth="999999999" MaxHeight="999999999" Topmost="True"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="27*" />
+            <ColumnDefinition Width="467*" />
+            <ColumnDefinition Width="0*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="Res/DarkLightning.jpg" Opacity="0.9" Stretch="UniformToFill" />
+        </Grid.Background>
+        <Frame Content="" Height="59" Background="Black" Opacity="0.85" VerticalAlignment="Bottom"
+               VerticalContentAlignment="Bottom" Grid.ColumnSpan="2">
+            <Frame.BindingGroup>
+                <BindingGroup />
+            </Frame.BindingGroup>
+        </Frame>
+        <Frame Content="" Height="59" Opacity="0.85" Background="Black" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+        <Image Height="159" Margin="121,0,175,0" Source="Res/main_logo.png" VerticalAlignment="Top" Grid.Column="1" />
+        <Image Name="Button" Margin="0,0,10,0" Stretch="Fill" Source="Res/btn_login_patch.png" Height="59"
+               VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="116" MouseDown="Image_MouseDown"
+               Grid.Column="1" />
+        <TextBlock Margin="0,0,19,-8" TextWrapping="Wrap" Name="ButtonTx" Text="CHECKING" FontFamily="Eras ITC"
+                   FontSize="16" Height="44" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="93"
+                   MouseDown="Image_MouseDown" Foreground="White" FontWeight="Bold" Grid.Column="1">
+            <TextBlock.Effect>
+                <DropShadowEffect RenderingBias="Quality" />
+            </TextBlock.Effect>
+        </TextBlock>
+        <Frame Content="" Margin="0,0,10,64" Opacity="0.85" Background="Black" HorizontalAlignment="Right" Width="381"
+               Height="111" VerticalAlignment="Bottom" Grid.Column="1" />
+        <TextBox TabIndex="0" Name="login_username" Margin="0,0,17,127" TextWrapping="Wrap" Background="#D81D1D1D"
+                 BorderBrush="#D81D1D1D" Foreground="#FF686868" FontSize="14" HorizontalAlignment="Right" Width="273"
+                 Height="27" VerticalAlignment="Bottom" Grid.Column="1" />
+        <Label Name="dbgtx" Content="Checking for updates.." Margin="4,0,140,36" VerticalAlignment="Bottom"
+               Foreground="White" VerticalContentAlignment="Bottom" Grid.ColumnSpan="2" />
+        <ListBox Name="NoticeBox" HorizontalAlignment="Left" Margin="10,64,0,64" Width="273" Background="#D8000000"
+                 BorderBrush="#D8000000" Foreground="White" IsSynchronizedWithCurrentItem="False" Grid.ColumnSpan="2">
+            <ListBoxItem Content="Addlog | News | Future" FontWeight="Bold" HorizontalAlignment="Center" />
+            <Separator />
+        </ListBox>
+        <ProgressBar Name="Progessbar1" Margin="10,0,140,11" Value="1" Foreground="#FF0437BF" Height="10"
+                     VerticalAlignment="Bottom" Background="#FF686868" Grid.ColumnSpan="2" />
+        <ProgressBar Name="Progessbar2" Margin="10,0,140,26" Foreground="#FFAE6700" Value="1" Height="10"
+                     VerticalAlignment="Bottom" Background="#FF686868" Grid.ColumnSpan="2" />
+        <Label Content="Username :" Margin="0,0,313,128" Foreground="White" HorizontalAlignment="Right" Width="69"
+               Height="26" VerticalAlignment="Bottom" Grid.Column="1" />
+        <Label Content="Password  :" Margin="0,0,313,89" VerticalAlignment="Bottom" Foreground="White"
+               HorizontalAlignment="Right" Width="69" Grid.Column="1" />
+        <PasswordBox TabIndex="1" Name="login_passwd" Margin="0,0,17,88" VerticalAlignment="Bottom" Height="26"
+                     Background="#D81D1D1D" BorderBrush="#D81D1D1D" HorizontalAlignment="Right" Width="273"
+                     Foreground="#FF686868" Grid.Column="1" />
+        <Label Name="errtx_label" Content="Errtx" Margin="0,0,19,63" VerticalAlignment="Bottom" Foreground="#FF8B0202"
+               HorizontalAlignment="Right" Width="275" Grid.Column="1" />
+    </Grid>
+</Window>

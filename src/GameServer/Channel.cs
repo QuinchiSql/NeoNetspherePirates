@@ -38,7 +38,7 @@ namespace NeoNetsphere
             RoomManager.Update(delta);
         }
 
-        public void Join(Player plr, bool no_message = false)
+        public void Join(Player plr, bool noMessage = false)
         {
             if (plr.Channel != null)
                 throw new ChannelException("Player is already inside a channel");
@@ -54,7 +54,7 @@ namespace NeoNetsphere
             plr.SentPlayerList = false;
             plr.Channel = this;
 
-            if (!no_message)
+            if (!noMessage)
                 plr.Session.SendAsync(new ServerResultAckMessage(ServerResult.ChannelEnter));
             OnPlayerJoined(new ChannelPlayerJoinedEventArgs(this, plr));
 
@@ -92,32 +92,32 @@ namespace NeoNetsphere
             OnMessage(new ChannelMessageEventArgs(this, plr, message));
 
             foreach (var p in Players.Values.Where(p => !p.DenyManager.Contains(plr.Account.Id) && p.Room == null))
-                p.ChatSession.SendAsync(new MessageChatAckMessage(ChatType.Channel, plr.Account.Id,
+                p.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Channel, plr.Account.Id,
                     plr.Account.Nickname, message));
         }
 
         public void Broadcast(IGameMessage message, bool excludeRooms = false)
         {
             foreach (var plr in Players.Values.Where(plr => !excludeRooms || plr.Room == null))
-                plr.Session.SendAsync(message);
+                plr.Session?.SendAsync(message);
         }
 
-        public void BroadcastCencored(RoomChangeRoomInfoAck2Message message, bool excludeRooms = false)
+        public void BroadcastCencored(RoomChangeRoomInfoAck2Message message)
         {
-            foreach (var plr in Players.Values.Where(plr => !excludeRooms || plr.Room != null))
-                plr.Session.SendAsync(message);
+            foreach (var plr in Players.Values.Where(plr => plr.Room?.Id == message.Room.RoomId))
+                plr.Session?.SendAsync(message).Wait();
 
             message.Room.Password = !string.IsNullOrWhiteSpace(message.Room.Password) || !string.IsNullOrEmpty(message.Room.Password) ? "nice try :)" : "";
-            foreach (var plr in Players.Values.Where(plr => plr.Room == null))
+            foreach (var plr in Players.Values.Where(plr => plr.Room?.Id != message.Room.RoomId || plr.Room == null))
             {
-                plr.Session.SendAsync(message);
+                plr.Session?.SendAsync(message);
             }
         }
 
         public void Broadcast(IChatMessage message, bool excludeRooms = false)
         {
             foreach (var plr in Players.Values.Where(plr => !excludeRooms || plr.Room == null))
-                plr.ChatSession.SendAsync(message);
+                plr.ChatSession?.SendAsync(message);
         }
 
         #region Events
