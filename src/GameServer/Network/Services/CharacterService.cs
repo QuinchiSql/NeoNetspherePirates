@@ -25,7 +25,7 @@ namespace NeoNetsphere.Network.Services
 
             try
             {
-                session.Player.CharacterManager.Create(message.Slot, message.Style.Gender, message.Style.Hair,
+                session.Player?.CharacterManager?.Create(message.Slot, message.Style.Gender, message.Style.Hair,
                     message.Style.Face, message.Style.Shirt, message.Style.Pants);
             }
             catch (CharacterException ex)
@@ -41,6 +41,9 @@ namespace NeoNetsphere.Network.Services
         {
             var plr = session.Player;
 
+            if (plr == null)
+                return;
+            
             // Prevents player from changing characters while playing
             if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby &&
                 !plr.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.HalfTime))
@@ -54,7 +57,7 @@ namespace NeoNetsphere.Network.Services
 
             try
             {
-                plr.CharacterManager.Select(message.Slot);
+                plr.CharacterManager?.Select(message.Slot);
             }
             catch (Exception ex)
             {
@@ -72,7 +75,7 @@ namespace NeoNetsphere.Network.Services
 
             try
             {
-                session.Player.CharacterManager.Remove(message.Slot);
+                session.Player?.CharacterManager?.Remove(message.Slot);
             }
             catch (CharacterException ex)
             {

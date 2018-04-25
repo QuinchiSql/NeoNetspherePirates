@@ -6,13 +6,13 @@
         <RootNamespace>NeoNetsphere</RootNamespace>
         <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
         <Version>2.0.0</Version>
-        <AssemblyVersion>2018.2.42.128</AssemblyVersion>
-        <FileVersion>2018.2.42.128</FileVersion>
+        <AssemblyVersion>2018.2.42.130</AssemblyVersion>
+        <FileVersion>2018.2.42.130</FileVersion>
         <StartupObject>NeoNetsphere.Program</StartupObject>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;OLDIDS_DEBUG;OLDIDS;NETCOREAPP2_0;NETCOREAPP2_0</DefineConstants>
+      <DefineConstants>TRACE;OLDIDS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
@@ -23,7 +23,7 @@
       <DefineConstants>TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Release|AnyCPU'">
-      <DefineConstants>TRACE;OLDIDS_RELEASE;NETCOREAPP2_0;OLDIDS</DefineConstants>
+      <DefineConstants>TRACE;OLDIDS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Release|AnyCPU'">
       <DefineConstants>TRACE;NEWIDS_RELEASE;NEWIDS;NETCOREAPP2_0</DefineConstants>

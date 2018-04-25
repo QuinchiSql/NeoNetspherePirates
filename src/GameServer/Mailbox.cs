@@ -129,8 +129,7 @@ namespace NeoNetsphere
             {
                 var idsToRemove = new StringBuilder();
                 var firstRun = true;
-                Mail mailToDelete;
-                while (_mailsToDelete.TryPop(out mailToDelete))
+                while (_mailsToDelete.TryPop(out var mailToDelete))
                 {
                     if (firstRun)
                         firstRun = false;
@@ -153,23 +152,25 @@ namespace NeoNetsphere
             var isNew = needsSave.Where(mail => mail.IsNew);
             var isNotNew = needsSave.Where(mail => !mail.IsNew);
 
-            if (isNew.Any())
+            var enumerable = isNew as Mail[] ?? isNew.ToArray();
+            if (enumerable.Any())
             {
                 db.BulkUpdate(new PlayerMailDto {IsMailNew = true}, statement => statement
-                    .Where($"{nameof(PlayerMailDto.Id):C} IN ({string.Join(",", isNew.Select(x => x.Id))})")
+                    .Where($"{nameof(PlayerMailDto.Id):C} IN ({string.Join(",", enumerable.Select(x => x.Id))})")
                     .WithEntityMappingOverride(isNewMapping));
 
-                foreach (var mail in isNew)
+                foreach (var mail in enumerable)
                     mail.NeedsToSave = false;
             }
 
-            if (isNotNew.Any())
+            var notNew = isNotNew as Mail[] ?? isNotNew.ToArray();
+            if (notNew.Any())
             {
                 db.BulkUpdate(new PlayerMailDto {IsMailNew = false}, statement => statement
-                    .Where($"{nameof(PlayerMailDto.Id):C} IN ({string.Join(",", isNotNew.Select(x => x.Id))})")
+                    .Where($"{nameof(PlayerMailDto.Id):C} IN ({string.Join(",", notNew.Select(x => x.Id))})")
                     .WithEntityMappingOverride(isNewMapping));
 
-                foreach (var mail in isNotNew)
+                foreach (var mail in notNew)
                     mail.NeedsToSave = false;
             }
         }

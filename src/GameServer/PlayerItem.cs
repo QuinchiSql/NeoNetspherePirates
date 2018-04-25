@@ -36,8 +36,8 @@ namespace NeoNetsphere
             Color = dto.Color;
 
             var raweffects = new List<uint>();
-            var effects_text = dto.Effects.Split(",").ToList();
-            effects_text.ForEach(eff => { raweffects.Add(uint.Parse(eff)); });
+            var effectsText = dto.Effects.Split(",").ToList();
+            effectsText.ForEach(eff => { raweffects.Add(uint.Parse(eff)); });
             Effects = raweffects.ToArray();
             if (Effects.Length == 0)
                 Effects = new uint[] {0};

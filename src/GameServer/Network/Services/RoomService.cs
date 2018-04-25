@@ -85,6 +85,7 @@ namespace NeoNetsphere.Network.Services
                 plr.Session.SendAsync(new RoomChangeRefereeAckMessage(plr.Room.Host.Account.Id));
             
             plr.Room.BroadcastBriefing();
+            plr.Room.GameRuleManager.GameRule.UpdateTime(plr);
         }
 
         [MessageHandler(typeof(RoomMakeReqMessage))]
@@ -230,9 +231,7 @@ namespace NeoNetsphere.Network.Services
             if ((GameRule) message.GameRule == GameRule.CombatTrainingTD ||
                 (GameRule) message.GameRule == GameRule.CombatTrainingDM)
                 message.Player_Limit = 12;
-
-            var matchkey = new MatchKey();
-
+            
             if ((GameRule) message.GameRule == GameRule.CombatTrainingDM ||
                 (GameRule) message.GameRule == GameRule.CombatTrainingTD ||
                 (GameRule) message.GameRule == GameRule.Practice)
@@ -385,7 +384,8 @@ namespace NeoNetsphere.Network.Services
         public void InGamePlayerResponseReq(GameSession session, InGamePlayerResponseReqMessage message)
         {
             var plr = session.Player;
-            if (plr.Room != null && plr.RoomInfo?.State != PlayerState.Lobby)
+            if (plr.Room == null || plr.RoomInfo?.State == PlayerState.Lobby) return;
+            if (plr.RoomInfo != null)
                 plr.RoomInfo.State = PlayerState.Alive;
             //Todo
         }
@@ -492,7 +492,7 @@ namespace NeoNetsphere.Network.Services
             if (plr.Room == null)
                 return;
 
-            plr.RoomInfo.hasLoaded = true;
+            plr.RoomInfo.HasLoaded = true;
             plr.RoomInfo.State = PlayerState.Waiting;
             plr.Room.Broadcast(new RoomGameEndLoadingAckMessage(plr.Account.Id));
 
@@ -502,7 +502,7 @@ namespace NeoNetsphere.Network.Services
                 return;
             }
 
-            foreach(var member in plr.Room.Players.Where(x => x.Value.RoomInfo.hasLoaded))
+            foreach(var member in plr.Room.Players.Where(x => x.Value.RoomInfo.HasLoaded))
             {
                 plr.Session.SendAsync(new RoomGameEndLoadingAckMessage(member.Value.Account.Id));
             }
@@ -515,40 +515,60 @@ namespace NeoNetsphere.Network.Services
         public void CIntrudeRoundReq(GameSession session)
         {
             var plr = session.Player;
-            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.StateMachine.State == GameRuleState.Waiting)
-                return;
-            if (plr.Room.IsChangingRules)
+            var room = plr?.Room;
+            if (room != null && room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
-                session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
-                return;
-            }
-            if (plr.Room.isPreparing || !plr.Room.hasStarted)
-            {
-                session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
-                return;
-            }
+                if (room.IsChangingRules)
+                {
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
+                    return;
+                }
 
-            plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+                if (room.GameState == GameState.Result || room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
+                {
+                    //Todo, find proper result Id
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
+                    return;
+                }
+
+                if (room.isPreparing || !room.hasStarted)
+                {
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
+                    return;
+                }
+
+                plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+            }
         }
 
         [MessageHandler(typeof(RoomIntrudeRoundReq2Message))]
         public void CIntrudeRoundReq2(GameSession session)
         {
             var plr = session.Player;
-            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.StateMachine.State == GameRuleState.Waiting)
-                return;
-            if (plr.Room.IsChangingRules)
+            var room = plr?.Room;
+            if (room != null && room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
-                session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
-                return;
-            }
-            if (plr.Room.isPreparing || !plr.Room.hasStarted)
-            {
-                session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
-                return;
-            }
+                if (room.IsChangingRules)
+                {
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
+                    return;
+                }
 
-            plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+                if (room.GameState == GameState.Result || room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
+                {
+                    //Todo, find proper result Id
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
+                    return;
+                }
+
+                if (room.isPreparing || !room.hasStarted)
+                {
+                    session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
+                    return;
+                }
+
+                plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+            }
         }
 
         [MessageHandler(typeof(RoomBeginRoundReq2Message))]
@@ -594,7 +614,6 @@ namespace NeoNetsphere.Network.Services
                 plr.RoomInfo.IsReady = !plr.RoomInfo.IsReady;
                 plr.Room.Broadcast(new RoomReadyRoundAckMessage(plr.Account.Id, plr.RoomInfo.IsReady));
             }
-
             if(plr.Room.hasStarted)
                 plr.Session.SendAsync(new RoomGameLoadingAckMessage());
         }
@@ -655,22 +674,16 @@ namespace NeoNetsphere.Network.Services
             plr.Room.Broadcast(new GameEventMessageAckMessage(message.Event, session.Player.Account.Id, message.Unk1,
                 message.Value, ""));
 
-            if (!plr.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing) /*||
-                plr.RoomInfo.State != PlayerState.Lobby*/)
+            if (!plr.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing))
                 return;
 
-            if(plr.RoomInfo.State == PlayerState.Lobby)
-                if (plr.Room.hasStarted && !plr.RoomInfo.hasLoaded)
-                {
-                    plr.Session.SendAsync(new RoomGameLoadingAckMessage());
-                    return;
-                }
+            if (plr.RoomInfo.State != PlayerState.Lobby)
+                return;
 
-            //plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Normal
-            //    ? PlayerState.Alive
-            //    : PlayerState.Spectating;
+            if (!plr.Room.hasStarted || plr.RoomInfo.HasLoaded)
+                return;
 
-            //plr.Room.BroadcastBriefing();
+            plr.Session?.SendAsync(new RoomGameLoadingAckMessage());
         }
 
 
@@ -678,13 +691,16 @@ namespace NeoNetsphere.Network.Services
         public void CItemsChangeReq(GameSession session, RoomItemChangeReqMessage message)
         {
             var plr = session.Player;
-            plr.Room.Broadcast(new RoomChangeItemAckMessage(message.Unk1, message.Unk2));
+            plr.Room?.Broadcast(new RoomChangeItemAckMessage(message.Unk1, message.Unk2));
         }
 
         [MessageHandler(typeof(GameAvatarChangeReqMessage))]
         public void CAvatarChangeReq(GameSession session, GameAvatarChangeReqMessage message)
         {
             var plr = session.Player;
+            if (plr.Room == null)
+                return;
+
             if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.HalfTime && 
                 plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
@@ -699,6 +715,9 @@ namespace NeoNetsphere.Network.Services
         public void CChangeRuleNotifyReq(GameSession session, RoomChangeRuleNotifyReqMessage message)
         {
             var plr = session.Player;
+            if (plr.Room == null)
+                return;
+
             if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
@@ -718,6 +737,9 @@ namespace NeoNetsphere.Network.Services
         public void CChangeRuleNotifyReq2(GameSession session, RoomChangeRuleNotifyReq2Message message)
         {
             var plr = session.Player;
+            if (plr.Room == null)
+                return;
+
             if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
@@ -738,6 +760,9 @@ namespace NeoNetsphere.Network.Services
         {
             var plr = session.Player;
             var room = plr.Room;
+
+            if (room == null)
+                return;
 
             if (message.Reason == RoomLeaveReason.ModeratorKick || message.Reason == RoomLeaveReason.Kicked)
             {
@@ -884,15 +909,21 @@ namespace NeoNetsphere.Network.Services
             if (killer != null)
                 killer.RoomInfo.PeerId = message.Score.Killer;
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Target, message.Score.Killer, null*/);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Target, message.Score.Killer, null*/);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon, message.Score.Target, message.Score.Killer, null);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Target, message.Score.Killer, null*/);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Target, message.Score.Killer, null*/);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon, message.Score.Target, message.Score.Killer, null);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(ScoreOffenseAssistReqMessage))]
@@ -916,15 +947,21 @@ namespace NeoNetsphere.Network.Services
             if (killer != null)
                 killer.RoomInfo.PeerId = message.Score.Killer;
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
-                    message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreOffense(killer, null, plr,
+                        message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(ScoreDefenseReqMessage))]
@@ -944,15 +981,21 @@ namespace NeoNetsphere.Network.Services
             if (killer != null)
                 killer.RoomInfo.PeerId = message.Score.Killer;
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
-                    message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
-                    message.Score.Weapon, message.Score.Target, message.Score.Killer, null);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
+                        message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
+                        message.Score.Weapon, message.Score.Target, message.Score.Killer, null);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(ScoreDefenseAssistReqMessage))]
@@ -976,17 +1019,23 @@ namespace NeoNetsphere.Network.Services
             if (killer != null)
                 killer.RoomInfo.PeerId = message.Score.Killer;
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
-                    message.Score
-                        .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
-                    message.Score
-                        .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
-                    message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
+                        message.Score
+                            .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
+                        message.Score
+                            .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist*/);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, assist, plr,
+                        message.Score.Weapon, message.Score.Target, message.Score.Killer, message.Score.Assist);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(ScoreTeamKillReqMessage))]
@@ -1060,13 +1109,19 @@ namespace NeoNetsphere.Network.Services
                 newPlr.RoomInfo.PeerId = message.NewId;
 
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr,
-                    message.NewId, message.OldId);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr,
+                        message.NewId, message.OldId);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(ScoreGoalReqMessage))]
@@ -1081,12 +1136,18 @@ namespace NeoNetsphere.Network.Services
             if (target != null)
                 target.RoomInfo.PeerId = message.PeerId;
 
-            if (room.Options.GameRule == GameRule.Touchdown)
-                ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target);
-            else if (room.Options.GameRule == GameRule.PassTouchdown)
-                ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target);
-            else if (room.Options.GameRule == GameRule.CombatTrainingTD)
-                ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target, message.PeerId);
+            switch (room.Options.GameRule)
+            {
+                case GameRule.Touchdown:
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target);
+                    break;
+                case GameRule.PassTouchdown:
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target);
+                    break;
+                case GameRule.CombatTrainingTD:
+                    ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreGoal(target, message.PeerId);
+                    break;
+            }
         }
 
         [MessageHandler(typeof(SlaughterAttackPointReqMessage))]

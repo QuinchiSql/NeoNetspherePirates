@@ -13,10 +13,10 @@
     <DefineConstants>TRACE;LATESTS4;NEWIDS;LATEST_DEBUG;NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
-    <DefineConstants>TRACE;OLDIDS_DEBUG;NETSTANDARD2_0;OLDIDS</DefineConstants>
+    <DefineConstants>TRACE;OLDIDS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Release|AnyCPU'">
-    <DefineConstants>TRACE;OLDIDS;OLDIDS_RELEASE;NETSTANDARD2_0;OLDIDS</DefineConstants>
+    <DefineConstants>TRACE;OLDIDS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Release|AnyCPU'">
     <DefineConstants>TRACE;NEWIDS_RELEASE;NETSTANDARD2_0;NEWIDS</DefineConstants>

@@ -98,14 +98,13 @@ namespace NeoNetsphere.Network
             config.SessionFactory = new GameSessionFactory();
 
             // ReSharper disable InconsistentNaming
-            Predicate<GameSession> MustBeLoggedIn = session => session.IsLoggedIn();
-            Predicate<GameSession> MustNotBeLoggedIn = session => !session.IsLoggedIn();
-            Predicate<GameSession> MustBeInChannel = session => session.Player.Channel != null;
-            Predicate<GameSession> MustNotBeInChannel = session => session.Player.Channel == null;
-            Predicate<GameSession> MustBeInRoom = session => session.Player.Room != null;
-            Predicate<GameSession> MustNotBeInRoom = session => session.Player.Room == null;
-            Predicate<GameSession> MustBeRoomHost = session => session.Player.Room.Host == session.Player;
-            Predicate<GameSession> MustBeRoomMaster = session => session.Player.Room.Master == session.Player;
+            bool MustBeLoggedIn(GameSession session) => session.IsLoggedIn();
+            bool MustNotBeLoggedIn(GameSession session) => !session.IsLoggedIn();
+            bool MustBeInChannel(GameSession session) => session.Player.Channel != null;
+            bool MustBeInRoom(GameSession session) => session.Player.Room != null;
+            bool MustNotBeInRoom(GameSession session) => session.Player.Room == null;
+            bool MustBeRoomHost(GameSession session) => session.Player.Room.Host == session.Player;
+            bool MustBeRoomMaster(GameSession session) => session.Player.Room.Master == session.Player;
             // ReSharper restore InconsistentNaming
 
             config.MessageHandlers = new IMessageHandler[]
@@ -237,15 +236,16 @@ namespace NeoNetsphere.Network
 
             // ToDo Use another thread for this?
             _saveTimer = _saveTimer.Add(delta);
-            if (_saveTimer >= Config.Instance.SaveInterval)
+            if (_saveTimer < Config.Instance.SaveInterval) return;
             {
                 _saveTimer = TimeSpan.Zero;
 
                 var players = PlayerManager.Where(plr => plr.IsLoggedIn());
-                if (players.Any())
+                var enumerable = players as Player[] ?? players.ToArray();
+                if (!enumerable.Any()) return;
                 {
                     Logger.Information("Saving playerdata...");
-                    foreach (var plr in players)
+                    foreach (var plr in enumerable)
                         try
                         {
                             plr.Save();
@@ -482,8 +482,7 @@ namespace NeoNetsphere.Network
             if (e.Exception.ToString().Contains("opcode") || e.Exception.ToString().Contains("Bad format in"))
             {
                 log.Warning(e.Exception.InnerException.Message);
-                if (gameSession != null)
-                    gameSession.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
+                gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
             }
             else if (gameSession.Player != null && (gameSession.Player.Room != null &&
                                                     gameSession.Player.Room.GameRuleManager.GameRule.StateMachine
@@ -491,8 +490,7 @@ namespace NeoNetsphere.Network
                                                     || gameSession.Player.Room == null))
             {
                 log.Warning(e.Exception.InnerException.Message);
-                if (gameSession != null)
-                    gameSession.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
+                gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
             }
             else
             {

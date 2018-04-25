@@ -26,8 +26,7 @@ namespace NeoNetsphere
 
         public Player Get(ulong id)
         {
-            Player plr;
-            _players.TryGetValue(id, out plr);
+            _players.TryGetValue(id, out var plr);
             return plr;
         }
 

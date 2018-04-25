@@ -22,23 +22,22 @@ namespace Netsphere
 
         public Club GetClub(uint id)
         {
-            Club Club;
-            _clubs.TryGetValue(id, out Club);
+            _clubs.TryGetValue(id, out var Club);
             return Club;
         }
 
         public Club GetClubByAccount(ulong id)
         {
-            Club Club = _clubs.Values.Where(c => c.Players.Any(p => p.Value.AccountId == id)).FirstOrDefault();
-            return Club;
+            Club club = _clubs.Values.Where(c => c.Players.Any(p => p.Value.AccountId == id)).FirstOrDefault();
+            return club;
         }
 
         public ClubManager(IEnumerable<DBClubInfoDto> ClubInfos)
         {
             foreach (var InfoDto in ClubInfos)
             {
-                var Club = new Club(InfoDto.ClubDto, InfoDto.PlayerDto);
-                _clubs.TryAdd(InfoDto.ClubDto.Id, Club);
+                var club = new Club(InfoDto.ClubDto, InfoDto.PlayerDto);
+                _clubs.TryAdd(InfoDto.ClubDto.Id, club);
             }
         }
 

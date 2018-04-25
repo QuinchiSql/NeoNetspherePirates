@@ -34,9 +34,9 @@ namespace NeoNetsphere.Network
             config.SessionFactory = new ChatSessionFactory();
 
             // ReSharper disable InconsistentNaming
-            Predicate<ChatSession> MustBeLoggedIn = session => session.IsLoggedIn();
-            Predicate<ChatSession> MustNotBeLoggedIn = session => !session.IsLoggedIn();
-            Predicate<ChatSession> MustBeInChannel = session => session.Player.Channel != null;
+            bool MustBeLoggedIn(ChatSession session) => session.IsLoggedIn();
+            bool MustNotBeLoggedIn(ChatSession session) => !session.IsLoggedIn();
+            bool MustBeInChannel(ChatSession session) => session.Player.Channel != null;
             // ReSharper restore InconsistentNaming
 
             config.MessageHandlers = new IMessageHandler[]

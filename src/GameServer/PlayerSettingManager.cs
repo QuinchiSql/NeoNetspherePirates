@@ -42,8 +42,7 @@ namespace NeoNetsphere
 
         public T Get<T>(string name)
         {
-            Setting setting;
-            if (!_settings.TryGetValue(name, out setting))
+            if (!_settings.TryGetValue(name, out var setting))
                 throw new Exception($"Setting {name} not found");
 
             return (T) setting.Data;
@@ -51,8 +50,7 @@ namespace NeoNetsphere
 
         public string Get(string name)
         {
-            Setting setting;
-            if (!_settings.TryGetValue(name, out setting))
+            if (!_settings.TryGetValue(name, out var setting))
                 throw new Exception($"Setting {name} not found");
 
             return (string) setting.Data;
@@ -60,8 +58,7 @@ namespace NeoNetsphere
 
         public void AddOrUpdate(string name, string value)
         {
-            Setting setting;
-            if (_settings.TryGetValue(name, out setting))
+            if (_settings.TryGetValue(name, out var setting))
                 setting.Data = value;
             else
                 _settings[name] = new Setting(value);
@@ -69,8 +66,7 @@ namespace NeoNetsphere
 
         public void AddOrUpdate<T>(string name, T value)
         {
-            Setting setting;
-            if (_settings.TryGetValue(name, out setting))
+            if (_settings.TryGetValue(name, out var setting))
                 setting.Data = value;
             else
                 _settings[name] = new Setting(value);
@@ -182,8 +178,7 @@ namespace NeoNetsphere
     {
         public object GetObject(string value)
         {
-            CommunitySetting setting;
-            if (!Enum.TryParse(value, out setting))
+            if (!Enum.TryParse(value, out CommunitySetting setting))
                 throw new Exception($"CommunitySetting {value} not found");
             return setting;
         }

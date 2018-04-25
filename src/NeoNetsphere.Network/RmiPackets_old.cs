@@ -1,6 +1,6 @@
 ﻿
 #if OLDIDS
-namespace Netsphere.Network
+namespace NeoNetsphere.Network
 {
     public enum AuthOpCode : ushort
     {
@@ -77,6 +77,10 @@ namespace Netsphere.Network
         ClubNoteSendAck = 16031,
         ClubMemberListAck = 16032,
         ClubMemberLoginStateAck = 16033,
+        Chennel_PlayerNameTagList_Ack = 16034,
+        Club_ClubMemberInfo_Ack_2 = 16035,
+        Club_Member_List_Ack_2 = 16036,
+        BroadCast_Club_Close = 16037,
     }
 
     public enum ClubOpCode

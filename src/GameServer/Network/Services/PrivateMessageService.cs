@@ -90,7 +90,7 @@ namespace NeoNetsphere.Network.Services
             }
 
             var result = await session.Player.Mailbox.SendAsync(message.Receiver, message.Title, message.Message);
-            session.SendAsync(new NoteSendAckMessage(result ? 0 : 1));
+            await session.SendAsync(new NoteSendAckMessage(result ? 0 : 1));
         }
     }
 }

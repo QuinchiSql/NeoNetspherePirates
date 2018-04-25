@@ -146,8 +146,7 @@ namespace NeoNetsphere
 
             if (plr.Channel != null)
             {
-                plr.LocationInfo = new PlayerLocationInfo(plr.Channel.Id);
-                plr.LocationInfo.invisible = true;
+                plr.LocationInfo = new PlayerLocationInfo(plr.Channel.Id) {Invisible = true};
                 plr.Channel.Broadcast(new ChannelLeavePlayerAckMessage(plr.Account.Id));
             }
 
@@ -192,12 +191,12 @@ namespace NeoNetsphere
                 }));
             }
 
-            var ClubList = new List<PlayerClubInfoDto>();
+            var clubList = new List<PlayerClubInfoDto>();
             foreach (var player in _players.Values.Where(p => p.Club != null))
             {
-                if (ClubList.All(club => club.Id != player.Club.Clan_ID))
+                if (clubList.All(club => club.Id != player.Club.Clan_ID))
                 {
-                    ClubList.Add(new PlayerClubInfoDto()
+                    clubList.Add(new PlayerClubInfoDto()
                     {
                         Id = player.Club.Clan_ID,
                         Name = player.Club.Clan_Name,
@@ -210,7 +209,7 @@ namespace NeoNetsphere
             plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
             plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
             plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values.Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
-            plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(ClubList.ToArray()));
+            plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
 
             OnPlayerJoining(new RoomPlayerEventArgs(plr));
         }
@@ -232,7 +231,7 @@ namespace NeoNetsphere
                     roomLeaveReason == RoomLeaveReason.VoteKick)
                     _kickedPlayers.TryAdd(plr.Account.Id, null);
                 
-                plr.LocationInfo.invisible = false;
+                plr.LocationInfo.Invisible = false;
                 var curchannelid = (uint)plr.Channel.Id;
                 plr.Channel.Leave(plr, true);
                 GameServer.Instance.ChannelManager[curchannelid].Join(plr);
@@ -242,7 +241,7 @@ namespace NeoNetsphere
                 _players?.Remove(plr.Account.Id);
                 plr.Room = null;
                 
-                if (_players.Count > 0)
+                if (_players != null && _players.Count > 0)
                 {
                     if (Master == plr)
                         ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
@@ -269,26 +268,7 @@ namespace NeoNetsphere
                 Logger.Error(ex.ToString());
             }
         }
-
-
-        public uint GetLatency()
-        {
-            // ToDo add this to config
-            var good = 30;
-            var bad = 190;
-
-            var players = TeamManager.SelectMany(t => t.Value.Values).ToArray();
-            var total = players.Sum(plr => plr.Session.UnreliablePing) / players.Length;
-
-            if (total <= good)
-                return 100;
-            if (total >= bad)
-                return 0;
-
-            var result = (uint) (100f * total / bad);
-            return 100 - result;
-        }
-
+        
         public void SetCreator(Player plr)
         {
             Master = plr;
@@ -326,13 +306,13 @@ namespace NeoNetsphere
             {
                 Logger.ForAccount(Master)
                     .Error("Game rule {gameRule} does not exist", options.GameRule);
-                throw new Exception("gamerule is not available");
-                //Master.Session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+                //throw new Exception("gamerule is not available");
+                Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                 return;
             }
 
             // ToDo check if current player count is not above the new player limit
-            bool israndom = false;
+            var israndom = false;
             if ((GameRule) options.GameRule != GameRule.Practice &&
                 (GameRule) options.GameRule != GameRule.CombatTrainingTD &&
                 (GameRule) options.GameRule != GameRule.CombatTrainingDM)
@@ -361,13 +341,16 @@ namespace NeoNetsphere
                 var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(options.Map_ID);
                 if (map == null)
                 {
-                    throw new Exception($"Map {options.Map_ID} does not exist");
+                    Logger.ForAccount(Master)
+                        .Error($"Map {options.Map_ID} does not exist");
+                    Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
                 if (!map.GameRules.Contains((GameRule) options.GameRule))
                 {
-                    throw new Exception(
-                        $"Map {map.Id}({map.Name}) is not available for game rule {(GameRule) options.GameRule}");
+                    Logger.ForAccount(Master)
+                        .Error($"Map {map.Id}({map.Name}) is not available for game rule {(GameRule)options.GameRule}");
+                    Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
             }
@@ -490,21 +473,23 @@ namespace NeoNetsphere
 
         internal virtual RoomDto GetRoomInfo()
         {
-            var roomDto = new RoomDto();
+            var roomDto = new RoomDto
+            {
+                RoomId = (byte) Id,
+                PlayerCount = (byte) Players.Count,
+                PlayerLimit = Options.PlayerLimit,
+                State = (byte) GameRuleManager.GameRule.StateMachine.State,
+                GameRule = (int) Options.GameRule,
+                Map = (byte) Options.MapID,
+                WeaponLimit = Options.ItemLimit,
+                Name = Options.Name,
+                Password = Options.Password,
+                FMBURNMode = GetFMBurnModeInfo(),
+                SpectatorEnabled = Options.hasSpectator,
+                IsRandom = Options.IsRandom ? 1 : 0
+            };
 
-            roomDto.RoomId = (byte) Id;
-            roomDto.PlayerCount = (byte) Players.Count;
-            roomDto.PlayerLimit = Options.PlayerLimit;
-            roomDto.State = (byte) GameRuleManager.GameRule.StateMachine.State;
             //roomDto.State2 = (byte) GameRuleManager.GameRule.StateMachine.State;
-            roomDto.GameRule = (int) Options.GameRule;
-            roomDto.Map = (byte) Options.MapID;
-            roomDto.WeaponLimit = Options.ItemLimit;
-            roomDto.Name = Options.Name;
-            roomDto.Password = Options.Password;
-            roomDto.FMBURNMode = GetFMBurnModeInfo();
-            roomDto.SpectatorEnabled = Options.hasSpectator;
-            roomDto.IsRandom = Options.IsRandom ? 1 : 0;
             //roomDto.Unk1 = (byte)GameRuleManager.GameRule.StateMachine.State;
             //roomDto.Unk1 = Options.UniqueID;
             //roomDto.Spectator = Options.Spectator;

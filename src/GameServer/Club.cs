@@ -37,10 +37,7 @@ namespace NeoNetsphere
         internal bool NeedsToSave { get; set; }
 
         public Dictionary<ulong, ClubPlayerInfo> Players => _players;
-        private uint _id;
-        private string _name = "CC_LOVERS_C2";
-        private string _icon = "1-1-1";
-        
+
         public ClubPlayerInfo this[ulong id] => _players[id];
         public int Count => _players.Count;
 
@@ -58,22 +55,10 @@ namespace NeoNetsphere
             Logger.Information("New Club: {name} {type} {playercount}", Clan_Name, Clan_Icon, Count);
         }
 
-        public uint Clan_ID
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public uint Clan_ID { get; set; }
 
-        public string Clan_Icon
-        {
-            get { return _icon; }
-            set { _icon = value; }
-        }
+        public string Clan_Icon { get; set; } = "1-1-1";
 
-        public string Clan_Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        } 
+        public string Clan_Name { get; set; } = "CC_LOVERS_C2";
     }
 }

@@ -34,7 +34,7 @@ namespace NeoNetsphere.Network
             config.SessionFactory = new RelaySessionFactory();
 
             // ReSharper disable InconsistentNaming
-            Predicate<RelaySession> MustNotBeLoggedIn = session => !session.IsLoggedIn();
+            bool MustNotBeLoggedIn(RelaySession session) => !session.IsLoggedIn();
             // ReSharper restore InconsistentNaming
 
             config.MessageHandlers = new IMessageHandler[]

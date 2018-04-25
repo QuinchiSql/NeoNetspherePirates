@@ -28,11 +28,9 @@ namespace NeoNetsphere.Network
 
         public override async Task<bool> OnMessageReceived(IChannelHandlerContext context, object message)
         {
-            List<Predicate<TSession>> predicates;
-            _filter.TryGetValue(message.GetType(), out predicates);
+            _filter.TryGetValue(message.GetType(), out var predicates);
 
-            TSession session;
-            if (!GetParameter(context, message, out session))
+            if (!GetParameter(context, message, out TSession session))
                 throw new Exception("Unable to retrieve session");
 
             if (predicates != null && predicates.Any(predicate => !predicate(session)))
@@ -49,12 +47,11 @@ namespace NeoNetsphere.Network
                 if (result)
                     handled = true;
             }
-            if (!handled && message.GetType().Name != "RecvContext")
-            {
-                Logger.Error("Unhandled message {messageName}", message.GetType().Name);
-                if (session.GetType() == typeof(GameSession))
-                    session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-            }
+
+            if (handled || message.GetType().Name == "RecvContext") return handled;
+            Logger.Error("Unhandled message {messageName}", message.GetType().Name);
+            if (session.GetType() == typeof(GameSession))
+                await session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
             return handled;
         }
 

@@ -191,8 +191,7 @@ namespace NeoNetsphere
             {
                 var idsToRemove = new StringBuilder();
                 var firstRun = true;
-                Character charToDelete;
-                while (_charactersToDelete.TryPop(out charToDelete))
+                while (_charactersToDelete.TryPop(out var charToDelete))
                 {
                     if (firstRun)
                         firstRun = false;

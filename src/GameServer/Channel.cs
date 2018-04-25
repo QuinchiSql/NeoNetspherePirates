@@ -46,7 +46,7 @@ namespace NeoNetsphere
             if (Players.Count >= PlayerLimit)
                 throw new ChannelLimitReachedException();
 
-            foreach (var playr in _players.Values.Where(p => p.LocationInfo.invisible != true))
+            foreach (var playr in _players.Values.Where(p => p.LocationInfo.Invisible != true))
                 playr.ChatSession.SendAsync(new ChannelEnterPlayerAckMessage(plr.Map<Player, PlayerInfoShortDto>()));
 
 
@@ -61,7 +61,7 @@ namespace NeoNetsphere
             plr.ChatSession.SendAsync(new NoteCountAckMessage((byte) plr.Mailbox.Count(mail => mail.IsNew), 0, 0));
 
             var visibleplayers = (IReadOnlyDictionary<ulong, Player>) plr.Channel.Players
-                .Where(i => i.Value.LocationInfo.invisible != true).ToDictionary(i => i.Key, i => i.Value);
+                .Where(i => i.Value.LocationInfo.Invisible != true).ToDictionary(i => i.Key, i => i.Value);
 
             plr.ChatSession.SendAsync(new ChannelPlayerListAckMessage(visibleplayers.Values.Select(p => p.Map<Player, PlayerInfoShortDto>()).ToArray()));
             plr.ChatSession.SendAsync(new Chennel_PlayerNameTagList_AckMessage(visibleplayers.Values.Select(p => p.Map<Player, PlayerNameTagInfoDto>()).ToArray()));
@@ -79,7 +79,7 @@ namespace NeoNetsphere
             plr.Channel = null;
 
             foreach (var playr in _players.Values)
-                if (playr.LocationInfo.invisible != true)
+                if (playr.LocationInfo.Invisible != true)
                     Broadcast(new ChannelLeavePlayerAckMessage(plr.Account.Id));
 
             OnPlayerLeft(new ChannelPlayerLeftEventArgs(this, plr));

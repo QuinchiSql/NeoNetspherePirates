@@ -53,21 +53,20 @@ namespace NeoNetsphere.Network.Services
                 case ChannelInfoRequest.RoomList2:
                     if (session.Player.Channel == null)
                         return;
-                    var roomlist_2 = new List<RoomDto>();
+                    var roomlist2 = new List<RoomDto>();
 
                     foreach (var room in session.Player.Channel.RoomManager)
                     {
-                        var temproom_2 = new RoomDto();
-                        temproom_2 = room.GetRoomInfo();
-                        temproom_2.Password =
+                        var temproom2 = room.GetRoomInfo();
+                        temproom2.Password =
                             !string.IsNullOrWhiteSpace(room.Options.Password) ||
                             !string.IsNullOrEmpty(room.Options.Password)
                                 ? "nice try :)"
                                 : "";
-                        roomlist_2.Add(temproom_2);
+                        roomlist2.Add(temproom2);
                     }
 
-                    var rooms_2 = roomlist_2.ToArray();
+                    var rooms_2 = roomlist2.ToArray();
                     session.SendAsync(new RoomListInfoAck2Message(rooms_2));
 
                     break;
@@ -202,14 +201,11 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(ChannellistReqMessage))]
         public Task Channellistreq(ChatSession session, ChannellistReqMessage message)
         {
-            var Players = new List<PlayerInfoDto>();
-            foreach (var plr in session.Player.Channel.Players.Values)
-                Players.Add(new PlayerInfoDto
-                {
-                    Info = plr.Map<Player, PlayerInfoShortDto>(),
-                    Location = plr.Map<Player, PlayerLocationDto>()
-                });
-            return session.SendAsync(new PlayerPlayerInfoListAckMessage(Players.ToArray()));
+            return session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(plr => new PlayerInfoDto
+            {
+                Info = plr.Map<Player, PlayerInfoShortDto>(),
+                Location = plr.Map<Player, PlayerLocationDto>()
+            }).ToArray()));
         }
     }
 }

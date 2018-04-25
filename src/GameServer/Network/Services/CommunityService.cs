@@ -19,7 +19,7 @@ namespace NeoNetsphere.Network.Services
         public void OptionSaveBinaryReq(ChatSession session, OptionSaveBinaryReqMessage message)
         {
             //handle
-            Console.WriteLine($"Save Option: 0x{message.Checksum.ToString("X")} : {message.Data.Length}");
+            Console.WriteLine($"Save Option: 0x{message.Checksum:X} : {message.Data.Length}");
         }
         //[MessageHandler(typeof(CSetUserDataReqMessage))]
         //public void SetUserDataHandler(ChatSession session, CSetUserDataReqMessage message)
@@ -59,8 +59,7 @@ namespace NeoNetsphere.Network.Services
             if (plr.Account.Id == message.AccountId)
                 return;
 
-            Player target;
-            if (!plr.Channel.Players.TryGetValue(message.AccountId, out target))
+            if (!plr.Channel.Players.TryGetValue(message.AccountId, out var target))
                 return;
 
             //switch (target.Settings.Get<CommunitySetting>("AllowInfoRequest"))

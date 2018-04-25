@@ -42,8 +42,8 @@ namespace NeoNetsphere.Network.Services
                 if (plr != null)
                 {
                     plr.Club = GameServer.Instance.ClubManager.GetClubByAccount(plr.Account.Id);
-                    proudSession.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
-                    proudSession.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                    await proudSession?.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+                    await proudSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
                 }
             }
         }
@@ -173,15 +173,13 @@ namespace NeoNetsphere.Network.Services
             //if (plr.Club != null)
             //    plr.ChatSession.SendAsync(new ClubMemberListAck2Message(GameServer.Instance.PlayerManager.Where(p =>
             //        plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
-            if (session.GameSession != null)
-                session.GameSession.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
+            session.GameSession?.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
         }
 
         [MessageHandler(typeof(ClubNoteSendReq2Message))]
         public void ClubNoteSendReq2(ChatSession session, ClubNoteSendReq2Message message)
         {
-            if (session.GameSession != null)
-                session.GameSession.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
+            session.GameSession?.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
         }
     }
 }

@@ -8,10 +8,10 @@
 
         public PlayerLocationInfo(int _id)
         {
-            channelid = _id;
+            Channelid = _id;
         }
 
-        public int channelid { get; set; }
-        public bool invisible { get; set; } = false;
+        public int Channelid { get; set; }
+        public bool Invisible { get; set; } = false;
     }
 }

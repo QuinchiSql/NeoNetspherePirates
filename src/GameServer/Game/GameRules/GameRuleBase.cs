@@ -59,7 +59,7 @@ namespace Netsphere.Game.GameRules
         public virtual void UpdateTime()
         {
             foreach (var member in Room.Players.Values)
-                if (member.RoomInfo.hasLoaded)
+                if (member.RoomInfo.HasLoaded)
                 {
                     member.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState,
                     (int)(Room.RoundTime.TotalMilliseconds + 100)));
@@ -81,7 +81,7 @@ namespace Netsphere.Game.GameRules
             #region PrepareGame
             if (GameStartState == 1)
             {
-                if (Room.Players.Values.Count(x => x.RoomInfo.hasLoaded)
+                if (Room.Players.Values.Count(x => x.RoomInfo.HasLoaded)
                     >= Room.Players.Values.Count(x => x.RoomInfo.IsReady || x == Room.Master))
                 {
                     GameStartTime = Room.RoundTime;
@@ -93,7 +93,7 @@ namespace Netsphere.Game.GameRules
                     {
                         GameStartState = 2;
                         foreach (var member in Room.Players.Values)
-                            if (member.RoomInfo.hasLoaded)
+                            if (member.RoomInfo.HasLoaded)
                             {
                                 member.Session.SendAsync(
                                     new RoomGamePlayCountDownAckMessage { Unk = (short)GameStartTimeMs });
@@ -211,7 +211,7 @@ namespace Netsphere.Game.GameRules
                     
                     foreach (var team in Room.TeamManager.Values)
                         team.Score = 0;
-                    foreach (var plr in Room.TeamManager.Values.SelectMany(team => team.Values.Where(plr => plr.RoomInfo.hasLoaded)))
+                    foreach (var plr in Room.TeamManager.Values.SelectMany(team => team.Values.Where(plr => plr.RoomInfo.HasLoaded)))
                     {
                         UpdateTime(plr);
                         plr.Session.SendAsync(new RoomGameStartAckMessage());
@@ -228,7 +228,7 @@ namespace Netsphere.Game.GameRules
                     foreach (var team in Room.TeamManager.Values)
                         team.Score = 0;
                     foreach (var plr in Room.TeamManager.Values.SelectMany(team =>
-                        team.Values.Where(plr => plr.RoomInfo.hasLoaded)))
+                        team.Values.Where(plr => plr.RoomInfo.HasLoaded)))
                     {
                         UpdateTime(plr);
                         plr.Session.SendAsync(new RoomGameStartAckMessage());

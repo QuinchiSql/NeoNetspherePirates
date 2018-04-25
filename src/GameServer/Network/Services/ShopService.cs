@@ -37,17 +37,17 @@ namespace NeoNetsphere.Network.Services
 
             var w = new BinaryWriter(new MemoryStream());
             w.Serialize(shop.Prices.Values.ToArray());
-            var ShopPrices = w.ToArray();
+            var shopPrices = w.ToArray();
             w.Dispose();
             w = new BinaryWriter(new MemoryStream());
 
             w.Serialize(shop.Effects.Values.ToArray());
-            var ShopEffects = w.ToArray();
+            var shopEffects = w.ToArray();
             w.Dispose();
             w = new BinaryWriter(new MemoryStream());
 
             w.Serialize(shop.Items.Values.ToArray());
-            var ShopItems = w.ToArray();
+            var shopItems = w.ToArray();
             w.Dispose();
 
 
@@ -56,7 +56,7 @@ namespace NeoNetsphere.Network.Services
                 await proudSession.SendAsync(new NewShopUpdataInfoAckMessage
                 {
                     Type = ShopResourceType.NewShopPrice,
-                    Data = ShopPrices,
+                    Data = shopPrices,
                     Date = version
                 }, SendOptions.ReliableSecureCompress);
 
@@ -64,14 +64,14 @@ namespace NeoNetsphere.Network.Services
                 await proudSession.SendAsync(new NewShopUpdataInfoAckMessage
                 {
                     Type = ShopResourceType.NewShopEffect,
-                    Data = ShopEffects,
+                    Data = shopEffects,
                     Date = version
                 }, SendOptions.ReliableSecureCompress);
 
                 await proudSession.SendAsync(new NewShopUpdataInfoAckMessage
                 {
                     Type = ShopResourceType.NewShopItem,
-                    Data = ShopItems,
+                    Data = shopItems,
                     Date = version
                 }, SendOptions.ReliableSecureCompress);
 
@@ -109,7 +109,7 @@ namespace NeoNetsphere.Network.Services
                 message.Date04 == version)
                 return;
 
-            ShopUpdateMsg(session, false);
+            await ShopUpdateMsg(session, false);
         }
 
         [MessageHandler(typeof(RandomShopUpdateCheckReqMessage))]
@@ -140,7 +140,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("No shop entry found for {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
                     if (!shopItemInfo.IsEnabled)
@@ -149,7 +149,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Shop entry is not enabled {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -161,7 +161,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Invalid price group for shop entry {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -171,7 +171,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Shop entry is not enabled {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -181,7 +181,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Shop entry has no color {color} {item}",
                                 item.Color, new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -198,7 +198,7 @@ namespace NeoNetsphere.Network.Services
                                 .Error("Shop entry has no effect {effect} {item}",
                                     item.Effect, new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                            session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                            await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                             return;
                         }
                     else
@@ -222,7 +222,7 @@ namespace NeoNetsphere.Network.Services
                         case ItemPriceType.PEN:
                             if (plr.PEN < price.Price)
                             {
-                                session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
+                                await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
                                 return;
                             }
                             plr.PEN -= (uint) price.Price;
@@ -232,7 +232,7 @@ namespace NeoNetsphere.Network.Services
                         case ItemPriceType.Premium:
                             if (plr.AP < price.Price)
                             {
-                                session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
+                                await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
                                 return;
                             }
                             plr.AP -= (uint) price.Price;
@@ -245,7 +245,7 @@ namespace NeoNetsphere.Network.Services
                     }
 
                     PlayerItem stackitem = null;
-                    var Stacked = false;
+                    var stacked = false;
                     switch (item.PeriodType)
                     {
                         case ItemPeriodType.None:
@@ -256,7 +256,7 @@ namespace NeoNetsphere.Network.Services
                             {
                                 stackitem.Count += item.Period;
                                 stackitem.NeedsToSave = true;
-                                Stacked = true;
+                                stacked = true;
                             }
                             break;
                         case ItemPeriodType.Days:
@@ -269,7 +269,7 @@ namespace NeoNetsphere.Network.Services
                     }
                     var plrItem = stackitem;
 
-                    if (!Stacked)
+                    if (!stacked)
                         plrItem = session.Player.Inventory.Create(shopItemInfo, price, item.Color,
                             itemeffects.ToArray(),
                             (uint) (price.PeriodType == ItemPeriodType.Units ? price.Period : 0));

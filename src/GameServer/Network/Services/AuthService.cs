@@ -79,7 +79,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Error("Server is full");
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ServerFull));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ServerFull));
                 return;
             }
 
@@ -100,7 +100,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Error("Wrong login(account not existing)");
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
 
@@ -117,14 +117,13 @@ namespace NeoNetsphere.Network.Services
             //    session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
             //    return;
             //}
-            var datetime = $"{DateTimeOffset.Now.DateTime}";
             var authsessionId = Hash.GetString<CRC32>($"<{accountDto.Username}+{sessionId}+{message.Datetime}>");
             if (authsessionId != message.AuthToken)
             {
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Error("Wrong sessionid(2)");
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
 
@@ -134,7 +133,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Error("Wrong sessionid(3)");
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
 
@@ -147,7 +146,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Error("Banned until {unbanDate}", unbanDate);
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
 
@@ -161,7 +160,7 @@ namespace NeoNetsphere.Network.Services
                     .Error("No permission to enter this server({securityLevel} or above required)",
                         Config.Instance.SecurityLevel);
 
-                session.SendAsync(new LoginReguestAckMessage((GameLoginResult) 9));
+                await session.SendAsync(new LoginReguestAckMessage((GameLoginResult) 9));
                 return;
             }
 
@@ -175,8 +174,8 @@ namespace NeoNetsphere.Network.Services
                 if (GameServer.Instance.PlayerManager.Contains(account.Id))
                     GameServer.Instance.PlayerManager.Remove(oldPlr);
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ExistingExit));
-                return;
+                //await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ExistingExit));
+                //return;
             }
 
             if (GameServer.Instance.PlayerManager.Contains(account.Id))
@@ -184,7 +183,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(account)
                     .Error("Already online");
 
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.TerminateOtherConnection));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.TerminateOtherConnection));
                 return;
             }
 
@@ -230,8 +229,7 @@ namespace NeoNetsphere.Network.Services
                 }
                 else
                 {
-                    TimeSpan re;
-                    if (!TimeSpan.TryParse(plrDto.PlayTime, out re))
+                    if (!TimeSpan.TryParse(plrDto.PlayTime, out _))
                         plrDto.PlayTime = TimeSpan.FromSeconds(0).ToString();
 
                     if (plrDto.Level > 0 && plrDto.TotalExperience == 0)
@@ -246,24 +244,7 @@ namespace NeoNetsphere.Network.Services
                         await db.UpdateAsync(plrDto);
                     }
                 }
-                //if (expTable.TryGetValue(plrDto.Level, out expValue))
-                //    if (plrDto.TotalExperience < expValue.TotalExperience)
-                //    {
-                //        plrDto.TotalExperience = expValue.TotalExperience;
-                //        Logger.Warning("Given exp were to low for given level");
-                //        await db.UpdateAsync(plrDto);
-                //    }
                 session.Player = new Player(session, account, plrDto);
-            }
-
-            if (GameServer.Instance.PlayerManager.Contains(session.Player))
-            {
-                session.Player = null;
-                Logger.ForAccount(account)
-                    .Error("Already online");
-
-                session.SendAsync(new LoginReguestAckMessage(GameLoginResult.TerminateOtherConnection));
-                return;
             }
             
             GameServer.Instance.PlayerManager.Add(session.Player);
@@ -332,8 +313,7 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(ItemUseChangeNickReqMessage))]
         public async Task ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
         {
-            session.SendAsync(
-                new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
+            session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
 
         //[MessageHandler(typeof(CCreateNickReqMessage))]
@@ -441,14 +421,6 @@ namespace NeoNetsphere.Network.Services
                     var itemInfo = item.GetItemInfo(startItem.ShopItemInfoId);
                     var effect = itemInfo.EffectGroup.GetEffect(startItem.ShopEffectId);
 
-                    if (itemInfo == null)
-                    {
-                        Logger.Warning(
-                            "Cant find ShopItemInfo for Start item {startItemId} - Forgot to reload the cache?",
-                            startItem.Id);
-                        continue;
-                    }
-
                     var price = itemInfo.PriceGroup.GetPrice(startItem.ShopPriceId);
                     if (price == null)
                     {
@@ -480,8 +452,8 @@ namespace NeoNetsphere.Network.Services
                 }
             }
             //session.Send(new ItemEquipBoostItemInfoAckMessage());
-            session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
-            session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
+            await session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
+            await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
         }
 
         private static async Task<bool> IsNickAvailableAsync(string nickname)
@@ -551,7 +523,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(message.AccountId, "")
                     .Error("Login failed");
-                session.SendAsync(new LoginAckMessage(3));
+                await session.SendAsync(new LoginAckMessage(3));
                 return;
             }
 
@@ -559,7 +531,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(session)
                     .Error("Already online");
-                session.SendAsync(new LoginAckMessage(4));
+                await session.SendAsync(new LoginAckMessage(4));
                 return;
             }
 
@@ -568,8 +540,8 @@ namespace NeoNetsphere.Network.Services
 
             Logger.ForAccount(session)
                 .Information("Login success");
-            session.SendAsync(new LoginAckMessage(0));
-            session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
+            await session.SendAsync(new LoginAckMessage(0));
+            await session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
 
             if (plr.Club != null)
             {
@@ -597,7 +569,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(message.AccountId, "")
                     .Error("Login failed");
-                session.SendAsync(new SNotifyLoginResultMessage(1));
+                await session.SendAsync(new SNotifyLoginResultMessage(1));
                 return;
             }
 
@@ -605,7 +577,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(session)
                     .Error("Already online");
-                session.SendAsync(new SNotifyLoginResultMessage(2));
+                await session.SendAsync(new SNotifyLoginResultMessage(2));
                 return;
             }
 
@@ -614,7 +586,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(message.AccountId, "")
                     .Error("Suspicious login");
-                session.SendAsync(new SNotifyLoginResultMessage(3));
+                await session.SendAsync(new SNotifyLoginResultMessage(3));
                 return;
             }
 
@@ -622,7 +594,7 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(message.AccountId, "")
                     .Error($"Suspicious login(Not in a room/Invalid room id) (given id:{message.RoomLocation.RoomId})");
-                session.SendAsync(new SNotifyLoginResultMessage(4));
+                await session.SendAsync(new SNotifyLoginResultMessage(4));
                 return;
             }
 

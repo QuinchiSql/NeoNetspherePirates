@@ -15,7 +15,7 @@ namespace NeoNetsphere
         public PlayerState State { get; set; }
         public PlayerGameMode Mode { get; set; }
         public bool IsReady { get; set; }
-        public bool hasLoaded { get; set; }
+        public bool HasLoaded { get; set; }
 
         public TimeSpan PlayTime { get; set; }
         public TimeSpan DeadTime { get; set; }
@@ -30,7 +30,7 @@ namespace NeoNetsphere
                 CharacterPlayTime[i] = TimeSpan.Zero;
 
             IsReady = false;
-            hasLoaded = false;
+            HasLoaded = false;
         }
     }
 }
