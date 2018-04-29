@@ -19,6 +19,7 @@ namespace ProudNetSrc
         public ProudServer Server { get; }
         public ISocketChannel Channel { get; }
         public bool IsConnected => Channel.Active;
+        public DateTimeOffset ConnectDate { get; } = DateTimeOffset.MinValue;
         public IPEndPoint RemoteEndPoint { get; }
         public IPEndPoint LocalEndPoint { get; }
 
@@ -57,6 +58,7 @@ namespace ProudNetSrc
 
         public ProudSession(uint hostId, IChannel channel, ProudServer server)
         {
+            ConnectDate = DateTimeOffset.Now;
             HostId = hostId;
             Server = server;
             Channel = (ISocketChannel)channel;

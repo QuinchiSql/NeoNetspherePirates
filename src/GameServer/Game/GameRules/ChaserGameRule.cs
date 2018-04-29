@@ -215,9 +215,9 @@ namespace NeoNetsphere.Game.GameRules
         public void NextChaser()
         {
             _waitingNextChaser = false;
-            _chaserRoundTime = Room.Players.Count < 4
+            _chaserRoundTime = Room.TeamManager.Players.Count() < 4
                 ? TimeSpan.FromSeconds(60)
-                : TimeSpan.FromSeconds(Room.Players.Count * 15);
+                : TimeSpan.FromSeconds(Room.TeamManager.Players.Count() * 15);
             _chaserRoundTime += TimeSpan.FromSeconds(Chaser != null ? 6 : 3);
 
             try

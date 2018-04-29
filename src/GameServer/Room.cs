@@ -81,44 +81,57 @@ namespace NeoNetsphere
 
         public void Update(TimeSpan delta)
         {
-            if (Players.Count == 0)
-                return;
-
-            //if (Host != null)
-            //{
-            //    _hostUpdateTimer += delta;
-            //    if (_hostUpdateTimer >= _hostUpdateTime)
-            //    {
-            //        var lowest = GetPlayerWithLowestPing();
-            //        if (Host != lowest)
-            //        {
-            //            var diff = Math.Abs(Host.Session.UnreliablePing - lowest.Session.UnreliablePing);
-            //            if (diff >= PingDifferenceForChange)
-            //                ChangeHostIfNeeded(lowest, true);
-            //        }
-            //
-            //        _hostUpdateTimer = TimeSpan.Zero;
-            //    }
-            //}
-
-            if (IsChangingRules)
+            try
             {
-                _changingRulesTimer += delta;
-                if (_changingRulesTimer >= _changingRulesTime && IsChangingRulesCooldown != true)
+                if (!(RoomManager?.Contains(this) ?? false))
+                    return;
+
+                if (Players.Count == 0 || !TeamManager.Players.Any())
                 {
-                    GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapID];
-                    GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
-                    Broadcast(new RoomChangeRuleAckMessage(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
-                    Broadcast(new RoomChangeRuleFailAckMessage {Result = 0});
-                    BroadcastBriefing();
-                    IsChangingRulesCooldown = true;
+                    if (Master.Room == this && !Master.IsLoggedIn()) RoomManager?.Remove(this);
+                    return;
                 }
 
-                if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                //if (Host != null)
+                //{
+                //    _hostUpdateTimer += delta;
+                //    if (_hostUpdateTimer >= _hostUpdateTime)
+                //    {
+                //        var lowest = GetPlayerWithLowestPing();
+                //        if (Host != lowest)
+                //        {
+                //            var diff = Math.Abs(Host.Session.UnreliablePing - lowest.Session.UnreliablePing);
+                //            if (diff >= PingDifferenceForChange)
+                //                ChangeHostIfNeeded(lowest, true);
+                //        }
+                //
+                //        _hostUpdateTimer = TimeSpan.Zero;
+                //    }
+                //}
+
+                if (IsChangingRules)
                 {
-                    IsChangingRules = false;
-                    IsChangingRulesCooldown = false;
+                    _changingRulesTimer += delta;
+                    if (_changingRulesTimer >= _changingRulesTime && IsChangingRulesCooldown != true)
+                    {
+                        GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapID];
+                        GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
+                        Broadcast(new RoomChangeRuleAckMessage(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
+                        Broadcast(new RoomChangeRuleFailAckMessage { Result = 0 });
+                        BroadcastBriefing();
+                        IsChangingRulesCooldown = true;
+                    }
+
+                    if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                    {
+                        IsChangingRules = false;
+                        IsChangingRulesCooldown = false;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
             }
 
             GameRuleManager.Update(delta);
@@ -129,7 +142,7 @@ namespace NeoNetsphere
             if (plr.Room != null)
                 throw new RoomException("Player is already inside a room");
 
-            if (Math.Max((int)Options.PlayerLimit, 1) < Players.Count)
+            if (Math.Max((int)Options.PlayerLimit, 1) < TeamManager.Players.Count())
                 throw new RoomLimitReachedException();
 
             if (_kickedPlayers.ContainsKey(plr.Account.Id))
@@ -224,7 +237,6 @@ namespace NeoNetsphere
                     Group?.Leave(plr.RelaySession.HostId);
 
                 Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
-                Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
 
                 if (roomLeaveReason == RoomLeaveReason.Kicked ||
                     roomLeaveReason == RoomLeaveReason.ModeratorKick ||
@@ -237,11 +249,12 @@ namespace NeoNetsphere
                 GameServer.Instance.ChannelManager[curchannelid].Join(plr);
 
                 plr.RoomInfo.PeerId = 0;
-                plr.RoomInfo?.Team?.Leave(plr);
+                plr.RoomInfo.Team.Leave(plr);
                 _players?.Remove(plr.Account.Id);
                 plr.Room = null;
-                
-                if (_players != null && _players.Count > 0)
+                plr.Session?.SendAsync(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
+
+                if (_players.Count > 0)
                 {
                     if (Master == plr)
                         ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
@@ -260,10 +273,7 @@ namespace NeoNetsphere
             {
                 Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
                 Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
-
-                if (_players.Count == 1)
-                    plr?.Channel?.RoomManager?.Remove(this);
-
+                
                 _players?.Remove(plr.Account.Id);
                 Logger.Error(ex.ToString());
             }
@@ -275,26 +285,28 @@ namespace NeoNetsphere
             Host = plr;
         }
 
-        public void ChangeMasterIfNeeded(Player plr, bool force = false)
+        public bool ChangeMasterIfNeeded(Player plr, bool force = false)
         {
-            if (plr.Room == this && plr.Room.Players.Count != 1 && plr.Room.Master != null &&
+            if (plr.Room == this && plr.Room.TeamManager.Players.Count() != 1 && plr.Room.Master != null &&
                 (!force || Master == plr))
-                return;
+                return false;
 
             Master = plr;
             Broadcast(new RoomChangeMasterAckMessage(Master.Account.Id));
+            return true;
         }
 
-        public void ChangeHostIfNeeded(Player plr, bool force = false)
+        public bool ChangeHostIfNeeded(Player plr, bool force = false)
         {
-            if (plr.Room == this && Host != null && plr.Room.Players.Count != 1 && (!force || Host == plr))
-                return;
+            if (plr.Room == this && Host != null && plr.Room.TeamManager.Players.Count() != 1 && (!force || Host == plr))
+                return false;
 
             // TODO Add Room extension?
             Logger.Debug("<Room {roomId}> Changing host to {nickname} - Ping:{ping} ms", Id, plr.Account.Nickname,
                 plr.Session.UnreliablePing);
             Host = plr;
             Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
+            return true;
         }
 
         public void ChangeRules(ChangeRuleDto options)

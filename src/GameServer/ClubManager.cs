@@ -12,7 +12,7 @@ using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
 
 // ReSharper disable once CheckNamespace
-namespace Netsphere
+namespace NeoNetsphere
 {
     internal class ClubManager : IReadOnlyCollection<Club>
     {
@@ -22,26 +22,33 @@ namespace Netsphere
 
         public Club GetClub(uint id)
         {
-            _clubs.TryGetValue(id, out var Club);
+            Club Club;
+            _clubs.TryGetValue(id, out Club);
             return Club;
         }
 
         public Club GetClubByAccount(ulong id)
         {
-            Club club = _clubs.Values.Where(c => c.Players.Any(p => p.Value.AccountId == id)).FirstOrDefault();
-            return club;
+            Club Club = _clubs.Values.FirstOrDefault(c => c.Players.Any(p => p.Value.AccountId == id));
+            return Club;
         }
 
         public ClubManager(IEnumerable<DBClubInfoDto> ClubInfos)
         {
+            _clubs.Clear();
             foreach (var InfoDto in ClubInfos)
             {
-                var club = new Club(InfoDto.ClubDto, InfoDto.PlayerDto);
-                _clubs.TryAdd(InfoDto.ClubDto.Id, club);
+                var Club = new Club(InfoDto.ClubDto, InfoDto.PlayerDto);
+                _clubs.TryAdd(InfoDto.ClubDto.Id, Club);
             }
         }
 
-        
+        public void Add(Club club)
+        {
+            club.NeedsToSave = true;
+            _clubs.TryAdd(club.Clan_ID, club);
+        }
+
         #region IReadOnlyCollection
 
         public int Count => _clubs.Count;

@@ -54,8 +54,7 @@ namespace NeoNetsphere.Network.Services
                     if (session.Player.Channel == null)
                         return;
                     var roomlist2 = new List<RoomDto>();
-
-                    foreach (var room in session.Player.Channel.RoomManager)
+                    foreach (var room in session.Player.Channel.RoomManager.Where(x => !x.TeamManager.Players.Any()))
                     {
                         var temproom2 = room.GetRoomInfo();
                         temproom2.Password =
@@ -65,10 +64,9 @@ namespace NeoNetsphere.Network.Services
                                 : "";
                         roomlist2.Add(temproom2);
                     }
-
-                    var rooms_2 = roomlist2.ToArray();
-                    session.SendAsync(new RoomListInfoAck2Message(rooms_2));
-
+                    session.SendAsync(new RoomListInfoAck2Message(roomlist2.ToArray()));
+                    foreach (var room in session.Player.Channel.RoomManager.Where(x => !x.TeamManager.Players.Any()))
+                        session.Player.Channel.RoomManager.Remove(room);
                     break;
 
                 default:

@@ -8,20 +8,20 @@ namespace NeoNetsphere.Network.Data.GameRule
     {
         public ItemDropDto()
         {
-            Unk3 = new byte[6];
+            Position = new byte[6];
         }
 
         [BlubMember(0)]
-        public int Unk1 { get; set; }
+        public int Type { get; set; }
 
         [BlubMember(1)]
-        public int Unk2 { get; set; }
+        public int EntityId { get; set; } //guessed
 
         [BlubMember(2, typeof(FixedArraySerializer), 6)]
-        public byte[] Unk3 { get; set; }
+        public byte[] Position { get; set; } 
 
         [BlubMember(3)]
-        public int Unk4 { get; set; }
+        public int Ammo { get; set; } // ammo related
 
         [BlubMember(4)]
         public byte Unk5 { get; set; }

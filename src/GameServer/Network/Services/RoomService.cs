@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using NeoNetsphere.Network.Data.GameRule;
 
 namespace NeoNetsphere.Network.Services
 {
@@ -59,10 +60,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
                 return;
             }
-
-            plr.Room.ChangeMasterIfNeeded(plr);
-            plr.Room.ChangeHostIfNeeded(plr);
-
+            
             session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
             session.SendAsync(new GameChangeSubStateAckMessage(plr.Room.SubGameState));
             
@@ -79,11 +77,12 @@ namespace NeoNetsphere.Network.Services
             
             plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(0));
 
-            if (plr != plr.Room.Master)
+            if (!plr.Room.ChangeMasterIfNeeded(plr))
                 plr.Session.SendAsync(new RoomChangeMasterAckMessage(plr.Room.Master.Account.Id));
-            if (plr != plr.Room.Host)
+
+            if (!plr.Room.ChangeHostIfNeeded(plr))
                 plr.Session.SendAsync(new RoomChangeRefereeAckMessage(plr.Room.Host.Account.Id));
-            
+
             plr.Room.BroadcastBriefing();
             plr.Room.GameRuleManager.GameRule.UpdateTime(plr);
         }
@@ -142,6 +141,7 @@ namespace NeoNetsphere.Network.Services
             try
             {
                 room.Join(plr);
+                plr.Channel?.RoomManager._rooms.TryAdd(room.Id, room);
             }
             catch (RoomAccessDeniedException)
             {
@@ -292,9 +292,11 @@ namespace NeoNetsphere.Network.Services
                     new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
                 Creator = plr
             }, RelayServer.Instance.P2PGroupManager.Create(true));
+
             try
             {
                 room.Join(plr);
+                plr.Channel?.RoomManager._rooms.TryAdd(room.Id, room);
             }
             catch (RoomAccessDeniedException)
             {
@@ -1207,6 +1209,8 @@ namespace NeoNetsphere.Network.Services
                 Unk3 = message.Unk2
             });
         }
+
+        private static int _itemdropcount = 0;
         [MessageHandler(typeof(InGameItemDropReqMessage))]
         public void InGameItemDropReq(GameSession session, InGameItemDropReqMessage message)
         {
@@ -1214,10 +1218,15 @@ namespace NeoNetsphere.Network.Services
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
                 return;
 
-            //session.SendAsync(new InGameItemDropAckMessage()
+            //var x = new InGameItemDropAckMessage()
             //{
-            //    //Todo
-            //});
+            //    Item = new ItemDropAckDto()
+            //    {
+            //        Counter = ++_itemdropcount,
+            //        Position = message.Item.Position //pos?
+            //    }
+            //};
+            //session.SendAsync(x);
         }
         
     }

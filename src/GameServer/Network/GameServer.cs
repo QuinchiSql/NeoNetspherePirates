@@ -90,6 +90,11 @@ namespace NeoNetsphere.Network
 #else
             config.Version = new Guid("{beb92241-8333-4117-ab92-9b4af78c688f}");
 #endif
+
+#if OLDUI
+            config.Version = new Guid("{beb92241-8333-4117-ab92-9b4af78c688f}");
+#endif
+
             config.MessageFactories = new MessageFactory[]
             {
                 new RelayMessageFactory(), new GameMessageFactory(), new GameRuleMessageFactory(),
@@ -200,39 +205,83 @@ namespace NeoNetsphere.Network
 
         private void Worker(TimeSpan delta)
         {
-            ChannelManager.Update(delta);
-
-            foreach (var plr in PlayerManager)
+            try
             {
-                if (plr != null)
-                {
-                    if (!plr.Session.IsConnected)
-                        plr.LoggedIn = false;
+                ChannelManager.Update(delta);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
+            }
 
-                    if (!plr.Session.IsConnected || !plr.Session.IsLoggedIn())
-                    {
-                        plr.Room?.Leave(plr);
-                        plr.Room = null;
-                    }
-                    else
-                    {
-                        var curtime = TimeSpan.Parse(plr.PlayTime);
-                        plr.PlayTime = (curtime += delta).ToString();
-                    }
-                }
+            foreach (var plr in PlayerManager.Where(plr => !plr.IsLoggedIn() &&
+                                                           plr.Session?.ConnectDate.Add(TimeSpan.FromMinutes(5)) <
+                                                           DateTimeOffset.Now))
+            {
+                plr.Session?.CloseAsync();
+                if (plr.Session != null)
+                    OnDisconnected(plr.Session);
             }
 
             foreach (var channel in ChannelManager)
             {
-                foreach (var room in channel.RoomManager.Where(x => !x.Master.IsLoggedIn() || !x.Master.Session.IsConnected))
+                try
                 {
-                    if (room.Players.Count - 1 <= 0)
-                        channel?.RoomManager?.Remove(room, true);
-                    else
-                        if (!room.Players.Any(x => x.Value.IsLoggedIn() || x.Value.Session.IsConnected))
-                        channel?.RoomManager?.Remove(room, true);
+                    foreach (var room in channel.RoomManager)
+                    {
+                        if (room?.TeamManager == null) continue;
+                        foreach (var team in room.TeamManager)
+                            try
+                            {
+                                foreach (var plr in team.Value)
+                                    try
+                                    {
+                                        if (!plr.Value?.IsLoggedIn() ?? false) team.Value?.Leave(plr.Value);
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                            }
+                            catch (Exception)
+                            {
+                            }
+
+                        foreach (var plr in room.Players)
+                            try
+                            {
+                                if (!plr.Value?.IsLoggedIn() ?? false) room?.Leave(plr.Value);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                    }
+
+                    foreach (var plr in channel.Players)
+                        try
+                        {
+                            if (!plr.Value?.IsLoggedIn() ?? false) channel?.Leave(plr.Value);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                }
+                catch (Exception)
+                {
+                    //ignore
                 }
             }
+            
+            //foreach (var channel in ChannelManager)
+            //{
+            //    foreach (var room in channel.RoomManager.Where(x => !x.Master.IsLoggedIn() || !x.Master.Session.IsConnected))
+            //    {
+            //        if (!room.TeamManager.Players.Any())
+            //            channel?.RoomManager?.Remove(room, true);
+            //        else
+            //            if (!room.Players.Any(x => x.Value.IsLoggedIn() || x.Value.Session.IsConnected))
+            //            channel?.RoomManager?.Remove(room, true);
+            //    }
+            //}
 
             // ToDo Use another thread for this?
             _saveTimer = _saveTimer.Add(delta);
@@ -438,37 +487,44 @@ namespace NeoNetsphere.Network
 
         protected override void OnDisconnected(ProudSession session)
         {
-            var gameSession = (GameSession) session;
-            if (gameSession.Player != null)
+            try
             {
-                gameSession.Player.Room?.Leave(gameSession.Player);
-                gameSession.Player.Channel?.Leave(gameSession.Player);
-
-                gameSession.Player.Save();
-
-                PlayerManager.Remove(gameSession.Player);
-
-                Logger.ForAccount(gameSession)
-                    .Debug($"Client {session.RemoteEndPoint} disconnected");
-
-                if (gameSession.Player.ChatSession != null)
+                var gameSession = (GameSession)session;
+                if (gameSession.Player != null)
                 {
-                    gameSession.Player.ChatSession.GameSession = null;
-                    gameSession.Player.ChatSession.Dispose();
+                    gameSession.Player.Room?.Leave(gameSession.Player);
+                    gameSession.Player.Channel?.Leave(gameSession.Player);
+
+                    gameSession.Player.Save();
+
+                    PlayerManager.Remove(gameSession.Player);
+
+                    Logger.ForAccount(gameSession)
+                        .Debug($"Client {session.RemoteEndPoint} disconnected");
+
+                    if (gameSession.Player.ChatSession != null)
+                    {
+                        gameSession.Player.ChatSession.GameSession = null;
+                        gameSession.Player.ChatSession.Dispose();
+                    }
+
+                    if (gameSession.Player.RelaySession != null)
+                    {
+                        gameSession.Player.RelaySession.GameSession = null;
+                        gameSession.Player.RelaySession.Dispose();
+                    }
+
+                    gameSession.Player.Session = null;
+                    gameSession.Player.ChatSession = null;
+                    gameSession.Player.RelaySession = null;
+                    gameSession.Player = null;
                 }
 
-                if (gameSession.Player.RelaySession != null)
-                {
-                    gameSession.Player.RelaySession.GameSession = null;
-                    gameSession.Player.RelaySession.Dispose();
-                }
-
-                gameSession.Player.Session = null;
-                gameSession.Player.ChatSession = null;
-                gameSession.Player.RelaySession = null;
-                gameSession.Player = null;
             }
-
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
+            }
             base.OnDisconnected(session);
         }
 
