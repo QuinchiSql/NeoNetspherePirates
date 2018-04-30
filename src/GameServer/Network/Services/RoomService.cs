@@ -78,7 +78,7 @@ namespace NeoNetsphere.Network.Services
                 Unk2 = 0
             });
 
-            plr.Room.BroadcastBriefing();
+            plr.Room.BroadcastBriefing(plr);
             plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(plr.Room.TeamManager.Players.Select(player => new NameTagDto(player.Account.Id, 0)).ToArray()));
 
             session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
@@ -129,15 +129,17 @@ namespace NeoNetsphere.Network.Services
             var isbalanced = false;
             var isburning = false;
             var isWithoutStats = false;
+            var isNoIntrusion = message.GameRule == (int) GameRule.Horde;
+
 
             var room = plr.Channel.RoomManager.Create_2(new RoomCreationOptions
             {
-                Name = message.rName,
+                Name = message.Name,
                 GameRule = (GameRule)message.GameRule,
                 PlayerLimit = message.Player_Limit,
                 TimeLimit = TimeSpan.FromMinutes(message.Time),
                 ScoreLimit = (ushort)message.Points,
-                Password = message.rPassword,
+                Password = message.Password,
                 IsFriendly = isfriendly,
                 IsBalanced = isbalanced,
                 IsBurning = isburning,
@@ -146,9 +148,9 @@ namespace NeoNetsphere.Network.Services
                 MinLevel = 0,
                 MaxLevel = 100,
                 ItemLimit = (byte)message.Weapon_Limit,
-                IsNoIntrusion = false,
+                IsNoIntrusion = isNoIntrusion,
                 Spectator = message.SpectatorCount,
-                hasSpectator = message.SpectatorCount > 1 ? true : false,
+                hasSpectator = message.SpectatorCount > 1,
                 UniqueID = message.Unk3,
                 ServerEndPoint =
                     new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
@@ -285,12 +287,12 @@ namespace NeoNetsphere.Network.Services
 
             var room = plr.Channel.RoomManager.Create_2(new RoomCreationOptions
             {
-                Name = message.rName,
+                Name = message.Name,
                 GameRule = (GameRule) message.GameRule,
                 PlayerLimit = message.Player_Limit,
                 TimeLimit = TimeSpan.FromMinutes(message.Time),
                 ScoreLimit = (ushort) message.Points,
-                Password = message.rPassword,
+                Password = message.Password,
                 IsFriendly = isfriendly,
                 IsBalanced = isbalanced,
                 IsBurning = isburning,
@@ -355,8 +357,6 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(RoomChoiceTeamChangeReqMessage))]
         public void CMixChangeTeamReq(GameSession session, RoomChoiceTeamChangeReqMessage message)
         {
-            return;//deactivated
-
             var plr = session.Player;
             if (plr != plr.Room.Master || plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
                 return;

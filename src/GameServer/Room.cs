@@ -92,6 +92,12 @@ namespace NeoNetsphere
                     return;
                 }
 
+                if (!(Master?.IsLoggedIn() ?? true) || Master.Room != this)
+                {
+                    ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
+                    ChangeHostIfNeeded(GetPlayerWithLowestPing(), true);
+                }
+
                 //if (Host != null)
                 //{
                 //    _hostUpdateTimer += delta;
@@ -603,10 +609,14 @@ namespace NeoNetsphere
                 plr.ChatSession.SendAsync(message);
         }
 
+        public void BroadcastBriefing(Player plr, bool isResult = false)
+        {
+            var gameRule = GameRuleManager.GameRule;
+            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
+        }
         public void BroadcastBriefing(bool isResult = false)
         {
             var gameRule = GameRuleManager.GameRule;
-            //var isResult = gameRule.StateMachine.IsInState(GameRuleState.Result);
             Broadcast(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
         }
 

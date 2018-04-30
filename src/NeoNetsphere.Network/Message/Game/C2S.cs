@@ -112,10 +112,10 @@ namespace NeoNetsphere.Network.Message.Game
         public int Weapon_Limit { get; set; }
 
         [BlubMember(6, typeof(StringSerializer))]
-        public string rName { get; set; }
+        public string Name { get; set; }
 
         [BlubMember(7, typeof(StringSerializer))]
-        public string rPassword { get; set; }
+        public string Password { get; set; }
 
         [BlubMember(8)]
         public byte Spectator { get; set; }
@@ -166,10 +166,10 @@ namespace NeoNetsphere.Network.Message.Game
         public int Weapon_Limit { get; set; }
 
         [BlubMember(6, typeof(StringSerializer))]
-        public string rName { get; set; }
+        public string Name { get; set; }
 
         [BlubMember(7, typeof(StringSerializer))]
-        public string rPassword { get; set; }
+        public string Password { get; set; }
 
         [BlubMember(8)]
         public byte Spectator { get; set; }

@@ -9,6 +9,10 @@ namespace NeoNetsphere.Network.Data.Game
         public RoomPlayerDto()
         {
             Nickname = "";
+            Unk1 = 0x9A;
+#if LATESTS4
+            Unk3 = 0x0C;
+#endif
         }
 
         [BlubMember(0)]
@@ -28,5 +32,10 @@ namespace NeoNetsphere.Network.Data.Game
 
         [BlubMember(5)]
         public byte IsGM { get; set; }
+
+#if LATESTS4
+        [BlubMember(6)]
+        public byte Unk3 { get; set; }
+#endif
     }
 }

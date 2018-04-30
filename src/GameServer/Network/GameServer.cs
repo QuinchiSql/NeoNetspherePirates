@@ -367,9 +367,8 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.Nickname, src => src.Nickname);
 
             Mapper.Register<Player, RoomPlayerDto>()
-                .Member(dest => dest.ClanId, src => (uint)src.Club.Clan_ID)
+                .Member(dest => dest.ClanId, src => src.Club.Clan_ID)
                 .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Value(dest => dest.Unk1, (byte)0x0)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.Unk2, src => (byte)src.Room.Players.Values.ToList().IndexOf(src))
                 .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User ? (byte)1 : (byte)0);

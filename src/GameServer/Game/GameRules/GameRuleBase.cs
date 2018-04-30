@@ -69,7 +69,6 @@ namespace Netsphere.Game.GameRules
         {
             UpdateTime(plr);
             plr.Session.SendAsync(new RoomGameStartAckMessage());
-            Room.BroadcastBriefing();
         }
 
         public virtual void Update(TimeSpan delta)
