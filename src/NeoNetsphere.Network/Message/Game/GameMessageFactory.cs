@@ -36,6 +36,7 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RoomEnterPlayerInfoAckMessage>(GameOpCode.RoomEnterPlayerInfoAck);
             Register<RoomEnterClubInfoAckMessage>(GameOpCode.RoomEnterClubInfoAck);
             Register<RoomPlayerInfoListForEnterPlayerAckMessage>(GameOpCode.RoomPlayerInfoListForEnterPlayerAck);
+            Register<RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage>(GameOpCode.Room_PlayerInfoListForEnterPlayerForCollectBook_Ack);
             Register<RoomClubInfoListForEnterPlayerAckMessage>(GameOpCode.RoomClubInfoListForEnterPlayerAck);
             Register<RoomEnterRoomInfoAck2Message>(GameOpCode.Room_EnterRoomInfo_Ack_2);
             Register<RoomEnterRoomInfoAckMessage>(GameOpCode.RoomEnterRoomInfoAck);

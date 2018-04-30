@@ -369,36 +369,40 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, RoomPlayerDto>()
                 .Member(dest => dest.ClanId, src => (uint)src.Club.Clan_ID)
                 .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Value(dest => dest.Unk1, (byte)0x9A)
+                .Value(dest => dest.Unk1, (byte)0x0)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.Unk2, src => (byte)src.Room.Players.Values.ToList().IndexOf(src))
-                .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User ? (byte)1 : (byte)0)
-                .Value(dest => dest.Unk3, (byte)0x58);
-
-
+                .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User ? (byte)1 : (byte)0);
+            
             Mapper.Register<PlayerItem, Data.P2P.ItemDto>()
                 .Function(dest => dest.ItemNumber, src => src?.ItemNumber ?? 0);
 
             Mapper.Register<RoomCreationOptions, ChangeRuleDto>()
-                .Member(dest => dest.Name, src => src.Name)
+                .Function(dest => dest.GameRule, src => (int) src.GameRule)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapID)
                 .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
-                .Member(dest => dest.Password, src => src.Password)
-                .Function(dest => dest.GameRule, src => (int)src.GameRule)
-                .Member(dest => dest.Time, src => src.TimeLimit.TotalMinutes)
                 .Member(dest => dest.Points, src => src.ScoreLimit)
-                .Member(dest => dest.Map_ID, src => src.MapID)
+                .Value(dest => dest.Unk1, 0)
+                .Member(dest => dest.Time, src => (byte) src.TimeLimit.TotalMinutes)
+                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
+                .Member(dest => dest.Password, src => src.Password)
+                .Member(dest => dest.Name, src => src.Name)
+                .Member(dest => dest.HasSpectator, src => src.hasSpectator)
+                .Member(dest => dest.SpectatorLimit, src => src.Spectator);
+
+            Mapper.Register<RoomCreationOptions, ChangeRuleDto2>()
+                .Function(dest => dest.GameRule, src => (int) src.GameRule)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapID)
+                .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
+                .Member(dest => dest.Points, src => src.ScoreLimit)
+                .Value(dest => dest.Unk1, 0)
+                .Member(dest => dest.Time, src => (byte) src.TimeLimit.TotalMinutes)
+                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
+                .Member(dest => dest.Password, src => src.Password)
+                .Member(dest => dest.Name, src => src.Name)
                 .Member(dest => dest.HasSpectator, src => src.hasSpectator)
                 .Member(dest => dest.SpectatorLimit, src => src.Spectator)
-                .Member(dest => dest.FMBurnMode, src => src.GetFMBurnModeInfo())
-                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit);
-                //.Value(dest => dest.Unk1, 0)
-                //.Value(dest => dest.Unk3, 0)
-                //.Value(dest => dest.Unk4, 0)
-                //.Value(dest => dest.Unk5, 0)
-                //.Value(dest => dest.Unk6, 0)
-                //.Value(dest => dest.Unk7, 0)
-                //.Value(dest => dest.Unk8, 0)
-                //.Value(dest => dest.Unk9, 0);
+                .Member(dest => dest.FMBurnMode, src => src.GetFMBurnModeInfo());
 
             Mapper.Register<Mail, NoteDto>()
                 .Function(dest => dest.ReadCount, src => src.IsNew ? 0 : 1)
@@ -426,7 +430,7 @@ namespace NeoNetsphere.Network
 
             Mapper.Register<Player, PlayerLocationDto>()
                 .Function(dest => dest.ServerGroupId, src => (int) Config.Instance.Id)
-                .Function(dest => dest.ChannelId, src => src.Channel != null ? src.Channel.Id : -1)
+                .Function(dest => dest.ChannelId, src => src.Channel?.Id ?? -1)
                 .Function(dest => dest.RoomId,
                     src => src.Room?.Id > 1 ? (int) src.Room?.Id : 0) // ToDo: Tutorial, License
                 .Function(dest => dest.GameServerId, src => 0) // TODO Server ids
@@ -464,9 +468,7 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, ClubMemberDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname);
-
-
-
+            
             Mapper.Compile(CompilationTypes.Source);
         }
 
@@ -494,7 +496,6 @@ namespace NeoNetsphere.Network
                 {
                     gameSession.Player.Room?.Leave(gameSession.Player);
                     gameSession.Player.Channel?.Leave(gameSession.Player);
-
                     gameSession.Player.Save();
 
                     PlayerManager.Remove(gameSession.Player);

@@ -54,7 +54,7 @@ namespace NeoNetsphere.Network.Services
                     if (session.Player.Channel == null)
                         return;
                     var roomlist2 = new List<RoomDto>();
-                    foreach (var room in session.Player.Channel.RoomManager.Where(x => !x.TeamManager.Players.Any()))
+                    foreach (var room in session.Player.Channel.RoomManager.Where(x => x.TeamManager.Players.Any()))
                     {
                         var temproom2 = room.GetRoomInfo();
                         temproom2.Password =

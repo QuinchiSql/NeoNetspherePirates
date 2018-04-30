@@ -39,28 +39,28 @@ namespace NeoNetsphere.Network.Services
         public async Task LoginHandler(GameSession session, LoginRequestReqMessage message)
         {
             #region IPINFO
-            IpInfo ipInfo = new IpInfo();
+            var ipInfo = new IpInfo2();
             try
             {
-                string info =
-                    new WebClient().DownloadString("http://freegeoip.net/json/" + session.RemoteEndPoint.Address);
-                ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-                if (string.IsNullOrWhiteSpace(ipInfo.country_code) || string.IsNullOrEmpty(ipInfo.country_code))
-                    ipInfo.country_code = "UNK";
+                //string info = new WebClient().DownloadString("" + session.RemoteEndPoint.Address);
+                string info = new WebClient().DownloadString("http://ip-api.com/json/" + session.RemoteEndPoint.Address);
+                ipInfo = JsonConvert.DeserializeObject<IpInfo2>(info);
+                if (string.IsNullOrWhiteSpace(ipInfo.countryCode) || string.IsNullOrEmpty(ipInfo.countryCode))
+                    ipInfo.countryCode = "UNK";
             }
             catch (Exception)
             {
-                ipInfo.country_code = "UNK";
+                ipInfo.countryCode = "UNK";
             }
             #endregion
 
             Logger.ForAccount(message.AccountId, message.Username)
-                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint, ipInfo.country_code);
+                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint, ipInfo.countryCode);
 
-            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.country_code) || Config.Instance.BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
+            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.countryCode) || Config.Instance.BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
             {
                 Logger.ForAccount(message.AccountId, message.Username)
-                    .Information("Denied connection from client in blocked country {country}", ipInfo.country_code);
+                    .Information("Denied connection from client in blocked country {country}", ipInfo.countryCode);
                 
                 session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
                 return;
@@ -615,12 +615,11 @@ namespace NeoNetsphere.Network.Services
                     p.Account.Nickname));
             }
 
-            plr.Room.Group.Join(session.HostId);
+            plr.Room.Group?.Join(session.HostId);
             await session.SendAsync(new SNotifyLoginResultMessage(0));
 
             plr.RoomInfo.IsConnecting = false;
             plr.Room.OnPlayerJoined(new RoomPlayerEventArgs(plr));
         }
-        
     }
 }

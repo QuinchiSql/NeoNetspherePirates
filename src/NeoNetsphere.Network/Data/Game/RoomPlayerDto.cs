@@ -28,8 +28,5 @@ namespace NeoNetsphere.Network.Data.Game
 
         [BlubMember(5)]
         public byte IsGM { get; set; }
-
-        [BlubMember(6)]
-        public byte Unk3 { get; set; }
     }
 }

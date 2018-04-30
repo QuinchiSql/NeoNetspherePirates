@@ -334,6 +334,22 @@ namespace NeoNetsphere.Network.Message.Game
     }
 
     [BlubContract]
+    public class RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage : IGameMessage
+    {
+        public RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage()
+        {
+            Count = 0;
+            //Players = Array.Empty<RoomPlayerDto>();
+        }
+        
+        //[BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
+        //public CollectBookInfo[] Players { get; set; }
+
+        [BlubMember(0)]
+        public int Count { get; set; }
+    }
+
+    [BlubContract]
     public class RoomClubInfoListForEnterPlayerAckMessage : IGameMessage
     {
         public RoomClubInfoListForEnterPlayerAckMessage()
@@ -421,28 +437,28 @@ namespace NeoNetsphere.Network.Message.Game
         public GameTimeState GameTimeState { get; set; }
 
         [BlubMember(5)]
-        public GameState GameState { get; set; }
+        public uint GameState { get; set; }
 
         [BlubMember(6)]
         public uint TimeLimit { get; set; }
 
         [BlubMember(7)]
-        public uint SpectatorLimit { get; set; }
+        public uint mUnknow01 { get; set; }
 
         [BlubMember(8)]
-        public uint mUnknown01 { get; set; }
+        public uint Time_Sync { get; set; }
 
         [BlubMember(9)]
         public uint Score_Limit { get; set; }
 
         [BlubMember(10)]
-        public bool mUnknown02 { get; set; }
+        public byte mUnknow02 { get; set; }
 
         [BlubMember(11, typeof(IPEndPointAddressStringSerializer))]
         public IPEndPoint IP { get; set; } = new IPEndPoint(0, 0);
 
         [BlubMember(12)]
-        public bool CreatedRoom { get; set; }
+        public byte Spectator { get; set; }
 
         [BlubMember(13)]
         public uint mUnknow03 { get; set; }

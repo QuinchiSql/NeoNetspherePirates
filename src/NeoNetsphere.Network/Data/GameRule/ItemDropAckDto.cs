@@ -9,13 +9,13 @@ namespace NeoNetsphere.Network.Data.GameRule
     public class ItemDropAckDto
     {
         [BlubMember(0)]
-        public int Counter { get; set; }
+        public uint Counter { get; set; }
 
         [BlubMember(1)]
-        public int Unk2 { get; set; } //?
+        public int Unk2 { get; set; } //3
 
         [BlubMember(2)]
-        public int Unk3 { get; set; } //?
+        public int Unk3 { get; set; } //2
 
         [BlubMember(3)]
         public int Unk4 { get; set; } //?

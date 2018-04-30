@@ -149,11 +149,11 @@ namespace NeoNetsphere.Network.Message.GameRule
     {
         public RoomChangeRuleNotifyReq2Message()
         {
-            Settings = new ChangeRuleDto();
+            Settings = new ChangeRuleDto2();
         }
 
         [BlubMember(0)]
-        public ChangeRuleDto Settings { get; set; }
+        public ChangeRuleDto2 Settings { get; set; }
     }
 
     [BlubContract]

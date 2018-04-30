@@ -46,7 +46,13 @@ namespace Netsphere.Game
             var players = teamMgr.Players.ToArray();
             var spectators = teamMgr.Spectators.ToArray();
 
-            w.Write((uint) GetWinnerTeam().Team);
+            w.Write((byte)GetWinnerTeam().Team);
+
+            //unk
+            w.Write((byte)0);
+            w.Write((byte)0);
+            w.Write((byte)0);
+
             w.Write(teamMgr.Count);
             w.Write(players.Length);
             w.Write(spectators.Length);

@@ -10,6 +10,8 @@ namespace Netsphere.Game.GameRules //placeholder for real Conquest, c&p of death
 {
     internal class ConquestGameRule : GameRuleBase
     {
+        public uint DropCount = 0;
+
         public ConquestGameRule(Room room)
             : base(room)
         {
@@ -51,6 +53,7 @@ namespace Netsphere.Game.GameRules //placeholder for real Conquest, c&p of death
         {
             var teamMgr = Room.TeamManager;
             teamMgr.Remove(Team.Alpha);
+            teamMgr.Remove(Team.Beta);
 
             base.Cleanup();
         }
@@ -144,8 +147,8 @@ namespace Netsphere.Game.GameRules //placeholder for real Conquest, c&p of death
         
         private bool CanStartGame()
         {
-            if (Room.TeamManager.Players.ToList().Count > 1)
-                return false;
+            //if (Room.TeamManager.Players.ToList().Count > 1)
+            //    return false;
             return true;
         }
 
@@ -165,11 +168,6 @@ namespace Netsphere.Game.GameRules //placeholder for real Conquest, c&p of death
         protected override void WriteData(BinaryWriter w, bool isResult)
         {
             base.WriteData(w, isResult);
-            w.Write(0);
-            w.Write(0);
-            w.Write(0);
-            w.Write(0);
-            var gamerule = (ConquestGameRule) GameRule;
         }
     }
 
@@ -185,7 +183,13 @@ namespace Netsphere.Game.GameRules //placeholder for real Conquest, c&p of death
         public override void Serialize(BinaryWriter w, bool isResult)
         {
             base.Serialize(w, isResult);
-            w.Write(Kills);
+            w.Write(0);
+            w.Write(0);
+            w.Write(0);
+            w.Write(0);
+            w.Write(0);
+            w.Write(0);
+            w.Write(0);
         }
         
         private uint GetTotalScore()

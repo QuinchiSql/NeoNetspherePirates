@@ -124,6 +124,8 @@ namespace NeoNetsphere.Resource
                                     map.GameRules.Add(GameRule.Chaser);
                                 if (!map.GameRules.Contains(GameRule.Captain))
                                     map.GameRules.Add(GameRule.Captain);
+                                if (!map.GameRules.Contains(GameRule.Horde))
+                                    map.GameRules.Add(GameRule.Horde);
                                 break;
 
                             case "s":
