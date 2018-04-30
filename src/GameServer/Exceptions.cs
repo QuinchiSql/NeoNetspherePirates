@@ -63,6 +63,10 @@ namespace Netsphere
         }
     }
 
+    public class RoomLimitIsNoIntrutionException : RoomException
+    {
+    }
+
     public class RoomLimitReachedException : RoomException
     {
     }

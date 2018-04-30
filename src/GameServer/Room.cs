@@ -146,6 +146,9 @@ namespace NeoNetsphere
             if (plr.Room != null)
                 throw new RoomException("Player is already inside a room");
 
+            if(plr.Room.Options.IsNoIntrusion && plr.Room.GameState != GameState.Waiting)
+                throw new RoomLimitIsNoIntrutionException();
+
             if (Math.Max((int)Options.PlayerLimit, 1) < TeamManager.Players.Count())
                 throw new RoomLimitReachedException();
 

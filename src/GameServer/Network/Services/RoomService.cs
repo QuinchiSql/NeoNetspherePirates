@@ -169,6 +169,10 @@ namespace NeoNetsphere.Network.Services
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
             }
+            catch (RoomLimitIsNoIntrutionException)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+            }
             catch (RoomException)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
@@ -324,6 +328,10 @@ namespace NeoNetsphere.Network.Services
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
             }
+            catch (RoomLimitIsNoIntrutionException)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+            }
             catch (RoomException)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
@@ -451,6 +459,10 @@ namespace NeoNetsphere.Network.Services
             catch (RoomLimitReachedException)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
+            }
+            catch (RoomLimitIsNoIntrutionException)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
             }
             catch (RoomException)
             {
