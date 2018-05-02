@@ -113,7 +113,7 @@ namespace NeoNetsphere
             }
 
 
-            Session.SendAsync(new ExpRefreshInfoAckMessage { Unk = TotalExperience });
+            Session.SendAsync(new ExpRefreshInfoAckMessage(TotalExperience));
             Session.SendAsync(new PlayerAccountInfoAckMessage(this.Map<Player, PlayerAccountInfoDto>()));
             return leveledUp;
         }
@@ -126,7 +126,7 @@ namespace NeoNetsphere
         /// <param name="message">The message to send</param>
         public void SendConsoleMessage(string message)
         {
-            Session.SendAsync(new AdminActionAckMessage {Result = 1, Message = message});
+            Session.SendAsync(new AdminActionAckMessage {Result = 0, Message = message});
         }
 
         /// <summary>

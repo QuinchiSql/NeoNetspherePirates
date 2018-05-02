@@ -85,16 +85,14 @@ namespace NeoNetsphere.Commands
                             plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
                             return true;
                         }
-                        else
-                        {
-                            plr.SendConsoleMessage(S4Color.Green + $"Changed {account.Nickname}'s nickname to {args[1]}");
-                            account.Nickname = args[1];
-                            db.Update(account);
 
-                            var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
-                            player?.Session?.SendAsync(new ItemUseChangeNickAckMessage() { Result = 0 });
-                            player?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-                        }
+                        plr.SendConsoleMessage(S4Color.Green + $"Changed {account.Nickname}'s nickname to {args[1]}");
+                        account.Nickname = args[1];
+                        db.Update(account);
+
+                        var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
+                        player?.Session?.SendAsync(new ItemUseChangeNickAckMessage() { Result = 0 });
+                        player?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
                     }
                 }
                 
@@ -231,29 +229,40 @@ namespace NeoNetsphere.Commands
                             plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
                             return true;
                         }
-                        else
+
+                        if (byte.TryParse(args[1], out var level))
                         {
-                            if (byte.TryParse(args[1], out var level))
+                            var expTable = GameServer.Instance.ResourceCache.GetExperience();
+
+                            if (expTable.TryGetValue(level, out var exp))
                             {
                                 plr.SendConsoleMessage(S4Color.Green + $"Changed {account.Nickname}'s level to {args[1]}");
+
                                 plr.Level = level;
+                                plr.TotalExperience = exp.TotalExperience;
                                 playerdto.Level = level;
+                                playerdto.TotalExperience = exp.TotalExperience;
+
                                 db.Update(playerdto);
 
                                 var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
-                                if(player != null)
+                                if (player != null)
                                 {
                                     player.Level = level;
+                                    player.Session?.SendAsync(new ExpRefreshInfoAckMessage(player.TotalExperience));
                                     player.Session?.SendAsync(new PlayerAccountInfoAckMessage(player.Map<Player, PlayerAccountInfoDto>()));
                                     player.NeedsToSave = true;
                                 }
                             }
                             else
                             {
-                                plr.SendConsoleMessage(S4Color.Red + "Wrong Usage, possible usages:");
-                                plr.SendConsoleMessage(S4Color.Red + "> level <username> <level>");
+                                plr.SendConsoleMessage(S4Color.Red + "Invalid Level");
                             }
-
+                        }
+                        else
+                        {
+                            plr.SendConsoleMessage(S4Color.Red + "Wrong Usage, possible usages:");
+                            plr.SendConsoleMessage(S4Color.Red + "> level <username> <level>");
                         }
                     }
                 }

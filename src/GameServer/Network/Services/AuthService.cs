@@ -160,9 +160,10 @@ namespace NeoNetsphere.Network.Services
                     .Error("No permission to enter this server({securityLevel} or above required)",
                         Config.Instance.SecurityLevel);
 
-                await session.SendAsync(new LoginReguestAckMessage((GameLoginResult) 9));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.AuthenticationFailed));
                 return;
             }
+
 
             if (message.KickConnection)
             {
@@ -171,20 +172,15 @@ namespace NeoNetsphere.Network.Services
 
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
                 oldPlr?.Disconnect();
-                if (GameServer.Instance.PlayerManager.Contains(account.Id))
-                    GameServer.Instance.PlayerManager.Remove(oldPlr);
-
-                //await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ExistingExit));
-                //return;
             }
 
             if (GameServer.Instance.PlayerManager.Contains(account.Id))
             {
                 Logger.ForAccount(account)
-                    .Error("Already online");
+                    .Information("Kicking old connection");
 
-                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.TerminateOtherConnection));
-                return;
+                var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
+                oldPlr?.Disconnect();
             }
 
 
@@ -201,7 +197,7 @@ namespace NeoNetsphere.Network.Services
                     .FirstOrDefault();
 
                 var expTable = GameServer.Instance.ResourceCache.GetExperience();
-                Experience expValue = new Experience();
+                var expValue = new Experience();
 
                 if (plrDto == null)
                 {

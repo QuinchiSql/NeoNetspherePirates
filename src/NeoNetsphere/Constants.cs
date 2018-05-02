@@ -3,9 +3,10 @@
     public enum SecurityLevel : byte
     {
         User = 0,
-        GameMaster = 1,
-        Developer = 2,
-        Administrator = 3
+        Tester = 1,
+        GameMaster = 2,
+        Developer = 3,
+        Administrator = 4
     }
 
     public enum ServerType : uint

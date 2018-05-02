@@ -12,16 +12,17 @@ namespace NeoNetsphere.Network.Services
         public Task ShowWindowHandler(GameSession session)
         {
             return session.SendAsync(
-                new AdminShowWindowAckMessage(session.Player.Account.SecurityLevel <= SecurityLevel.User));
+                new AdminShowWindowAckMessage(session.Player.Account.SecurityLevel <= SecurityLevel.Tester));
         }
 
         [MessageHandler(typeof(AdminActionReqMessage))]
         public void AdminActionHandler(GameServer server, GameSession session, AdminActionReqMessage message)
         {
             var args = message.Command.GetArgs();
-            if (!server.CommandManager.Execute(session.Player, args))
-                session.Player.SendConsoleMessage(S4Color.Red +
-                                                  "Unknown command! Try to contact the server administrators");
+            if (session.Player == null) return;
+            if (server.CommandManager.Execute(session.Player, args))
+                return;
+            session.Player.SendConsoleMessage(S4Color.Red + "Command is not implemented.");
         }
     }
 }

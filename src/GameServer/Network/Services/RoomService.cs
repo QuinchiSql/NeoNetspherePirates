@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using NeoNetsphere.Network.Data.GameRule;
+using ExpressMapper.Extensions;
 
 namespace NeoNetsphere.Network.Services
 {
@@ -78,110 +79,17 @@ namespace NeoNetsphere.Network.Services
                 Unk2 = 0
             });
 
-            plr.Room.BroadcastBriefing(plr);
             plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(plr.Room.TeamManager.Players.Select(player => new NameTagDto(player.Account.Id, 0)).ToArray()));
 
             session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
             session.SendAsync(new GameChangeSubStateAckMessage(plr.Room.SubGameState));
-            plr.Room.GameRuleManager.GameRule.UpdateTime(plr);
+            plr.Room.SendBriefing(plr);
         }
 
         [MessageHandler(typeof(RoomMakeReqMessage))]
         public void CMakeRoomReq(GameSession session, RoomMakeReqMessage message)
         {
-            var plr = session.Player;
-            if (plr.Room != null)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-                return;
-            }
-            Logger.Information("CreateRoom || Nickname:{nick}({accid}) Room: {mode}, {mapid}", plr.Account.Nickname,
-                plr.Account.Id, (GameRule)message.GameRule, message.Map_ID);
-            if (!plr.Channel.RoomManager.GameRuleFactory.Contains((GameRule)message.GameRule))
-            {
-                Logger.ForAccount(plr)
-                    .Error("Game rule {gameRule} does not exist", (GameRule)message.GameRule);
-                session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                return;
-            }
-
-            var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(message.Map_ID);
-            if (map == null)
-            {
-                Logger.ForAccount(plr)
-                    .Error("Map {map} does not exist", message.Map_ID);
-                session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                return;
-            }
-            if (!map.GameRules.Contains((GameRule)message.GameRule))
-            {
-                Logger.ForAccount(plr)
-                    .Error("Map {mapId}({mapName}) is not available for game rule {gameRule}", map.Id, map.Name,
-                        (GameRule)message.GameRule);
-
-                session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                return;
-            }
-            //toDo
-            //message.Player_Limit = 1;
-
-            var isfriendly = true;
-            var isbalanced = false;
-            var isburning = false;
-            var isWithoutStats = false;
-            var isNoIntrusion = message.GameRule == (int) GameRule.Horde;
-
-
-            var room = plr.Channel.RoomManager.Create_2(new RoomCreationOptions
-            {
-                Name = message.Name,
-                GameRule = (GameRule)message.GameRule,
-                PlayerLimit = message.Player_Limit,
-                TimeLimit = TimeSpan.FromMinutes(message.Time),
-                ScoreLimit = (ushort)message.Points,
-                Password = message.Password,
-                IsFriendly = isfriendly,
-                IsBalanced = isbalanced,
-                IsBurning = isburning,
-                IsWithoutStats = isWithoutStats,
-                MapID = message.Map_ID,
-                MinLevel = 0,
-                MaxLevel = 100,
-                ItemLimit = (byte)message.Weapon_Limit,
-                IsNoIntrusion = isNoIntrusion,
-                Spectator = message.SpectatorCount,
-                hasSpectator = message.SpectatorCount > 1,
-                UniqueID = message.Unk3,
-                ServerEndPoint =
-                    new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
-                Creator = plr
-            }, RelayServer.Instance.P2PGroupManager.Create(true));
-            try
-            {
-                room.Join(plr);
-                plr.Channel?.RoomManager._rooms.TryAdd(room.Id, room);
-            }
-            catch (RoomAccessDeniedException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
-            }
-            catch (RoomLimitReachedException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
-            }
-            catch (RoomLimitIsNoIntrutionException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-            }
-            catch (RoomException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.ToString());
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-            }
+            CMakeRoomReq2(session, message.Map<RoomMakeReqMessage, RoomMakeReq2Message>());
         }
 
         [MessageHandler(typeof(RoomMakeReq2Message))]
@@ -218,8 +126,7 @@ namespace NeoNetsphere.Network.Services
                     israndom = true;
                     message.Map_ID = 225;
                 }
-                else if (message.Map_ID == 231 && (GameRule) message.GameRule == GameRule.Deathmatch
-                ) //random deathmatch
+                else if (message.Map_ID == 231 && (GameRule) message.GameRule == GameRule.Deathmatch) //random deathmatch
                 {
                     israndom = true;
                     message.Map_ID = 20;
@@ -229,6 +136,7 @@ namespace NeoNetsphere.Network.Services
                     israndom = true;
                     message.Map_ID = 66;
                 }
+
                 var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(message.Map_ID);
                 if (map == null)
                 {
@@ -247,6 +155,7 @@ namespace NeoNetsphere.Network.Services
                     return;
                 }
             }
+
             if (message.Player_Limit < 1)
                 message.Player_Limit = 1;
 
@@ -263,6 +172,7 @@ namespace NeoNetsphere.Network.Services
             var isbalanced = true;
             var isburning = false;
             var isWithoutStats = false;
+            var isNoIntrusion = message.GameRule == (int)GameRule.Horde;
             switch (message.FMBURNMode)
             {
                 case 0:
@@ -305,7 +215,7 @@ namespace NeoNetsphere.Network.Services
                 MinLevel = 0,
                 MaxLevel = 100,
                 ItemLimit = (byte) message.Weapon_Limit,
-                IsNoIntrusion = false,
+                IsNoIntrusion = isNoIntrusion,
                 Spectator = message.SpectatorCount,
                 IsRandom = israndom,
                 hasSpectator = message.SpectatorCount > 1 ? true : false,
@@ -427,51 +337,51 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
                 return;
             }
-            var room = plr.Channel.RoomManager[message.RoomId];
-            if (room == null)
+
+            if (plr.Channel.RoomManager._rooms.TryGetValue(message.RoomId, out var room))
+            {
+                if (room.IsChangingRules)
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
+                    return;
+                }
+                if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password))
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.PasswordError));
+                    return;
+                }
+
+                try
+                {
+                    room.Join(plr);
+                }
+                catch (RoomAccessDeniedException)
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
+                }
+                catch (RoomLimitReachedException)
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
+                }
+                catch (RoomLimitIsNoIntrutionException)
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+                }
+                catch (RoomException)
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.ToString());
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+                }
+            }
+            else
             {
                 Logger.ForAccount(plr)
                     .Error("Room {roomId} in channel {channelId} not found", message.RoomId, plr.Channel.Id);
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-                return;
-            }
-
-            if (room.IsChangingRules)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password))
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.PasswordError));
-                return;
-            }
-
-            try
-            {
-                room.Join(plr);
-            }
-            catch (RoomAccessDeniedException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
-            }
-            catch (RoomLimitReachedException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.CantEnterRoom));
-            }
-            catch (RoomLimitIsNoIntrutionException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-            }
-            catch (RoomException)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex.Message);
-                session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
+                session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
             }
         }
 
@@ -796,7 +706,7 @@ namespace NeoNetsphere.Network.Services
             if (message.Reason == RoomLeaveReason.ModeratorKick || message.Reason == RoomLeaveReason.Kicked)
             {
                 // Only the master can kick people and kick is only allowed in the lobby
-                if ((room.Master != plr || plr.Account.SecurityLevel < SecurityLevel.User) &&
+                if ((room.Master != plr || plr.Account.SecurityLevel < SecurityLevel.Tester) &&
                     !room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting))
                 {
                     session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));

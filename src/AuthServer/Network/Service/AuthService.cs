@@ -135,6 +135,14 @@ namespace NeoNetsphere.Network.Service
 
                     if (message.Username.Length > 5 && message.Password.Length > 5)
                     {
+                        if (!Namecheck.IsNameValid(message.Username))
+                        {
+                            await session.SendAsync(new LoginEUAckMessage(AuthLoginResult.WrongIdorPw));
+                            Logger.Error("Wrong login for {ip}", ip);
+                            return;
+                        }
+
+
                         var result = db.Find<AccountDto>(statement => statement
                             .Where($"{nameof(AccountDto.Username):C} = @{nameof(message.Username)}")
                             .Include<BanDto>(join => join.LeftOuterJoin())

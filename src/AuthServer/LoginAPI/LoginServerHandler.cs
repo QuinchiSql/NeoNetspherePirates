@@ -69,7 +69,7 @@ namespace NeoNetsphere.LoginAPI
                                                 Logger.Information("Authentication login from {endpoint}",
                                                     context.Channel.RemoteAddress.ToString());
 
-                                                if (username.Length > 5 && password.Length > 5)
+                                                if (username.Length > 5 && password.Length > 5 && Namecheck.IsNameValid(username))
                                                 {
                                                     var result = db.Find<AccountDto>(statement => statement
                                                         .Where($"{nameof(AccountDto.Username):C} = @{nameof(username)}")

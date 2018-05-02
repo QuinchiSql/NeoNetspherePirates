@@ -146,10 +146,10 @@ namespace NeoNetsphere
             if (plr.Room != null)
                 throw new RoomException("Player is already inside a room");
 
-            if(plr.Room.Options.IsNoIntrusion && plr.Room.GameState != GameState.Waiting)
+            if(Options.IsNoIntrusion && GameState != GameState.Waiting)
                 throw new RoomLimitIsNoIntrutionException();
 
-            if (Math.Max((int)Options.PlayerLimit, 1) < TeamManager.Players.Count())
+            if (TeamManager.Players.Count() >= Options.PlayerLimit)
                 throw new RoomLimitReachedException();
 
             if (_kickedPlayers.ContainsKey(plr.Account.Id))
@@ -575,48 +575,51 @@ namespace NeoNetsphere
         public void Broadcast(IGameMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
             foreach (var plr in _players.Values.Where(x => x != blacklisted))
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
             foreach (var plr in _players.Values.Where(x => x != blacklisted))
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
+
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
             foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
+
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
             foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
-                plr.Session.SendAsync(message);
+                plr.Session.SendAsync(message).Wait();
         }
 
         public void Broadcast(IChatMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.ChatSession.SendAsync(message);
+                plr.ChatSession.SendAsync(message).Wait();
         }
 
-        public void BroadcastBriefing(Player plr, bool isResult = false)
+        public void SendBriefing(Player plr, bool isResult = false)
         {
             var gameRule = GameRuleManager.GameRule;
-            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
+            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult))).Wait();
         }
+
         public void BroadcastBriefing(bool isResult = false)
         {
             var gameRule = GameRuleManager.GameRule;

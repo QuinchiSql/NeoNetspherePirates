@@ -59,6 +59,8 @@ namespace NeoNetsphere.Network
                 .Add(new ReloadCommand())
                 .Add(new GameCommands())
                 .Add(new BanCommands())
+                .Add(new UnbanCommands())
+                .Add(new KickCommands())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())
                 .Add(new InventoryCommands());
@@ -332,7 +334,7 @@ namespace NeoNetsphere.Network
                     src => new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.ChatListener.Port));
 
             Mapper.Register<Player, PlayerAccountInfoDto>()
-                .Function(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User)
+                .Function(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.Tester)
                 .Member(dest => dest.GameTime, src => TimeSpan.Parse(src.PlayTime))
                 .Member(dest => dest.TotalExp, src => src.TotalExperience)
                 .Function(dest => dest.TutorialState,
@@ -371,7 +373,7 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.AccountId, src => src.Account.Id)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.Unk2, src => (byte)src.Room.Players.Values.ToList().IndexOf(src))
-                .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User ? (byte)1 : (byte)0);
+                .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.Tester ? (byte)1 : (byte)0);
             
             Mapper.Register<PlayerItem, Data.P2P.ItemDto>()
                 .Function(dest => dest.ItemNumber, src => src?.ItemNumber ?? 0);
@@ -424,7 +426,7 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, PlayerInfoShortDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
-                .Member(dest => dest.IsGM, src => (src.Account.SecurityLevel > SecurityLevel.User))
+                .Member(dest => dest.IsGM, src => (src.Account.SecurityLevel > SecurityLevel.Tester))
                 .Function(dest => dest.TotalExp, src => src.TotalExperience);
 
             Mapper.Register<Player, PlayerLocationDto>()

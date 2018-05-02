@@ -1623,7 +1623,17 @@ namespace NeoNetsphere.Network.Message.Game
     public class ExpRefreshInfoAckMessage : IGameMessage
     {
         [BlubMember(0)]
-        public uint Unk { get; set; }
+        public uint TotalExp { get; set; }
+
+        public ExpRefreshInfoAckMessage()
+        {
+            
+        }
+
+        public ExpRefreshInfoAckMessage(uint totalExp)
+        {
+            TotalExp = totalExp;
+        }
     }
 
     [BlubContract]

@@ -21,7 +21,8 @@
         ChooseNickname = 6,
 
         FailedAndRestart = 7,
-        SessionTimeout = 8
+        SessionTimeout = 8,
+        AuthenticationFailed = 9
     }
 
     public enum ServerResult : uint

@@ -11,7 +11,7 @@ namespace NeoNetsphere
     internal static class Extensions
     {
         public static ILogger ForAccount(this ILogger logger, ulong id, string user,
-            SecurityLevel securityLevel = SecurityLevel.User)
+            SecurityLevel securityLevel = SecurityLevel.Tester)
         {
             return logger
                 .ForContext("account_id", id)
