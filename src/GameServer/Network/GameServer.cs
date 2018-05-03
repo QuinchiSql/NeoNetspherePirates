@@ -44,23 +44,14 @@ namespace NeoNetsphere.Network
             : base(config)
         {
             RegisterMappings();
-
-            //Logger.Information("To get sure that u know how to work with this server, i've added this");
-            //Logger.Information("Remove the lines located in the given file named by this log's prefix");
-            //
-            ////
-            //Environment.Exit(-1);
-            ////
-
-            //ServerTime = TimeSpan.Zero;
-
             CommandManager = new CommandManager(this);
             CommandManager.Add(new ServerCommand())
                 .Add(new ReloadCommand())
                 .Add(new GameCommands())
                 .Add(new BanCommands())
                 .Add(new UnbanCommands())
-                .Add(new KickCommands())
+                .Add(new KickCommand())
+                .Add(new UserkickCommand())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())
                 .Add(new InventoryCommands());
