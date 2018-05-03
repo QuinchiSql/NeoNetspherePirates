@@ -337,7 +337,7 @@ namespace NeoNetsphere.Network.Services
                     session.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
                     return;
                 }
-                if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password))
+                if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
                 {
                     session.SendAsync(new ServerResultAckMessage(ServerResult.PasswordError));
                     return;

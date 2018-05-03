@@ -331,7 +331,7 @@ namespace NeoNetsphere.Network.Service
                         var data = new byte[size];
                         Array.Copy(xbninfo, readoffset, data, 0, size);
 
-                        session.SendAsync(new GameDataAckMessage((uint)xbn, data, (uint)xbninfo.Length), SendOptions.ReliableSecureCompress).Wait();
+                        await session.SendAsync(new GameDataAckMessage((uint)xbn, data, (uint)xbninfo.Length), SendOptions.ReliableSecureCompress);
                         readoffset += size;
                     }
                 }

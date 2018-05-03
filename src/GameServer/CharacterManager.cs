@@ -23,6 +23,7 @@ namespace NeoNetsphere
             Log.ForContext(Constants.SourceContextPropertyName, nameof(CharacterManager));
 
         private readonly Dictionary<byte, Character> _characters = new Dictionary<byte, Character>();
+        private readonly object _sync = new object();
 
         private readonly ConcurrentStack<Character> _charactersToDelete = new ConcurrentStack<Character>();
 
@@ -52,12 +53,18 @@ namespace NeoNetsphere
 
         public IEnumerator<Character> GetEnumerator()
         {
-            return _characters.Values.GetEnumerator();
+            lock (_sync)
+            {
+                return _characters.Values.GetEnumerator();
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            lock (_sync)
+            {
+                return GetEnumerator();
+            }
         }
 
         /// <summary>
@@ -66,7 +73,10 @@ namespace NeoNetsphere
         /// </summary>
         public Character GetCharacter(byte slot)
         {
-            return _characters.GetValueOrDefault(slot);
+            lock (_sync)
+            {
+                return _characters.GetValueOrDefault(slot);
+            }
         }
 
         /// <summary>
@@ -75,64 +85,69 @@ namespace NeoNetsphere
         /// <exception cref="CharacterException"></exception>
         public Character Create(byte slot, CharacterGender gender, byte hair, byte face, byte shirt, byte pants)
         {
-            if (Count >= 3)
-                throw new CharacterException("Character limit reached");
+            lock (_sync)
+            {
+                if (Count >= 3)
+                    throw new CharacterException("Character limit reached");
 
-            if (_characters.ContainsKey(slot))
-                throw new CharacterException($"Slot {slot} is already in use");
+                if (_characters.ContainsKey(slot))
+                    throw new CharacterException($"Slot {slot} is already in use");
 
-            var defaultItems = GameServer.Instance.ResourceCache.GetDefaultItems();
-            if (defaultItems.Get(gender, CostumeSlot.Hair, hair) == null)
-                throw new CharacterException($"Hair variation {hair} does not exist");
+                var defaultItems = GameServer.Instance.ResourceCache.GetDefaultItems();
+                if (defaultItems.Get(gender, CostumeSlot.Hair, hair) == null)
+                    throw new CharacterException($"Hair variation {hair} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Face, face) == null)
-                throw new CharacterException($"Face variation {face} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Face, face) == null)
+                    throw new CharacterException($"Face variation {face} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Shirt, shirt) == null)
-                throw new CharacterException($"Shirt variation {shirt} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Shirt, shirt) == null)
+                    throw new CharacterException($"Shirt variation {shirt} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Pants, pants) == null)
-                throw new CharacterException($"Pants variation {pants} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Pants, pants) == null)
+                    throw new CharacterException($"Pants variation {pants} does not exist");
 
-            var @char = new Character(this, slot, gender, hair, face, shirt, pants);
-            _characters.Add(slot, @char);
+                var @char = new Character(this, slot, gender, hair, face, shirt, pants);
+                _characters.Add(slot, @char);
 
-            var charStyle = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
-                @char.Shirt.Variation, @char.Pants.Variation, @char.Slot);
-            Player.Session.SendAsync(new CSuccessCreateCharacterAckMessage(@char.Slot, charStyle));
+                var charStyle = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
+                    @char.Shirt.Variation, @char.Pants.Variation, @char.Slot);
+                Player.Session.SendAsync(new CSuccessCreateCharacterAckMessage(@char.Slot, charStyle));
 
-            return @char;
+                return @char;
+            }
         }
 
         public Character CreateFirst(byte slot, CharacterGender gender, byte hair, byte face, byte shirt, byte pants)
         {
-            if (Count >= 3)
-                throw new CharacterException("Character limit reached");
+            lock (_sync)
+            {
+                if (Count >= 3)
+                    throw new CharacterException("Character limit reached");
 
-            if (_characters.ContainsKey(slot))
-                throw new CharacterException($"Slot {slot} is already in use");
+                if (_characters.ContainsKey(slot))
+                    throw new CharacterException($"Slot {slot} is already in use");
 
-            var defaultItems = GameServer.Instance.ResourceCache.GetDefaultItems();
-            if (defaultItems.Get(gender, CostumeSlot.Hair, hair) == null)
-                throw new CharacterException($"Hair variation {hair} does not exist");
+                var defaultItems = GameServer.Instance.ResourceCache.GetDefaultItems();
+                if (defaultItems.Get(gender, CostumeSlot.Hair, hair) == null)
+                    throw new CharacterException($"Hair variation {hair} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Face, face) == null)
-                throw new CharacterException($"Face variation {face} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Face, face) == null)
+                    throw new CharacterException($"Face variation {face} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Shirt, shirt) == null)
-                throw new CharacterException($"Shirt variation {shirt} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Shirt, shirt) == null)
+                    throw new CharacterException($"Shirt variation {shirt} does not exist");
 
-            if (defaultItems.Get(gender, CostumeSlot.Pants, pants) == null)
-                throw new CharacterException($"Pants variation {pants} does not exist");
+                if (defaultItems.Get(gender, CostumeSlot.Pants, pants) == null)
+                    throw new CharacterException($"Pants variation {pants} does not exist");
 
-            var @char = new Character(this, slot, gender, hair, face, shirt, pants);
-            _characters.Add(slot, @char);
+                var @char = new Character(this, slot, gender, hair, face, shirt, pants);
+                _characters.Add(slot, @char);
 
-            var charStyle = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
-                @char.Shirt.Variation, @char.Pants.Variation, @char.Slot);
-            //Player.Session.SendAsync(new SSuccessCreateCharacterAckMessage(@char.Slot, charStyle));
+                var charStyle = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
+                    @char.Shirt.Variation, @char.Pants.Variation, @char.Slot);
 
-            return @char;
+                return @char;
+            }
         }
 
         /// <summary>
@@ -141,14 +156,17 @@ namespace NeoNetsphere
         /// <exception cref="ArgumentException"></exception>
         public void Select(byte slot)
         {
-            if (!Contains(slot))
-                throw new ArgumentException($"Slot {slot} does not exist", nameof(slot));
+            lock (_sync)
+            {
+                if (!Contains(slot))
+                    throw new ArgumentException($"Slot {slot} does not exist", nameof(slot));
 
-            if (CurrentSlot != slot)
-                Player.NeedsToSave = true;
+                if (CurrentSlot != slot)
+                    Player.NeedsToSave = true;
 
-            CurrentSlot = slot;
-            Player.Session.SendAsync(new CharacterSelectAckMessage(CurrentSlot));
+                CurrentSlot = slot;
+                Player.Session.SendAsync(new CharacterSelectAckMessage(CurrentSlot));
+            }
         }
 
         public bool CheckChars()
@@ -166,7 +184,10 @@ namespace NeoNetsphere
         /// <exception cref="ArgumentException"></exception>
         public void Remove(Character @char)
         {
-            Remove(@char.Slot);
+            lock (_sync)
+            {
+                Remove(@char.Slot);
+            }
         }
 
         /// <summary>
@@ -175,73 +196,79 @@ namespace NeoNetsphere
         /// <exception cref="ArgumentException"></exception>
         public void Remove(byte slot)
         {
-            var @char = GetCharacter(slot);
-            if (@char == null)
-                throw new ArgumentException($"Slot {slot} does not exist", nameof(slot));
+            lock (_sync)
+            {
+                var @char = GetCharacter(slot);
+                if (@char == null)
+                    throw new ArgumentException($"Slot {slot} does not exist", nameof(slot));
 
-            _characters.Remove(slot);
-            if (@char.ExistsInDatabase)
-                _charactersToDelete.Push(@char);
-            Player.Session.SendAsync(new CharacterDeleteAckMessage(slot));
+                _characters.Remove(slot);
+                if (@char.ExistsInDatabase)
+                    _charactersToDelete.Push(@char);
+                Player.Session.SendAsync(new CharacterDeleteAckMessage(slot));
+            }
         }
 
         internal void Save(IDbConnection db)
         {
-            if (!_charactersToDelete.IsEmpty)
+            lock (_sync)
             {
-                var idsToRemove = new StringBuilder();
-                var firstRun = true;
-                while (_charactersToDelete.TryPop(out var charToDelete))
+                if (!_charactersToDelete.IsEmpty)
                 {
-                    if (firstRun)
-                        firstRun = false;
+                    var idsToRemove = new StringBuilder();
+                    var firstRun = true;
+                    while (_charactersToDelete.TryPop(out var charToDelete))
+                    {
+                        if (firstRun)
+                            firstRun = false;
+                        else
+                            idsToRemove.Append(',');
+                        idsToRemove.Append(charToDelete.Id);
+                    }
+
+                    db.BulkDelete<PlayerCharacterDto>(statement => statement
+                        .Where($"{nameof(PlayerCharacterDto.Id):C} IN ({idsToRemove})"));
+                }
+
+                foreach (var @char in _characters.Values)
+                    if (!@char.ExistsInDatabase)
+                    {
+                        var charDto = new PlayerCharacterDto
+                        {
+                            Id = @char.Id,
+                            PlayerId = (int) Player.Account.Id,
+                            Slot = @char.Slot,
+                            Gender = (byte) @char.Gender,
+                            BasicHair = @char.Hair.Variation,
+                            BasicFace = @char.Face.Variation,
+                            BasicShirt = @char.Shirt.Variation,
+                            BasicPants = @char.Pants.Variation
+                        };
+                        SetDtoItems(@char, charDto);
+                        db.Insert(charDto);
+                        @char.ExistsInDatabase = true;
+                    }
                     else
-                        idsToRemove.Append(',');
-                    idsToRemove.Append(charToDelete.Id);
-                }
+                    {
+                        if (!@char.NeedsToSave)
+                            continue;
 
-                db.BulkDelete<PlayerCharacterDto>(statement => statement
-                    .Where($"{nameof(PlayerCharacterDto.Id):C} IN ({idsToRemove})"));
+                        var charDto = new PlayerCharacterDto
+                        {
+                            Id = @char.Id,
+                            PlayerId = (int) Player.Account.Id,
+                            Slot = @char.Slot,
+                            Gender = (byte) @char.Gender,
+                            BasicHair = @char.Hair.Variation,
+                            BasicFace = @char.Face.Variation,
+                            BasicShirt = @char.Shirt.Variation,
+                            BasicPants = @char.Pants.Variation
+                        };
+                        SetDtoItems(@char, charDto);
+                        db.Update(charDto);
+                        @char.NeedsToSave = false;
+                    }
             }
-
-            foreach (var @char in _characters.Values)
-                if (!@char.ExistsInDatabase)
-                {
-                    var charDto = new PlayerCharacterDto
-                    {
-                        Id = @char.Id,
-                        PlayerId = (int) Player.Account.Id,
-                        Slot = @char.Slot,
-                        Gender = (byte) @char.Gender,
-                        BasicHair = @char.Hair.Variation,
-                        BasicFace = @char.Face.Variation,
-                        BasicShirt = @char.Shirt.Variation,
-                        BasicPants = @char.Pants.Variation
-                    };
-                    SetDtoItems(@char, charDto);
-                    db.Insert(charDto);
-                    @char.ExistsInDatabase = true;
-                }
-                else
-                {
-                    if (!@char.NeedsToSave)
-                        continue;
-
-                    var charDto = new PlayerCharacterDto
-                    {
-                        Id = @char.Id,
-                        PlayerId = (int) Player.Account.Id,
-                        Slot = @char.Slot,
-                        Gender = (byte) @char.Gender,
-                        BasicHair = @char.Hair.Variation,
-                        BasicFace = @char.Face.Variation,
-                        BasicShirt = @char.Shirt.Variation,
-                        BasicPants = @char.Pants.Variation
-                    };
-                    SetDtoItems(@char, charDto);
-                    db.Update(charDto);
-                    @char.NeedsToSave = false;
-                }
         }
 
         public bool Contains(byte slot)

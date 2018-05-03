@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NeoNetsphere;
+﻿using NeoNetsphere;
 using NeoNetsphere.Network.Data.GameRule;
 using NeoNetsphere.Network.Message.GameRule;
 using Stateless;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 // ReSharper disable once CheckNamespace
 
@@ -52,26 +52,25 @@ namespace Netsphere.Game.GameRules
 
         public virtual void UpdateTime(Player plr)
         {
-            plr.Session?.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState,
-                (int)(Room.RoundTime.TotalMilliseconds + 100))).Wait();
+            plr?.Session?.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState, (int)(Room.RoundTime.TotalMilliseconds + 100)));
         }
 
-        public virtual void UpdateTime()
+        public virtual async void UpdateTime()
         {
             foreach (var member in Room.Players.Values)
                 if (member.RoomInfo.HasLoaded)
                 {
-                    member.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState, (int)(Room.RoundTime.TotalMilliseconds + 100))).Wait();
+                    await member.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, Room.SubGameState, (int)(Room.RoundTime.TotalMilliseconds + 100)));
                 }
         }
 
-        public virtual void IntrudeCompleted(Player plr)
+        public virtual async void IntrudeCompleted(Player plr)
         {
             UpdateTime(plr);
-            plr.Session.SendAsync(new RoomGameStartAckMessage()).Wait();
+            await plr.Session.SendAsync(new RoomGameStartAckMessage());
         }
 
-        public virtual void Update(TimeSpan delta)
+        public virtual async void Update(TimeSpan delta)
         {
             RoundTime += delta;
             Room.RoundTime = RoundTime;
@@ -93,8 +92,8 @@ namespace Netsphere.Game.GameRules
                         foreach (var member in Room.Players.Values)
                             if (member.RoomInfo.HasLoaded)
                             {
-                                member.Session.SendAsync(new RoomGamePlayCountDownAckMessage(GameStartTimeMs));
-                                member.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, GameTimeState.StartGameCounter, (int)Room.Options.TimeLimit.TotalMilliseconds));
+                                await member.Session.SendAsync(new RoomGamePlayCountDownAckMessage(GameStartTimeMs));
+                                await member.Session.SendAsync(new GameRefreshGameRuleInfoAckMessage(Room.GameState, GameTimeState.StartGameCounter, (int)Room.Options.TimeLimit.TotalMilliseconds));
                             }
                     }
                 }
@@ -138,7 +137,7 @@ namespace Netsphere.Game.GameRules
                 else
                 {
                     foreach (var plrx in Room.TeamManager.Players.Where(plr => plr.RoomInfo.State != PlayerState.Lobby))
-                        plrx.Session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.HalfTimeIn, 2, 0, 0,
+                        await plrx.Session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.HalfTimeIn, 2, 0, 0,
                             ((int) (PreHalfTimeWaitTime - RoundTime).TotalSeconds + 1).ToString()));
                 }
             }
@@ -159,7 +158,7 @@ namespace Netsphere.Game.GameRules
                 else
                 {
                     foreach (var plrx in Room.TeamManager.Players.Where(plr => plr.RoomInfo.State != PlayerState.Lobby))
-                        plrx.Session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.ResultIn, 3, 0, 0,
+                        await plrx.Session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.ResultIn, 3, 0, 0,
                             (int) (PreResultWaitTime - RoundTime).TotalSeconds + 1 + " second(s)"));
                 }
             }
@@ -174,7 +173,7 @@ namespace Netsphere.Game.GameRules
 
         public abstract PlayerRecord GetPlayerRecord(Player plr);
 
-        private void StateMachine_OnTransition(StateMachine<GameRuleState, GameRuleStateTrigger>.Transition transition)
+        private async void StateMachine_OnTransition(StateMachine<GameRuleState, GameRuleStateTrigger>.Transition transition)
         {
             RoundTime = TimeSpan.Zero;
 
@@ -187,8 +186,8 @@ namespace Netsphere.Game.GameRules
                         plr.RoomInfo.IsReady || Room.Master == plr ||
                         plr.RoomInfo.Mode == PlayerGameMode.Spectate))
                     {
-                        plr.Session.SendAsync(new RoomGameLoadingAckMessage());
-                        plr.Session.SendAsync(new RoomBeginRoundAckMessage());
+                        await plr.Session.SendAsync(new RoomGameLoadingAckMessage());
+                        await plr.Session.SendAsync(new RoomBeginRoundAckMessage());
                         plr.RoomInfo.State = PlayerState.Waiting;
                     }
 
@@ -209,7 +208,7 @@ namespace Netsphere.Game.GameRules
                         team.Score = 0;
                     foreach (var plr in Room.TeamManager.Values.SelectMany(team => team.Values.Where(plr => plr.RoomInfo.HasLoaded)))
                     {
-                        plr.Session.SendAsync(new RoomGameStartAckMessage());
+                        await plr.Session.SendAsync(new RoomGameStartAckMessage());
                         plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
                     }
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
@@ -226,7 +225,7 @@ namespace Netsphere.Game.GameRules
                     foreach (var plr in Room.TeamManager.Values.SelectMany(team =>
                         team.Values.Where(plr => plr.RoomInfo.HasLoaded)))
                     {
-                        plr.Session.SendAsync(new RoomGameStartAckMessage());
+                        await plr.Session.SendAsync(new RoomGameStartAckMessage());
                         plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
                     }
                     Room.Broadcast(new GameChangeStateAckMessage(Room.GameState));
@@ -268,16 +267,16 @@ namespace Netsphere.Game.GameRules
                                            Config.Instance.Game.DurabilityLossPerMinute) +
                                            plr.RoomInfo.Stats.Deaths * 
                                            Config.Instance.Game.DurabilityLossPerDeath);
-                            
+
                                 foreach (var item in @char.Weapons.GetItems()
                                     .Where(item => item != null && item.Durability != -1))
-                                    item.LoseDurabilityAsync(loss).Wait();
+                                    await item.LoseDurabilityAsync(loss);
                                 foreach (var item in @char.Costumes.GetItems()
                                     .Where(item => item != null && item.Durability != -1))
-                                    item.LoseDurabilityAsync(loss).Wait();
+                                    await item.LoseDurabilityAsync(loss);
                                 foreach (var item in @char.Skills.GetItems()
                                     .Where(item => item != null && item.Durability != -1))
-                                    item.LoseDurabilityAsync(loss).Wait();
+                                    await item.LoseDurabilityAsync(loss);
                             }
                         }
                     }

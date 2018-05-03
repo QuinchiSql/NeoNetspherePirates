@@ -29,6 +29,7 @@ namespace ProudNetSrc
         private readonly IEventLoopGroup _socketWorkerThreads;
         private readonly IEventLoop _workerThread;
         private readonly ConcurrentDictionary<uint, ProudSession> _sessions = new ConcurrentDictionary<uint, ProudSession>();
+        private readonly object _sync = new object();
 
         public bool IsRunning { get; private set; }
         public IReadOnlyDictionary<uint, ProudSession> Sessions => _sessions;
@@ -210,14 +211,20 @@ namespace ProudNetSrc
 
         public void Broadcast(object message, SendOptions options)
         {
-            foreach (var session in Sessions.Values)
-                session?.SendAsync(message, options);
+            lock (_sync)
+            {
+                foreach (var session in Sessions.Values)
+                    session?.SendAsync(message, options);
+            }
         }
 
         public void Broadcast(object message)
         {
-            foreach (var session in Sessions.Values)
-                session.SendAsync(message);
+            lock (_sync)
+            {
+                foreach (var session in Sessions.Values)
+                    session?.SendAsync(message);
+            }
         }
 
         #region EventLoop tasks
@@ -292,17 +299,23 @@ namespace ProudNetSrc
 
         internal void AddSession(ProudSession session)
         {
-            Configuration.Logger?.Debug("Adding new session {HostId}", session.HostId);
-            _sessions[session.HostId] = session;
-            OnConnected(session);
+            lock (_sync)
+            {
+                Configuration.Logger?.Debug("Adding new session {HostId}", session.HostId);
+                _sessions[session.HostId] = session;
+                OnConnected(session);
+            }
         }
 
         internal void RemoveSession(ProudSession session)
         {
-            Configuration.Logger?.Debug("Removing session {HostId}", session.HostId);
-            _sessions.Remove(session.HostId);
-            SessionsByUdpId.Remove(session.UdpSessionId);
-            OnDisconnected(session);
+            lock (_sync)
+            {
+                Configuration.Logger?.Debug("Removing session {HostId}", session.HostId);
+                _sessions.Remove(session.HostId);
+                SessionsByUdpId.Remove(session.UdpSessionId);
+                OnDisconnected(session);
+            }
         }
 
         private static void RetryUdpOrHolepunchIfRequired(object context, object _)
@@ -330,18 +343,13 @@ namespace ProudNetSrc
                             member.Session.HolepunchMagicNumber = Guid.NewGuid();
                             member.SendAsync(new S2C_RequestCreateUdpSocketMessage(new IPEndPoint(server.UdpSocketManager.Address, ((IPEndPoint)socket.Channel.LocalAddress).Port)));
                         }
-                        //else if (diff >= server.Configuration.PingTimeout)
-                        //{
-                        //    member.Session.Logger?.Information("Fallback to tcp relay by server");
-                        //    //member.Session.UdpEnabled = false;
-                        //    //server.SessionsByUdpId.Remove(member.Session.UdpSessionId);
-                        //    member.SendAsync(new NotifyUdpToTcpFallbackByServerMessage());
-                        //}
                     }
-                    
                     // Skip p2p stuff when not enabled
-                    if(!group.AllowDirectP2P)
+
+                    if (!group.AllowDirectP2P)
+                    {
                         continue;
+                    }
 
                     // Retry p2p holepunch
                     foreach (var stateA in member.ConnectionStates.Values)
@@ -362,8 +370,6 @@ namespace ProudNetSrc
                                 stateA.LastHolepunch = stateB.LastHolepunch = now;
                                 member.SendAsync(new RenewP2PConnectionStateMessage(stateA.RemotePeer.HostId));
                                 stateA.RemotePeer.SendAsync(new RenewP2PConnectionStateMessage(member.HostId));
-                                //member.SendAsync(new P2PRecycleCompleteMessage(stateA.RemotePeer.HostId));
-                                //stateA.RemotePeer.SendAsync(new P2PRecycleCompleteMessage(member.HostId));
                             }
                         }
                         else

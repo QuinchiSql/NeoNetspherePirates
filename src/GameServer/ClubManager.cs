@@ -17,20 +17,26 @@ namespace NeoNetsphere
     internal class ClubManager : IReadOnlyCollection<Club>
     {
         private readonly ConcurrentDictionary<uint, Club> _clubs = new ConcurrentDictionary<uint, Club>();
+        private readonly object _sync = new object();
 
         public Club this[uint id] => GetClub(id);
 
         public Club GetClub(uint id)
         {
-            Club Club;
-            _clubs.TryGetValue(id, out Club);
-            return Club;
+            lock (_sync)
+            {
+                Club Club;
+                _clubs.TryGetValue(id, out Club);
+                return Club;
+            }
         }
 
         public Club GetClubByAccount(ulong id)
         {
-            Club Club = _clubs.Values.FirstOrDefault(c => c.Players.Any(p => p.Value.AccountId == id));
-            return Club;
+            lock (_sync)
+            {
+                return _clubs.Values.FirstOrDefault(c => c.Players.Any(p => p.Value.AccountId == id));
+            }
         }
 
         public ClubManager(IEnumerable<DBClubInfoDto> ClubInfos)
@@ -45,8 +51,11 @@ namespace NeoNetsphere
 
         public void Add(Club club)
         {
-            club.NeedsToSave = true;
-            _clubs.TryAdd(club.Clan_ID, club);
+            lock (_sync)
+            {
+                club.NeedsToSave = true;
+                _clubs.TryAdd(club.Clan_ID, club);
+            }
         }
 
         #region IReadOnlyCollection
@@ -55,12 +64,18 @@ namespace NeoNetsphere
 
         public IEnumerator<Club> GetEnumerator()
         {
-            return _clubs.Values.GetEnumerator();
+            lock (_sync)
+            {
+                return _clubs.Values.GetEnumerator();
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            lock (_sync)
+            {
+                return GetEnumerator();
+            }
         }
 
         #endregion

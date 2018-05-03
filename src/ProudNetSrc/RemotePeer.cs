@@ -10,6 +10,7 @@ namespace ProudNetSrc
         internal Crypt Crypt { get; }
         internal ConcurrentDictionary<uint, P2PConnectionState> ConnectionStates { get; }
         internal ProudSession Session { get; }
+        public object _sync = new object();
 
         internal RemotePeer(P2PGroup group, ProudSession session, Crypt crypt)
         {

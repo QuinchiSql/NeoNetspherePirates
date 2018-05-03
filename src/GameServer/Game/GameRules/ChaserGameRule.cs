@@ -212,7 +212,7 @@ namespace NeoNetsphere.Game.GameRules
                 }
         }
 
-        public void NextChaser()
+        public async void NextChaser()
         {
             _waitingNextChaser = false;
             _chaserRoundTime = Room.TeamManager.Players.Count() < 4
@@ -240,11 +240,9 @@ namespace NeoNetsphere.Game.GameRules
 
                 Room.Broadcast(new SlaughterChangeSlaughterAckMessage(Chaser?.Account.Id ?? 0, new[] { Chaser?.Account.Id ?? 0 }));
                 NextTarget();
-                Task.Run(() =>
-                {
-                    Task.Delay(2000).Wait();
-                    _disallowactions = false;
-                });
+
+                await Task.Delay(2000);
+                _disallowactions = false;
             }
             catch (Exception)
             {

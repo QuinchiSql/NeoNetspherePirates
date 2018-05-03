@@ -210,12 +210,13 @@ namespace NeoNetsphere.Commands
                 foreach (var sess in GameServer.Instance.Sessions.Values)
                 {
                     var session = (GameSession)sess;
-                    if (session.Player != null && session.Player.Room != null)
-                        session.Player.Room.Leave(session.Player);
+                    session.Player?.Room?.Leave(session.Player);
                 }
+
                 GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage() {Result = 0});
                 GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
                 //GameServer.Instance.Broadcast(new ProudNetSrc.Serialization.Messages.RequestAutoPruneAckMessage(), SendOptions.Reliable);
+
                 message = "Done with kickall";
                 //server.BroadcastNotice(message);
                 if (plr == null)

@@ -215,21 +215,28 @@ namespace ProudNetSrc.Handlers
                 return;
 
             var remotePeer = session.P2PGroup.Members[session.HostId];
-            var connectionState = remotePeer.ConnectionStates.GetValueOrDefault(message.HostId);
-
-            connectionState.PeerUdpHolepunchSuccess = true;
-            connectionState.LocalEndPoint = message.LocalEndPoint;
-            connectionState.EndPoint = message.EndPoint;
-            var connectionStateB = connectionState.RemotePeer.ConnectionStates[session.HostId];
-            if (connectionStateB.PeerUdpHolepunchSuccess)
+            if (remotePeer != null)
             {
-                remotePeer.SendAsync(new RequestP2PHolepunchMessage(message.HostId, connectionStateB.LocalEndPoint, connectionStateB.EndPoint));
-                connectionState.RemotePeer.SendAsync(new RequestP2PHolepunchMessage(session.HostId, connectionState.LocalEndPoint, connectionState.EndPoint));
+                lock (remotePeer._sync)
+                {
+                    var connectionState = remotePeer.ConnectionStates.GetValueOrDefault(message.HostId);
 
-                //remotePeer.SendAsync(new RequestP2PHolepunchMessage(message.HostId, message.LocalEndPoint, new IPEndPoint(message.EndPoint.Address, message.LocalEndPoint.Port)));
-                //connectionState.RemotePeer.SendAsync(new RequestP2PHolepunchMessage(session.HostId, session.UdpLocalEndPoint, new IPEndPoint(session.UdpEndPoint.Address, session.UdpLocalEndPoint.Port)));
-                //remotePeer.SendAsync(new RequestP2PHolepunchMessage(message.HostId, message.LocalEndPoint, message.EndPoint));
-                //connectionState.RemotePeer.SendAsync(new RequestP2PHolepunchMessage(session.HostId, session.UdpLocalEndPoint, session.UdpEndPoint));
+                    if (connectionState != null)
+                    {
+                        connectionState.PeerUdpHolepunchSuccess = true;
+                        connectionState.LocalEndPoint = message.LocalEndPoint;
+                        connectionState.EndPoint = message.EndPoint;
+                        var connectionStateB = connectionState.RemotePeer.ConnectionStates[session.HostId];
+                        if (connectionStateB.PeerUdpHolepunchSuccess)
+                        {
+                            remotePeer.SendAsync(new RequestP2PHolepunchMessage(message.HostId,
+                                connectionStateB.LocalEndPoint,
+                                connectionStateB.EndPoint));
+                            connectionState.RemotePeer.SendAsync(new RequestP2PHolepunchMessage(session.HostId,
+                                connectionState.LocalEndPoint, connectionState.EndPoint));
+                        }
+                    }
+                }
             }
         }
     }

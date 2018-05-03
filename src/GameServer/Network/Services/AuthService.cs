@@ -163,8 +163,7 @@ namespace NeoNetsphere.Network.Services
                 await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.AuthenticationFailed));
                 return;
             }
-
-
+            
             if (message.KickConnection)
             {
                 Logger.ForAccount(account)
@@ -182,8 +181,7 @@ namespace NeoNetsphere.Network.Services
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
                 oldPlr?.Disconnect();
             }
-
-
+            
             using (var db = GameDatabase.Open())
             {
                 var plrDto = (await db.FindAsync<PlayerDto>(statement => statement
@@ -197,7 +195,7 @@ namespace NeoNetsphere.Network.Services
                     .FirstOrDefault();
 
                 var expTable = GameServer.Instance.ResourceCache.GetExperience();
-                var expValue = new Experience();
+                Experience expValue;
 
                 if (plrDto == null)
                 {
@@ -288,72 +286,15 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(NickCheckReqMessage))]
         public async Task CheckNickHandler(GameSession session, NickCheckReqMessage message)
         {
-            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-            //if (session.Player == null || !string.IsNullOrWhiteSpace(session.Player.Account.Nickname))
-            //{
-            //    session.SendAsync(new NickCheckAckMessage(true));
-            //    return;
-            //}
-            //
-            //Logger.ForAccount(session)
-            //    .Information("Checking nickname {nickname}", message.Nickname);
-            //
-            //var available = await IsNickAvailableAsync(message.Nickname);
-            //if (!available)
-            //    Logger.ForAccount(session)
-            //        .Information("Nickname not available: {nickname}", message.Nickname);
-            //
-            //session.SendAsync(new NickCheckAckMessage(!available));
+            await session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(ItemUseChangeNickReqMessage))]
         public async Task ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
         {
-            session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
+            await session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
-
-        //[MessageHandler(typeof(CCreateNickReqMessage))]
-        //public async Task CreateNickHandler(GameSession session, CCreateNickReqMessage message)
-        //{
-        //    if (session.Player == null || !string.IsNullOrWhiteSpace(session.Player.Account.Nickname))
-        //    {
-        //        session.CloseAsync();
-        //        return;
-        //    }
-
-        //    Logger.ForAccount(session)
-        //        .Information("Creating nickname {nickname}", message.Nickname);
-
-        //    if (!await IsNickAvailableAsync(message.Nickname))
-        //    {
-        //        Logger.ForAccount(session)
-        //            .Error("Nickname not available: {nickname}", message.Nickname);
-
-        //        session.SendAsync(new NickCheckAckMessage(false));
-        //        return;
-        //    }
-
-        //    session.Player.Account.Nickname = message.Nickname;
-        //    using (var db = AuthDatabase.Open())
-        //    {
-        //        var mapping = OrmConfiguration
-        //            .GetDefaultEntityMapping<AccountDto>()
-        //            .Clone()
-        //            .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true, nameof(AccountDto.Nickname));
-
-        //        await db.UpdateAsync(new AccountDto { Id = (int)session.Player.Account.Id, Nickname = message.Nickname },
-        //                    statement => statement.WithEntityMappingOverride(mapping));
-
-        //    }
-        //    //session.Send(new SCreateNickAckMessage { Nickname = msg.Nickname });
-        //    await session.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-
-        //    Logger.ForAccount(session)
-        //        .Information("Created nickname {nickname}", message.Nickname);
-
-        //    await LoginAsync(session);
-        //}
-
+        
         private static async Task LoginAsync(GameSession session)
         {
             var plr = session.Player;
