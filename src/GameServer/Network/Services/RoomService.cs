@@ -81,8 +81,8 @@ namespace NeoNetsphere.Network.Services
 
             plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(plr.Room.TeamManager.Players.Select(player => new NameTagDto(player.Account.Id, 0)).ToArray()));
 
-            session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
-            session.SendAsync(new GameChangeSubStateAckMessage(plr.Room.SubGameState));
+            //session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
+            //session.SendAsync(new GameChangeSubStateAckMessage(plr.Room.SubGameState));
             plr.Room.SendBriefing(plr);
         }
 
@@ -102,94 +102,90 @@ namespace NeoNetsphere.Network.Services
                 return;
             }
             Logger.Information("CreateRoom || Nickname:{nick}({accid}) Room: {mode}, {mapid}", plr.Account.Nickname,
-                plr.Account.Id, (GameRule) message.GameRule, message.Map_ID);
-            if (!plr.Channel.RoomManager.GameRuleFactory.Contains((GameRule) message.GameRule))
+                plr.Account.Id, message.GameRule, message.MapId);
+            if (!plr.Channel.RoomManager.GameRuleFactory.Contains(message.GameRule))
             {
                 Logger.ForAccount(plr)
-                    .Error("Game rule {gameRule} does not exist", (GameRule) message.GameRule);
+                    .Error("Game rule {gameRule} does not exist", message.GameRule);
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                 return;
             }
 
             var israndom = false;
-            if ((GameRule) message.GameRule != GameRule.Practice &&
-                (GameRule) message.GameRule != GameRule.CombatTrainingTD &&
-                (GameRule) message.GameRule != GameRule.CombatTrainingDM)
+            if (message.GameRule != GameRule.Practice &&
+                message.GameRule != GameRule.CombatTrainingTD &&
+                message.GameRule != GameRule.CombatTrainingDM)
             {
-                if (message.Map_ID == 228 && (GameRule) message.GameRule == GameRule.BattleRoyal) //random br
+                if (message.MapId == 228 && message.GameRule == GameRule.BattleRoyal) //random br
                 {
                     israndom = true;
-                    message.Map_ID = 112;
+                    message.MapId = 112;
                 }
-                else if (message.Map_ID == 229 && (GameRule) message.GameRule == GameRule.Chaser) //random chaser
+                else if (message.MapId == 229 && message.GameRule == GameRule.Chaser) //random chaser
                 {
                     israndom = true;
-                    message.Map_ID = 225;
+                    message.MapId = 225;
                 }
-                else if (message.Map_ID == 231 && (GameRule) message.GameRule == GameRule.Deathmatch) //random deathmatch
+                else if (message.MapId == 231 && message.GameRule == GameRule.Deathmatch) //random deathmatch
                 {
                     israndom = true;
-                    message.Map_ID = 20;
+                    message.MapId = 20;
                 }
-                else if (message.Map_ID == 230 && (GameRule) message.GameRule == GameRule.Touchdown) //random touchdown
+                else if (message.MapId == 230 && message.GameRule == GameRule.Touchdown) //random touchdown
                 {
                     israndom = true;
-                    message.Map_ID = 66;
+                    message.MapId = 66;
                 }
 
-                var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(message.Map_ID);
+                var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(message.MapId);
                 if (map == null)
                 {
                     Logger.ForAccount(plr)
-                        .Error("Map {map} does not exist", message.Map_ID);
+                        .Error("Map {map} does not exist", message.MapId);
                     session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
-                if (!map.GameRules.Contains((GameRule) message.GameRule))
+                if (!map.GameRules.Contains(message.GameRule))
                 {
                     Logger.ForAccount(plr)
-                        .Error("Map {mapId}({mapName}) is not available for game rule {gameRule}", map.Id, map.Name,
-                            (GameRule) message.GameRule);
+                        .Error("Map {mapId}({mapName}) is not available for game rule {gameRule}", map.Id, map.Name, message.GameRule);
 
                     session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
             }
 
-            if (message.Player_Limit < 1)
-                message.Player_Limit = 1;
+            if (message.PlayerLimit < 1)
+                message.PlayerLimit = 1;
 
-            if ((GameRule) message.GameRule == GameRule.CombatTrainingTD ||
-                (GameRule) message.GameRule == GameRule.CombatTrainingDM)
-                message.Player_Limit = 12;
+            if (message.GameRule == GameRule.CombatTrainingTD ||
+                message.GameRule == GameRule.CombatTrainingDM)
+                message.PlayerLimit = 12;
             
-            if ((GameRule) message.GameRule == GameRule.CombatTrainingDM ||
-                (GameRule) message.GameRule == GameRule.CombatTrainingTD ||
-                (GameRule) message.GameRule == GameRule.Practice)
+            if (message.GameRule == GameRule.CombatTrainingDM ||
+                message.GameRule == GameRule.CombatTrainingTD ||
+                message.GameRule == GameRule.Practice)
                 message.FMBURNMode = 1;
 
             var isfriendly = false;
-            var isbalanced = true;
             var isburning = false;
             var isWithoutStats = false;
-            var isNoIntrusion = message.GameRule == (int)GameRule.Horde;
+            var isNoIntrusion = message.GameRule == GameRule.Horde;
             switch (message.FMBURNMode)
             {
                 case 0:
-                    isbalanced = true;
                     isfriendly = false;
                     break;
                 case 1:
-                    isbalanced = isfriendly = true;
+                    isfriendly = true;
                     break;
                 case 2:
-                    isbalanced = true;
                     isfriendly = false;
                     isburning = true;
                     break;
                 case 3:
                     isburning = true;
-                    isbalanced = isfriendly = true;
+                    isfriendly = true;
                     break;
                 case 4:
                     isWithoutStats = true;
@@ -202,26 +198,22 @@ namespace NeoNetsphere.Network.Services
             var room = plr.Channel.RoomManager.Create_2(new RoomCreationOptions
             {
                 Name = message.Name,
-                GameRule = (GameRule) message.GameRule,
-                PlayerLimit = message.Player_Limit,
-                TimeLimit = TimeSpan.FromMinutes(message.Time),
-                ScoreLimit = (ushort) message.Points,
+                GameRule = message.GameRule,
+                PlayerLimit = message.PlayerLimit,
+                TimeLimit = TimeSpan.FromMinutes(message.TimeLimit),
+                ScoreLimit = (ushort) message.ScoreLimit,
                 Password = message.Password,
                 IsFriendly = isfriendly,
-                IsBalanced = isbalanced,
                 IsBurning = isburning,
                 IsWithoutStats = isWithoutStats,
-                MapID = message.Map_ID,
-                MinLevel = 0,
-                MaxLevel = 100,
-                ItemLimit = (byte) message.Weapon_Limit,
+                MapId = message.MapId,
+                ItemLimit = (byte) message.WeaponLimit,
                 IsNoIntrusion = isNoIntrusion,
-                Spectator = message.SpectatorCount,
+                SpectatorLimit = message.SpectatorLimit,
                 IsRandom = israndom,
-                hasSpectator = message.SpectatorCount > 1 ? true : false,
-                UniqueID = message.Unk3,
-                ServerEndPoint =
-                    new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
+                HasSpectator = message.SpectatorLimit > 1,
+                UniqueId = message.Unk3,
+                ServerEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
                 Creator = plr
             }, RelayServer.Instance.P2PGroupManager.Create(true));
 
@@ -379,8 +371,7 @@ namespace NeoNetsphere.Network.Services
             }
             else
             {
-                Logger.ForAccount(plr)
-                    .Error("Room {roomId} in channel {channelId} not found", message.RoomId, plr.Channel.Id);
+                Logger.ForAccount(plr).Error("Room {roomId} in channel {channelId} not found", message.RoomId, plr.Channel.Id);
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
             }
         }
@@ -420,10 +411,10 @@ namespace NeoNetsphere.Network.Services
             {
                 plr.Room.TeamManager.ChangeMode(plr, message.Mode);
             }
-            catch (RoomException ex)
+            catch (Exception ex)
             {
-                Logger.ForAccount(plr)
-                    .Error(ex, "Failed to change mode to {mode}", message.Mode);
+                Logger.ForAccount(plr).Error(ex, "Failed to change mode to {mode}", message.Mode);
+                plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
             }
         }
         

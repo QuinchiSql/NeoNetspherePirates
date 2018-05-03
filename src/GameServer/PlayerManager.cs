@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using BlubLib.Collections.Generic;
 
 namespace NeoNetsphere
 {
@@ -39,18 +40,18 @@ namespace NeoNetsphere
 
         public void Add(Player plr)
         {
-            if (!_players.TryAdd(plr.Account.Id, plr))
+            if (!CollectionExtensions.TryAdd(_players, plr.Account.Id, plr))
                 throw new Exception("Player " + plr.Account.Id + " already exists");
         }
 
         public void Remove(Player plr)
         {
-            Remove(plr.Account.Id);
+            if(plr?.Account != null)
+                _players.TryRemove(plr.Account.Id, out _);
         }
 
         public void Remove(ulong id)
         {
-            _players.Remove(id);
         }
 
         public bool Contains(Player plr)

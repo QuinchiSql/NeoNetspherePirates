@@ -73,7 +73,7 @@ namespace NeoNetsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.Spectator);
+            Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.SpectatorLimit);
             base.Initialize();
         }
 

@@ -57,8 +57,8 @@ namespace NeoNetsphere.Game.GameRules
         {
 
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.SpectatorLimit / 2));
             _currentRound = 0;
             base.Initialize();
         }

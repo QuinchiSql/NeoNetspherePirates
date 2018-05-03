@@ -380,7 +380,7 @@ namespace NeoNetsphere.Network
 
             Mapper.Register<RoomCreationOptions, ChangeRuleDto>()
                 .Function(dest => dest.GameRule, src => (int) src.GameRule)
-                .Member(dest => dest.Map_ID, src => (byte) src.MapID)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapId)
                 .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
                 .Member(dest => dest.Points, src => src.ScoreLimit)
                 .Value(dest => dest.Unk1, 0)
@@ -388,12 +388,12 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
                 .Member(dest => dest.Password, src => src.Password)
                 .Member(dest => dest.Name, src => src.Name)
-                .Member(dest => dest.HasSpectator, src => src.hasSpectator)
-                .Member(dest => dest.SpectatorLimit, src => src.Spectator);
+                .Member(dest => dest.HasSpectator, src => src.HasSpectator)
+                .Member(dest => dest.SpectatorLimit, src => src.SpectatorLimit);
 
             Mapper.Register<RoomCreationOptions, ChangeRuleDto2>()
                 .Function(dest => dest.GameRule, src => (int) src.GameRule)
-                .Member(dest => dest.Map_ID, src => (byte) src.MapID)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapId)
                 .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
                 .Member(dest => dest.Points, src => src.ScoreLimit)
                 .Value(dest => dest.Unk1, 0)
@@ -401,8 +401,8 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
                 .Member(dest => dest.Password, src => src.Password)
                 .Member(dest => dest.Name, src => src.Name)
-                .Member(dest => dest.HasSpectator, src => src.hasSpectator)
-                .Member(dest => dest.SpectatorLimit, src => src.Spectator)
+                .Member(dest => dest.HasSpectator, src => src.HasSpectator)
+                .Member(dest => dest.SpectatorLimit, src => src.SpectatorLimit)
                 .Member(dest => dest.FMBurnMode, src => src.GetFMBurnModeInfo());
 
             Mapper.Register<Mail, NoteDto>()

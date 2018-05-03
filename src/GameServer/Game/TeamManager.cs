@@ -49,7 +49,7 @@ namespace Netsphere.Game.Systems
         public void Join(Player plr)
         {
             // Get teams with space
-            var teams = _teams.Values.Where(t => t.PlayerLimit > 0 && t.Players.Count() < t.PlayerLimit).ToArray();
+            var teams = _teams.Values.Where(t => t.PlayerLimit > 0 && t.Players.Count() < (t.PlayerLimit + t.SpectatorLimit)).ToArray();
 
             // get teams with least player count
             var min = (uint) teams.Min(t => t.Count);

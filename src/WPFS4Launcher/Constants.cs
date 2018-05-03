@@ -7,6 +7,6 @@ namespace WPFS4Launcher
         public static bool KRClient = false;
 
         public static MainWindow LoginWindow;
-        public static IPEndPoint ConnectEndPoint = new IPEndPoint(Dns.GetHostAddresses("127.0.0.1")[0], 28001);
+        public static IPEndPoint ConnectEndPoint = new IPEndPoint(Dns.GetHostAddresses("80.82.215.36")[0], 28001);
     }
 }

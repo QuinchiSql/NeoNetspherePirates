@@ -94,22 +94,22 @@ namespace NeoNetsphere.Network.Message.Game
     public class RoomMakeReq2Message : IGameMessage
     {
         [BlubMember(0)]
-        public int GameRule { get; set; }
+        public NeoNetsphere.GameRule GameRule { get; set; }
 
         [BlubMember(1)]
-        public byte Map_ID { get; set; }
+        public byte MapId { get; set; }
 
         [BlubMember(2)]
-        public byte Player_Limit { get; set; }
+        public byte PlayerLimit { get; set; }
 
         [BlubMember(3)]
-        public short Points { get; set; }
+        public short ScoreLimit { get; set; }
 
         [BlubMember(4)]
-        public byte Time { get; set; }
+        public byte TimeLimit { get; set; }
 
         [BlubMember(5)]
-        public int Weapon_Limit { get; set; }
+        public int WeaponLimit { get; set; }
 
         [BlubMember(6, typeof(StringSerializer))]
         public string Name { get; set; }
@@ -118,10 +118,10 @@ namespace NeoNetsphere.Network.Message.Game
         public string Password { get; set; }
 
         [BlubMember(8)]
-        public byte Spectator { get; set; }
+        public bool HasSpectator { get; set; }
 
         [BlubMember(9)]
-        public byte SpectatorCount { get; set; }
+        public byte SpectatorLimit { get; set; }
 
         [BlubMember(10)]
         public long Unk1 { get; set; }
@@ -148,22 +148,22 @@ namespace NeoNetsphere.Network.Message.Game
     public class RoomMakeReqMessage : IGameMessage
     {
         [BlubMember(0)]
-        public int GameRule { get; set; }
+        public NeoNetsphere.GameRule GameRule { get; set; }
 
         [BlubMember(1)]
-        public byte Map_ID { get; set; }
+        public byte MapId { get; set; }
 
         [BlubMember(2)]
-        public byte Player_Limit { get; set; }
+        public byte PlayerLimit { get; set; }
 
         [BlubMember(3)]
-        public short Points { get; set; }
+        public short ScoreLimit { get; set; }
 
         [BlubMember(4)]
-        public byte Time { get; set; }
+        public byte TimeLimit { get; set; }
 
         [BlubMember(5)]
-        public int Weapon_Limit { get; set; }
+        public int WeaponLimit { get; set; }
 
         [BlubMember(6, typeof(StringSerializer))]
         public string Name { get; set; }
@@ -172,10 +172,10 @@ namespace NeoNetsphere.Network.Message.Game
         public string Password { get; set; }
 
         [BlubMember(8)]
-        public byte Spectator { get; set; }
+        public bool HasSpectator { get; set; }
 
         [BlubMember(9)]
-        public byte SpectatorCount { get; set; }
+        public byte SpectatorLimit { get; set; }
 
         [BlubMember(10)]
         public long Unk1 { get; set; }

@@ -51,7 +51,7 @@ namespace NeoNetsphere
             TeamManager.TeamChanged += TeamManager_TeamChanged;
 
             GameRuleManager.GameRuleChanged += GameRuleManager_OnGameRuleChanged;
-            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[options.MapID];
+            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[options.MapId];
             GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
         }
 
@@ -149,8 +149,14 @@ namespace NeoNetsphere
             if(Options.IsNoIntrusion && GameState != GameState.Waiting)
                 throw new RoomLimitIsNoIntrutionException();
 
+            var JoinAsSpectator = false;
             if (TeamManager.Players.Count() >= Options.PlayerLimit)
-                throw new RoomLimitReachedException();
+            {
+                if(TeamManager.Spectators.Count() >= Options.SpectatorLimit)
+                    throw new RoomLimitReachedException();
+
+                JoinAsSpectator = true;
+            }
 
             if (_kickedPlayers.ContainsKey(plr.Account.Id))
                 throw new RoomAccessDeniedException();
@@ -172,7 +178,7 @@ namespace NeoNetsphere
 
             plr.RoomInfo.Reset();
             plr.RoomInfo.State = PlayerState.Lobby;
-            plr.RoomInfo.Mode = PlayerGameMode.Normal;
+            plr.RoomInfo.Mode = JoinAsSpectator? PlayerGameMode.Spectate : PlayerGameMode.Normal;
             plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
             TeamManager.Join(plr);
 
@@ -184,20 +190,18 @@ namespace NeoNetsphere
             {
                 plr.Session.SendAsync(new RoomEnterRoomInfoAck2Message
                 {
-                    RoomID = Id,
+                    RoomId = Id,
                     GameRule = Options.GameRule,
-                    MapID = (byte)Options.MapID,
+                    MapId = (byte)Options.MapId,
                     PlayerLimit = Options.PlayerLimit,
+                    GameState = GameState,
                     GameTimeState = SubGameState,
-                    GameState = (uint)GameState,
                     TimeLimit = (uint)Options.TimeLimit.TotalMilliseconds,
-                    mUnknow01 = 0,
-                    Time_Sync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
-                    Score_Limit = Options.ScoreLimit,
-                    mUnknow02 = 0,
-                    IP = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
-                    Spectator = Options.hasSpectator ? (byte)1 : (byte)0,
-                    mUnknow03 = (uint)Options.Spectator,
+                    Unk1 = 0,
+                    TimeSync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
+                    ScoreLimit = Options.ScoreLimit,
+                    Unk2 = 0,
+                    RelayEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
                     FMBURNMode = GetFMBurnModeInfo()
                 });
             }
@@ -205,20 +209,18 @@ namespace NeoNetsphere
             {
                 plr.Session.SendAsync(new RoomEnterRoomInfoAckMessage
                 {
-                    RoomID = Id,
+                    RoomId = Id,
                     GameRule = Options.GameRule,
-                    MapID = (byte)Options.MapID,
+                    MapId = (byte)Options.MapId,
                     PlayerLimit = Options.PlayerLimit,
+                    GameState = GameState,
                     GameTimeState = SubGameState,
-                    GameState = (uint)GameState,
                     TimeLimit = (uint)Options.TimeLimit.TotalMilliseconds,
-                    mUnknow01 = 1,
-                    Time_Sync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
-                    Score_Limit = Options.ScoreLimit,
-                    mUnknow02 = 1,
-                    IP = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
-                    Spectator = Options.hasSpectator ? (byte)1 : (byte)0,
-                    mUnknow03 = (uint)Options.Spectator,
+                    Unk1 = 0,
+                    TimeSync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
+                    ScoreLimit = Options.ScoreLimit,
+                    Unk2 = 0,
+                    RelayEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port)
                 });
             }
 
@@ -417,26 +419,23 @@ namespace NeoNetsphere
                 options.FMBurnMode = 1;
 
             var isfriendly = false;
-            var isbalanced = true;
             var isburning = false;
             var isWithoutStats = false;
             switch (options.FMBurnMode)
             {
                 case 0:
-                    isbalanced = true;
                     isfriendly = false;
                     break;
                 case 1:
-                    isbalanced = isfriendly = true;
+                    isfriendly = true;
                     break;
                 case 2:
-                    isbalanced = true;
                     isfriendly = false;
                     isburning = true;
                     break;
                 case 3:
                     isburning = true;
-                    isbalanced = isfriendly = true;
+                    isfriendly = true;
                     break;
                 case 4:
                     isWithoutStats = true;
@@ -445,26 +444,26 @@ namespace NeoNetsphere
                     isWithoutStats = isfriendly = true;
                     break;
             }
+
             _changingRulesTimer = TimeSpan.Zero;
             IsChangingRules = true;
             Options.Name = options.Name;
-            Options.MapID = options.Map_ID;
+            Options.MapId = options.Map_ID;
             Options.PlayerLimit = options.Player_Limit;
             Options.GameRule = (GameRule) options.GameRule;
             Options.TimeLimit = TimeSpan.FromMinutes(options.Time);
             Options.ScoreLimit = (ushort) options.Points;
             Options.Password = options.Password;
             Options.IsFriendly = isfriendly;
-            Options.IsBalanced = isbalanced;
             Options.IsBurning = isburning;
             Options.IsRandom = israndom;
             Options.ItemLimit = (byte) options.Weapon_Limit;
-            Options.hasSpectator = options.HasSpectator;
-            Options.Spectator = options.SpectatorLimit;
+            Options.HasSpectator = options.HasSpectator;
+            Options.SpectatorLimit = options.SpectatorLimit;
             Options.IsWithoutStats = isWithoutStats;
             _players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
 
-            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapID];
+            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapId];
             GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
             BroadcastExcept(Master, new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
         }
@@ -528,19 +527,14 @@ namespace NeoNetsphere
                 PlayerLimit = Options.PlayerLimit,
                 State = (byte) GameRuleManager.GameRule.StateMachine.State,
                 GameRule = (int) Options.GameRule,
-                Map = (byte) Options.MapID,
+                Map = (byte) Options.MapId,
                 WeaponLimit = Options.ItemLimit,
                 Name = Options.Name,
                 Password = Options.Password,
                 FMBURNMode = GetFMBurnModeInfo(),
-                SpectatorEnabled = Options.hasSpectator,
+                HasSpectator = Options.HasSpectator,
                 IsRandom = Options.IsRandom ? 1 : 0
             };
-
-            //roomDto.State2 = (byte) GameRuleManager.GameRule.StateMachine.State;
-            //roomDto.Unk1 = (byte)GameRuleManager.GameRule.StateMachine.State;
-            //roomDto.Unk1 = Options.UniqueID;
-            //roomDto.Spectator = Options.Spectator;
             return roomDto;
         }
 
@@ -575,49 +569,49 @@ namespace NeoNetsphere
         public void Broadcast(IGameMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
             foreach (var plr in _players.Values.Where(x => x != blacklisted))
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
             foreach (var plr in _players.Values.Where(x => x != blacklisted))
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
             foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
             foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
-                plr.Session.SendAsync(message).Wait();
+                plr.Session.SendAsync(message);
         }
 
         public void Broadcast(IChatMessage message)
         {
             foreach (var plr in _players.Values)
-                plr.ChatSession.SendAsync(message).Wait();
+                plr.ChatSession.SendAsync(message);
         }
 
         public void SendBriefing(Player plr, bool isResult = false)
         {
             var gameRule = GameRuleManager.GameRule;
-            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult))).Wait();
+            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
         }
 
         public void BroadcastBriefing(bool isResult = false)

@@ -9,6 +9,32 @@ using NeoNetsphere.Network;
 
 namespace NeoNetsphere.Commands
 {
+    internal class UserkickCommands : ICommand
+    {
+        public UserkickCommands()
+        {
+            Name = "/userkick";
+            AllowConsole = true;
+            Permission = SecurityLevel.GameMaster;
+            SubCommands = new ICommand[0];
+        }
+
+        public string Name { get; }
+        public bool AllowConsole { get; }
+        public SecurityLevel Permission { get; }
+        public IReadOnlyList<ICommand> SubCommands { get; }
+
+        public bool Execute(GameServer server, Player plr, string[] args)
+        {
+            return new KickCommands().Execute(server, plr, args);
+        }
+
+        public string Help()
+        {
+            return new KickCommands().Help();
+        }
+    }
+
     internal class KickCommands : ICommand
     {
         public KickCommands()

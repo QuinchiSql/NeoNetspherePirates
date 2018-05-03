@@ -1,9 +1,9 @@
-﻿using System;
-using System.Net;
-using BlubLib.Serialization;
+﻿using BlubLib.Serialization;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Serializers;
 using ProudNetSrc.Serialization.Serializers;
+using System;
+using System.Net;
 
 namespace NeoNetsphere.Network.Message.Game
 {
@@ -370,98 +370,120 @@ namespace NeoNetsphere.Network.Message.Game
     public class RoomEnterRoomInfoAck2Message : IGameMessage
     {
         [BlubMember(0)]
-        public uint RoomID { get; set; }
+        public uint RoomId { get; set; }
 
         [BlubMember(1)]
         public NeoNetsphere.GameRule GameRule { get; set; }
 
         [BlubMember(2)]
-        public byte MapID { get; set; }
+        public byte MapId { get; set; }
 
         [BlubMember(3)]
         public byte PlayerLimit { get; set; }
 
         [BlubMember(4)]
-        public GameTimeState GameTimeState { get; set; }
+        public GameState GameState { get; set; }
 
         [BlubMember(5)]
-        public uint GameState { get; set; }
+        public GameTimeState GameTimeState { get; set; }
 
         [BlubMember(6)]
         public uint TimeLimit { get; set; }
 
         [BlubMember(7)]
-        public uint mUnknow01 { get; set; }
+        public uint Unk1 { get; set; }
 
         [BlubMember(8)]
-        public uint Time_Sync { get; set; }
+        public uint TimeSync { get; set; }
 
         [BlubMember(9)]
-        public uint Score_Limit { get; set; }
+        public uint ScoreLimit { get; set; }
 
         [BlubMember(10)]
-        public byte mUnknow02 { get; set; }
+        public byte Unk2 { get; set; }
 
         [BlubMember(11, typeof(IPEndPointAddressStringSerializer))]
-        public IPEndPoint IP { get; set; } = new IPEndPoint(0, 0);
+        public IPEndPoint RelayEndPoint { get; set; } 
 
         [BlubMember(12)]
-        public byte Spectator { get; set; }
+        public byte Unk3 { get; set; }
 
         [BlubMember(13)]
-        public uint mUnknow03 { get; set; }
+        public uint Unk4 { get; set; }
 
         [BlubMember(14)]
-        public byte FMBURNMode { get; set; }
+        public ushort Unk5 { get; set; }
 
         [BlubMember(15)]
-        public ulong mUnknow04 { get; set; }
+        public byte FMBURNMode { get; set; }
+
+        [BlubMember(16)]
+        public ulong Unk6 { get; set; }
+
+        public RoomEnterRoomInfoAck2Message()
+        {
+            RelayEndPoint = new IPEndPoint(0, 0);
+            Unk3 = 108;
+            Unk4 = 2544631917;
+            Unk5 = 3107;
+        }
     }
 
     [BlubContract]
     public class RoomEnterRoomInfoAckMessage : IGameMessage
     {
         [BlubMember(0)]
-        public uint RoomID { get; set; }
+        public uint RoomId { get; set; }
 
         [BlubMember(1)]
         public NeoNetsphere.GameRule GameRule { get; set; }
 
         [BlubMember(2)]
-        public byte MapID { get; set; }
+        public byte MapId { get; set; }
 
         [BlubMember(3)]
         public byte PlayerLimit { get; set; }
 
         [BlubMember(4)]
-        public GameTimeState GameTimeState { get; set; }
+        public GameState GameState { get; set; }
 
         [BlubMember(5)]
-        public uint GameState { get; set; }
+        public GameTimeState GameTimeState { get; set; }
 
         [BlubMember(6)]
         public uint TimeLimit { get; set; }
 
         [BlubMember(7)]
-        public uint mUnknow01 { get; set; }
+        public uint Unk1 { get; set; }
 
         [BlubMember(8)]
-        public uint Time_Sync { get; set; }
+        public uint TimeSync { get; set; }
 
         [BlubMember(9)]
-        public uint Score_Limit { get; set; }
+        public uint ScoreLimit { get; set; }
 
         [BlubMember(10)]
-        public byte mUnknow02 { get; set; }
+        public byte Unk2 { get; set; }
 
         [BlubMember(11, typeof(IPEndPointAddressStringSerializer))]
-        public IPEndPoint IP { get; set; } = new IPEndPoint(0, 0);
+        public IPEndPoint RelayEndPoint { get; set; }
 
         [BlubMember(12)]
-        public byte Spectator { get; set; }
+        public byte Unk3 { get; set; }
 
         [BlubMember(13)]
-        public uint mUnknow03 { get; set; }
+        public uint Unk4 { get; set; }
+
+        [BlubMember(14)]
+        public ushort Unk5 { get; set; }
+        
+        public RoomEnterRoomInfoAckMessage()
+        {
+            RelayEndPoint = new IPEndPoint(0, 0);
+            Unk3 = 108;
+            Unk4 = 2544631917;
+            Unk5 = 3107;
+        }
     }
 
     [BlubContract]
