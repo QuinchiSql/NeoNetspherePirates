@@ -81,7 +81,7 @@ namespace NeoNetsphere.Commands
 
                         if (account == null)
                         {
-                            plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
+                            plr.SendConsoleMessage(S4Color.Red + "Unknown player");
                             return true;
                         }
 
@@ -135,33 +135,31 @@ namespace NeoNetsphere.Commands
                         var account = (db.Find<AccountDto>(statement => statement
                                 .Include<BanDto>(join => @join.LeftOuterJoin())
                                 .Where($"{nameof(AccountDto.Nickname):C} = @Nickname")
-                                .WithParameters(new { Nickname = args[0] })))
+                                .WithParameters(new {Nickname = args[0]})))
                             .FirstOrDefault();
 
                         if (account == null)
                         {
-                            plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
+                            plr.SendConsoleMessage(S4Color.Red + "Unknown player");
                             return true;
+                        }
+
+                        if (byte.TryParse(args[1], out var level))
+                        {
+                            plr.SendConsoleMessage(
+                                S4Color.Green + $"Changed {account.Nickname}'s seclevel to {args[1]}");
+                            account.SecurityLevel = level;
+                            db.Update(account);
+
+                            var player = GameServer.Instance.PlayerManager.Get((ulong) account.Id);
+                            player?.Session?.SendAsync(new ItemUseChangeNickAckMessage() {Result = 0});
+                            player?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
                         }
                         else
                         {
-                            if (byte.TryParse(args[1], out var level))
-                            {
-                                plr.SendConsoleMessage(S4Color.Green + $"Changed {account.Nickname}'s seclevel to {args[1]}");
-                                account.SecurityLevel = level;
-                                db.Update(account);
-
-                                var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
-                                player?.Session?.SendAsync(new ItemUseChangeNickAckMessage() { Result = 0 });
-                                player?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-                            }
-                            else
-                            {
-                                plr.SendConsoleMessage(S4Color.Red + "Wrong Usage, possible usages:");
-                                plr.SendConsoleMessage(S4Color.Red + "> seclevel <username> <level>");
-                                plr.SendConsoleMessage(S4Color.Red + "> seclevel <level>");
-                            }
-
+                            plr.SendConsoleMessage(S4Color.Red + "Wrong Usage, possible usages:");
+                            plr.SendConsoleMessage(S4Color.Red + "> seclevel <username> <level>");
+                            plr.SendConsoleMessage(S4Color.Red + "> seclevel <level>");
                         }
                     }
                 }
@@ -202,7 +200,6 @@ namespace NeoNetsphere.Commands
                 if (args.Length >= 2)
                 {
                     AccountDto account;
-                    PlayerDto playerdto;
                     using (var db = AuthDatabase.Open())
                     {
                         account = (db.Find<AccountDto>(statement => statement
@@ -213,18 +210,18 @@ namespace NeoNetsphere.Commands
                         
                         if (account == null)
                         {
-                            plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
+                            plr.SendConsoleMessage(S4Color.Red + "Unknown player");
                             return true;
                         }
 
-                        playerdto = (db.Find<PlayerDto>(statement => statement
-                               .Where($"{nameof(PlayerDto.Id):C} = @Id")
-                               .WithParameters(new { account.Id })))
+                        var playerdto = (db.Find<PlayerDto>(statement => statement
+                                .Where($"{nameof(PlayerDto.Id):C} = @Id")
+                                .WithParameters(new { account.Id })))
                             .FirstOrDefault();
 
                         if (playerdto == null)
                         {
-                            plr.SendConsoleMessage(S4Color.Red + "Unknown player!");
+                            plr.SendConsoleMessage(S4Color.Red + "Unknown player");
                             return true;
                         }
 
@@ -236,10 +233,8 @@ namespace NeoNetsphere.Commands
                             {
                                 plr.SendConsoleMessage(S4Color.Green + $"Changed {account.Nickname}'s level to {args[1]}");
                                 
-                                plr.TotalExperience = exp.TotalExperience;
                                 playerdto.Level = level;
                                 playerdto.TotalExperience = exp.TotalExperience;
-
                                 db.Update(playerdto);
 
                                 var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
@@ -264,7 +259,6 @@ namespace NeoNetsphere.Commands
                         }
                     }
                 }
-
                 return true;
             }
 

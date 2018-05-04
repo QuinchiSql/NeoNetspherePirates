@@ -41,7 +41,14 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubCloseReqMessage : IClubMessage
     {
         [BlubMember(0)]
-        public int Unk { get; set; }
+        public int ClanId { get; set; }
+    }
+
+    [BlubContract]
+    public class ClubCloseReq2Message : IClubMessage
+    {
+        [BlubMember(0)]
+        public int ClanId { get; set; }
     }
 
     [BlubContract]
@@ -212,14 +219,19 @@ namespace NeoNetsphere.Network.Message.Club
     }
 
     [BlubContract]
-    public class ClubInfoReqMessage : IClubMessage
+    public class ClubClubInfoReqMessage : IClubMessage
     {
         [BlubMember(0)]
         public int Unk { get; set; }
+
+        public ClubClubInfoReqMessage()
+        {
+            
+        }
     }
 
     [BlubContract]
-    public class ClubInfoReq2Message : IClubMessage
+    public class ClubClubInfoReq2Message : IClubMessage
     {
         [BlubMember(0)]
         public int Unk { get; set; }
@@ -271,7 +283,14 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubStuffListReqMessage : IClubMessage
     {
         [BlubMember(0)]
-        public int Unk { get; set; }
+        public int ClanId { get; set; }
+    }
+
+    [BlubContract]
+    public class ClubStuffListReq2Message : IClubMessage
+    {
+        [BlubMember(0)]
+        public int ClanId { get; set; }
     }
 
     [BlubContract]
@@ -383,7 +402,7 @@ namespace NeoNetsphere.Network.Message.Club
         [BlubMember(2, typeof(StringSerializer))]
         public string Unk2 { get; set; }
     }
-
+    
     [BlubContract]
     public class ClubRankListReqMessage : IClubMessage
     {

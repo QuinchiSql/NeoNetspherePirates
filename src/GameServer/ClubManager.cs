@@ -54,7 +54,7 @@ namespace NeoNetsphere
             lock (_sync)
             {
                 club.NeedsToSave = true;
-                _clubs.TryAdd(club.Clan_ID, club);
+                _clubs.TryAdd(club.Id, club);
             }
         }
 

@@ -13,6 +13,7 @@ using NeoNetsphere.Network.Data.Chat;
 using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Data.GameRule;
+using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.GameRule;
@@ -360,7 +361,7 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.Nickname, src => src.Nickname);
 
             Mapper.Register<Player, RoomPlayerDto>()
-                .Member(dest => dest.ClanId, src => src.Club.Clan_ID)
+                .Member(dest => dest.ClanId, src => src.Club.Id)
                 .Member(dest => dest.AccountId, src => src.Account.Id)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.Unk2, src => (byte)src.Room.Players.Values.ToList().IndexOf(src))
@@ -423,10 +424,9 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, PlayerLocationDto>()
                 .Function(dest => dest.ServerGroupId, src => (int) Config.Instance.Id)
                 .Function(dest => dest.ChannelId, src => src.Channel?.Id ?? -1)
-                .Function(dest => dest.RoomId,
-                    src => src.Room?.Id > 1 ? (int) src.Room?.Id : 0) // ToDo: Tutorial, License
-                .Function(dest => dest.GameServerId, src => 0) // TODO Server ids
-                .Function(dest => dest.ChatServerId, src => 0);
+                .Function(dest => dest.RoomId, src => src.Room?.Id > 1 ? (int) src.Room?.Id : 0)
+                .Function(dest => dest.GameServerId, src => Config.Instance.Id) // TODO Server ids
+                .Function(dest => dest.ChatServerId, src => Config.Instance.Id);
 
             Mapper.Register<Player, PlayerInfoDto>()
                 .Function(dest => dest.Info, src => src.Map<Player, PlayerInfoShortDto>())
@@ -446,21 +446,28 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.AccountId, src => src.Account.Id);
 
             Mapper.Register<Player, MyInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Clan_ID : 0)
+                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
                 .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count : 0)
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "")
                 .Member(dest => dest.State, src => src.Club != null ? src.Club[src.Account.Id].State : 0);
 
             Mapper.Register<Player, PlayerClubInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Clan_ID : 0)
+                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
 
             Mapper.Register<Player, ClubMemberDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Member(dest => dest.Nickname, src => src.Account.Nickname);
-            
+                .Member(dest => dest.Nickname, src => src.Account.Nickname)
+                .Function(dest => dest.Unk4, src => Config.Instance.Id);
+
+            Mapper.Register<Player, ClubSearchInfoDto>()
+                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
+                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
+                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count : 0)
+                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+
             Mapper.Compile(CompilationTypes.Source);
         }
 
@@ -497,6 +504,7 @@ namespace NeoNetsphere.Network
 
                     if (gameSession.Player.ChatSession != null)
                     {
+                        gameSession.Player.Club?.Broadcast(new ClubMemberLoginStateAckMessage(0, gameSession.Player.Account.Id));
                         gameSession.Player.ChatSession.GameSession = null;
                         gameSession.Player.ChatSession.Dispose();
                     }
@@ -528,7 +536,7 @@ namespace NeoNetsphere.Network
             if (e.Session != null)
                 log = log.ForAccount((GameSession) e.Session);
 
-            if (e.Exception.ToString().Contains("opcode") || e.Exception.ToString().Contains("Bad format in"))
+            if (e.Exception.ToString().ToLower().Contains("opcode") || e.Exception.ToString().ToLower().Contains("bad format in"))
             {
                 log.Warning(e.Exception.InnerException.Message);
                 gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
@@ -538,7 +546,7 @@ namespace NeoNetsphere.Network
                                                         .State == GameRuleState.Waiting
                                                     || gameSession.Player.Room == null))
             {
-                log.Warning(e.Exception.InnerException.Message);
+                log.Warning(e.Exception.ToString());
                 gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
             }
             else

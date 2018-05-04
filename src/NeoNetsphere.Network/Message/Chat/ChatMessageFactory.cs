@@ -52,9 +52,7 @@ namespace NeoNetsphere.Network.Message.Chat
             Register<ClubMemberListAckMessage>(ChatOpCode.ClubMemberListAck);
             Register<ClubMemberLoginStateAckMessage>(ChatOpCode.ClubMemberLoginStateAck);
             Register<Chennel_PlayerNameTagList_AckMessage>(ChatOpCode.Chennel_PlayerNameTagList_Ack);
-#if NEWIDS
-            Register<ClubMemberListAck2Message>(ChatOpCode.Club_Member_List_Ack_2);
-#endif
+
             // C2S
             Register<LoginReqMessage>(ChatOpCode.LoginReq);
             Register<DenyActionReqMessage>(ChatOpCode.DenyActionReq);
@@ -77,6 +75,12 @@ namespace NeoNetsphere.Network.Message.Chat
             Register<ClubNoteSendReqMessage>(ChatOpCode.ClubNoteSendReq);
             Register<ClubMemberListReqMessage>(ChatOpCode.ClubMemberListReq);
 #if NEWIDS
+            //S2C
+            Register<ClubClubMemberInfoAck2Message>(ChatOpCode.Club_ClubMemberInfo_Ack_2);
+            Register<ClubMemberListAck2Message>(ChatOpCode.Club_Member_List_Ack_2);
+
+
+            //C2S
             Register<ClubClubMemberInfoReq2Message>(ChatOpCode.Club_ClubMemberInfo_Req_2);
             Register<ClubMemberListReq2Message>(ChatOpCode.Club_Member_List_Req_2);
             Register<ClubNoteSendReq2Message>(ChatOpCode.Club_Note_Send_Req_2);

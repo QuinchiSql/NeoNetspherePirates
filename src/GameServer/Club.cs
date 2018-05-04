@@ -8,6 +8,7 @@ using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
 using NeoNetsphere.Network.Data.Game;
+using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Game;
 using Serilog;
 using Serilog.Core;
@@ -41,6 +42,22 @@ namespace NeoNetsphere
         public ClubPlayerInfo this[ulong id] => _players[id];
         public int Count => _players.Count;
 
+        public void Broadcast(IGameMessage message)
+        {
+            foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
+            {
+                member.Session?.SendAsync(message);
+            }
+        }
+
+        public void Broadcast(IChatMessage message)
+        {
+            foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
+            {
+                member.ChatSession?.SendAsync(message);
+            }
+        }
+
         public Club()
         {
         }
@@ -48,14 +65,14 @@ namespace NeoNetsphere
         public Club(ClubDto dto, ClubPlayerInfo[] Player)
         {
             _players = Player.ToDictionary(playerinfo => playerinfo.AccountId);
-            Clan_ID = dto.Id;
+            Id = dto.Id;
             Clan_Name = dto.Name;
             Clan_Icon = dto.Icon;
 
             Logger.Information("New Club: {name} {type} {playercount}", Clan_Name, Clan_Icon, Count);
         }
 
-        public uint Clan_ID { get; set; }
+        public uint Id { get; set; }
 
         public string Clan_Icon { get; set; } = "1-1-1";
 

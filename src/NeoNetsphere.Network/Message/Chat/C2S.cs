@@ -211,12 +211,17 @@ namespace NeoNetsphere.Network.Message.Chat
     public class ClubMemberListReqMessage : IChatMessage
     {
         [BlubMember(0)]
-        public int Unk { get; set; }
+        public int ClanId { get; set; }
     }
 
     [BlubContract]
     public class ClubClubMemberInfoReq2Message : IChatMessage
     {
+        [BlubMember(0)]
+        public uint ClanId { get; set; }
+
+        [BlubMember(1)]
+        public ulong AccountId { get; set; }
     }
 
     [BlubContract]

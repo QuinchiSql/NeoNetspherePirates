@@ -104,7 +104,6 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RandomShopRollingStartAckMessage>(GameOpCode.RandomShopRollingStartAck);
             Register<RoomInfoRequestAckMessage>(GameOpCode.RoomInfoRequestAck);
             Register<RoomInfoRequestAck2Message>(GameOpCode.Room_InfoRequest_Ack_2);
-
             Register<NoteGiftItemAckMessage>(GameOpCode.NoteGiftItemAck);
             Register<NoteImportuneItemAckMessage>(GameOpCode.NoteImportuneItemAck);
             Register<NoteGiftItemGainAckMessage>(GameOpCode.NoteGiftItemGainAck);
@@ -199,10 +198,19 @@ namespace NeoNetsphere.Network.Message.Game
             Register<CPromotionCardShuffleReqMessage>(GameOpCode.CPromotionCardShuffleReq);
             Register<BillingCashInfoReqMessage>(GameOpCode.BillingCashInfoReq);
             Register<PromotionCouponEventReqMessage>(GameOpCode.PromotionCouponEventReq);
+
+
 #if NEWIDS
+            //S2C
+            Register<ClubNoticePointRefreshAckMessage>(GameOpCode.ClubNotice_Point_Refresh_Ack);
+            Register<ClubNoticeRecordRefreshAckMessage>(GameOpCode.ClubNotice_Record_Refresh_Ack);
+
+            //C2S
             Register<CollectBookItemRegistReqMessage>(GameOpCode.CollectBook_ItemRegist_Req);
             Register<Btc_Clear_ReqMessage>(GameOpCode.Btc_Clear_Req);
             Register<CheckhashKeyvaluereqMessage>(GameOpCode.Check_hash_Key_value_req);
+            Register<ClubNoticePointRefreshReqMessage>(GameOpCode.ClubNotice_Point_Refresh_Req);
+            Register<ClubNoticeRecordRefreshReqMessage>(GameOpCode.ClubNotice_Record_Refresh_Req);
 #endif
         }
     }

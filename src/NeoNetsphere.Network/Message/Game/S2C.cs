@@ -890,6 +890,11 @@ namespace NeoNetsphere.Network.Message.Game
             Items = Array.Empty<ulong>();
         }
 
+        public ItemEquipBoostItemInfoAckMessage(ulong[] items)
+        {
+            Items = items;
+        }
+        
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public ulong[] Items { get; set; }
     }
@@ -1330,6 +1335,16 @@ namespace NeoNetsphere.Network.Message.Game
     {
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public ShoppingBasketDto[] Items { get; set; }
+
+        public ShoppingBasketListInfoAckMessage()
+        {
+            Items = Array.Empty<ShoppingBasketDto>();
+        }
+
+        public ShoppingBasketListInfoAckMessage(ShoppingBasketDto[] items)
+        {
+            Items = items;
+        }
     }
 
     [BlubContract]
@@ -1594,6 +1609,11 @@ namespace NeoNetsphere.Network.Message.Game
     [BlubContract]
     public class ItemClearEsperChipAckMessage : IGameMessage
     {
+        public ItemClearEsperChipAckMessage()
+        {
+            Unk = Array.Empty<ClearEsperChipDto>();
+        }
+
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public ClearEsperChipDto[] Unk { get; set; }
     }
@@ -1625,6 +1645,16 @@ namespace NeoNetsphere.Network.Message.Game
     {
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public MapOpenInfoDto[] Unk { get; set; }
+
+        public MapOpenInfosMessage()
+        {
+            Unk = Array.Empty<MapOpenInfoDto>();
+        }
+
+        public MapOpenInfosMessage(MapOpenInfoDto[] unk)
+        {
+            Unk = unk;
+        }
     }
 
     [BlubContract]
@@ -1663,5 +1693,53 @@ namespace NeoNetsphere.Network.Message.Game
     {
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public PromotionActiveDto[] Unk { get; set; }
+    }
+
+    [BlubContract]
+    public class ClubNoticePointRefreshAckMessage : IGameMessage
+    {
+        [BlubMember(0)]
+        public uint Unk1 { get; set; }
+
+        [BlubMember(1)]
+        public uint Unk2 { get; set; }
+
+        [BlubMember(2)]
+        public uint Unk3 { get; set; }
+
+        [BlubMember(3)]
+        public uint Unk4 { get; set; }
+
+        [BlubMember(4)]
+        public uint Unk5 { get; set; }
+
+        [BlubMember(5)]
+        public uint Unk6 { get; set; }
+
+        [BlubMember(6)]
+        public uint Unk7 { get; set; }
+
+        [BlubMember(7)]
+        public uint Unk8 { get; set; }
+
+        [BlubMember(8)]
+        public uint Unk9 { get; set; }
+
+        public ClubNoticePointRefreshAckMessage()
+        {
+            Unk6 = 3;
+            Unk8 = 1;
+            Unk9 = 2;
+        }
+    }
+
+    [BlubContract]
+    public class ClubNoticeRecordRefreshAckMessage : IGameMessage
+    {
+        [BlubMember(0)]
+        public uint Unk1 { get; set; }
+
+        [BlubMember(1)]
+        public uint Unk2 { get; set; }
     }
 }

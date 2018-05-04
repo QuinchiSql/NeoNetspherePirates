@@ -73,13 +73,15 @@ namespace NeoNetsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.SpectatorLimit);
+            Room.TeamManager.Add(Team.Alpha, (uint)Room.Options.PlayerLimit / 2, (uint) Room.Options.SpectatorLimit /2);
+            Room.TeamManager.Add(Team.Alpha, (uint)Room.Options.PlayerLimit / 2, (uint) Room.Options.SpectatorLimit / 2);
             base.Initialize();
         }
 
         public override void Cleanup()
         {
             Room.TeamManager.Remove(Team.Alpha);
+            Room.TeamManager.Remove(Team.Beta);
             base.Cleanup();
         }
 
@@ -214,31 +216,31 @@ namespace NeoNetsphere.Game.GameRules
 
         public async void NextChaser()
         {
-            _waitingNextChaser = false;
-            _chaserRoundTime = Room.TeamManager.Players.Count() < 4
-                ? TimeSpan.FromSeconds(60)
-                : TimeSpan.FromSeconds(Room.TeamManager.Players.Count() * 15);
-            _chaserRoundTime += TimeSpan.FromSeconds(Chaser != null ? 6 : 3);
-
             try
             {
+                _waitingNextChaser = false;
+                _chaserRoundTime = Room.TeamManager.Players.Count() < 4
+                    ? TimeSpan.FromSeconds(60)
+                    : TimeSpan.FromSeconds(Room.TeamManager.Players.Count() * 15);
+                _chaserRoundTime += TimeSpan.FromSeconds(Chaser != null ? 6 : 3);
+
                 foreach (var plr in Room.TeamManager.PlayersPlaying)
-                    if (plr.RoomInfo.State != PlayerState.Lobby || plr.RoomInfo.State != PlayerState.Spectating)
-                        plr.RoomInfo.State = PlayerState.Alive;
+                    plr.RoomInfo.State = PlayerState.Alive;
 
                 OldChaser = Chaser;
                 _chaserTimer = TimeSpan.Zero;
-                if (Room.TeamManager.PlayersPlaying.ToList().Count > 1)
-                    do
-                    {
-                        Chaser = Room.Players.Values.ElementAt(_random.Next(0, Room.Players.Count));
-                    } while (Chaser.RoomInfo.State == PlayerState.Lobby ||
-                             Chaser.RoomInfo.State == PlayerState.Spectating || Chaser == OldChaser);
-                else if (Room.TeamManager.PlayersPlaying.ToList().Count == 1)
+
+                if (Room.TeamManager.PlayersPlaying.Count() > 1)
+                {
+                    Chaser = Room.Players.Values.ElementAt(_random.Next(0, Room.Players.Count));
+                }
+                else if (Room.TeamManager.PlayersPlaying.Count() == 1)
                     Chaser = Room.TeamManager.PlayersPlaying.ToList()[0];
+
                 GetRecord(Chaser).ChaserCount++;
 
-                Room.Broadcast(new SlaughterChangeSlaughterAckMessage(Chaser?.Account.Id ?? 0, new[] { Chaser?.Account.Id ?? 0 }));
+                Room.Broadcast(new SlaughterChangeSlaughterAckMessage(Chaser?.Account.Id ?? 0,
+                    new[] {Chaser?.Account.Id ?? 0}));
                 NextTarget();
 
                 await Task.Delay(2000);
@@ -246,6 +248,10 @@ namespace NeoNetsphere.Game.GameRules
             }
             catch (Exception)
             {
+                GetRecord(Chaser).ChaserCount++;
+                Room.Broadcast(new SlaughterChangeSlaughterAckMessage(Chaser?.Account.Id ?? 0,
+                    new[] {Chaser?.Account.Id ?? 0}));
+                NextTarget();
                 // ignored
             }
         }
@@ -254,9 +260,10 @@ namespace NeoNetsphere.Game.GameRules
         {
             if (_disallowactions)
                 return;
+
             GetRecord(Chaser).Wins++;
             Room.Broadcast(new SlaughterSLRoundWinAckMessage());
-            //NextChaser();
+
             _waitingNextChaser = true;
         }
 
@@ -264,13 +271,16 @@ namespace NeoNetsphere.Game.GameRules
         {
             if (_disallowactions)
                 return;
+
             if (Chaser != null)
+            {
                 foreach (var plr in Room.TeamManager.PlayersPlaying.Where(plr => plr != Chaser))
                 {
                     GetRecord(plr).Survived++;
                     plr.Session.SendAsync(new SlaughterRoundWinAckMessage());
                 }
-            //NextChaser();
+            }
+            
             _waitingNextChaser = true;
         }
 

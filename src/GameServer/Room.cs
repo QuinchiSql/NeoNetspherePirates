@@ -7,9 +7,11 @@ using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
+using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Data.GameRule;
 using NeoNetsphere.Network.Message.Chat;
+using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.GameRule;
 using Netsphere;
@@ -230,6 +232,7 @@ namespace NeoNetsphere
                     });
                 }
 
+                plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubSearchInfoDto>()));
                 plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
                 BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
                 plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values
@@ -239,11 +242,11 @@ namespace NeoNetsphere
                 var clubList = new List<PlayerClubInfoDto>();
                 foreach (var player in _players.Values.Where(p => p.Club != null))
                 {
-                    if (clubList.All(club => club.Id != player.Club.Clan_ID))
+                    if (clubList.All(club => club.Id != player.Club.Id))
                     {
                         clubList.Add(new PlayerClubInfoDto()
                         {
-                            Id = player.Club.Clan_ID,
+                            Id = player.Club.Id,
                             Name = player.Club.Clan_Name,
                             Type = player.Club.Clan_Icon,
                         });
@@ -254,7 +257,7 @@ namespace NeoNetsphere
                 {
                     BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(new PlayerClubInfoDto()
                     {
-                        Id = plr.Club.Clan_ID,
+                        Id = plr.Club.Id,
                         Name = plr.Club.Clan_Name,
                         Type = plr.Club.Clan_Icon,
                     }));
@@ -300,7 +303,7 @@ namespace NeoNetsphere
                     plr.Session?.SendAsync(
                         new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                     plr.Session?.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
-
+                    
                     if (_players != null && _players.Count > 0)
                     {
                         ChangeMasterIfNeeded(GetPlayerWithLowestPing());

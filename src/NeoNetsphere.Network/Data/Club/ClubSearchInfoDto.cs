@@ -6,8 +6,19 @@ namespace NeoNetsphere.Network.Data.Club
     [BlubContract]
     public class ClubSearchInfoDto
     {
+        public ClubSearchInfoDto()
+        {
+            Type = "";
+            Name = "";
+            MasterName = "";
+            CreationDate = "";
+            Unk7 = 1;
+            Unk8 = " ";
+            Unk9 = "";
+        }
+
         [BlubMember(0)]
-        public uint ID { get; set; }
+        public uint Id { get; set; }
 
         [BlubMember(1, typeof(StringSerializer))]
         public string Type { get; set; }
@@ -22,7 +33,7 @@ namespace NeoNetsphere.Network.Data.Club
         public string MasterName { get; set; }
 
         [BlubMember(5, typeof(StringSerializer))]
-        public string CreationDate { get; set; }
+        public string CreationDate { get; set; } //20180502211111
 
         [BlubMember(6)]
         public int Unk1 { get; set; }
@@ -42,10 +53,25 @@ namespace NeoNetsphere.Network.Data.Club
         [BlubMember(11)]
         public int Unk6 { get; set; }
 
-        [BlubMember(12, typeof(StringSerializer))]
-        public string Unk7 { get; set; } //motto?
+        [BlubMember(12)]
+        public byte Unk7 { get; set; }
 
         [BlubMember(13, typeof(StringSerializer))]
-        public string Unk8 { get; set; }
+        public string Unk8 { get; set; } //motto?
+
+        [BlubMember(14, typeof(StringSerializer))]
+        public string Unk9 { get; set; }
+
+        [BlubMember(15)]
+        public int Unk10 { get; set; }
+
+        [BlubMember(16)]
+        public int Unk11 { get; set; }
+
+        [BlubMember(17)]
+        public int Unk12 { get; set; }
+
+        [BlubMember(18)]
+        public int Unk13 { get; set; }
     }
 }

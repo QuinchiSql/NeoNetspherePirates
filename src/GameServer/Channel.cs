@@ -78,7 +78,7 @@ namespace NeoNetsphere
             }
         }
 
-        public void Leave(Player plr, bool no_message = false)
+        public void Leave(Player plr, bool noMessage = false)
         {
             lock (_sync)
             {
@@ -93,7 +93,7 @@ namespace NeoNetsphere
                         Broadcast(new ChannelLeavePlayerAckMessage(plr.Account.Id));
 
                 OnPlayerLeft(new ChannelPlayerLeftEventArgs(this, plr));
-                if (!no_message)
+                if (!noMessage)
                     plr.Session?.SendAsync(new ServerResultAckMessage(ServerResult.ChannelLeave));
             }
         }
@@ -117,10 +117,11 @@ namespace NeoNetsphere
             foreach (var plr in Players.Values.Where(plr => plr.Room?.Id == message.Room.RoomId))
                 plr.Session?.SendAsync(message);
 
-            message.Room.Password = !string.IsNullOrWhiteSpace(message.Room.Password) || !string.IsNullOrEmpty(message.Room.Password) ? "nice try :)" : "";
+            var cencored = message.Map<RoomChangeRoomInfoAck2Message, RoomChangeRoomInfoAck2Message>();
+            cencored.Room.Password = !string.IsNullOrWhiteSpace(message.Room.Password) || !string.IsNullOrEmpty(message.Room.Password) ? "nice try :)" : "";
             foreach (var plr in Players.Values.Where(plr => plr.Room?.Id != message.Room.RoomId || plr.Room == null))
             {
-                plr.Session?.SendAsync(message);
+                plr.Session?.SendAsync(cencored);
             }
         }
 

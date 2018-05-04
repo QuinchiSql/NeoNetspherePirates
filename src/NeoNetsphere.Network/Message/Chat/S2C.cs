@@ -561,10 +561,22 @@ namespace NeoNetsphere.Network.Message.Chat
     public class ClubSystemMessageMessage : IChatMessage
     {
         [BlubMember(0)]
-        public ulong Unk1 { get; set; }
+        public ulong AccountId { get; set; }
 
         [BlubMember(1)]
-        public string Unk2 { get; set; }
+        public string Message { get; set; }
+
+        public ClubSystemMessageMessage()
+        {
+            AccountId = 0;
+            Message = "";
+        }
+
+        public ClubSystemMessageMessage(ulong accountId, string message)
+        {
+            AccountId = accountId;
+            Message = message;
+        }
     }
 
     [BlubContract]
@@ -588,7 +600,7 @@ namespace NeoNetsphere.Network.Message.Chat
         public ClubMemberDto[] Members { get; set; }
         public ClubMemberListAckMessage()
         {
-
+            Members = Array.Empty<ClubMemberDto>();
         }
         public ClubMemberListAckMessage(ClubMemberDto[] members)
         {
@@ -604,8 +616,9 @@ namespace NeoNetsphere.Network.Message.Chat
 
         public ClubMemberListAck2Message()
         {
-            
+            Members = Array.Empty<ClubMemberDto>();
         }
+
         public ClubMemberListAck2Message(ClubMemberDto[] members)
         {
             Members = members;
@@ -616,10 +629,22 @@ namespace NeoNetsphere.Network.Message.Chat
     public class ClubMemberLoginStateAckMessage : IChatMessage
     {
         [BlubMember(0)]
-        public int Unk1 { get; set; }
+        public int State { get; set; }
 
         [BlubMember(1)]
         public ulong AccountId { get; set; }
+
+        public ClubMemberLoginStateAckMessage()
+        {
+            State = 0;
+            AccountId = 0;
+        }
+
+        public ClubMemberLoginStateAckMessage(int state, ulong accountId)
+        {
+            State = state;
+            AccountId = accountId;
+        }
     }
 
     [BlubContract]
@@ -637,5 +662,62 @@ namespace NeoNetsphere.Network.Message.Chat
 
         [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
         public PlayerNameTagInfoDto[] UserData { get; set; }
+    }
+
+    [BlubContract]
+    public class ClubClubMemberInfoAck2Message : IChatMessage
+    {
+        [BlubMember(0)]
+        public uint ClanId { get; set; }
+
+        [BlubMember(1)]
+        public ulong AccountId { get; set; }
+
+        [BlubMember(2, typeof(StringSerializer))]
+        public string Nickname { get; set; }
+
+        [BlubMember(3)]
+        public int Unk1 { get; set; }
+
+        [BlubMember(4)]
+        public int Unk2 { get; set; }
+
+        [BlubMember(5)]
+        public int Unk3 { get; set; } //MemberCount? MemberIndex?
+
+        [BlubMember(6)]
+        public int Unk4 { get; set; }
+
+        [BlubMember(7)]
+        public int Unk5 { get; set; }
+
+        [BlubMember(8, typeof(StringSerializer))]
+        public string JoinDate { get; set; }
+
+        [BlubMember(9)]
+        public int Unk6 { get; set; } //MemberCount? MemberIndex?
+
+        [BlubMember(10, typeof(StringSerializer))]
+        public string Unk7 { get; set; }
+
+        [BlubMember(11)]
+        public long Unk8 { get; set; }
+
+        [BlubMember(12)]
+        public int Unk9 { get; set; }
+
+        [BlubMember(13)]
+        public int Unk10 { get; set; }
+
+        public ClubClubMemberInfoAck2Message()
+        {
+            Unk1 = 44;
+            Unk3 = 1;
+            Unk6 = 1;
+            Nickname = "";
+            JoinDate = "";
+            Unk7 = "";
+            Unk8 = -1;
+        }
     }
 }

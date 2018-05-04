@@ -62,7 +62,7 @@ namespace NeoNetsphere.Network.Services
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Information("Denied connection from client in blocked country {country}", ipInfo.countryCode);
                 
-                session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
+                await session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
                 return;
             }
             //if (message.Version != s_version)
@@ -202,8 +202,7 @@ namespace NeoNetsphere.Network.Services
                     // first time connecting to this server
                     if (!expTable.TryGetValue(Config.Instance.Game.StartLevel, out expValue))
                     {
-                        expValue = new Experience();
-                        expValue.TotalExperience = 0;
+                        expValue = new Experience { TotalExperience = 0 };
                         Logger.Warning("Given start level is not found in the experience table");
                     }
 
@@ -230,8 +229,7 @@ namespace NeoNetsphere.Network.Services
                     {
                         if (!expTable.TryGetValue(plrDto.Level, out expValue))
                         {
-                            expValue = new Experience();
-                            expValue.TotalExperience = 0;
+                            expValue = new Experience {TotalExperience = 0};
                             Logger.Warning("Given level is not found in the experience table");
                         }
                         plrDto.TotalExperience = expValue.TotalExperience - 1;
@@ -244,7 +242,7 @@ namespace NeoNetsphere.Network.Services
             GameServer.Instance.PlayerManager.Add(session.Player);
 
             Logger.ForAccount(account)
-                .Information("Login success");
+                .Information("Login success for {0}", account.Username);
 
             var result = string.IsNullOrWhiteSpace(account.Nickname)
                 ? GameLoginResult.ChooseNickname
@@ -300,18 +298,21 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
             plr.LoggedIn = true;
 
-            await session.SendAsync(new ItemInventoryInfoAckMessage
-            {
-                Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
-            });
-
-            // Todo random shop
-            //await session.SendAsync(new SRandomShopChanceInfoAckMessage { Progress = 10000 });
+            await session.SendAsync(new MoneyRefreshCashInfoAckMessage { PEN = plr.PEN, AP = plr.AP });
             await session.SendAsync(new CharacterCurrentSlotInfoAckMessage
             {
                 ActiveCharacter = plr.CharacterManager.CurrentSlot,
-                CharacterCount = (byte) plr.CharacterManager.Count,
+                CharacterCount = (byte)plr.CharacterManager.Count,
                 MaxSlots = 3
+            });
+            await session.SendAsync(new MoenyRefreshCoinInfoAckMessage { ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2 });
+            await session.SendAsync(new ShoppingBasketListInfoAckMessage());
+            await session.SendAsync(new PlayeArcadeMapInfoAckMessage());
+            await session.SendAsync(new PlayerArcadeStageInfoAckMessage());
+            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+            await session.SendAsync(new ItemInventoryInfoAckMessage
+            {
+                Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
             });
 
             foreach (var @char in plr.CharacterManager)
@@ -335,9 +336,7 @@ namespace NeoNetsphere.Network.Services
                 await session.SendAsync(message);
             }
 
-            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            await session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = plr.PEN, AP = plr.AP});
-            await session.SendAsync(new MoenyRefreshCoinInfoAckMessage {ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2});
+            await session.SendAsync(new ItemEquipBoostItemInfoAckMessage());
             await session.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
 
             if (plr.Inventory.Count == 0)
@@ -383,13 +382,17 @@ namespace NeoNetsphere.Network.Services
 
                     if (count < 0)
                         count = 0;
-                    var reteff = new List<uint>();
-                    reteff.Add(effect.Effect);
+                    var reteff = new List<uint>
+                    {
+                        effect.Effect
+                    };
                     plr.Inventory.Create(itemInfo, price, color, reteff.ToArray(), (uint) count);
                 }
             }
-            //session.Send(new ItemEquipBoostItemInfoAckMessage());
+
             await session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
+            await session.SendAsync(new ItemClearEsperChipAckMessage());
+            await session.SendAsync(new MapOpenInfosMessage());
             await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
         }
 
@@ -477,21 +480,12 @@ namespace NeoNetsphere.Network.Services
 
             Logger.ForAccount(session)
                 .Information("Login success");
+
             await session.SendAsync(new LoginAckMessage(0));
             await session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
-
-            if (plr.Club != null)
-            {
-                await session.SendAsync(new
-                    ClubMemberLoginStateAckMessage()
-                    { Unk1 = 0, AccountId = plr.Account.Id });
-                await session.SendAsync(new
-                    ClubSystemMessageMessage()
-                {
-                    Unk1 = plr.Account.Id,
-                    Unk2 = "Welcome!",
-                });
-            }
+            plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(1, plr.Account.Id));
+            plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
+            await session.SendAsync(new Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
         }
 
         [MessageHandler(typeof(CRequestLoginMessage))]

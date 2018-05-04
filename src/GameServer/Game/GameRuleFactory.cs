@@ -49,8 +49,7 @@ namespace Netsphere.Game
 
         public GameRuleBase Get(GameRule gameRule, Room room)
         {
-            Func<Room, GameRuleBase> gameRuleFactory;
-            if (!_gameRules.TryGetValue(gameRule, out gameRuleFactory))
+            if (!_gameRules.TryGetValue(gameRule, out var gameRuleFactory))
                 throw new Exception($"GameRule {gameRule} not registered");
 
             return gameRuleFactory(room);
