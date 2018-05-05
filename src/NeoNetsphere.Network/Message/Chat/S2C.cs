@@ -721,7 +721,7 @@ namespace NeoNetsphere.Network.Message.Chat
 
         public ClubClubMemberInfoAck2Message()
         {
-            Unk1 = 44;
+            Unk1 = 0;
             IsModerator = 0;
             Unk6 = 0;
             Nickname = "";

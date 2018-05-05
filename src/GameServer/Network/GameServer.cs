@@ -400,32 +400,42 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, ClubMemberDto>()
                 .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)
                 .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
-                .Function(dest => dest.ServerId, src => Config.Instance.Id)
+                .Function(dest => dest.ServerId, src => (int)Config.Instance.Id)
                 .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? src.Channel.Id : -1)
                 .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int)src.Room.Id : -1);
 
             Mapper.Register<ClubPlayerInfo, ClubMemberDto>()
                 .Function(dest => dest.AccountId, src => src.AccountId)
                 .Function(dest => dest.Nickname, src => src.account?.Nickname ?? "n/A")
-                .Member(dest => dest.ServerId, src => -1)
-                .Member(dest => dest.ChannelId, src => -1)
-                .Member(dest => dest.RoomId, src => -1);
+                .Value(dest => dest.ServerId, -1)
+                .Value(dest => dest.ChannelId, -1)
+                .Value(dest => dest.RoomId, -1);
 
-            Mapper.Register<Player, ClubSearchInfoDto>()
+            Mapper.Register<Player, ClubInfoDto>()
                 .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
+                .Member(dest => dest.MasterName, src => src.Club != null ? src.Club.Players.Values.FirstOrDefault(x => x.IsMod).account.Nickname : "")
+                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count + 5 : 0)
+                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+
+            Mapper.Register<Player, ClubInfoDto2>()
+                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
+                .Member(dest => dest.Id2, src => src.Club != null ? src.Club.Id : 0)
+                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
+                .Member(dest => dest.MasterName, src => src.Club != null ? src.Club.Players.Values.FirstOrDefault(x => x.IsMod).account.Nickname : "")
                 .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count+5 : 0)
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+
 
             Mapper.Register<ClubPlayerInfo, PlayerInfoDto>()
                 .Function(dest => dest.Info, src => 
                 {
-                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account.Id == src.AccountId);
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account?.Id == src.AccountId);
                     return plr.Map<Player, PlayerInfoShortDto>();
                 })
                 .Function(dest => dest.Location, src =>
                 {
-                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account.Id == src.AccountId);
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account?.Id == src.AccountId);
                     return plr.Map<Player, PlayerLocationDto>();
                 });
 

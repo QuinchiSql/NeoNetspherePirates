@@ -902,13 +902,13 @@ namespace NeoNetsphere.Network.Message.Game
     [BlubContract]
     public class ClubFindInfoAckMessage : IGameMessage
     {
-        public ClubFindInfoAckMessage()
-        {
-            ClubInfo = new ClubInfoDto();
-        }
-
-        [BlubMember(0)]
-        public ClubInfoDto ClubInfo { get; set; }
+        //public ClubFindInfoAckMessage()
+        //{
+        //    ClubInfo = new ClubInfoDto();
+        //}
+        //
+        //[BlubMember(0)]
+        //public ClubInfoDto ClubInfo { get; set; }
     }
 
     [BlubContract]

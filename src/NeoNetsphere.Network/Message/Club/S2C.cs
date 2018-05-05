@@ -176,10 +176,10 @@ namespace NeoNetsphere.Network.Message.Club
     {
         public ClubSearchAckMessage()
         {
-            Clubs = Array.Empty<ClubSearchInfoDto>();
+            Clubs = Array.Empty<ClubInfoDto>();
         }
 
-        public ClubSearchAckMessage(int unk1, ClubSearchInfoDto[] clubs)
+        public ClubSearchAckMessage(int unk1, ClubInfoDto[] clubs)
         {
             Unk1 = unk1;
             Clubs = clubs;
@@ -188,20 +188,20 @@ namespace NeoNetsphere.Network.Message.Club
         [BlubMember(0)] public int Unk1 { get; set; }
 
         [BlubMember(1, typeof(ArrayWithIntPrefixSerializer))]
-        public ClubSearchInfoDto[] Clubs { get; set; }
+        public ClubInfoDto[] Clubs { get; set; }
     }
 
     [BlubContract]
     public class ClubClubInfoAckMessage : IClubMessage
     {
-        [BlubMember(0)] public ClubSearchInfoDto Info { get; set; }
+        [BlubMember(0)] public ClubInfoDto Info { get; set; }
 
         public ClubClubInfoAckMessage()
         {
-            Info = new ClubSearchInfoDto();
+            Info = new ClubInfoDto();
         }
 
-        public ClubClubInfoAckMessage(ClubSearchInfoDto info)
+        public ClubClubInfoAckMessage(ClubInfoDto info)
         {
             Info = info;
         }
@@ -212,14 +212,14 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubClubInfoAck2Message : IClubMessage
     {
         [BlubMember(0)]
-        public ClubSearchInfoDto Info { get; set; }
+        public ClubInfoDto2 Info { get; set; }
 
         public ClubClubInfoAck2Message()
         {
-            Info = new ClubSearchInfoDto();
+            Info = new ClubInfoDto2();
         }
 
-        public ClubClubInfoAck2Message(ClubSearchInfoDto info)
+        public ClubClubInfoAck2Message(ClubInfoDto2 info)
         {
             Info = info;
         }
