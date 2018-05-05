@@ -22,5 +22,11 @@ namespace NeoNetsphere.Network.Data.Chat
 
         [BlubMember(6)]
         public int ChatServerId { get; set; }
+
+        public PlayerLocationDto()
+        {
+            RoomId = -1;
+            ChannelId = -1;
+        }
     }
 }

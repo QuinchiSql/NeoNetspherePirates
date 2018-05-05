@@ -214,7 +214,7 @@ namespace ProudNetSrc.Handlers
             if (!session.UdpEnabled || !_server.UdpSocketManager.IsRunning)
                 return;
 
-            var remotePeer = session.P2PGroup.Members[session.HostId];
+            var remotePeer = session.P2PGroup.Members.GetValueOrDefault(session.HostId);
             if (remotePeer != null)
             {
                 lock (remotePeer._sync)

@@ -310,8 +310,6 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new PlayeArcadeMapInfoAckMessage());
             await session.SendAsync(new PlayerArcadeStageInfoAckMessage());
             await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            await session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubSearchInfoDto>()));
-            await session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubSearchInfoDto>()));
             await session.SendAsync(new ItemInventoryInfoAckMessage
             {
                 Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
@@ -487,10 +485,12 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
             if (plr.Club != null)
             {
-                plr.Club.Broadcast(new ClubMemberLoginStateAckMessage(1, plr.Account.Id));
-                plr.Club.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
-                await session.SendAsync(new ClanMemberListAckMessage(plr.Club.Players.Select(d => d.Value.Map<ClubPlayerInfo, PlayerInfoDto>()).ToArray()));
+                Club.LogOn(plr);
+                await session.SendAsync(new ClanMemberListAckMessage(GameServer.Instance.PlayerManager
+                    .Where(x => (x.Club?.Id ?? 0) == plr.Club.Id).Select(x => x.Map<Player, PlayerInfoDto>())
+                    .ToArray()));
             }
+
             await session.SendAsync(new Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
         }
 

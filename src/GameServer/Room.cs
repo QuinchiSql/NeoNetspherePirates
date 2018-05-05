@@ -7,6 +7,7 @@ using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
+using NeoNetsphere.Network.Data.Chat;
 using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Data.GameRule;
@@ -228,30 +229,19 @@ namespace NeoNetsphere
                 {
                     if (clubList.All(club => club.Id != player.Club.Id))
                     {
-                        clubList.Add(new PlayerClubInfoDto()
-                        {
-                            Id = player.Club.Id,
-                            Name = player.Club.Clan_Name,
-                            Type = player.Club.Clan_Icon,
-                        });
+                        clubList.Add(player.Map<Player, PlayerClubInfoDto>());
                     }
                 }
 
                 if (plr.Club != null)
                 {
-                    BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(new PlayerClubInfoDto()
-                    {
-                        Id = plr.Club.Id,
-                        Name = plr.Club.Clan_Name,
-                        Type = plr.Club.Clan_Icon,
-                    }));
+                    BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
                 }
 
                 plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
-                plr.Session.SendAsync(
-                    new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
+                plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                 plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
-
+                Broadcast(new Network.Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
                 OnPlayerJoining(new RoomPlayerEventArgs(plr));
             }
         }

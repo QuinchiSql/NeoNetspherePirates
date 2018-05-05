@@ -22,7 +22,7 @@ namespace NeoNetsphere.Network.Data.Club
         public int Unk1 { get; set; }
 
         [BlubMember(5)]
-        public int MemberCount { get; set; }
+        public int Level { get; set; } //?
 
         [BlubMember(6)]
         public int Unk2 { get; set; }
@@ -47,7 +47,8 @@ namespace NeoNetsphere.Network.Data.Club
             Type = "";
             Id = 0;
             State = 0;
-            MemberCount = 0;
+            Level = 4;
+            Unk4 = 1;
             Unk5 = -1;
         }
     }

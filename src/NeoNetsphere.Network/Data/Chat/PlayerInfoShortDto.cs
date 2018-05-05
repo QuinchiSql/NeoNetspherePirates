@@ -20,5 +20,12 @@ namespace NeoNetsphere.Network.Data.Chat
 
         [BlubMember(4)]
         public bool IsGM { get; set; }
+
+        public PlayerInfoShortDto()
+        {
+            AccountId = 0;
+            Nickname = "";
+            IsGM = false;
+        }
     }
 }

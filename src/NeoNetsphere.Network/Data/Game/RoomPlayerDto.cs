@@ -31,7 +31,7 @@ namespace NeoNetsphere.Network.Data.Game
         public byte Unk2 { get; set; }
 
         [BlubMember(5)]
-        public byte IsGM { get; set; }
+        public bool IsGM { get; set; }
 
 #if LATESTS4
         [BlubMember(6)]

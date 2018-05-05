@@ -43,6 +43,18 @@ namespace NeoNetsphere
         public ClubPlayerInfo this[ulong id] => _players[id];
         public int Count => _players.Count;
 
+        public static void LogOn(Player plr)
+        {
+            plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(1, plr.Account.Id));
+            plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
+        }
+
+        public static void LogOff(Player plr)
+        {
+            plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(0, plr.Account.Id));
+            plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"2\"  />"));
+        }
+
         public void Broadcast(IClubMessage message)
         {
             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
