@@ -44,7 +44,7 @@ namespace Netsphere
         {
             try
             {
-                using (_sync.Lock())
+                //using (_sync.Lock())
                 {
                     uint id = 1;
                     while (true)
@@ -75,7 +75,7 @@ namespace Netsphere
 
         public Room Create(RoomCreationOptions options, P2PGroup p2pGroup)
         {
-            using (_sync.Lock())
+            //using (_sync.Lock())
             {
                 uint id = 1;
                 while (true)

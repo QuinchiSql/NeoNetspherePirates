@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using BlubLib.Collections.Generic;
 using BlubLib.Collections.Concurrent;
 using BlubLib.DotNetty;
@@ -208,7 +209,7 @@ namespace ProudNetSrc.Handlers
         }
 
         [MessageHandler(typeof(PeerUdp_NotifyHolepunchSuccessMessage))]
-        public void PeerUdp_NotifyHolepunchSuccess(IChannel channel, ProudSession session, PeerUdp_NotifyHolepunchSuccessMessage message)
+        public async Task PeerUdp_NotifyHolepunchSuccess(IChannel channel, ProudSession session, PeerUdp_NotifyHolepunchSuccessMessage message)
         {
             session.Logger?.Debug("PeerUdp_NotifyHolepunchSuccess={@Message}", message);
             if (!session.UdpEnabled || !_server.UdpSocketManager.IsRunning)
@@ -217,7 +218,7 @@ namespace ProudNetSrc.Handlers
             var remotePeer = session.P2PGroup.Members.GetValueOrDefault(session.HostId);
             if (remotePeer != null)
             {
-                lock (remotePeer._sync)
+                using (remotePeer._sync.Lock())
                 {
                     var connectionState = remotePeer.ConnectionStates.GetValueOrDefault(message.HostId);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BlubLib.Collections.Concurrent;
 using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 using ProudNetSrc.Serialization.Messages;
 
 namespace ProudNetSrc
@@ -10,7 +11,7 @@ namespace ProudNetSrc
     public class P2PGroup
     {
         private readonly ConcurrentDictionary<uint, RemotePeer> _members = new ConcurrentDictionary<uint, RemotePeer>();
-        private readonly object _sync = new object(); 
+        internal readonly AsyncLock _sync = new AsyncLock();
         private readonly ProudServer _server;
 
         public uint HostId { get; }
@@ -26,7 +27,7 @@ namespace ProudNetSrc
 
         public void Join(uint hostId)
         {
-            lock (_sync)
+            using(_sync.Lock())
             {
                 var encrypted = _server.Configuration.EnableP2PEncryptedMessaging;
                 Crypt crypt = null;
@@ -75,7 +76,7 @@ namespace ProudNetSrc
 
         public void Leave(uint hostId)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (!_members.TryRemove(hostId, out var memberToLeave))
                     return;

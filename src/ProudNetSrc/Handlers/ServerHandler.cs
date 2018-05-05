@@ -18,7 +18,7 @@
         }
 
         [MessageHandler(typeof(P2P_NotifyDirectP2PDisconnectedMessage))]
-        public void P2P_NotifyDirectP2PDisconnected(ProudSession session, P2P_NotifyDirectP2PDisconnectedMessage message)
+        public async Task P2P_NotifyDirectP2PDisconnected(ProudSession session, P2P_NotifyDirectP2PDisconnectedMessage message)
         {
             if (session.P2PGroup == null)
                 return;
@@ -27,7 +27,7 @@
             var remotePeer = session.P2PGroup.Members.GetValueOrDefault(session.HostId);
             if (remotePeer != null)
             {
-                lock (remotePeer._sync)
+                using (remotePeer._sync.Lock())
                 {
                     var stateA = remotePeer?.ConnectionStates.GetValueOrDefault(message.RemotePeerHostId);
                     var stateB = stateA?.RemotePeer.ConnectionStates.GetValueOrDefault(session.HostId);
@@ -54,7 +54,7 @@
         }
 
         [MessageHandler(typeof(P2PGroup_MemberJoin_AckMessage))]
-        public void P2PGroupMemberJoinAck(ProudSession session, P2PGroup_MemberJoin_AckMessage message)
+        public async Task P2PGroupMemberJoinAck(ProudSession session, P2PGroup_MemberJoin_AckMessage message)
         {
             session.Logger?.Debug("P2PGroupMemberJoinAck {@Message}", message);
             if (session.P2PGroup == null || session.HostId == message.AddedMemberHostId)
@@ -64,7 +64,7 @@
 
             if (remotePeer != null)
             {
-                lock (remotePeer._sync)
+                using (remotePeer._sync.Lock())
                 {
                     var stateA = remotePeer?.ConnectionStates.GetValueOrDefault(message.AddedMemberHostId);
                     if (stateA?.EventId != message.EventId)
@@ -86,7 +86,7 @@
         }
 
         [MessageHandler(typeof(NotifyP2PHolepunchSuccessMessage))]
-        public void NotifyP2PHolepunchSuccess(ProudSession session, NotifyP2PHolepunchSuccessMessage message)
+        public async Task NotifyP2PHolepunchSuccess(ProudSession session, NotifyP2PHolepunchSuccessMessage message)
         {
             session.Logger?.Debug("NotifyP2PHolepunchSuccess {@Message}", message);
             var group = session.P2PGroup;
@@ -103,9 +103,9 @@
             if (stateA == null || stateB == null)
                 return;
 
-            lock(remotePeerA._sync)
+            using (remotePeerA._sync.Lock())
             {
-                lock (remotePeerB._sync)
+                using (remotePeerB._sync.Lock())
                 {
                     if (session.HostId == remotePeerA.HostId)
                     {
@@ -139,7 +139,7 @@
         }
 
         [MessageHandler(typeof(NotifyJitDirectP2PTriggeredMessage))]
-        public void NotifyJitDirectP2PTriggered(ProudSession session, NotifyJitDirectP2PTriggeredMessage message)
+        public async Task NotifyJitDirectP2PTriggered(ProudSession session, NotifyJitDirectP2PTriggeredMessage message)
         {
             session.Logger?.Debug("NotifyJitDirectP2PTriggered {@Message}", message);
             var group = session.P2PGroup;
@@ -151,9 +151,9 @@
             if (remotePeerA == null || remotePeerB == null)
                 return;
 
-            lock (remotePeerA._sync)
+            using (remotePeerA._sync.Lock())
             {
-                lock (remotePeerB._sync)
+                using (remotePeerB._sync.Lock())
                 {
                     var stateA = remotePeerA.ConnectionStates.GetValueOrDefault(remotePeerB.HostId);
                     var stateB = remotePeerB.ConnectionStates.GetValueOrDefault(remotePeerA.HostId);

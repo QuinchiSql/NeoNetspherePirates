@@ -29,7 +29,7 @@ namespace ProudNetSrc
         private readonly IEventLoopGroup _socketWorkerThreads;
         private readonly IEventLoop _workerThread;
         private readonly ConcurrentDictionary<uint, ProudSession> _sessions = new ConcurrentDictionary<uint, ProudSession>();
-        private readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public bool IsRunning { get; private set; }
         public IReadOnlyDictionary<uint, ProudSession> Sessions => _sessions;
@@ -211,7 +211,7 @@ namespace ProudNetSrc
 
         public void Broadcast(object message, SendOptions options)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 foreach (var session in Sessions.Values)
                     session?.SendAsync(message, options);
@@ -220,7 +220,7 @@ namespace ProudNetSrc
 
         public void Broadcast(object message)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 foreach (var session in Sessions.Values)
                     session?.SendAsync(message);
@@ -299,7 +299,7 @@ namespace ProudNetSrc
 
         internal void AddSession(ProudSession session)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 Configuration.Logger?.Debug("Adding new session {HostId}", session.HostId);
                 _sessions[session.HostId] = session;
@@ -309,7 +309,7 @@ namespace ProudNetSrc
 
         internal void RemoveSession(ProudSession session)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 Configuration.Logger?.Debug("Removing session {HostId}", session.HostId);
                 _sessions.Remove(session.HostId);

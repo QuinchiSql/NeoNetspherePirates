@@ -2,13 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 
 namespace ProudNetSrc
 {
     public class P2PGroupManager : IReadOnlyDictionary<uint, P2PGroup>
     {
         private readonly ConcurrentDictionary<uint, P2PGroup> _groups = new ConcurrentDictionary<uint, P2PGroup>();
-        private readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
         private readonly ProudServer _server;
 
         internal P2PGroupManager(ProudServer server)
@@ -18,7 +19,7 @@ namespace ProudNetSrc
 
         public P2PGroup Create(bool allowDirectP2P)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 var group = new P2PGroup(_server, allowDirectP2P);
                 _groups.TryAdd(group.HostId, group);
@@ -30,7 +31,7 @@ namespace ProudNetSrc
 
         public void Remove(uint groupHostId)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (_groups.TryRemove(groupHostId, out var group))
                 {

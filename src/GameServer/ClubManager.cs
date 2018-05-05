@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 using Dapper.FastCrud;
 using MySqlX.XDevAPI.CRUD;
 using NeoNetsphere;
@@ -17,13 +18,13 @@ namespace NeoNetsphere
     internal class ClubManager : IReadOnlyCollection<Club>
     {
         private readonly ConcurrentDictionary<uint, Club> _clubs = new ConcurrentDictionary<uint, Club>();
-        private readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public Club this[uint id] => GetClub(id);
 
         public Club GetClub(uint id)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 Club Club;
                 _clubs.TryGetValue(id, out Club);
@@ -33,7 +34,7 @@ namespace NeoNetsphere
 
         public Club GetClubByAccount(ulong id)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return _clubs.Values.FirstOrDefault(c => c.Players.Any(p => p.Value.AccountId == id));
             }
@@ -51,7 +52,7 @@ namespace NeoNetsphere
 
         public void Remove(Club club)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (club == null)
                     return;
@@ -61,7 +62,7 @@ namespace NeoNetsphere
 
         public void Add(Club club)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 club.NeedsToSave = true;
                 _clubs.TryAdd(club.Id, club);
@@ -74,7 +75,7 @@ namespace NeoNetsphere
 
         public IEnumerator<Club> GetEnumerator()
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return _clubs.Values.GetEnumerator();
             }
@@ -82,7 +83,7 @@ namespace NeoNetsphere
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return GetEnumerator();
             }

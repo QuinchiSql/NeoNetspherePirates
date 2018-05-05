@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using BlubLib.Threading.Tasks;
 using Dapper.FastCrud;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
@@ -23,7 +25,7 @@ namespace NeoNetsphere
             Log.ForContext(Constants.SourceContextPropertyName, nameof(CharacterManager));
 
         private readonly Dictionary<byte, Character> _characters = new Dictionary<byte, Character>();
-        private readonly object _sync = new object();
+        private readonly AsyncLock _sync = new AsyncLock();
 
         private readonly ConcurrentStack<Character> _charactersToDelete = new ConcurrentStack<Character>();
 
@@ -53,7 +55,7 @@ namespace NeoNetsphere
 
         public IEnumerator<Character> GetEnumerator()
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return _characters.Values.GetEnumerator();
             }
@@ -61,7 +63,7 @@ namespace NeoNetsphere
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return GetEnumerator();
             }
@@ -73,7 +75,7 @@ namespace NeoNetsphere
         /// </summary>
         public Character GetCharacter(byte slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return _characters.GetValueOrDefault(slot);
             }
@@ -85,7 +87,7 @@ namespace NeoNetsphere
         /// <exception cref="CharacterException"></exception>
         public Character Create(byte slot, CharacterGender gender, byte hair, byte face, byte shirt, byte pants)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (Count >= 3)
                     throw new CharacterException("Character limit reached");
@@ -119,7 +121,7 @@ namespace NeoNetsphere
 
         public Character CreateFirst(byte slot, CharacterGender gender, byte hair, byte face, byte shirt, byte pants)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (Count >= 3)
                     throw new CharacterException("Character limit reached");
@@ -154,9 +156,9 @@ namespace NeoNetsphere
         ///     Selects the character on the given slot
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void Select(byte slot)
+        public async Task Select(byte slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (!Contains(slot))
                     throw new ArgumentException($"Slot {slot} does not exist", nameof(slot));
@@ -182,9 +184,9 @@ namespace NeoNetsphere
         ///     Removes the character
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void Remove(Character @char)
+        public async Task Remove(Character @char)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 Remove(@char.Slot);
             }
@@ -194,9 +196,9 @@ namespace NeoNetsphere
         ///     Removes the character on the given slot
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public void Remove(byte slot)
+        public async Task Remove(byte slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 var @char = GetCharacter(slot);
                 if (@char == null)
@@ -209,9 +211,9 @@ namespace NeoNetsphere
             }
         }
 
-        internal void Save(IDbConnection db)
+        internal async Task Save(IDbConnection db)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (!_charactersToDelete.IsEmpty)
                 {

@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using BlubLib.Collections.Concurrent;
+using BlubLib.Threading.Tasks;
 using NeoNetsphere;
 using NeoNetsphere.Network;
 using NeoNetsphere.Network.Message.Chat;
@@ -16,7 +17,7 @@ namespace Netsphere.Game.Systems
     internal class TeamManager : IReadOnlyDictionary<Team, PlayerTeam>
     {
         private readonly ConcurrentDictionary<Team, PlayerTeam> _teams = new ConcurrentDictionary<Team, PlayerTeam>();
-        public readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public EventHandler<TeamChangedEventArgs> TeamChanged;
 
@@ -37,7 +38,7 @@ namespace Netsphere.Game.Systems
 
         public void Add(Team team, uint playerLimit, uint spectatorLimit)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 var playerTeam = new PlayerTeam(this, team, playerLimit, spectatorLimit);
                 if (!_teams.TryAdd(team, playerTeam))
@@ -47,7 +48,7 @@ namespace Netsphere.Game.Systems
 
         public void Remove(Team team)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 _teams.Remove(team);
             }
@@ -55,7 +56,7 @@ namespace Netsphere.Game.Systems
 
         public void Join(Player plr)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
 
                 // Get teams with space
@@ -76,7 +77,7 @@ namespace Netsphere.Game.Systems
 
         public void ChangeTeam(Player plr, Team team)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 //if (plr.Room != Room)
                 //throw new RoomException("Player is not inside this room");
@@ -115,7 +116,7 @@ namespace Netsphere.Game.Systems
 
         public void ChangeMode(Player plr, PlayerGameMode mode)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 //if (plr.Room != Room)
                 //throw new RoomException("Player is not inside this room");
@@ -229,7 +230,7 @@ namespace Netsphere.Game.Systems
     internal class PlayerTeam : IReadOnlyDictionary<byte, Player>
     {
         private readonly ConcurrentDictionary<byte, Player> _players = new ConcurrentDictionary<byte, Player>();
-        public readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public EventHandler<RoomPlayerEventArgs> PlayerJoined;
         public EventHandler<RoomPlayerEventArgs> PlayerLeft;
@@ -268,7 +269,7 @@ namespace Netsphere.Game.Systems
 
         public void Join(Player plr)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (plr.RoomInfo.Team == this)
                     throw new RoomException("Actor is already in this team");
@@ -303,7 +304,7 @@ namespace Netsphere.Game.Systems
 
         public void Leave(Player plr)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (plr.RoomInfo.Team != this)
                     return;

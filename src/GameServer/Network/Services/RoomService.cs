@@ -93,7 +93,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(RoomMakeReq2Message))]
-        public void CMakeRoomReq2(GameSession session, RoomMakeReq2Message message)
+        public async Task CMakeRoomReq2(GameSession session, RoomMakeReq2Message message)
         {
             var plr = session.Player;
             if (plr.Room != null)

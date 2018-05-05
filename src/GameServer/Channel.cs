@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using BlubLib.Threading.Tasks;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
@@ -16,7 +17,7 @@ namespace NeoNetsphere
     internal class Channel
     {
         private readonly IDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
-        private readonly object _sync = new object();
+        private readonly AsyncLock _sync = new AsyncLock();
 
         public Channel()
         {
@@ -40,16 +41,16 @@ namespace NeoNetsphere
             RoomManager.Update(delta);
         }
 
-        public void Join(Player plr, bool noMessage = false)
+        public async Task Join(Player plr, bool noMessage = false)
         {
-            lock (_sync)
-            {
                 if (plr.Channel != null)
                     throw new ChannelException("Player is already inside a channel");
 
                 if (Players.Count >= PlayerLimit)
                     throw new ChannelLimitReachedException();
 
+            //using (_sync.Lock())
+            {
                 foreach (var playr in _players.Values.Where(p => p.LocationInfo.Invisible != true))
                     playr.ChatSession.SendAsync(
                         new ChannelEnterPlayerAckMessage(plr.Map<Player, PlayerInfoShortDto>()));
@@ -74,13 +75,13 @@ namespace NeoNetsphere
             }
         }
 
-        public void Leave(Player plr, bool noMessage = false)
+        public async Task Leave(Player plr, bool noMessage = false)
         {
-            lock (_sync)
-            {
                 if (plr.Channel != this)
                     throw new ChannelException("Player is not in this channel");
 
+            //using (_sync.Lock())
+            {
                 _players.Remove(plr.Account.Id);
                 plr.Channel = null;
 

@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 using Dapper.FastCrud;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
@@ -28,7 +29,7 @@ namespace NeoNetsphere.Network.Services
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ClubService));
 
-        private readonly object _sync = new object();
+        private readonly AsyncLock _sync = new AsyncLock();
 
         public static async Task Update(GameSession session = null, bool broadcast = false)
         {
@@ -55,7 +56,10 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(ClubClubInfoReqMessage))]
         public async Task ClubClubInfoReq(GameSession session, ClubClubInfoReqMessage message)
         {
-            await ClubClubInfoReq2(session, message.Map<ClubClubInfoReqMessage, ClubClubInfoReq2Message>());
+            var plr = session.Player;
+            if (plr == null)
+                return;
+            await session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubSearchInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubClubInfoReq2Message))]
@@ -73,7 +77,7 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
             if(plr == null)
                 return;
-            //await session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+            await session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubJoinWaiterInfoReqMessage))]
@@ -120,7 +124,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ClubCreateReq2Message))]
-        public void ClubCreateReq2(GameSession session, ClubCreateReq2Message message)
+        public async Task ClubCreateReq2(GameSession session, ClubCreateReq2Message message)
         {
             var plr = session.Player;
             if (plr == null)
@@ -130,7 +134,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ClubCreateAck2Message(1));
             else
             {
-                lock (_sync)
+                //using (_sync.Lock())
                 {
                     var clubDto = new ClubDto()
                     {
@@ -187,6 +191,7 @@ namespace NeoNetsphere.Network.Services
 
                         session.SendAsync(new ClubCreateAck2Message(0));
                         session.SendAsync(new ClubMyInfoAckMessage(session.Player.Map<Player, MyInfoDto>()));
+                        session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
                         Club.LogOn(plr);
                     }
                 }
@@ -243,7 +248,7 @@ namespace NeoNetsphere.Network.Services
                 {
                     ClanId = message.ClanId,
                     AccountId = 0,
-                    Nickname = "",
+                    Nickname = "n/A",
                 });
             }
         }
@@ -309,7 +314,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ClubUnjoinReq2Message))]
-        public void ClubUnjoinReq2(GameSession session, ClubUnjoinReq2Message message)
+        public async Task ClubUnjoinReq2(GameSession session, ClubUnjoinReq2Message message)
         {
             var plr = session.Player;
             if (plr?.Club == null || plr.Club.Id != message.ClanId)
@@ -317,7 +322,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ClubUnjoinAck2Message(4));
                 return;
             }
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (plr.Club.Players.Values.Any(x => x.account.Id == (int)plr.Account.Id && !x.IsMod))
                 {
@@ -366,7 +371,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ClubCloseReq2Message))]
-        public void ClubCloseReq2(GameSession session, ClubCloseReq2Message message)
+        public async Task ClubCloseReq2(GameSession session, ClubCloseReq2Message message)
         {
             var plr = session.Player;
             if (plr?.Club == null || plr.Club.Id != message.ClanId)
@@ -375,7 +380,7 @@ namespace NeoNetsphere.Network.Services
                 return;
             }
 
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (plr.Club.Players.Values.Any(x => x.account.Id == (int) plr.Account.Id && x.IsMod))
                 {
@@ -402,7 +407,6 @@ namespace NeoNetsphere.Network.Services
 
                             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == club.Id))
                             {
-                                member.Session?.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
                                 member.Session?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
                                 member.Club = null;
                             }

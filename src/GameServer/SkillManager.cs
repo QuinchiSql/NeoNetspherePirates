@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BlubLib.Threading.Tasks;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network.Message.Game;
 using Netsphere;
@@ -11,7 +12,7 @@ namespace NeoNetsphere
     {
         private readonly Character _character;
         public readonly PlayerItem[] _items = new PlayerItem[2];
-        private readonly object _sync = new object();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         internal SkillManager(Character @char, PlayerCharacterDto dto)
         {
@@ -28,7 +29,7 @@ namespace NeoNetsphere
 
         public void Equip(PlayerItem item, SkillSlot slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 if (item == null)
                     throw new ArgumentNullException(nameof(item));
@@ -64,7 +65,7 @@ namespace NeoNetsphere
 
         public void UnEquip(SkillSlot slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 var plr = _character.CharacterManager.Player;
                 if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby) // Cant change items while playing
@@ -99,7 +100,7 @@ namespace NeoNetsphere
 
         public PlayerItem GetItem(SkillSlot slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 switch (slot)
                 {
@@ -114,7 +115,7 @@ namespace NeoNetsphere
 
         public IReadOnlyList<PlayerItem> GetItems()
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 return _items;
             }
@@ -122,7 +123,7 @@ namespace NeoNetsphere
 
         public bool CanEquip(PlayerItem item, SkillSlot slot)
         {
-            lock (_sync)
+            //using (_sync.Lock())
             {
                 // ReSharper disable once UseNullPropagation
                 if (item == null)

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using ExpressMapper.Extensions;
@@ -35,8 +36,8 @@ namespace NeoNetsphere
 
         private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
         private readonly ConcurrentDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
-        private readonly object _playerSync = new object();
-        private readonly object _masterSync = new object();
+        private readonly AsyncLock _playerSync = new AsyncLock();
+        private readonly AsyncLock _masterSync = new AsyncLock();
 
 
         private TimeSpan _changingRulesTimer;
@@ -132,10 +133,8 @@ namespace NeoNetsphere
             GameRuleManager.Update(delta);
         }
 
-        public void Join(Player plr)
+        public async Task Join(Player plr)
         {
-            lock(_playerSync)
-            {
                 if (plr.Room != null)
                     throw new RoomException("Player is already inside a room");
 
@@ -154,6 +153,8 @@ namespace NeoNetsphere
                 if (_kickedPlayers.ContainsKey(plr.Account.Id) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
                     throw new RoomAccessDeniedException();
 
+            using (_playerSync.Lock())
+            {
                 {//slotIdLock()
                     byte id = 3;
                     while (Players.Values.Any(p => p.RoomInfo.Slot == id))
@@ -246,9 +247,9 @@ namespace NeoNetsphere
             }
         }
 
-        public void Leave(Player plr, RoomLeaveReason roomLeaveReason = RoomLeaveReason.Left)
+        public async Task Leave(Player plr, RoomLeaveReason roomLeaveReason = RoomLeaveReason.Left)
         {
-            lock (_playerSync)
+            using (_playerSync.Lock())
             {
                 if (plr.Room != this)
                     return;
@@ -308,7 +309,7 @@ namespace NeoNetsphere
 
         public bool ChangeMasterIfNeeded(Player plr, bool force = false)
         {
-            lock (_masterSync)
+            using (_masterSync.Lock())
             {
                 if (plr.Room == this && plr.Room.TeamManager.Players.Count() != 1 && plr.Room.Master != null &&
                     (!force || Master == plr))
@@ -322,7 +323,7 @@ namespace NeoNetsphere
 
         public bool ChangeHostIfNeeded(Player plr, bool force = false)
         {
-            lock (_masterSync)
+            using (_masterSync.Lock())
             {
                 if (plr.Room == this && Host != null && plr.Room.TeamManager.Players.Count() != 1 &&
                     (!force || Host == plr))
@@ -340,9 +341,9 @@ namespace NeoNetsphere
             ChangeRules2(options.Map<ChangeRuleDto, ChangeRuleDto2>());
         }
 
-        public void ChangeRules2(ChangeRuleDto2 options)
+        public async Task ChangeRules2(ChangeRuleDto2 options)
         {
-            lock (_playerSync)
+            using (_playerSync.Lock())
             {
                 if (IsChangingRules)
                 {
