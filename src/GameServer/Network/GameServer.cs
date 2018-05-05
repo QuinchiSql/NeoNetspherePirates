@@ -404,19 +404,10 @@ namespace NeoNetsphere.Network
                 .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? src.Channel.Id : -1)
                 .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int)src.Room.Id : -1);
 
-            Mapper.Register<PlayerDto, ClubMemberDto>()
-                .Member(dest => dest.AccountId, src => src.Id)
-                .Function(dest => dest.Nickname, src =>
-                 {
-                     using (var db = AuthDatabase.Open())
-                     {
-                         var account = db.Find<AccountDto>(statement => statement
-                             .Where($"{nameof(AccountDto.Id):C} = @Id")
-                             .WithParameters(new { src.Id })).FirstOrDefault();
-                         return account?.Nickname ?? "n/A";
-                     }
-                 })
-                .Function(dest => dest.ServerId, src => Config.Instance.Id)
+            Mapper.Register<ClubPlayerInfo, ClubMemberDto>()
+                .Function(dest => dest.AccountId, src => src.AccountId)
+                .Function(dest => dest.Nickname, src => src.account?.Nickname ?? "n/A")
+                .Member(dest => dest.ServerId, src => -1)
                 .Member(dest => dest.ChannelId, src => -1)
                 .Member(dest => dest.RoomId, src => -1);
 

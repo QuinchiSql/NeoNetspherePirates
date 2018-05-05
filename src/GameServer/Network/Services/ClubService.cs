@@ -252,28 +252,15 @@ namespace NeoNetsphere.Network.Services
         public void ClubMemberListReq(ChatSession session, ClubMemberListReqMessage message)
         {
             var plr = session.Player;
-            if (plr == null)
-                return;
-            
-            //Todo
             if (plr?.Club != null)
             {
-                lock (_sync)
-                {
-                    using (var db = GameDatabase.Open())
-                    {
-                        var members = db.Find<ClubPlayerDto>(statement => statement
-                            .Where($"{nameof(ClubPlayerDto.ClubId):C} = @Id")
-                            .WithParameters(new {plr.Club.Id}));
+                var clanMembers = new List<ClubMemberDto>();
 
-                        var clanMembers = new List<ClubMemberDto>();
-                        clanMembers.AddRange(GameServer.Instance.PlayerManager.Where(p => plr.Club.Players.Keys.Contains(p.Account.Id))
-                            .Select(p => p.Map<Player, ClubMemberDto>()));
-                        clanMembers.AddRange(members.Select(x => x.Player.Map<PlayerDto, ClubMemberDto>()));
+                clanMembers.AddRange(GameServer.Instance.PlayerManager.Where(p => plr.Club.Players.Keys.Contains(p.Account.Id))
+                    .Select(p => p.Map<Player, ClubMemberDto>()));
+                clanMembers.AddRange(plr.Club.Players.Select(x => x.Value.Map<ClubPlayerInfo, ClubMemberDto>()));
 
-                        plr.ChatSession.SendAsync(new ClubMemberListAckMessage(plr.Club.Id, clanMembers.ToArray()));
-                    }
-                }
+                plr.ChatSession.SendAsync(new ClubMemberListAckMessage(plr.Club.Id, clanMembers.ToArray()));
             }
         }
 
@@ -281,13 +268,16 @@ namespace NeoNetsphere.Network.Services
         public void ClubMemberListReq2(ChatSession session, ClubMemberListReq2Message message)
         {
             var plr = session.Player;
-            if (plr == null)
-                return;
-            
-            //Todo
             if (plr?.Club != null)
-                plr.ChatSession.SendAsync(new ClubMemberListAck2Message(plr.Club.Id, GameServer.Instance.PlayerManager.Where(p =>
-                    plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
+            {
+                var clanMembers = new List<ClubMemberDto>();
+
+                clanMembers.AddRange(GameServer.Instance.PlayerManager.Where(p => plr.Club.Players.Keys.Contains(p.Account.Id))
+                    .Select(p => p.Map<Player, ClubMemberDto>()));
+                clanMembers.AddRange(plr.Club.Players.Select(x => x.Value.Map<ClubPlayerInfo, ClubMemberDto>()));
+
+                plr.ChatSession.SendAsync(new ClubMemberListAck2Message(plr.Club.Id, clanMembers.ToArray()));
+            }
         }
 
         [MessageHandler(typeof(ClubNoteSendReq2Message))]
