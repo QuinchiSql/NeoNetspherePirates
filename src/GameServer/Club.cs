@@ -46,13 +46,13 @@ namespace NeoNetsphere
         public static void LogOn(Player plr)
         {
             plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(1, plr.Account.Id));
-            plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
+            //plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
         }
 
         public static void LogOff(Player plr)
         {
             plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(0, plr.Account.Id));
-            plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"2\"  />"));
+            //plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"2\"  />"));
         }
 
         public void Broadcast(IClubMessage message)

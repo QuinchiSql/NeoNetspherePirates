@@ -389,6 +389,7 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, MyInfoDto>()
                 .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
+                .Member(dest => dest.Level, src => src.Club != null ? src.Club.Count : 0)
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "")
                 .Member(dest => dest.State, src => src.Club != null ? src.Club[src.Account.Id].State : 0);
 

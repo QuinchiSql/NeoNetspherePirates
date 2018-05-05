@@ -47,10 +47,7 @@ namespace NeoNetsphere.Network.Data.Club
             Type = "";
             Id = 0;
             State = 0;
-            Level = 4;
-            Unk4 = 1;
             Unk5 = -1;
-            Unk6 = 449678389;
         }
     }
 }

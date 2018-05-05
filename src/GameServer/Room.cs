@@ -133,7 +133,7 @@ namespace NeoNetsphere
             GameRuleManager.Update(delta);
         }
 
-        public async Task Join(Player plr)
+        public void Join(Player plr)
         {
                 if (plr.Room != null)
                     throw new RoomException("Player is already inside a room");
@@ -242,6 +242,8 @@ namespace NeoNetsphere
                 plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
                 plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                 plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
+                plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
+                plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
                 Broadcast(new Network.Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
                 OnPlayerJoining(new RoomPlayerEventArgs(plr));
             }
