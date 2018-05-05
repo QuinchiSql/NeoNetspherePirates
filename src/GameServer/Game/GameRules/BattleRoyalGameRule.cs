@@ -63,7 +63,8 @@ namespace Netsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.SpectatorLimit);
+            Room.TeamManager.Add(Team.Alpha, (uint)Room.Options.PlayerLimit / 2, (uint)Room.Options.SpectatorLimit / 2);
+            Room.TeamManager.Add(Team.Beta, (uint)Room.Options.PlayerLimit / 2, (uint)Room.Options.SpectatorLimit / 2);
 
             base.Initialize();
         }
@@ -71,6 +72,7 @@ namespace Netsphere.Game.GameRules
         public override void Cleanup()
         {
             Room.TeamManager.Remove(Team.Alpha);
+            Room.TeamManager.Remove(Team.Beta);
 
             base.Cleanup();
         }
