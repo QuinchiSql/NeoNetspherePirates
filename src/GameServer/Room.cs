@@ -73,7 +73,7 @@ namespace NeoNetsphere
         public GameTimeState SubGameState { get; set; } = GameTimeState.None;
         public TimeSpan RoundTime { get; set; } = TimeSpan.Zero;
 
-        public IReadOnlyDictionary<ulong, Player> Players => _players;
+        public IReadOnlyDictionary<ulong, Player> Players => TeamManager.Players.ToDictionary(x => x.Account?.Id ?? 0);
 
         public Player Master { get; private set; }
         public Player Host { get; private set; }
@@ -187,7 +187,7 @@ namespace NeoNetsphere
                 plr.RoomInfo.Mode = joinAsSpectator ? PlayerGameMode.Spectate : PlayerGameMode.Normal;
                 plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
                 TeamManager.Join(plr);
-
+                
                 _players.TryAdd(plr.Account.Id, plr);
                 plr.Room = this;
                 plr.RoomInfo.IsConnecting = true;
@@ -234,12 +234,12 @@ namespace NeoNetsphere
 
                 plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
                 BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
-                plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values
+                plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(TeamManager.Players
                     .Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
                 plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage());
 
                 var clubList = new List<PlayerClubInfoDto>();
-                foreach (var player in _players.Values.Where(p => p.Club != null))
+                foreach (var player in TeamManager.Players.Where(p => p.Club != null))
                 {
                     if (clubList.All(club => club.Id != player.Club.Id))
                     {
@@ -303,7 +303,7 @@ namespace NeoNetsphere
                         new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                     plr.Session?.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
                     
-                    if (_players != null && _players.Count > 0)
+                    if (TeamManager.Players.Any())
                     {
                         ChangeMasterIfNeeded(GetPlayerWithLowestPing());
                         ChangeHostIfNeeded(GetPlayerWithLowestPing());
@@ -489,7 +489,7 @@ namespace NeoNetsphere
                 Options.HasSpectator = options.HasSpectator;
                 Options.SpectatorLimit = options.SpectatorLimit;
                 Options.IsWithoutStats = isWithoutStats;
-                _players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
+                TeamManager.Players.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
 
                 GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapId];
                 GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
@@ -500,7 +500,7 @@ namespace NeoNetsphere
 
         private Player GetPlayerWithLowestPing()
         {
-            return _players.Values.Aggregate((lowestPlayer, player) =>
+            return TeamManager.Players.Aggregate((lowestPlayer, player) =>
                 lowestPlayer == null || player.Session.UnreliablePing < lowestPlayer.Session.UnreliablePing
                     ? player
                     : lowestPlayer);
@@ -598,43 +598,43 @@ namespace NeoNetsphere
 
         public void Broadcast(IGameMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in TeamManager.Players)
                 plr.Session.SendAsync(message);
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in TeamManager.Players)
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => x != blacklisted))
+            foreach (var plr in TeamManager.Players.Where(x => x != blacklisted))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => x != blacklisted))
+            foreach (var plr in TeamManager.Players.Where(x => x != blacklisted))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in TeamManager.Players.Where(x => !blacklist.Contains(x)))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in TeamManager.Players.Where(x => !blacklist.Contains(x)))
                 plr.Session.SendAsync(message);
         }
 
         public void Broadcast(IChatMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in TeamManager.Players)
                 plr.ChatSession.SendAsync(message);
         }
 

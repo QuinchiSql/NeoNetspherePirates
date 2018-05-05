@@ -232,7 +232,7 @@ namespace NeoNetsphere.Game.GameRules
 
                 if (Room.TeamManager.PlayersPlaying.Count() > 1)
                 {
-                    Chaser = Room.Players.Values.ElementAt(_random.Next(0, Room.Players.Count));
+                    Chaser = Room.TeamManager.Players.ElementAt(_random.Next(0, Room.TeamManager.Players.Count()));
                 }
                 else if (Room.TeamManager.PlayersPlaying.Count() == 1)
                     Chaser = Room.TeamManager.PlayersPlaying.ToList()[0];

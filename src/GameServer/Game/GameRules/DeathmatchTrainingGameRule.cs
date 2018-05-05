@@ -123,7 +123,7 @@ namespace Netsphere.Game.GameRules
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget, LongPeerId scoreKiller, LongPeerId scoreAssist)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
@@ -144,7 +144,7 @@ namespace Netsphere.Game.GameRules
         public override void OnScoreTeamKill(Player killer, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreKiller, LongPeerId scoreTarget)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
@@ -159,7 +159,7 @@ namespace Netsphere.Game.GameRules
 
         public override void OnScoreSuicide(Player target, LongPeerId scoreTarget)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId

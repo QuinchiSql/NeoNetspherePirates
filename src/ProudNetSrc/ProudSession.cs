@@ -84,6 +84,10 @@ namespace ProudNetSrc
         public Task SendAsync(object message, SendOptions options)
         {
             Logger?.Verbose("Sending message {MessageType} using options={@Options}", message.GetType().Name, options);
+            if (!Channel.Open || !Channel.Active)
+            {
+                return Task.CompletedTask;
+            }
             return _disposed ? Task.CompletedTask : Channel.WriteAndFlushAsync(new SendContext(message, options));
         }
 
@@ -96,6 +100,10 @@ namespace ProudNetSrc
         internal Task SendAsync(ICoreMessage message)
         {
             Logger?.Verbose("Sending core message {MessageType}", message.GetType().Name);
+            if (!Channel.Open || !Channel.Active)
+            {
+                return Task.CompletedTask;
+            }
             return _disposed ? Task.CompletedTask : Channel.Pipeline.Context("coreHandler").WriteAndFlushAsync(message);
         }
 

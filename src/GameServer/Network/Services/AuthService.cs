@@ -541,15 +541,16 @@ namespace NeoNetsphere.Network.Services
             Logger.ForAccount(session)
                 .Information("Login success");
 
-            await session.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
-                plr.Account.Nickname));
-            foreach (var p in plr.Room.Players.Values.Where(
-                p => p.RelaySession?.P2PGroup != null /*&& p.Account.Id != plr.Account.Id*/))
+            await session.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id, plr.Account.Nickname));
+            foreach (var p in plr.Room.TeamManager.Players.Where(p => p.RelaySession?.P2PGroup != null))
             {
-                await p.RelaySession.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
-                    plr.Account.Nickname));
-                await session.SendAsync(new SEnterLoginPlayerMessage(p.RelaySession.HostId, p.Account.Id,
-                    p.Account.Nickname));
+                if (p.RelaySession != null)
+                {
+                    await p.RelaySession.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
+                        plr.Account.Nickname));
+                    await session.SendAsync(new SEnterLoginPlayerMessage(p.RelaySession.HostId, p.Account.Id,
+                        p.Account.Nickname));
+                }
             }
 
             plr.Room.Group?.Join(session.HostId);
