@@ -19,7 +19,6 @@ namespace Netsphere.Game.GameRules
 
         protected GameRuleBase(Room room)
         {
-
             Room = room;
             StateMachine = new StateMachine<GameRuleState, GameRuleStateTrigger>(GameRuleState.Waiting);
             StateMachine.OnTransitioned(StateMachine_OnTransition);
@@ -33,9 +32,10 @@ namespace Netsphere.Game.GameRules
 
         public TimeSpan GameTime { get; private set; }
         public TimeSpan RoundTime { get; private set; }
-
+        
         public byte GameStartState { get; set; }
         public int GameStartTimeMs { get; set; } = 3500;
+        public TimeSpan GameLoadMaxTime = TimeSpan.FromSeconds(10);
         public TimeSpan GameStartTime { get; set; }
 
         public virtual void Initialize()
@@ -89,6 +89,14 @@ namespace Netsphere.Game.GameRules
                     else
                     {
                         GameStartState = 2;
+                        if (Room.RoundTime > GameLoadMaxTime)
+                        {
+                            foreach (var player in Room.TeamManager.Players.Where(x =>
+                                (x.RoomInfo.IsReady || Room.Master == x) && !x.RoomInfo.HasLoaded))
+                            {
+                                Room.Leave(player, RoomLeaveReason.AFK);
+                            }
+                        }
                         foreach (var member in Room.Players.Values)
                             if (member.RoomInfo.HasLoaded)
                             {
@@ -105,6 +113,7 @@ namespace Netsphere.Game.GameRules
             }
             else if (GameStartState == 3)
             {
+                RoundTime = TimeSpan.Zero;
                 GameStartState = 4;
                 Room.isPreparing = false;
                 if (StateMachine.CanFire(GameRuleStateTrigger.StartGame))

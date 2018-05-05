@@ -22,11 +22,13 @@ namespace NeoNetsphere.Network.Services
             if (session.Player?.Room == null && session.UnreliablePing > 500)
                 session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
         }
+
         [MessageHandler(typeof(CheckhashKeyvaluereqMessage))]
         public void CheckhashKeyvaluereq(GameSession session, CheckhashKeyvaluereqMessage message)
         {
+            //if(message.hash != "")
+            //    session.Dispose();
             //handle
         }
-        
     }
 }

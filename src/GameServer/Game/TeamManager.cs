@@ -57,6 +57,7 @@ namespace Netsphere.Game.Systems
         {
             lock (_sync)
             {
+
                 // Get teams with space
                 var teams = _teams.Values
                     .Where(t => t.PlayerLimit > 0 && t.Players.Count() < (t.PlayerLimit + t.SpectatorLimit)).ToArray();

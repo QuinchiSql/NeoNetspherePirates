@@ -628,17 +628,7 @@ namespace NeoNetsphere.Network.Services
         public void CAvatarChangeReq(GameSession session, GameAvatarChangeReqMessage message)
         {
             var plr = session.Player;
-            if (plr.Room == null)
-                return;
-
-            if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.HalfTime && 
-                plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
-            {
-                session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                return;
-            }
-
-            plr.Room.Broadcast(new GameAvatarChangeAckMessage(message.Unk1, message.Unk2));
+            plr.Room?.Broadcast(new GameAvatarChangeAckMessage(message.Unk1, message.Unk2));
         }
 
         [MessageHandler(typeof(RoomChangeRuleNotifyReqMessage))]
@@ -700,7 +690,6 @@ namespace NeoNetsphere.Network.Services
                 if ((room.Master != plr || plr.Account.SecurityLevel < SecurityLevel.Tester) &&
                     !room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting))
                 {
-                    session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
             }
@@ -738,7 +727,7 @@ namespace NeoNetsphere.Network.Services
                             continue;
 
                         var priority = 0;
-                        priority += System.Math.Abs(room.TeamManager[Team.Alpha].Players.Count() -
+                        priority += Math.Abs(room.TeamManager[Team.Alpha].Players.Count() -
                                                     room.TeamManager[Team.Beta].Players
                                                         .Count()); // Calculating team balance
 

@@ -6,7 +6,7 @@
         <RootNamespace>NeoNetsphere</RootNamespace>
         <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release;LatestOld_Release;LatestOld_Debug</Configurations>
         <Version>2.0.0</Version>
-        <AssemblyVersion>2018.2.42.176</AssemblyVersion>
+        <AssemblyVersion>2018.2.42.177</AssemblyVersion>
         <FileVersion>2018.2.42.176</FileVersion>
         <StartupObject>NeoNetsphere.Program</StartupObject>
         <PackageReleaseNotes />

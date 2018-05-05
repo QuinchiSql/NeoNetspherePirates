@@ -121,8 +121,8 @@ namespace NeoNetsphere.Network.Services
                 case ChatType.Club:
                     if (session.Player.Club != null)
                     {
-                        var clanmembers = GameServer.Instance.PlayerManager.Where(p =>
-                            session.Player.Club.Players.Keys.Contains(p.Account.Id));
+                        var clanmembers =
+                            GameServer.Instance.PlayerManager.Where(p => p.Club?.Id == session.Player.Club.Id);
 
                         foreach (var member in clanmembers)
                         {

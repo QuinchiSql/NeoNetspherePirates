@@ -31,8 +31,8 @@ namespace NeoNetsphere
 
         private readonly TimeSpan _changingRulesTime = TimeSpan.FromSeconds(2);
         private readonly TimeSpan _hostUpdateTime = TimeSpan.FromSeconds(30);
-        private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
 
+        private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
         private readonly ConcurrentDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
         private readonly object _playerSync = new object();
         private readonly object _masterSync = new object();
@@ -74,6 +74,7 @@ namespace NeoNetsphere
         public TimeSpan RoundTime { get; set; } = TimeSpan.Zero;
 
         public IReadOnlyDictionary<ulong, Player> Players => TeamManager.Players.ToDictionary(x => x.Account?.Id ?? 0);
+        public List<Player> RoomChangePlayers { get; set; }
 
         public Player Master { get; private set; }
         public Player Host { get; private set; }
@@ -90,36 +91,20 @@ namespace NeoNetsphere
             {
                 if (!(RoomManager?.Contains(this) ?? false))
                     return;
-
+                
                 if (Players.Count == 0 || !TeamManager.Players.Any())
                 {
-                    if (Master.Room == this && !Master.IsLoggedIn()) RoomManager?.Remove(this);
+                    if (Master.Room == this && !Master.IsLoggedIn())
+                        RoomManager?.Remove(this);
                     return;
                 }
 
-                if (!(Master?.IsLoggedIn() ?? true) || Master.Room != this)
+                if (!(Master?.IsLoggedIn() ?? true) || Master?.Room != this)
                 {
                     ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
                     ChangeHostIfNeeded(GetPlayerWithLowestPing(), true);
                 }
-
-                //if (Host != null)
-                //{
-                //    _hostUpdateTimer += delta;
-                //    if (_hostUpdateTimer >= _hostUpdateTime)
-                //    {
-                //        var lowest = GetPlayerWithLowestPing();
-                //        if (Host != lowest)
-                //        {
-                //            var diff = Math.Abs(Host.Session.UnreliablePing - lowest.Session.UnreliablePing);
-                //            if (diff >= PingDifferenceForChange)
-                //                ChangeHostIfNeeded(lowest, true);
-                //        }
-                //
-                //        _hostUpdateTimer = TimeSpan.Zero;
-                //    }
-                //}
-
+                
                 if (IsChangingRules)
                 {
                     _changingRulesTimer += delta;
@@ -473,8 +458,6 @@ namespace NeoNetsphere
                         break;
                 }
 
-                _changingRulesTimer = TimeSpan.Zero;
-                IsChangingRules = true;
                 Options.Name = options.Name;
                 Options.MapId = options.Map_ID;
                 Options.PlayerLimit = options.Player_Limit;
@@ -489,12 +472,14 @@ namespace NeoNetsphere
                 Options.HasSpectator = options.HasSpectator;
                 Options.SpectatorLimit = options.SpectatorLimit;
                 Options.IsWithoutStats = isWithoutStats;
-                TeamManager.Players.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
+                Players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
 
+                RoomChangePlayers = TeamManager.Players.ToList();
                 GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapId];
                 GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
-                BroadcastExcept(Master,
-                    new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                BroadcastExcept(Master, new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                _changingRulesTimer = TimeSpan.Zero;
+                IsChangingRules = true;
             }
         }
 
@@ -514,12 +499,14 @@ namespace NeoNetsphere
         private void GameRuleManager_OnGameRuleChanged(object sender, EventArgs e)
         {
             GameRuleManager.GameRule.StateMachine.OnTransitioned(t => OnStateChanged());
-
-            foreach (var plr in Players.Values)
+            if (RoomChangePlayers == null)
+                RoomChangePlayers = _players.Values.ToList();
+            foreach (var plr in RoomChangePlayers)
             {
                 plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
                 TeamManager.Join(plr);
             }
+            RoomChangePlayers = new List<Player>();
             BroadcastBriefing();
         }
 
@@ -598,37 +585,37 @@ namespace NeoNetsphere
 
         public void Broadcast(IGameMessage message)
         {
-            foreach (var plr in TeamManager.Players)
+            foreach (var plr in Players.Values)
                 plr.Session.SendAsync(message);
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
-            foreach (var plr in TeamManager.Players)
+            foreach (var plr in Players.Values)
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
-            foreach (var plr in TeamManager.Players.Where(x => x != blacklisted))
+            foreach (var plr in Players.Values.Where(x => x != blacklisted))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
-            foreach (var plr in TeamManager.Players.Where(x => x != blacklisted))
+            foreach (var plr in Players.Values.Where(x => x != blacklisted))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
-            foreach (var plr in TeamManager.Players.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
                 plr.Session.SendAsync(message);
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
-            foreach (var plr in TeamManager.Players.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
                 plr.Session.SendAsync(message);
         }
 
