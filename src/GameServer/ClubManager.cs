@@ -39,13 +39,23 @@ namespace NeoNetsphere
             }
         }
 
-        public ClubManager(IEnumerable<DBClubInfoDto> ClubInfos)
+        public ClubManager(IEnumerable<DBClubInfoDto> clubInfos)
         {
             _clubs.Clear();
-            foreach (var InfoDto in ClubInfos)
+            foreach (var infoDto in clubInfos)
             {
-                var Club = new Club(InfoDto.ClubDto, InfoDto.PlayerDto);
-                _clubs.TryAdd(InfoDto.ClubDto.Id, Club);
+                var club = new Club(infoDto.ClubDto, infoDto.PlayerDto);
+                _clubs.TryAdd(infoDto.ClubDto.Id, club);
+            }
+        }
+
+        public void Remove(Club club)
+        {
+            lock (_sync)
+            {
+                if (club == null)
+                    return;
+                _clubs.TryRemove(club.Id, out var _);
             }
         }
 

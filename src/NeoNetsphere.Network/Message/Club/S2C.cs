@@ -47,7 +47,17 @@ namespace NeoNetsphere.Network.Message.Club
     [BlubContract]
     public class ClubCloseAck2Message : IClubMessage
     {
-        [BlubMember(0)] public int Result { get; set; }
+        [BlubMember(0)]
+        public int Result { get; set; }
+
+        public ClubCloseAck2Message()
+        {
+        }
+
+        public ClubCloseAck2Message(int result)
+        {
+            Result = result;
+        }
     }
 
 
@@ -60,7 +70,17 @@ namespace NeoNetsphere.Network.Message.Club
     [BlubContract]
     public class ClubUnjoinAckMessage : IClubMessage
     {
-        [BlubMember(0)] public int Unk { get; set; }
+        [BlubMember(0)]
+        public int Result { get; set; }
+
+        public ClubUnjoinAckMessage()
+        {
+        }
+
+        public ClubUnjoinAckMessage(int result)
+        {
+            Result = result;
+        }
     }
 
     [BlubContract]
@@ -385,7 +405,39 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubRankListAckMessage : IClubMessage
     {
         [BlubMember(0)]
-        public int Unk { get; set; }
+        public int TotalClans { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithIntPrefixSerializer))]
+        public ClubRankInfoDto[] Clans { get; set; }
+
+        public ClubRankListAckMessage()
+        {
+            Clans = Array.Empty<ClubRankInfoDto>();
+        }
+
+        public ClubRankListAckMessage(int totalClans, ClubRankInfoDto[] clans)
+        {
+            TotalClans = totalClans;
+            Clans = clans;
+        }
+
+        //
+    }
+
+    [BlubContract]
+    public class ClubUnjoinAck2Message : IClubMessage
+    {
+        [BlubMember(0)]
+        public int Result { get; set; }
+
+        public ClubUnjoinAck2Message()
+        {  
+        }
+
+        public ClubUnjoinAck2Message(int result)
+        {
+            Result = result;
+        }
     }
 
 }

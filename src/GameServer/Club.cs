@@ -9,6 +9,7 @@ using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
+using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using Serilog;
 using Serilog.Core;
@@ -41,6 +42,14 @@ namespace NeoNetsphere
 
         public ClubPlayerInfo this[ulong id] => _players[id];
         public int Count => _players.Count;
+
+        public void Broadcast(IClubMessage message)
+        {
+            foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
+            {
+                member.Session?.SendAsync(message);
+            }
+        }
 
         public void Broadcast(IGameMessage message)
         {

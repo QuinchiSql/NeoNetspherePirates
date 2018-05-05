@@ -1075,7 +1075,16 @@ namespace NeoNetsphere.Network.Message.Game
     public class ClubUnJoinAckMessage : IGameMessage
     {
         [BlubMember(0)]
-        public uint Unk { get; set; }
+        public uint Result { get; set; }
+
+        public ClubUnJoinAckMessage()
+        {
+        }
+
+        public ClubUnJoinAckMessage(uint result)
+        {
+            Result = result;
+        }
     }
 
     [BlubContract]

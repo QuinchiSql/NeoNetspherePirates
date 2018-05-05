@@ -37,8 +37,6 @@ namespace NeoNetsphere.Network
         private readonly ServerlistManager _serverlistManager;
 
         private readonly ILoop _worker;
-
-        private TimeSpan _mailBoxCheckTimer;
         private TimeSpan _saveTimer;
 
         private GameServer(Configuration config)
@@ -128,11 +126,8 @@ namespace NeoNetsphere.Network
                     .RegisterRule<NewShopUpdateCheckReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ChannelEnterReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ChannelLeaveReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<LicenseGainReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<LicenseExerciseReqMessage>(MustBeLoggedIn, MustBeInChannel)
                     .RegisterRule<ItemBuyItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<RandomShopRollingStartReqMessage>(MustBeLoggedIn)
-                    //.RegisterRule<CRandomShopItemSaleReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemUseItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemRepairItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemRefundItemReqMessage>(MustBeLoggedIn)
@@ -185,7 +180,6 @@ namespace NeoNetsphere.Network
                         session =>
                             session.Player.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting))
                     .RegisterRule<ClubAddressReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<ClubInfoReqMessage>(MustBeLoggedIn, MustBeInChannel)
                     .RegisterRule<RoomLeaveReguestReqMessage>(MustBeLoggedIn, MustBeInChannel, MustBeInRoom)
             };
 
@@ -207,77 +201,7 @@ namespace NeoNetsphere.Network
             {
                 Logger.Error(e.ToString());
             }
-
-            foreach (var plr in PlayerManager.Where(plr => !plr.IsLoggedIn() &&
-                                                           plr.Session?.ConnectDate.Add(TimeSpan.FromMinutes(5)) <
-                                                           DateTimeOffset.Now))
-            {
-                plr.Session?.CloseAsync();
-                if (plr.Session != null)
-                    OnDisconnected(plr.Session);
-            }
-
-            foreach (var channel in ChannelManager)
-            {
-                try
-                {
-                    foreach (var room in channel.RoomManager)
-                    {
-                        if (room?.TeamManager == null) continue;
-                        foreach (var team in room.TeamManager)
-                            try
-                            {
-                                foreach (var plr in team.Value)
-                                    try
-                                    {
-                                        if (!plr.Value?.IsLoggedIn() ?? false) team.Value?.Leave(plr.Value);
-                                    }
-                                    catch (Exception)
-                                    {
-                                    }
-                            }
-                            catch (Exception)
-                            {
-                            }
-
-                        foreach (var plr in room.Players)
-                            try
-                            {
-                                if (!plr.Value?.IsLoggedIn() ?? false) room?.Leave(plr.Value);
-                            }
-                            catch (Exception)
-                            {
-                            }
-                    }
-
-                    foreach (var plr in channel.Players)
-                        try
-                        {
-                            if (!plr.Value?.IsLoggedIn() ?? false) channel?.Leave(plr.Value);
-                        }
-                        catch (Exception)
-                        {
-                        }
-                }
-                catch (Exception)
-                {
-                    //ignore
-                }
-            }
             
-            //foreach (var channel in ChannelManager)
-            //{
-            //    foreach (var room in channel.RoomManager.Where(x => !x.Master.IsLoggedIn() || !x.Master.Session.IsConnected))
-            //    {
-            //        if (!room.TeamManager.Players.Any())
-            //            channel?.RoomManager?.Remove(room, true);
-            //        else
-            //            if (!room.Players.Any(x => x.Value.IsLoggedIn() || x.Value.Session.IsConnected))
-            //            channel?.RoomManager?.Remove(room, true);
-            //    }
-            //}
-
-            // ToDo Use another thread for this?
             _saveTimer = _saveTimer.Add(delta);
             if (_saveTimer < Config.Instance.SaveInterval) return;
             {
@@ -302,14 +226,29 @@ namespace NeoNetsphere.Network
                 }
             }
 
-            //_mailBoxCheckTimer = _mailBoxCheckTimer.Add(delta);
-            //if (_mailBoxCheckTimer >= TimeSpan.FromMinutes(10))
-            //{
-            //    _mailBoxCheckTimer = TimeSpan.Zero;
-            //
-            //    //foreach (var plr in PlayerManager.Where(plr => plr.IsLoggedIn()))
-            //    //    plr.Mailbox.Remove(plr.Mailbox.Where(mail => mail.Expires >= DateTimeOffset.Now));
-            //}
+
+            foreach (var plr in PlayerManager.Where(plr => !plr.IsLoggedIn() &&
+                                                           plr.Session?.ConnectDate.Add(TimeSpan.FromMinutes(5)) <
+                                                           DateTimeOffset.Now))
+            {
+                plr.Disconnect();
+            }
+
+            foreach (var channel in ChannelManager)
+            {
+                foreach (var room in channel.RoomManager)
+                {
+                    foreach (var player in room.TeamManager.Players)
+                        if (!player.IsLoggedIn())
+                            room.Leave(player);
+
+                    if (!room.TeamManager.Any())
+                        channel.RoomManager.Remove(room);
+                }
+                foreach (var player in channel.Players.Values)
+                    if (!player.IsLoggedIn())
+                        channel.Leave(player);
+            }
         }
 
         private static void RegisterMappings()
@@ -448,7 +387,7 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, MyInfoDto>()
                 .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count : 0)
+                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count+5 : 0)
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "")
                 .Member(dest => dest.State, src => src.Club != null ? src.Club[src.Account.Id].State : 0);
 
@@ -460,13 +399,27 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, ClubMemberDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id)
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
-                .Function(dest => dest.Unk4, src => Config.Instance.Id);
+                .Function(dest => dest.ServerId, src => Config.Instance.Id)
+                .Member(dest => dest.ChannelId, src => src.Channel != null ? src.Channel.Id : -1)
+                .Member(dest => dest.RoomId, src => src.Room != null ? (int)src.Room.Id : -1);
 
             Mapper.Register<Player, ClubSearchInfoDto>()
                 .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
                 .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count : 0)
+                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count+5 : 0)
                 .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+
+            Mapper.Register<ClubPlayerInfo, PlayerInfoDto>()
+                .Function(dest => dest.Info, src => 
+                {
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account.Id == src.AccountId);
+                    return plr.Map<Player, PlayerInfoShortDto>();
+                })
+                .Function(dest => dest.Location, src =>
+                {
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account.Id == src.AccountId);
+                    return plr.Map<Player, PlayerLocationDto>();
+                });
 
             Mapper.Compile(CompilationTypes.Source);
         }
@@ -505,6 +458,8 @@ namespace NeoNetsphere.Network
                     if (gameSession.Player.ChatSession != null)
                     {
                         gameSession.Player.Club?.Broadcast(new ClubMemberLoginStateAckMessage(0, gameSession.Player.Account.Id));
+                        gameSession.Player.Club?.Broadcast(new ClubSystemMessageMessage(gameSession.Player.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{gameSession.Player.Account.Nickname}\" Param2=\"2\"  />"));
+
                         gameSession.Player.ChatSession.GameSession = null;
                         gameSession.Player.ChatSession.Dispose();
                     }

@@ -16,6 +16,7 @@ namespace Netsphere.Game.Systems
     internal class TeamManager : IReadOnlyDictionary<Team, PlayerTeam>
     {
         private readonly ConcurrentDictionary<Team, PlayerTeam> _teams = new ConcurrentDictionary<Team, PlayerTeam>();
+        public readonly object _sync = new object();
 
         public EventHandler<TeamChangedEventArgs> TeamChanged;
 
@@ -36,113 +37,131 @@ namespace Netsphere.Game.Systems
 
         public void Add(Team team, uint playerLimit, uint spectatorLimit)
         {
-            var playerTeam = new PlayerTeam(this, team, playerLimit, spectatorLimit);
-            if (!_teams.TryAdd(team, playerTeam))
-                throw new Exception($"Team {team} already exists");
+            lock (_sync)
+            {
+                var playerTeam = new PlayerTeam(this, team, playerLimit, spectatorLimit);
+                if (!_teams.TryAdd(team, playerTeam))
+                    throw new Exception($"Team {team} already exists");
+            }
         }
 
         public void Remove(Team team)
         {
-            _teams.Remove(team);
+            lock (_sync)
+            {
+                _teams.Remove(team);
+            }
         }
 
         public void Join(Player plr)
         {
-            // Get teams with space
-            var teams = _teams.Values.Where(t => t.PlayerLimit > 0 && t.Players.Count() < (t.PlayerLimit + t.SpectatorLimit)).ToArray();
+            lock (_sync)
+            {
+                // Get teams with space
+                var teams = _teams.Values
+                    .Where(t => t.PlayerLimit > 0 && t.Players.Count() < (t.PlayerLimit + t.SpectatorLimit)).ToArray();
 
-            // get teams with least player count
-            var min = (uint) teams.Min(t => t.Count);
-            teams = teams.Where(t => t.Count == min).ToArray();
+                // get teams with least player count
+                var min = (uint) teams.Min(t => t.Count);
+                teams = teams.Where(t => t.Count == min).ToArray();
 
-            // get teams with least score
-            min = teams.Min(t => t.Score);
-            teams = teams.Where(t => t.Score == min).ToArray();
+                // get teams with least score
+                min = teams.Min(t => t.Score);
+                teams = teams.Where(t => t.Score == min).ToArray();
 
-            teams[0].Join(plr);
+                teams[0].Join(plr);
+            }
         }
 
         public void ChangeTeam(Player plr, Team team)
         {
-            //if (plr.Room != Room)
-            //throw new RoomException("Player is not inside this room");
-
-            if (Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing))
-                throw new RoomException("Game is running");
-
-            if (plr.RoomInfo.Team == null)
-                throw new RoomException("Player is not in a team");
-
-            if (plr.RoomInfo.Team.Team == team)
-                throw new RoomException($"Already in team {team}");
-
-            if (plr.RoomInfo.IsReady)
+            lock (_sync)
             {
-                plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.AlreadyReady));
-                throw new RoomException("Player is already ready");
-            }
+                //if (plr.Room != Room)
+                //throw new RoomException("Player is not inside this room");
 
-            var oldTeam = plr.RoomInfo.Team;
-            var targetTeam = this[team];
-            if (targetTeam == null)
-                throw new RoomException($"Invalid team {team}");
+                if (Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing))
+                    throw new RoomException("Game is running");
 
-            try
-            {
-                targetTeam.Join(plr);
-                OnTeamChanged(oldTeam, targetTeam, plr);
-            }
-            catch (TeamLimitReachedException)
-            {
-                plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
+                if (plr.RoomInfo.Team == null)
+                    throw new RoomException("Player is not in a team");
+
+                if (plr.RoomInfo.Team.Team == team)
+                    throw new RoomException($"Already in team {team}");
+
+                if (plr.RoomInfo.IsReady)
+                {
+                    plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.AlreadyReady));
+                    throw new RoomException("Player is already ready");
+                }
+
+                var oldTeam = plr.RoomInfo.Team;
+                var targetTeam = this[team];
+                if (targetTeam == null)
+                    throw new RoomException($"Invalid team {team}");
+
+                try
+                {
+                    targetTeam.Join(plr);
+                    OnTeamChanged(oldTeam, targetTeam, plr);
+                }
+                catch (TeamLimitReachedException)
+                {
+                    plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
+                }
             }
         }
 
         public void ChangeMode(Player plr, PlayerGameMode mode)
         {
-            //if (plr.Room != Room)
-            //throw new RoomException("Player is not inside this room");
-
-            if (plr.RoomInfo.State != PlayerState.Lobby)
-                throw new RoomException("Player is playing");
-
-            if (plr.RoomInfo.Mode == mode)
-                throw new RoomException($"Already in mode {mode}");
-
-            if (plr.RoomInfo.Team == null)
-                throw new RoomException("Player is not in a team");
-
-            if (plr.RoomInfo.IsReady)
+            lock (_sync)
             {
-                plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.AlreadyReady));
-                throw new RoomException("Player is already ready");
+                //if (plr.Room != Room)
+                //throw new RoomException("Player is not inside this room");
+
+                if (plr.RoomInfo.State != PlayerState.Lobby)
+                    throw new RoomException("Player is playing");
+
+                if (plr.RoomInfo.Mode == mode)
+                    throw new RoomException($"Already in mode {mode}");
+
+                if (plr.RoomInfo.Team == null)
+                    throw new RoomException("Player is not in a team");
+
+                if (plr.RoomInfo.IsReady)
+                {
+                    plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.AlreadyReady));
+                    throw new RoomException("Player is already ready");
+                }
+
+                var team = plr.RoomInfo.Team;
+                switch (mode)
+                {
+                    case PlayerGameMode.Normal:
+                        if (team.Players.Count() >= team.PlayerLimit)
+                        {
+                            plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
+                            throw new TeamLimitReachedException();
+                        }
+
+                        break;
+
+                    case PlayerGameMode.Spectate:
+                        if (team.Spectators.Count() >= team.SpectatorLimit)
+                        {
+                            plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
+                            throw new TeamLimitReachedException();
+                        }
+
+                        break;
+
+                    default:
+                        throw new RoomException($"Invalid mode {mode}");
+                }
+
+                plr.RoomInfo.Mode = mode;
+                Broadcast(new RoomPlayModeChangeAckMessage(plr.Account.Id, mode));
             }
-
-            var team = plr.RoomInfo.Team;
-            switch (mode)
-            {
-                case PlayerGameMode.Normal:
-                    if (team.Players.Count() >= team.PlayerLimit)
-                    {
-                        plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
-                        throw new TeamLimitReachedException();
-                    }
-                    break;
-
-                case PlayerGameMode.Spectate:
-                    if (team.Spectators.Count() >= team.SpectatorLimit)
-                    {
-                        plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
-                        throw new TeamLimitReachedException();
-                    }
-                    break;
-
-                default:
-                    throw new RoomException($"Invalid mode {mode}");
-            }
-
-            plr.RoomInfo.Mode = mode;
-            Broadcast(new RoomPlayModeChangeAckMessage(plr.Account.Id, mode));
         }
 
         #region Broadcast
@@ -209,6 +228,7 @@ namespace Netsphere.Game.Systems
     internal class PlayerTeam : IReadOnlyDictionary<byte, Player>
     {
         private readonly ConcurrentDictionary<byte, Player> _players = new ConcurrentDictionary<byte, Player>();
+        public readonly object _sync = new object();
 
         public EventHandler<RoomPlayerEventArgs> PlayerJoined;
         public EventHandler<RoomPlayerEventArgs> PlayerLeft;
@@ -247,45 +267,51 @@ namespace Netsphere.Game.Systems
 
         public void Join(Player plr)
         {
-            if (plr.RoomInfo.Team == this)
-                throw new RoomException("Actor is already in this team");
-
-            if (plr.RoomInfo.Mode == PlayerGameMode.Normal)
+            lock (_sync)
             {
-                if (Players.Count() >= PlayerLimit)
-                    throw new TeamLimitReachedException();
+                if (plr.RoomInfo.Team == this)
+                    throw new RoomException("Actor is already in this team");
+
+                if (plr.RoomInfo.Mode == PlayerGameMode.Normal)
+                {
+                    if (Players.Count() >= PlayerLimit)
+                        throw new TeamLimitReachedException();
+                }
+                else
+                {
+                    if (Spectators.Count() >= SpectatorLimit)
+                        throw new TeamLimitReachedException();
+                }
+
+                var isChange = false;
+                if (plr.RoomInfo.Team != null)
+                {
+                    plr.RoomInfo.Team.Leave(plr);
+                    isChange = true;
+                }
+
+                plr.RoomInfo.Team = this;
+                _players.TryAdd(plr.RoomInfo.Slot, plr);
+
+                if (isChange)
+                    TeamManager.Broadcast(new RoomChangeTeamAckMessage(plr.Account.Id, Team, plr.RoomInfo.Mode));
+
+                OnPlayerJoined(plr);
             }
-            else
-            {
-                if (Spectators.Count() >= SpectatorLimit)
-                    throw new TeamLimitReachedException();
-            }
-
-            var isChange = false;
-            if (plr.RoomInfo.Team != null)
-            {
-                plr.RoomInfo.Team.Leave(plr);
-                isChange = true;
-            }
-
-            plr.RoomInfo.Team = this;
-            _players.TryAdd(plr.RoomInfo.Slot, plr);
-
-            if (isChange)
-                TeamManager.Broadcast(new RoomChangeTeamAckMessage(plr.Account.Id, Team, plr.RoomInfo.Mode));
-
-            OnPlayerJoined(plr);
         }
 
         public void Leave(Player plr)
         {
-            if (plr.RoomInfo.Team != this)
-                return;
+            lock (_sync)
+            {
+                if (plr.RoomInfo.Team != this)
+                    return;
 
-            _players.Remove(plr.RoomInfo.Slot);
-            plr.RoomInfo.Team = null;
+                _players.Remove(plr.RoomInfo.Slot);
+                plr.RoomInfo.Team = null;
 
-            OnPlayerLeft(plr);
+                OnPlayerLeft(plr);
+            }
         }
 
         #region Broadcast

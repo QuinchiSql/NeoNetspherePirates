@@ -285,7 +285,6 @@ namespace NeoNetsphere.Database.Game
     public class ClubPlayerDto
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ForeignKey(nameof(Player))]
         public int PlayerId { get; set; }
 

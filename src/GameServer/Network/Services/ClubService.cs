@@ -11,11 +11,13 @@ using Serilog.Core;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BlubLib.Collections.Generic;
 using Dapper.FastCrud;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network.Data.Chat;
+using Org.BouncyCastle.Crypto;
 using ProudNetSrc;
 
 namespace NeoNetsphere.Network.Services
@@ -25,6 +27,8 @@ namespace NeoNetsphere.Network.Services
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ClubService));
+
+        private readonly object _sync = new object();
 
         public static async Task Update(GameSession session = null, bool broadcast = false)
         {
@@ -43,210 +47,162 @@ namespace NeoNetsphere.Network.Services
                 if (plr != null)
                 {
                     plr.Club = GameServer.Instance.ClubManager.GetClubByAccount(plr.Account.Id);
-                    await proudSession?.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
                     await proudSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                    await proudSession?.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
                 }
             }
-        }
-
-        [MessageHandler(typeof(ClubClubInfoReq2Message))]
-        public void ClubClubInfoReq2(GameSession session, ClubClubInfoReq2Message message)
-        {
-            var plr = session.Player;
-            session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubSearchInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubClubInfoReqMessage))]
-        public void ClubClubInfoReq(GameSession session, ClubClubInfoReqMessage message)
+        public async Task ClubClubInfoReq(GameSession session, ClubClubInfoReqMessage message)
         {
-            var plr = session.Player;
-            session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubSearchInfoDto>()));
+            await ClubClubInfoReq2(session, message.Map<ClubClubInfoReqMessage, ClubClubInfoReq2Message>());
         }
 
-        [MessageHandler(typeof(ClubMemberListReqMessage))]
-        public void ClubMemberListReq(ChatSession session, ClubMemberListReqMessage message)
+        [MessageHandler(typeof(ClubClubInfoReq2Message))]
+        public async Task ClubClubInfoReq2(GameSession session, ClubClubInfoReq2Message message)
         {
             var plr = session.Player;
-            session.GameSession?.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
-            session.GameSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            session.SendAsync(new ClubMemberListAckMessage());
-            //Todo
-            //if (plr?.Club != null)
-            //    plr.ChatSession.SendAsync(new ClubMemberListAckMessage(GameServer.Instance.PlayerManager.Where(p =>
-            //        plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
+            if (plr == null)
+                return;
+            await session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubSearchInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubInfoReqMessage))]
-        public void ClubInfoReq(GameSession session, ClubInfoReqMessage message)
+        public async Task ClubInfoReq(GameSession session, ClubInfoReqMessage message)
         {
             var plr = session.Player;
-            session.SendAsync(new Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+            if(plr == null)
+                return;
+            await session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubJoinWaiterInfoReqMessage))]
-        public void ClubJoinWaiterInfoReq(GameSession session, ClubJoinWaiterInfoReqMessage message)
+        public async Task ClubJoinWaiterInfoReq(GameSession session, ClubJoinWaiterInfoReqMessage message)
         {
             //Todo
-            session.SendAsync(new ClubJoinWaiterInfoAckMessage());
+            await session.SendAsync(new ClubJoinWaiterInfoAckMessage());
         }
 
         [MessageHandler(typeof(ClubStuffListReqMessage))]
-        public void ClubStuffListReq(GameSession session, ClubStuffListReqMessage message)
+        public async Task ClubStuffListReq(GameSession session, ClubStuffListReqMessage message)
         {
             //Todo
-            session.SendAsync(new ClubStuffListAckMessage());
+            await session.SendAsync(new ClubStuffListAckMessage());
         }
 
         [MessageHandler(typeof(ClubStuffListReq2Message))]
-        public void ClubStuffListReq2(GameSession session, ClubStuffListReq2Message message)
+        public async Task ClubStuffListReq2(GameSession session, ClubStuffListReq2Message message)
         {
             //Todo
-            session.SendAsync(new ClubStuffListAck2Message());
+            await session.SendAsync(new ClubStuffListAck2Message());
         }
 
         [MessageHandler(typeof(ClubSearchReqMessage))]
-        public void ClubSearchReq(GameSession session, ClubSearchReqMessage message)
+        public async Task ClubSearchReq(GameSession session, ClubSearchReqMessage message)
         {
             //Todo
-            session.SendAsync(new ClubSearchAckMessage() {Unk1 = 1});
+            await session.SendAsync(new ClubSearchAckMessage() {Unk1 = 1});
         }
         
         [MessageHandler(typeof(ClubNameCheckReqMessage))]
-        public void ClubNameCheckReq(GameSession session, ClubNameCheckReqMessage message)
+        public async Task ClubNameCheckReq(GameSession session, ClubNameCheckReqMessage message)
         {
             //Todo
-            if (GameServer.Instance.ClubManager.Any(c => c.Clan_Name == message.Unk))
-                session.SendAsync(new ClubNameCheckAckMessage(2));
-            else
-                session.SendAsync(new ClubNameCheckAckMessage(0));
+            await session.SendAsync(GameServer.Instance.ClubManager.Any(c => c.Clan_Name == message.Name)
+                ? new ClubNameCheckAckMessage(2)
+                : new ClubNameCheckAckMessage(0));
         }
         
         [MessageHandler(typeof(ClubCreateReqMessage))]
-        public async Task ClubCreateReq(GameSession session, ClubCreateReqMessage message)
+        public void ClubCreateReq(GameSession session, ClubCreateReqMessage message)
         {
-            await session.SendAsync(new ClubCreateAckMessage(1));
-            return;
-            if (GameServer.Instance.ClubManager.Any(c => c.Clan_Name == message.Unk1) || session.Player.Club != null)
-                await session.SendAsync(new ClubCreateAckMessage(1));
+            ClubCreateReq2(session, message.Map<ClubCreateReqMessage, ClubCreateReq2Message>());
+        }
+
+        [MessageHandler(typeof(ClubCreateReq2Message))]
+        public void ClubCreateReq2(GameSession session, ClubCreateReq2Message message)
+        {
+            var plr = session.Player;
+            if (plr == null)
+                return;
+            
+            if (GameServer.Instance.ClubManager.Any(c => c.Clan_Name == message.Name) || session.Player.Club != null)
+                session.SendAsync(new ClubCreateAck2Message(1));
             else
             {
-                var club = new ClubDto()
+                lock (_sync)
                 {
-                    Name = message.Unk2,
-                    Icon = ""
-                };
-
-                using (var db = GameDatabase.Open())
-                {
-                    try
+                    var clubDto = new ClubDto()
                     {
-                        using (var transaction = db.BeginTransaction())
+                        Name = message.Name,
+                        Icon = ""
+                    };
+
+                    using (var db = GameDatabase.Open())
+                    {
+                        try
                         {
-                            var playeracc = (db.Find<AccountDto>(statement => statement
-                           .Where($"{nameof(AccountDto.Id):C} = @Id")
-                           .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
-
-                            var plrdto = (db.Find<PlayerDto>(statement => statement
-                           .Where($"{nameof(PlayerDto.Id):C} = @Id")
-                           .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
-
-                            db.Insert(club, statement => statement.AttachToTransaction(transaction));
-                            var Club = new Club(club, new[] { new ClubPlayerInfo() { AccountId = session.Player.Account.Id, account = playeracc, State = ClubState.Member, IsMod = true } });
-                            GameServer.Instance.ClubManager.Add(Club);
-                            transaction.Commit();
-
-                            db.Insert(new ClubPlayerDto()
+                            using (var transaction = db.BeginTransaction())
                             {
-                                PlayerId = (int)session.Player.Account.Id,
-                                ClubId = club.Id,
-                                IsMod = true,
-                                State = (int)ClubState.Member
-                            });
+                                var playerAcc = (db.Find<AccountDto>(statement => statement
+                                    .Where($"{nameof(AccountDto.Id):C} = @Id")
+                                    .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
 
-                            session.Player.Club = Club;
+                                var playerDto = (db.Find<PlayerDto>(statement => statement
+                                    .Where($"{nameof(PlayerDto.Id):C} = @Id")
+                                    .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
+
+                                db.Insert(clubDto, statement => statement.AttachToTransaction(transaction));
+
+                                var club = new Club(clubDto, new[]
+                                {
+                                    new ClubPlayerInfo()
+                                    {
+                                        AccountId = session.Player.Account.Id,
+                                        account = playerAcc,
+                                        State = ClubState.Member,
+                                        IsMod = true
+                                    }
+                                });
+                                GameServer.Instance.ClubManager.Add(club);
+                                transaction.Commit();
+
+                                db.Insert(new ClubPlayerDto()
+                                {
+                                    PlayerId = (int)session.Player.Account.Id,
+                                    ClubId = club.Id,
+                                    IsMod = true,
+                                    State = (int)ClubState.Member
+                                });
+
+                                session.Player.Club = club;
+                            }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex.ToString());
-                        await session.SendAsync(new ClubCreateAckMessage(1));
-                        return;
-                    }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex.ToString());
+                            session.SendAsync(new ClubCreateAck2Message(1));
+                            return;
+                        }
 
-                    await session.SendAsync(new ClubCreateAckMessage(0));
-                    await session.SendAsync(new ClubMyInfoAckMessage(session.Player.Map<Player, MyInfoDto>()));
-                    await session.SendAsync(new Message.Game.ClubInfoAckMessage(session.Player.Club.Map<Club, PlayerClubInfoDto>()));
+                        session.SendAsync(new ClubCreateAck2Message(0));
+                        session.SendAsync(new ClubMyInfoAckMessage(session.Player.Map<Player, MyInfoDto>()));
+                        session.SendAsync(new ClubInfoAckMessage(session.Player.Club.Map<Club, PlayerClubInfoDto>()));
+                    }
                 }
             }
         }
 
-        [MessageHandler(typeof(ClubCreateReq2Message))]
-        public async Task ClubCreateReq2(GameSession session, ClubCreateReq2Message message)
-        {
-            await session.SendAsync(new ClubCreateAck2Message(1));
-            return;
-            if (GameServer.Instance.ClubManager.Any(c => c.Clan_Name == message.Unk1) || session.Player.Club != null)
-                await session.SendAsync(new ClubCreateAck2Message(1));
-            else
-            {
-                var club = new ClubDto()
-                {
-                    Name = message.Unk2,
-                    Icon = ""
-                };
-
-                using (var db = GameDatabase.Open())
-                {
-                    try
-                    {
-                        using (var transaction = db.BeginTransaction())
-                        {
-                            var playeracc = (db.Find<AccountDto>(statement => statement
-                           .Where($"{nameof(AccountDto.Id):C} = @Id")
-                           .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
-
-                            var plrdto = (db.Find<PlayerDto>(statement => statement
-                           .Where($"{nameof(PlayerDto.Id):C} = @Id")
-                           .WithParameters(new { session.Player.Account.Id }))).FirstOrDefault();
-
-                            db.Insert(club, statement => statement.AttachToTransaction(transaction));
-                            var Club = new Club(club, new[] { new ClubPlayerInfo() { AccountId = session.Player.Account.Id, account = playeracc, State = ClubState.Member, IsMod = true } });
-                            GameServer.Instance.ClubManager.Add(Club);
-                            transaction.Commit();
-
-                            db.Insert(new ClubPlayerDto()
-                            {
-                                PlayerId = (int)session.Player.Account.Id,
-                                ClubId = club.Id,
-                                IsMod = true,
-                                State = (int)ClubState.Member
-                            });
-
-                            session.Player.Club = Club;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex.ToString());
-                        await session.SendAsync(new ClubCreateAck2Message(1));
-                        return;
-                    }
-
-                    await session.SendAsync(new ClubCreateAck2Message(0));
-                    await session.SendAsync(new ClubMyInfoAckMessage(session.Player.Map<Player, MyInfoDto>()));
-                    await session.SendAsync(new Message.Game.ClubInfoAckMessage(session.Player.Club.Map<Club, PlayerClubInfoDto>()));
-                }
-            };
-        }
-
         [MessageHandler(typeof(ClubRankListReqMessage))]
-        public void ClubRankListReq(GameSession session, ClubRankListReqMessage message)
+        public async Task ClubRankListReq(GameSession session, ClubRankListReqMessage message)
         {
             //Todo
             var plr = session.Player;
-            session.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
-            session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            session.SendAsync(new ClubRankListAckMessage());
+            if (plr == null)
+                return;
+            
+            await session.SendAsync(new ClubRankListAckMessage());
         }
 
         [MessageHandler(typeof(ClubAddressReqMessage))]
@@ -263,11 +219,14 @@ namespace NeoNetsphere.Network.Services
             var targetplr = GameServer.Instance.PlayerManager[message.AccountId];
             if (session.Player?.Club != null && targetplr != null)
             {
+                var isMod = targetplr.Club.Players.Any(x => x.Value.IsMod && x.Key == targetplr.Account.Id);
+                    
                 session.SendAsync(new ClubClubMemberInfoAck2Message()
                 {
                     ClanId = message.ClanId,
                     AccountId = targetplr.Account.Id,
                     Nickname = targetplr.Account.Nickname,
+                    IsModerator = isMod ? 1 : 0
                 });
             }
             else if(session.Player != null && targetplr != null)
@@ -290,17 +249,30 @@ namespace NeoNetsphere.Network.Services
             }
         }
         
+        [MessageHandler(typeof(ClubMemberListReqMessage))]
+        public void ClubMemberListReq(ChatSession session, ClubMemberListReqMessage message)
+        {
+            var plr = session.Player;
+            if (plr == null)
+                return;
+            
+            //Todo
+            if (plr?.Club != null)
+                plr.ChatSession.SendAsync(new ClubMemberListAckMessage(plr.Club.Id, GameServer.Instance.PlayerManager.Where(p =>
+                    plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
+        }
+
         [MessageHandler(typeof(ClubMemberListReq2Message))]
         public void ClubMemberListReq2(ChatSession session, ClubMemberListReq2Message message)
         {
             var plr = session.Player;
-            session.GameSession?.SendAsync(new Network.Message.Game.ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
-            session.GameSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            session.SendAsync(new ClubMemberListAck2Message());
+            if (plr == null)
+                return;
+            
             //Todo
-            //if (plr?.Club != null)
-            //    plr.ChatSession.SendAsync(new ClubMemberListAck2Message(GameServer.Instance.PlayerManager.Where(p =>
-            //        plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
+            if (plr?.Club != null)
+                plr.ChatSession.SendAsync(new ClubMemberListAck2Message(plr.Club.Id, GameServer.Instance.PlayerManager.Where(p =>
+                    plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>()).ToArray()));
         }
 
         [MessageHandler(typeof(ClubNoteSendReq2Message))]
@@ -322,6 +294,109 @@ namespace NeoNetsphere.Network.Services
         {
             //Todo
             session.SendAsync(new ClubNoticeRecordRefreshAckMessage());
+        }
+
+
+        [MessageHandler(typeof(ClubUnjoinReqMessage))]
+        public void ClubUnjoinReq(GameSession session, ClubUnjoinReqMessage message)
+        {
+            ClubUnjoinReq2(session, message.Map<ClubUnjoinReqMessage, ClubUnjoinReq2Message>());
+        }
+
+        [MessageHandler(typeof(ClubUnjoinReq2Message))]
+        public void ClubUnjoinReq2(GameSession session, ClubUnjoinReq2Message message)
+        {
+            var plr = session.Player;
+            if (plr?.Club == null || plr.Club.Id != message.ClanId)
+            {
+                session.SendAsync(new ClubUnjoinAck2Message(1));
+                return;
+            }
+            lock (_sync)
+            {
+                if (plr.Club.Players.Values.Any(x => x.account.Id == (int)plr.Account.Id && x.IsMod))
+                {
+                    using (var db = GameDatabase.Open())
+                    {
+                        var club = db.Find<ClubDto>(statement => statement
+                            .Where($"{nameof(ClubDto.Id):C} = @Id")
+                            .WithParameters(new { plr.Club.Id })).FirstOrDefault();
+
+                        if (club != null)
+                        {
+                            var player = db.Find<ClubPlayerDto>(statement => statement
+                                .Where($"{nameof(ClubPlayerDto.ClubId):C} = @Id")
+                                .WithParameters(new { plr.Club.Id })).FirstOrDefault(x => x.PlayerId == (int)plr.Account.Id);
+
+
+                            session.SendAsync(new ClubUnjoinAck2Message());
+
+                            if (player != null)
+                            {
+                                plr.Club.Players.TryRemove(plr.Account.Id, out var _);
+                                plr.Club.NeedsToSave = true;
+
+                                db.Delete(player);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        [MessageHandler(typeof(ClubCloseReqMessage))]
+        public void ClubCloseReq(GameSession session, ClubCloseReqMessage message)
+        {
+            ClubCloseReq2(session, message.Map<ClubCloseReqMessage, ClubCloseReq2Message>());
+        }
+
+        [MessageHandler(typeof(ClubCloseReq2Message))]
+        public void ClubCloseReq2(GameSession session, ClubCloseReq2Message message)
+        {
+            var plr = session.Player;
+            if (plr?.Club == null || plr.Club.Id != message.ClanId)
+            {
+                session.SendAsync(new ClubCloseAck2Message(1));
+                return;
+            }
+
+            lock (_sync)
+            {
+                if (plr.Club.Players.Values.Any(x => x.account.Id == (int) plr.Account.Id && x.IsMod))
+                {
+                    using (var db = GameDatabase.Open())
+                    {
+                        var club = db.Find<ClubDto>(statement => statement
+                            .Where($"{nameof(ClubDto.Id):C} = @Id")
+                            .WithParameters(new {plr.Club.Id})).FirstOrDefault();
+
+                        if (club != null)
+                        {
+
+                            var players = db.Find<ClubPlayerDto>(statement => statement
+                                .Where($"{nameof(ClubPlayerDto.ClubId):C} = @Id")
+                                .WithParameters(new {plr.Club.Id}));
+
+                            foreach (var member in players)
+                            {
+                                db.Delete(member);
+                            }
+
+                            db.Delete(club);
+                            GameServer.Instance.ClubManager.Remove(plr.Club);
+
+                            foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == club.Id))
+                            {
+                                member.Session?.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+                                member.Session?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                                member.Club = null;
+                            }
+
+                            session.SendAsync(new ClubCloseAck2Message());
+                        }
+                    }
+                }
+            }
         }
     }
 }

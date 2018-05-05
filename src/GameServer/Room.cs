@@ -232,7 +232,6 @@ namespace NeoNetsphere
                     });
                 }
 
-                plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubSearchInfoDto>()));
                 plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
                 BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
                 plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values

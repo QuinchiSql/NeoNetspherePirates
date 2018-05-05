@@ -71,10 +71,6 @@ namespace NeoNetsphere
                     .Select(p => p.Map<Player, PlayerInfoShortDto>()).ToArray()));
                 plr.ChatSession.SendAsync(new Chennel_PlayerNameTagList_AckMessage(visibleplayers.Values
                     .Select(p => p.Map<Player, PlayerNameTagInfoDto>()).ToArray()));
-                if (plr.Club != null)
-                    plr.ChatSession.SendAsync(new ClubMemberListAckMessage(GameServer.Instance.PlayerManager.Where(p =>
-                            plr.Club.Players.Keys.Contains(p.Account.Id)).Select(p => p.Map<Player, ClubMemberDto>())
-                        .ToArray()));
             }
         }
 

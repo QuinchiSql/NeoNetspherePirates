@@ -93,8 +93,10 @@ namespace NeoNetsphere.Network.Message.Club
             Register<ClubRankListAckMessage>(ClubOpCode.Club_Rank_List_Ack);
             Register<ClubStuffListAck2Message>(ClubOpCode.Club_Stuff_List_Ack_2);
             Register<ClubCloseAck2Message>(ClubOpCode.Club_Close_Ack_2);
+            Register<ClubUnjoinAck2Message>(ClubOpCode.Club_Unjoin_Ack_2);
 
             //C2S
+            Register<ClubUnjoinReq2Message>(ClubOpCode.Club_Unjoin_Req_2);
             Register<ClubCreateReq2Message>(ClubOpCode.Club_Create_Req_2);
             Register<ClubRankListReqMessage>(ClubOpCode.Club_Rank_List_Req);
             Register<ClubClubInfoReq2Message>(ClubOpCode.Club_ClubInfo_Req_2);

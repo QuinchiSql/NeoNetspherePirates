@@ -596,14 +596,20 @@ namespace NeoNetsphere.Network.Message.Chat
     [BlubContract]
     public class ClubMemberListAckMessage : IChatMessage
     {
-        [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
+        [BlubMember(0)]
+        public uint ClanId { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithIntPrefixSerializer))]
         public ClubMemberDto[] Members { get; set; }
+
         public ClubMemberListAckMessage()
         {
             Members = Array.Empty<ClubMemberDto>();
         }
-        public ClubMemberListAckMessage(ClubMemberDto[] members)
+
+        public ClubMemberListAckMessage(uint clanId, ClubMemberDto[] members)
         {
+            ClanId = clanId;
             Members = members;
         }
     }
@@ -611,7 +617,10 @@ namespace NeoNetsphere.Network.Message.Chat
     [BlubContract]
     public class ClubMemberListAck2Message : IChatMessage
     {
-        [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
+        [BlubMember(0)]
+        public uint ClanId { get; set; }
+
+        [BlubMember(1, typeof(ArrayWithIntPrefixSerializer))]
         public ClubMemberDto[] Members { get; set; }
 
         public ClubMemberListAck2Message()
@@ -619,8 +628,9 @@ namespace NeoNetsphere.Network.Message.Chat
             Members = Array.Empty<ClubMemberDto>();
         }
 
-        public ClubMemberListAck2Message(ClubMemberDto[] members)
+        public ClubMemberListAck2Message(uint clanId, ClubMemberDto[] members)
         {
+            ClanId = clanId;
             Members = members;
         }
     }
@@ -683,7 +693,7 @@ namespace NeoNetsphere.Network.Message.Chat
         public int Unk2 { get; set; }
 
         [BlubMember(5)]
-        public int Unk3 { get; set; } //MemberCount? MemberIndex?
+        public int IsModerator { get; set; } 
 
         [BlubMember(6)]
         public int Unk4 { get; set; }
@@ -712,8 +722,8 @@ namespace NeoNetsphere.Network.Message.Chat
         public ClubClubMemberInfoAck2Message()
         {
             Unk1 = 44;
-            Unk3 = 1;
-            Unk6 = 1;
+            IsModerator = 0;
+            Unk6 = 0;
             Nickname = "";
             JoinDate = "";
             Unk7 = "";

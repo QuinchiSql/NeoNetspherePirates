@@ -6,18 +6,23 @@ namespace NeoNetsphere.Network.Data.Chat
     [BlubContract]
     public class ClubMemberDto
     {
-        public ClubMemberDto(ulong accountId, string nickname, int serverid)
+        public ClubMemberDto(ulong accountId, string nickname, int serverid, int channelid, int roomid)
         {
             AccountId = accountId;
             Nickname = nickname;
-            Unk4 = serverid;
+            ServerId = serverid;
+            ChannelId = channelid;
+            RoomId = roomid;
         }
 
         public ClubMemberDto()
         {
             Nickname = "";
-            Unk5 = -1;
-            Unk6 = -1;
+            JoinDate = "";
+            LastLogin = "";
+            ServerId = -1;
+            ChannelId = -1;
+            RoomId = -1;
         }
 
         [BlubMember(0)]
@@ -33,24 +38,36 @@ namespace NeoNetsphere.Network.Data.Chat
         public int Unk2 { get; set; }
 
         [BlubMember(4)]
-        public byte Unk3 { get; set; }
+        public int Unk3 { get; set; }
 
         [BlubMember(5)]
-        public int Unk4 { get; set; } //serverid?
+        public int Unk4 { get; set; }
 
         [BlubMember(6)]
         public int Unk5 { get; set; }
 
-        [BlubMember(7)]
-        public int Unk6 { get; set; }
+        [BlubMember(7, typeof(StringSerializer))]
+        public string JoinDate { get; set; }
 
         [BlubMember(8)]
         public int Unk7 { get; set; }
 
-        [BlubMember(9)]
-        public int Unk8 { get; set; }
+        [BlubMember(9, typeof(StringSerializer))]
+        public string LastLogin { get; set; }
 
         [BlubMember(10)]
-        public int Unk9 { get; set; }
+        public int ServerId { get; set; }
+
+        [BlubMember(11)]
+        public int ChannelId { get; set; }
+
+        [BlubMember(12)]
+        public int RoomId { get; set; }
+
+        [BlubMember(13)]
+        public int Unk11 { get; set; }
+
+        [BlubMember(14)]
+        public int Unk12 { get; set; }
     }
 }

@@ -7,34 +7,13 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubCreateReqMessage : IClubMessage
     {
         [BlubMember(0, typeof(StringSerializer))]
-        public string Unk1 { get; set; }
+        public string Name { get; set; }
 
         [BlubMember(1, typeof(StringSerializer))]
         public string Unk2 { get; set; }
 
         [BlubMember(2, typeof(StringSerializer))]
         public string Unk3 { get; set; }
-
-        [BlubMember(3)]
-        public int Unk4 { get; set; }
-
-        [BlubMember(4)]
-        public int Unk5 { get; set; }
-
-        [BlubMember(5, typeof(StringSerializer))]
-        public string Unk6 { get; set; }
-
-        [BlubMember(6, typeof(StringSerializer))]
-        public string Unk7 { get; set; }
-
-        [BlubMember(7, typeof(StringSerializer))]
-        public string Unk8 { get; set; }
-
-        [BlubMember(8, typeof(StringSerializer))]
-        public string Unk9 { get; set; }
-
-        [BlubMember(9, typeof(StringSerializer))]
-        public string Unk10 { get; set; }
     }
 
     [BlubContract]
@@ -55,32 +34,14 @@ namespace NeoNetsphere.Network.Message.Club
     public class ClubUnjoinReqMessage : IClubMessage
     {
         [BlubMember(0)]
-        public int Unk1 { get; set; }
-
-        [BlubMember(1, typeof(StringSerializer))]
-        public string Unk2 { get; set; }
-
-        [BlubMember(2, typeof(StringSerializer))]
-        public string Unk3 { get; set; }
-
-        [BlubMember(3, typeof(StringSerializer))]
-        public string Unk4 { get; set; }
-
-        [BlubMember(4, typeof(StringSerializer))]
-        public string Unk5 { get; set; }
-
-        [BlubMember(5, typeof(StringSerializer))]
-        public string Unk6 { get; set; }
-
-        [BlubMember(6, typeof(StringSerializer))]
-        public string Unk7 { get; set; }
+        public int ClanId { get; set; }
     }
 
     [BlubContract]
     public class ClubNameCheckReqMessage : IClubMessage
     {
         [BlubMember(0, typeof(StringSerializer))]
-        public string Unk { get; set; }
+        public string Name { get; set; }
     }
 
     [BlubContract]
@@ -397,10 +358,10 @@ namespace NeoNetsphere.Network.Message.Club
         public string Name { get; set; }
 
         [BlubMember(1, typeof(StringSerializer))]
-        public string Unk1 { get; set; }
+        public string Unk2 { get; set; }
 
         [BlubMember(2, typeof(StringSerializer))]
-        public string Unk2 { get; set; }
+        public string Unk3 { get; set; }
     }
     
     [BlubContract]
@@ -408,13 +369,10 @@ namespace NeoNetsphere.Network.Message.Club
     {
     }
 
-    //[BlubContract]
-    //public class ClubClubMemberInfoReq2Message : IClubMessage
-    //{
-    //    [BlubMember(0)]
-    //    public int Unk1 { get; set; }
-    //
-    //    [BlubMember(1)]
-    //    public long AccountId { get; set; }
-    //}
+    [BlubContract]
+    public class ClubUnjoinReq2Message : IClubMessage
+    {
+        [BlubMember(0)]
+        public int ClanId { get; set; }
+    }
 }
