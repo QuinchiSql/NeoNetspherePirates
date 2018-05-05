@@ -56,6 +56,7 @@ namespace NeoNetsphere.Network
                 .Add(new UserkickCommand())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())
+                .Add(new ClanCommands())
                 .Add(new InventoryCommands());
 
             PlayerManager = new PlayerManager();
@@ -413,19 +414,19 @@ namespace NeoNetsphere.Network
                 .Value(dest => dest.RoomId, -1);
 
             Mapper.Register<Player, ClubInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.MasterName, src => src.Club != null ? src.Club.Players.Values.FirstOrDefault(x => x.IsMod).account.Nickname : "")
-                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count + 5 : 0)
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.Clan_Name ?? "n/A")
+                .Function(dest => dest.MasterName, src => src.Club?.Players.Values.FirstOrDefault(x => x.IsMod)?.account?.Nickname ?? "")
+                .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.Clan_Icon ?? "");
 
             Mapper.Register<Player, ClubInfoDto2>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
-                .Member(dest => dest.Id2, src => src.Club != null ? src.Club.Id : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.MasterName, src => src.Club != null ? src.Club.Players.Values.FirstOrDefault(x => x.IsMod).account.Nickname : "")
-                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count+5 : 0)
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Id2, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.Clan_Name ?? "n/A")
+                .Function(dest => dest.MasterName, src => src.Club?.Players.Values.FirstOrDefault(x => x.IsMod)?.account?.Nickname ?? "")
+                .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.Clan_Icon ?? "");
 
 
             Mapper.Register<ClubPlayerInfo, PlayerInfoDto>()
