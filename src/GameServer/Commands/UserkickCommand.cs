@@ -7,9 +7,9 @@ using NeoNetsphere.Network;
 
 namespace NeoNetsphere.Commands
 {
-    internal class UserkickCommands : ICommand
+    internal class UserkickCommand : ICommand
     {
-        public UserkickCommands()
+        public UserkickCommand()
         {
             Name = "/userkick";
             AllowConsole = true;
@@ -24,18 +24,18 @@ namespace NeoNetsphere.Commands
 
         public bool Execute(GameServer server, Player plr, string[] args)
         {
-            return new KickCommands().Execute(server, plr, args);
+            return new UserkickCommand().Execute(server, plr, args);
         }
 
         public string Help()
         {
-            return new KickCommands().Help();
+            return new UserkickCommand().Help();
         }
     }
 
-    internal class KickCommands : ICommand
+    internal class KickCommand : ICommand
     {
-        public KickCommands()
+        public KickCommand()
         {
             Name = "/kick";
             AllowConsole = true;

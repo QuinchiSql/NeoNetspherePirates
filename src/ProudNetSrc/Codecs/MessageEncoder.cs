@@ -28,7 +28,9 @@ namespace ProudNetSrc.Codecs
                 : _userMessageFactories.FirstOrDefault(userFactory => userFactory.ContainsType(type));
 
             if (factory == null)
+            {
                 throw new ProudException($"No {nameof(MessageFactory)} found for message {type.FullName}");
+            }
 
             var opCode = factory.GetOpCode(type);
             var buffer = context.Allocator.Buffer(2);

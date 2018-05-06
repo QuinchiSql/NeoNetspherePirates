@@ -47,7 +47,7 @@ namespace NeoNetsphere.Network
                 .Add(new GameCommands())
                 .Add(new BanCommands())
                 .Add(new UnbanCommands())
-                .Add(new KickCommand())
+                .Add(new UserkickCommand())
                 .Add(new UserkickCommand())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())

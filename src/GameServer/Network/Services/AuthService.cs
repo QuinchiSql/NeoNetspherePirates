@@ -161,6 +161,7 @@ namespace NeoNetsphere.Network.Services
                     .Information("Kicking old connection");
 
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
+                GameServer.Instance.PlayerManager.Remove(oldPlr);
                 oldPlr?.Disconnect();
             }
 
@@ -170,6 +171,7 @@ namespace NeoNetsphere.Network.Services
                     .Information("Kicking old connection");
 
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
+                GameServer.Instance.PlayerManager.Remove(oldPlr);
                 oldPlr?.Disconnect();
             }
 
@@ -231,6 +233,9 @@ namespace NeoNetsphere.Network.Services
 
                 session.Player = new Player(session, account, plrDto);
             }
+
+            if (session.Player == null)
+                return;
 
             GameServer.Instance.PlayerManager.Add(session.Player);
 
