@@ -214,7 +214,7 @@ namespace ProudNetSrc.Handlers
             var remotePeer = session.P2PGroup?.Members.GetValueOrDefault(session.HostId);
             if (remotePeer != null)
             {
-                using (remotePeer._sync.Lock())
+                //using (remotePeer._sync.Lock())
                 {
                     var connectionState = remotePeer.ConnectionStates.GetValueOrDefault(message.HostId);
                     if (connectionState != null)

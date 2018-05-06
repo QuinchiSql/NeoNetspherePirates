@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -112,7 +113,10 @@ namespace NeoNetsphere.Network.Service
 
                     if (account != null)
                     {
-                        if ((DateTimeOffset.Now - DateTimeOffset.Parse(account.LastLogin)).Minutes >= 5)
+                        var lastlogin = DateTimeOffset.ParseExact(account.LastLogin, "yyyyMMddHHmmss", CultureInfo.InvariantCulture,
+                            DateTimeStyles.None);
+
+                        if ((DateTimeOffset.Now - lastlogin).Minutes >= 5)
                         {
                             await session.SendAsync(new LoginEUAckMessage(AuthLoginResult.Failed2));
                             Logger.Error("Wrong login for {ip}", ip);

@@ -29,7 +29,7 @@
             var remotePeer = session.P2PGroup.Members.GetValueOrDefault(session.HostId);
             if (remotePeer != null)
             {
-                using (remotePeer._sync.Lock())
+                //using (remotePeer._sync.Lock())
                 {
                     var stateA = remotePeer.ConnectionStates?.GetValueOrDefault(message.RemotePeerHostId);
                     var stateB = stateA?.RemotePeer?.ConnectionStates?.GetValueOrDefault(session.HostId);
@@ -69,7 +69,7 @@
             var remotePeer = session.P2PGroup?.Members[session.HostId];
             if (remotePeer != null)
             {
-                using (remotePeer._sync.Lock())
+                //using (remotePeer._sync.Lock())
                 {
                     var stateA = remotePeer.ConnectionStates?.GetValueOrDefault(message.AddedMemberHostId);
                     if (stateA?.EventId != message.EventId)
@@ -116,9 +116,9 @@
                 return;
             }
 
-            using (remotePeerA._sync.Lock())
+            //using (remotePeerA._sync.Lock())
             {
-                using (remotePeerB._sync.Lock())
+                //using (remotePeerB._sync.Lock())
                 {
                     if (session.HostId == remotePeerA.HostId)
                     {
@@ -168,9 +168,9 @@
                 return;
             }
 
-            using (remotePeerA._sync.Lock())
+            //using (remotePeerA._sync.Lock())
             {
-                using (remotePeerB._sync.Lock())
+                //using (remotePeerB._sync.Lock())
                 {
                     var stateA = remotePeerA.ConnectionStates?.GetValueOrDefault(remotePeerB.HostId);
                     var stateB = remotePeerB.ConnectionStates?.GetValueOrDefault(remotePeerA.HostId);

@@ -26,6 +26,7 @@ namespace NeoNetsphere.Network
 
         private readonly IList<IMessageHandler> _messageHandlers = new List<IMessageHandler>();
 
+
         public override async Task<bool> OnMessageReceived(IChannelHandlerContext context, object message)
         {
             _filter.TryGetValue(message.GetType(), out var predicates);
@@ -40,6 +41,14 @@ namespace NeoNetsphere.Network
                 return false;
             }
 
+            HandleMessage(context, message);
+            return true;
+        }
+
+        private async Task HandleMessage(IChannelHandlerContext context, object message)
+        {
+            if (!GetParameter(context, message, out TSession session))
+                throw new Exception("Unable to retrieve session");
             var handled = false;
             foreach (var messageHandler in _messageHandlers)
             {
@@ -50,11 +59,10 @@ namespace NeoNetsphere.Network
                 }
             }
             if (handled || message.GetType().Name == "RecvContext")
-                return handled;
+                return;
             Logger.Error("Unhandled message {messageName}", message.GetType().Name);
             if (session.GetType() == typeof(GameSession))
                 await session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-            return false;
         }
 
         public FilteredMessageHandler<TSession> AddHandler(IMessageHandler handler)

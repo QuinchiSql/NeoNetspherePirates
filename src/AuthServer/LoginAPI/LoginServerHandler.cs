@@ -126,6 +126,7 @@ namespace NeoNetsphere.LoginAPI
                                                                 .GetHash256(
                                                                     $"{context.Channel.RemoteAddress}-{account.Username}-{account.Password}")
                                                                 .ToLower();
+                                                            account.LastLogin = $"{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
                                                             account.AuthToken = "";
                                                             account.newToken = "";
                                                             db.UpdateAsync(account);
