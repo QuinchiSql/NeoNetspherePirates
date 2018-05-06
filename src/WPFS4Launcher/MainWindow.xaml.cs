@@ -45,12 +45,11 @@ namespace WPFS4Launcher
             ButtonTx.Text = "    LOGIN";
         }
 
-        public void Ready(string code, bool isKoreaClient)
+        public void Ready(string code)
         {
             Dispatcher.Invoke(() =>
             {
                 AuthCode = code;
-                IsKoreClient = isKoreaClient;
                 ButtonTx.Text = "    START";
                 ButtonState = 2;
                 UpdateButton();
@@ -69,19 +68,21 @@ namespace WPFS4Launcher
 
         public string GetUsername()
         {
-            return Dispatcher.Invoke(() => { return login_username.Text; });
+            return Dispatcher.Invoke(() => login_username.Text);
         }
 
         public string GetPassword()
         {
-            return Dispatcher.Invoke(() => { return login_passwd.Password; });
+            return Dispatcher.Invoke(() => login_passwd.Password);
         }
 
         public Label AddNotice(string message)
         {
-            var noticemessage = new Label();
-            noticemessage.Foreground = Brushes.White;
-            noticemessage.Content = "Addlog | News | Future";
+            var noticemessage = new Label
+            {
+                Foreground = Brushes.White,
+                Content = "Addlog | News | Future"
+            };
             var subheader = new Separator();
             NoticeBox.Items.Add(noticemessage);
             NoticeBox.Items.Add(subheader);
@@ -157,7 +158,7 @@ namespace WPFS4Launcher
                         $"-rc:eu -lac:eng -auth_server_ip:{Constants.ConnectEndPoint.Address} -aeria_acc_code:{AuthCode}");
                     Environment.Exit(-1);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     MessageBox.Show("Failed to execute S4Client.exe", "Error");
                 }

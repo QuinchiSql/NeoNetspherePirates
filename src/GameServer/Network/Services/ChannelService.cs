@@ -28,13 +28,16 @@ namespace NeoNetsphere.Network.Services
             if (session.Player.Room != null)
                 return;
             if (session.Player.Channel == null)
+            {
                 try
                 {
                     GameServer.Instance.ChannelManager[0].Join(session.Player, true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
+                    //ignored
                 }
+            }
 
             switch (message.Request)
             {
@@ -79,7 +82,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ChannelEnterReqMessage))]
-        public void CChannelEnterReq(GameSession session, ChannelEnterReqMessage message)
+        public void ChannelEnterReq(GameSession session, ChannelEnterReqMessage message)
         {
             if (session.Player.Room != null)
                 return;
@@ -103,7 +106,7 @@ namespace NeoNetsphere.Network.Services
 
 
         [MessageHandler(typeof(ChannelLeaveReqMessage))]
-        public void CChannelLeaveReq(GameSession session)
+        public void ChannelLeaveReq(GameSession session)
         {
             if (session.Player.Room != null)
                 return;
@@ -112,7 +115,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(MessageChatReqMessage))]
-        public void CChatMessageReq(ChatSession session, MessageChatReqMessage message)
+        public void MessageChatReq(ChatSession session, MessageChatReqMessage message)
         {
             switch (message.ChatType)
             {
@@ -142,7 +145,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(MessageWhisperChatReqMessage))]
-        public void CWhisperChatMessageReq(ChatSession session, MessageWhisperChatReqMessage message)
+        public void MessageWhisperChatReq(ChatSession session, MessageWhisperChatReqMessage message)
         {
             var toPlr = GameServer.Instance.PlayerManager.Get(message.ToNickname);
             if (message.ToNickname.ToLower() != "server")
@@ -186,23 +189,23 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(RoomQuickStartReqMessage))]
-        public Task CQuickStartReq(GameSession session, RoomQuickStartReqMessage message)
+        public void RoomQuickStartReq(GameSession session, RoomQuickStartReqMessage message)
         {
             //ToDo - Logic
-            return session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(TaskReguestReqMessage))]
-        public Task TaskRequestReq(GameSession session, TaskReguestReqMessage message)
+        public void TaskReguestReq(GameSession session, TaskReguestReqMessage message)
         {
             //ToDo - Logic
-            return session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(ChannellistReqMessage))]
-        public Task Channellistreq(ChatSession session, ChannellistReqMessage message)
+        public void Channellistreq(ChatSession session, ChannellistReqMessage message)
         {
-            return session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(
+            session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(
                 plr => new PlayerInfoDto
                 {
                     Info = plr.Map<Player, PlayerInfoShortDto>(),

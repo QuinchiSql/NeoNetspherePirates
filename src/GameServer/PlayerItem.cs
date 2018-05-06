@@ -136,7 +136,7 @@ namespace NeoNetsphere
             return GetShopItemInfo().PriceGroup.GetPrice(PeriodType, Period);
         }
 
-        public Task LoseDurabilityAsync(int loss)
+        public async Task LoseDurabilityAsync(int loss)
         {
             if (loss < 0)
                 throw new ArgumentOutOfRangeException(nameof(loss));
@@ -145,18 +145,15 @@ namespace NeoNetsphere
                 throw new InvalidOperationException("Player is not inside a room");
 
             if (Durability == -1)
-                return Task.CompletedTask;
+                return;
 
             Durability -= loss;
             DurabilityLoss = loss;
             if (Durability < 0)
                 Durability = 0;
 
-            //return Inventory.Player.Session.SendAsync(new ItemDurabilityItemAckMessage(new ItemDurabilityInfoDto[] { new ItemDurabilityInfoDto { ItemId=this.ItemNumber, Durabilityloss = loss, Unk1 = 1 } } ));
-            var send = Inventory.Player.Session.SendAsync(
-                new ItemDurabilityItemAckMessage(new[] {this.Map<PlayerItem, ItemDurabilityInfoDto>()}));
+            await Inventory.Player.Session.SendAsync(new ItemDurabilityItemAckMessage(new[] { this.Map<PlayerItem, ItemDurabilityInfoDto>() }));
             DurabilityLoss = 0;
-            return send;
         }
 
         public uint CalculateRefund(ShopPrice price)

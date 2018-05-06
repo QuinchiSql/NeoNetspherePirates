@@ -21,7 +21,6 @@ using Netsphere.Game.Systems;
 using ProudNetSrc;
 using Serilog;
 using Serilog.Core;
-using PlayerInfoAckMessage = NeoNetsphere.Network.Message.Chat.PlayerInfoAckMessage;
 
 namespace NeoNetsphere
 {
@@ -237,7 +236,7 @@ namespace NeoNetsphere
                 plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
                 plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
                 plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
-                Broadcast(new PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
+                Broadcast(new ChatPlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
                 OnPlayerJoining(new RoomPlayerEventArgs(plr));
             }
         }

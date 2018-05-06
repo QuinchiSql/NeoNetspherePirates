@@ -16,14 +16,14 @@ namespace NeoNetsphere
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ServerManager));
 
-        internal readonly ConcurrentDictionary<ushort, ServerEntry> _serverList =
+        internal readonly ConcurrentDictionary<ushort, ServerEntry> ServerList =
             new ConcurrentDictionary<ushort, ServerEntry>();
 
         public IEnumerator<ServerInfoDto> GetEnumerator()
         {
-            return _serverList.Values
+            return ServerList.Values
                 .Select(entry => entry.Game)
-                .Concat(_serverList.Values.Select(entry => entry.Chat))
+                .Concat(ServerList.Values.Select(entry => entry.Chat))
                 .GetEnumerator();
         }
 
@@ -63,7 +63,7 @@ namespace NeoNetsphere
                 EndPoint = serverInfo.EndPoint
             };
 
-            if (_serverList.TryAdd(serverInfo.Id, new ServerEntry(game, chat)))
+            if (ServerList.TryAdd(serverInfo.Id, new ServerEntry(game, chat)))
             {
                 Logger.Information($"Added server with valid apikey: {serverInfo.Name}({serverInfo.Id})");
                 Network.AuthServer.Instance.Broadcast(new ServerListAckMessage(Network.AuthServer.Instance.ServerManager.ToArray()));
@@ -74,8 +74,7 @@ namespace NeoNetsphere
 
         public bool Update(AuthServer.ServiceModel.ServerInfoDto serverInfo)
         {
-            ServerEntry entry;
-            if (!_serverList.TryGetValue(serverInfo.Id, out entry))
+            if (!ServerList.TryGetValue(serverInfo.Id, out var entry))
                 return false;
 
             entry.Game.PlayerLimit = serverInfo.PlayerLimit;
@@ -91,7 +90,7 @@ namespace NeoNetsphere
 
         public void Flush()
         {
-            foreach (var pair in _serverList)
+            foreach (var pair in ServerList)
             {
                 var diff = DateTimeOffset.Now - pair.Value.LastUpdate;
                 if (diff >= Config.Instance.API.Timeout)
@@ -101,8 +100,7 @@ namespace NeoNetsphere
 
         public bool Remove(ushort id)
         {
-            ServerEntry entry;
-            if (_serverList.TryRemove(id, out entry))
+            if (ServerList.TryRemove(id, out var entry))
             {
                 Logger.Information($"Removed server {entry.Game.Name}({entry.Game.GroupId})");
                 Network.AuthServer.Instance.Broadcast(new ServerListAckMessage(Network.AuthServer.Instance.ServerManager.ToArray()));

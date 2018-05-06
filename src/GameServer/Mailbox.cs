@@ -52,7 +52,7 @@ namespace NeoNetsphere
         internal void Add(Mail mail)
         {
             if (_mails.TryAdd(mail.Id, mail))
-                UpdateReminderAsync();
+                UpdateReminder();
         }
 
         public async Task<bool> SendAsync(string receiver, string title, string message)
@@ -109,14 +109,14 @@ namespace NeoNetsphere
                 _mailsToDelete.Push(mail);
             }
 
-            UpdateReminderAsync();
+            UpdateReminder();
 
             return changed;
         }
 
-        public Task UpdateReminderAsync()
+        public void UpdateReminder()
         {
-            return Player.ChatSession.SendAsync(new NoteCountAckMessage((byte) this.Count(m => m.IsNew), 0, 0));
+            Player.ChatSession.SendAsync(new NoteCountAckMessage((byte) this.Count(m => m.IsNew), 0, 0));
         }
 
         internal void Save(IDbConnection db)

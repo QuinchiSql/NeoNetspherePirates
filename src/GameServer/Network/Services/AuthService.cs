@@ -23,7 +23,6 @@ using Newtonsoft.Json;
 using ProudNetSrc.Handlers;
 using Serilog;
 using Serilog.Core;
-using PlayerInfoAckMessage = NeoNetsphere.Network.Message.Chat.PlayerInfoAckMessage;
 
 namespace NeoNetsphere.Network.Services
 {
@@ -277,16 +276,15 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(NickCheckReqMessage))]
-        public async Task CheckNickHandler(GameSession session, NickCheckReqMessage message)
+        public void CheckNickHandler(GameSession session, NickCheckReqMessage message)
         {
-            await session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(ItemUseChangeNickReqMessage))]
-        public async Task ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
+        public void ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
         {
-            await session.SendAsync(
-                new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
+            session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
 
         private static async Task LoginAsync(GameSession session)
@@ -392,55 +390,7 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new MapOpenInfosMessage());
             await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
         }
-
-        private static async Task<bool> IsNickAvailableAsync(string nickname)
-        {
-            var minLength = Config.Instance.Game.NickRestrictions.MinLength;
-            var maxLength = Config.Instance.Game.NickRestrictions.MaxLength;
-            var whitespace = Config.Instance.Game.NickRestrictions.WhitespaceAllowed;
-            var ascii = Config.Instance.Game.NickRestrictions.AsciiOnly;
-
-            if (string.IsNullOrWhiteSpace(nickname) || !whitespace && nickname.Contains(" ") ||
-                nickname.Length < minLength || nickname.Length > maxLength ||
-                ascii && Encoding.UTF8.GetByteCount(nickname) != nickname.Length)
-                return false;
-
-            // check for repeating chars example: (AAAHello, HeLLLLo)
-            var maxRepeat = Config.Instance.Game.NickRestrictions.MaxRepeat;
-            if (maxRepeat > 0)
-            {
-                var counter = 1;
-                var current = nickname[0];
-                for (var i = 1; i < nickname.Length; i++)
-                {
-                    if (current != nickname[i])
-                    {
-                        if (counter > maxRepeat) return false;
-                        counter = 0;
-                        current = nickname[i];
-                    }
-
-                    counter++;
-                }
-            }
-
-            var now = DateTimeOffset.Now.ToUnixTimeSeconds();
-            using (var db = AuthDatabase.Open())
-            {
-                var nickExists = (await db.FindAsync<AccountDto>(statement => statement
-                        .Where($"{nameof(AccountDto.Nickname):C} = @{nameof(nickname)}")
-                        .WithParameters(new {nickname})))
-                    .Any();
-
-                var nickReserved = (await db.FindAsync<NicknameHistoryDto>(statement => statement
-                        .Where(
-                            $"{nameof(NicknameHistoryDto.Nickname):C} = @{nameof(nickname)} AND ({nameof(NicknameHistoryDto.ExpireDate):C} = -1 OR {nameof(NicknameHistoryDto.ExpireDate):C} > @{nameof(now)})")
-                        .WithParameters(new {nickname, now})))
-                    .Any();
-                return !nickExists && !nickReserved;
-            }
-        }
-
+        
         [MessageHandler(typeof(LoginReqMessage))]
         public async Task Chat_LoginHandler(ChatServer server, ChatSession session, LoginReqMessage message)
         {
@@ -489,8 +439,8 @@ namespace NeoNetsphere.Network.Services
                     .Where(x => (x.Club?.Id ?? 0) == plr.Club.Id).Select(x => x.Map<Player, PlayerInfoDto>())
                     .ToArray()));
             }
-
-            await session.SendAsync(new PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
+            
+            await session.SendAsync(new ChatPlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
         }
 
         [MessageHandler(typeof(CRequestLoginMessage))]

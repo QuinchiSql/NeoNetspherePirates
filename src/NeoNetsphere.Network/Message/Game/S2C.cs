@@ -619,7 +619,7 @@ namespace NeoNetsphere.Network.Message.Game
     }
 
     [BlubContract]
-    public class PlayerInfoAckMessage : IGameMessage
+    public class GamePlayerInfoAckMessage : IGameMessage
     {
         [BlubMember(0)]
         public ulong AccountID { get; set; }

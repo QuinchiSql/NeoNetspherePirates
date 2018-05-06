@@ -412,16 +412,16 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.AccountId, src => src.Account.Id);
 
             Mapper.Register<Player, MyInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.ClanName : "")
-                .Member(dest => dest.Level, src => src.Club != null ? src.Club.Count : 0)
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.ClanIcon : "")
-                .Member(dest => dest.State, src => src.Club != null ? src.Club[src.Account.Id].State : 0);
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "")
+                .Function(dest => dest.Level, src => src.Club?.Count ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "")
+                .Function(dest => dest.State, src => src.Club?[src.Account?.Id ?? 0].State ?? 0);
 
             Mapper.Register<Player, PlayerClubInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Id : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.ClanName : "")
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.ClanIcon : "");
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "")
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
 
             Mapper.Register<Player, ClubMemberDto>()
                 .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)

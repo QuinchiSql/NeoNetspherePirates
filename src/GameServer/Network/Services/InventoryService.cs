@@ -68,7 +68,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ItemRepairItemReqMessage))]
-        public async Task RepairItemHandler(GameSession session, ItemRepairItemReqMessage message)
+        public void RepairItemHandler(GameSession session, ItemRepairItemReqMessage message)
         {
             var shop = GameServer.Instance.ResourceCache.GetShop();
 
@@ -79,7 +79,7 @@ namespace NeoNetsphere.Network.Services
                 {
                     Logger.ForAccount(session)
                         .Error("Item {id} not found", id);
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error0});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error0});
                     return;
                 }
 
@@ -88,14 +88,14 @@ namespace NeoNetsphere.Network.Services
                     Logger.ForAccount(session)
                         .Error("Item {item} can not be repaired",
                             new {item.ItemNumber, item.PriceType, item.PeriodType, item.Period});
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error1});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error1});
                     return;
                 }
 
                 var cost = item.CalculateRepair();
                 if (session.Player.PEN < cost)
                 {
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.NotEnoughMoney});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.NotEnoughMoney});
                     return;
                 }
 
@@ -105,13 +105,13 @@ namespace NeoNetsphere.Network.Services
                     Logger.ForAccount(session)
                         .Error("No shop entry found for {item}",
                             new {item.ItemNumber, item.PriceType, item.PeriodType, item.Period});
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error4});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error4});
                     return;
                 }
 
                 if (item.Durability >= price.Durability)
                 {
-                    await session.SendAsync(new ItemRepairItemAckMessage
+                    session.SendAsync(new ItemRepairItemAckMessage
                     {
                         Result = ItemRepairResult.OK,
                         ItemId = item.Id
@@ -122,9 +122,8 @@ namespace NeoNetsphere.Network.Services
                 item.Durability = price.Durability;
                 session.Player.PEN -= cost;
 
-                await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.OK, ItemId = item.Id});
-                await session.SendAsync(
-                    new MoneyRefreshCashInfoAckMessage {PEN = session.Player.PEN, AP = session.Player.AP});
+                session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.OK, ItemId = item.Id});
+                session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = session.Player.PEN, AP = session.Player.AP});
             }
         }
 
@@ -205,7 +204,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
-        public async Task UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
+        public void UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
         {
             var item = session.Player.Inventory.GetItem(message.ItemId);
             if (item.ItemNumber.Id == 4030051) //capsule
@@ -235,8 +234,7 @@ namespace NeoNetsphere.Network.Services
                     count = 2;
                 else if (count >= 1)
                     count = 1;
-
-
+                
                 var pencount = 0;
                 pencount = random.Next(300, (int) (count + 300 * 100));
                 pencount = 5 * (int) Math.Round(pencount / 5.0);
@@ -250,7 +248,7 @@ namespace NeoNetsphere.Network.Services
                         ItemPriceType.PEN, ItemPeriodType.None, 0)
                 };
 
-                await session.SendAsync(new ItemUseCapsuleAckMessage(reward.ToArray(), 3));
+                session.SendAsync(new ItemUseCapsuleAckMessage(reward.ToArray(), 3));
                 if (item.Count <= 1)
                 {
                     session.Player.Inventory.Remove(item);
@@ -259,13 +257,12 @@ namespace NeoNetsphere.Network.Services
                 {
                     item.Count -= 1;
                     item.NeedsToSave = true;
-                    await session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update,
-                        item.Map<PlayerItem, ItemDto>()));
+                    session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, item.Map<PlayerItem, ItemDto>()));
                 }
             }
             else
             {
-                await session.SendAsync(new ItemUseCapsuleAckMessage(1));
+                session.SendAsync(new ItemUseCapsuleAckMessage(1));
             }
         }
     }

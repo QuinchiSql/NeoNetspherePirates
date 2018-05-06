@@ -12,7 +12,7 @@ namespace NeoNetsphere.LoginAPI
 {
     public class LoginServerHandler : ChannelHandlerAdapter
     {
-        private static readonly short Magic = 0x5713;
+        private const short Magic = 0x5713;
         private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, "LoginServer");
 
         public override void ChannelActive(IChannelHandlerContext context)
@@ -56,14 +56,11 @@ namespace NeoNetsphere.LoginAPI
                                         var username = "";
                                         var password = "";
                                         var register = false;
-                                        var korealogin = false;
 
                                         if (receivedMessage.Read(ref username)
                                         && receivedMessage.Read(ref password)
                                         && receivedMessage.Read(ref register))
                                         {
-                                            //receivedMessage.Read(ref korealogin);
-
                                             using (var db = AuthDatabase.Open())
                                             {
                                                 Logger.Information("Authentication login from {endpoint}",
@@ -137,7 +134,6 @@ namespace NeoNetsphere.LoginAPI
                                                             var ack = new CCMessage();
                                                             ack.Write(true);
                                                             ack.Write(account.LoginToken);
-                                                            //ack.Write(korealogin);
                                                             RmiSend(context, 16, ack);
                                                         }
                                                         Logger.Information("Authentication success for {username}",
@@ -178,9 +174,6 @@ namespace NeoNetsphere.LoginAPI
                         break;
                     case CCMessage.MessageType.Notify:
                         context.CloseAsync();
-                        //var info = "";
-                        //receivedMessage.Read(ref info);
-                        //Logger.Information("Received info! -> {received}", info);
                         break;
                     default:
                         Logger.Error("Received unknown coreID{coreid} from {endpoint}", coreId,
@@ -203,7 +196,7 @@ namespace NeoNetsphere.LoginAPI
             context.CloseAsync();
         }
 
-        public void RmiSend(IChannelHandlerContext ctx, short rmiId, CCMessage message)
+        private static void RmiSend(IChannelHandlerContext ctx, short rmiId, CCMessage message)
         {
             var rmiframe = new CCMessage();
             rmiframe.Write(CCMessage.MessageType.Rmi);
@@ -212,7 +205,7 @@ namespace NeoNetsphere.LoginAPI
             SendA(ctx, rmiframe);
         }
 
-        public void SendA(IChannelHandlerContext ctx, CCMessage data)
+        private static void SendA(IChannelHandlerContext ctx, CCMessage data)
         {
             var coreframe = new CCMessage();
             coreframe.Write(Magic);

@@ -51,58 +51,58 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ClubClubInfoReqMessage))]
-        public async Task ClubClubInfoReq(GameSession session, ClubClubInfoReqMessage message)
+        public void ClubClubInfoReq(GameSession session, ClubClubInfoReqMessage message)
         {
             var plr = session.Player;
             if (plr == null)
                 return;
-            await session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
+            session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubClubInfoReq2Message))]
-        public async Task ClubClubInfoReq2(GameSession session, ClubClubInfoReq2Message message)
+        public void ClubClubInfoReq2(GameSession session, ClubClubInfoReq2Message message)
         {
             var plr = session.Player;
             if (plr == null)
                 return;
-            await session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
+            session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
         }
 
         [MessageHandler(typeof(ClubInfoReqMessage))]
-        public async Task ClubInfoReq(GameSession session, ClubInfoReqMessage message)
+        public void ClubInfoReq(GameSession session, ClubInfoReqMessage message)
         {
             var plr = session.Player;
             if (plr == null)
                 return;
-            await session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+            session.SendAsync(new ClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
         }
 
         [MessageHandler(typeof(ClubJoinWaiterInfoReqMessage))]
-        public async Task ClubJoinWaiterInfoReq(GameSession session, ClubJoinWaiterInfoReqMessage message)
+        public void ClubJoinWaiterInfoReq(GameSession session, ClubJoinWaiterInfoReqMessage message)
         {
             //Todo
-            await session.SendAsync(new ClubJoinWaiterInfoAckMessage());
+            session.SendAsync(new ClubJoinWaiterInfoAckMessage());
         }
 
         [MessageHandler(typeof(ClubStuffListReqMessage))]
-        public async Task ClubStuffListReq(GameSession session, ClubStuffListReqMessage message)
+        public void ClubStuffListReq(GameSession session, ClubStuffListReqMessage message)
         {
             //Todo
-            await session.SendAsync(new ClubStuffListAckMessage());
+            session.SendAsync(new ClubStuffListAckMessage());
         }
 
         [MessageHandler(typeof(ClubStuffListReq2Message))]
-        public async Task ClubStuffListReq2(GameSession session, ClubStuffListReq2Message message)
+        public void ClubStuffListReq2(GameSession session, ClubStuffListReq2Message message)
         {
             //Todo
-            await session.SendAsync(new ClubStuffListAck2Message());
+            session.SendAsync(new ClubStuffListAck2Message());
         }
 
         [MessageHandler(typeof(ClubSearchReqMessage))]
-        public async Task ClubSearchReq(GameSession session, ClubSearchReqMessage message)
+        public void ClubSearchReq(GameSession session, ClubSearchReqMessage message)
         {
             //Todo
-            await session.SendAsync(new ClubSearchAckMessage {Unk1 = 1});
+            session.SendAsync(new ClubSearchAckMessage {Unk1 = 1});
         }
 
         [MessageHandler(typeof(ClubNameCheckReqMessage))]
@@ -195,13 +195,13 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ClubRankListReqMessage))]
-        public async Task ClubRankListReq(GameSession session, ClubRankListReqMessage message)
+        public void ClubRankListReq(GameSession session, ClubRankListReqMessage message)
         {
             //Todo
             var plr = session.Player;
             if (plr == null)
                 return;
-            await session.SendAsync(new ClubRankListAckMessage());
+            session.SendAsync(new ClubRankListAckMessage());
         }
 
         [MessageHandler(typeof(ClubAddressReqMessage))]
@@ -329,6 +329,7 @@ namespace NeoNetsphere.Network.Services
             //using (_sync.Lock())
             {
                 if (plr.Club.Players.Values.Any(x => x.Account?.Id == (int) plr.Account.Id && !x.IsMod))
+                {
                     using (var db = GameDatabase.Open())
                     {
                         var club = db.Find<ClubDto>(statement => statement
@@ -348,20 +349,24 @@ namespace NeoNetsphere.Network.Services
                                 plr.Club.Players.TryRemove(plr.Account.Id, out var _);
                                 db.Delete(player);
                                 plr.Club = null;
+                                session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
                                 session.SendAsync(new ClubUnjoinAck2Message());
                             }
                             else
                             {
-                                session.SendAsync(new ClubUnjoinAck2Message(1));
+                                session.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
                             }
                         }
                         else
                         {
-                            session.SendAsync(new ClubUnjoinAck2Message(1));
+                            session.SendAsync(new ServerResultAckMessage(ServerResult.CantReadClanInfo));
                         }
                     }
+                }
                 else
-                    session.SendAsync(new ClubUnjoinAck2Message(1));
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                }
             }
         }
 
@@ -404,14 +409,14 @@ namespace NeoNetsphere.Network.Services
                                 plr.Club.Players.TryRemove(member.Key, out _);
                             }
                             GameServer.Instance.ClubManager.Remove(plr.Club);
+
+                            session.SendAsync(new ClubCloseAck2Message());
                             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == club.Id))
                             {
                                 Club.LogOff(member);
-                                member.Session?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
                                 member.Club = null;
+                                member.Session?.SendAsync(new ClubMyInfoAckMessage(member.Map<Player, MyInfoDto>()));
                             }
-
-                            session.SendAsync(new ClubCloseAck2Message());
                         }
                     }
                 }

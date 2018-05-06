@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Dapper.FastCrud;
 using ExpressMapper.Extensions;
+using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
 using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Message.Club;
@@ -70,6 +72,17 @@ namespace NeoNetsphere.Commands
                         return true;
                     }
 
+                    using (var db = GameDatabase.Open())
+                    {
+                        db.Insert(new ClubPlayerDto
+                        {
+                            PlayerId = (int) player.Account.Id,
+                            ClubId = club.Id,
+                            IsMod = false,
+                            State = (int) ClubState.Member
+                        });
+                    }
+
                     club.Players.TryAdd(player.Account.Id,
                         new ClubPlayerInfo
                         {
@@ -96,6 +109,15 @@ namespace NeoNetsphere.Commands
                     {
                         plr.SendConsoleMessage(S4Color.Red + "Player is in another clan");
                         return true;
+                    }
+
+                    using (var db = GameDatabase.Open())
+                    {
+                        db.Delete(new ClubPlayerDto
+                        {
+                            PlayerId = (int)player.Account.Id,
+                            ClubId = club.Id,
+                        });
                     }
 
                     Club.LogOff(player);

@@ -45,14 +45,16 @@ namespace NeoNetsphere.Network
             {
                 var result = await messageHandler.OnMessageReceived(context, message);
                 if (result)
+                {
                     handled = true;
+                }
             }
-
-            if (handled || message.GetType().Name == "RecvContext") return handled;
+            if (handled || message.GetType().Name == "RecvContext")
+                return handled;
             Logger.Error("Unhandled message {messageName}", message.GetType().Name);
             if (session.GetType() == typeof(GameSession))
                 await session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-            return handled;
+            return false;
         }
 
         public FilteredMessageHandler<TSession> AddHandler(IMessageHandler handler)

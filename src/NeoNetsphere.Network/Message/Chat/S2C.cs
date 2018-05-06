@@ -461,13 +461,13 @@ namespace NeoNetsphere.Network.Message.Chat
     }
 
     [BlubContract]
-    public class PlayerInfoAckMessage : IChatMessage
+    public class ChatPlayerInfoAckMessage : IChatMessage
     {
-        public PlayerInfoAckMessage()
+        public ChatPlayerInfoAckMessage()
         {
         }
 
-        public PlayerInfoAckMessage(PlayerInfoDto player)
+        public ChatPlayerInfoAckMessage(PlayerInfoDto player)
         {
             Player = player;
         }

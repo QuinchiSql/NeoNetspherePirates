@@ -156,7 +156,7 @@ namespace NeoNetsphere
         ///     Selects the character on the given slot
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public async Task Select(byte slot)
+        public void Select(byte slot)
         {
             //using (_sync.Lock())
             {
@@ -184,7 +184,7 @@ namespace NeoNetsphere
         ///     Removes the character
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public async Task Remove(Character @char)
+        public void Remove(Character @char)
         {
             //using (_sync.Lock())
             {
@@ -196,7 +196,7 @@ namespace NeoNetsphere
         ///     Removes the character on the given slot
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public async Task Remove(byte slot)
+        public void Remove(byte slot)
         {
             //using (_sync.Lock())
             {
@@ -211,7 +211,7 @@ namespace NeoNetsphere
             }
         }
 
-        internal async Task Save(IDbConnection db)
+        internal void Save(IDbConnection db)
         {
             //using (_sync.Lock())
             {

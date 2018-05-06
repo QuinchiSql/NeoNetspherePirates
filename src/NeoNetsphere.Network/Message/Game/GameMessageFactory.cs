@@ -49,7 +49,7 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RoomDeployAck2Message>(GameOpCode.Room_Deploy_Ack_2);
             Register<RoomDeployAckMessage>(GameOpCode.RoomDeployAck);
             Register<RoomDisposeAckMessage>(GameOpCode.RoomDisposeAck);
-            Register<PlayerInfoAckMessage>(GameOpCode.PlayerInfoAck);
+            Register<GamePlayerInfoAckMessage>(GameOpCode.PlayerInfoAck);
             Register<ItemBuyItemAckMessage>(GameOpCode.ItemBuyItemAck);
             Register<ItemRepairItemAckMessage>(GameOpCode.ItemRepairItemAck);
             Register<ItemDurabilityItemAckMessage>(GameOpCode.ItemDurabilityItemAck);

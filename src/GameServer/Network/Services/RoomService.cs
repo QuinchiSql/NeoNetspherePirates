@@ -739,7 +739,7 @@ namespace NeoNetsphere.Network.Services
 
 
         [MessageHandler(typeof(RoomQuickJoinReqMessage))]
-        public async Task QuickJoinReq(GameSession session, RoomQuickJoinReqMessage message)
+        public void QuickJoinReq(GameSession session, RoomQuickJoinReqMessage message)
         {
             try
             {
@@ -780,11 +780,11 @@ namespace NeoNetsphere.Network.Services
                     return; // We don't message the Client here, because "Room.Join(...)" already does it.
                 }
 
-                await session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
+                session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
             }
             catch (Exception)
             {
-                await session.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
+                session.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
             }
         }
 

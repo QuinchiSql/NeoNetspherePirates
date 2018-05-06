@@ -39,7 +39,7 @@ namespace NeoNetsphere.Network.Message.Chat
             Register<NoteDeleteAckMessage>(ChatOpCode.NoteDeleteAck);
             Register<NoteErrorAckMessage>(ChatOpCode.NoteErrorAck);
             Register<NoteCountAckMessage>(ChatOpCode.NoteCountAck);
-            Register<PlayerInfoAckMessage>(ChatOpCode.PlayerInfoAck);
+            Register<ChatPlayerInfoAckMessage>(ChatOpCode.PlayerInfoAck);
             Register<PlayerPositionAckMessage>(ChatOpCode.PlayerPositionAck);
             Register<PlayerPlayerInfoListAckMessage>(ChatOpCode.PlayerPlayerInfoListAck);
             Register<UserDataTwoReqMessage>(ChatOpCode.UserDataTwoReq);

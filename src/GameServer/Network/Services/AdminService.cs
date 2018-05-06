@@ -9,10 +9,9 @@ namespace NeoNetsphere.Network.Services
     internal class AdminService : ProudMessageHandler
     {
         [MessageHandler(typeof(AdminShowWindowReqMessage))]
-        public Task ShowWindowHandler(GameSession session)
+        public void ShowWindowHandler(GameSession session)
         {
-            return session.SendAsync(
-                new AdminShowWindowAckMessage(session.Player.Account.SecurityLevel <= SecurityLevel.Tester));
+            session.SendAsync(new AdminShowWindowAckMessage(session.Player.Account.SecurityLevel <= SecurityLevel.Tester));
         }
 
         [MessageHandler(typeof(AdminActionReqMessage))]

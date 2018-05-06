@@ -156,22 +156,18 @@ namespace NeoNetsphere
                     foreach (var sess in GameServer.Instance.Sessions.Values)
                     {
                         var session = (GameSession) sess;
-                        if (session.Player != null && session.Player.Room != null)
-                            session.Player.Room.Leave(session.Player);
+                        session.Player?.Room?.Leave(session.Player);
                     }
 
                     GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
                     GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
                     GameServer.Instance.Broadcast(new RequestAutoPruneAckMessage(), SendOptions.Reliable);
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
+                    //ignored
                 }
-
-                //var chat = Task.Run(() => ChatServer.Instance.Dispose());
-                //var relay = Task.Run(() => RelayServer.Instance.Dispose());
-                //var game = Task.Run(() => GameServer.Instance.Dispose());
-                //Task.WaitAll(chat, relay, game);
+                
                 s_hasExited = true;
                 Environment.Exit(0);
             }
@@ -192,16 +188,16 @@ namespace NeoNetsphere
                 foreach (var sess in GameServer.Instance.Sessions.Values)
                 {
                     var session = (GameSession) sess;
-                    if (session.Player != null && session.Player.Room != null)
-                        session.Player.Room.Leave(session.Player);
+                    session.Player?.Room?.Leave(session.Player);
                 }
 
                 GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
                 GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
                 GameServer.Instance.Broadcast(new RequestAutoPruneAckMessage(), SendOptions.Reliable);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
+                //ignored
             }
 
             Environment.Exit(-1);
@@ -585,7 +581,7 @@ namespace NeoNetsphere
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, $"-{nameof(AuthDatabase)}");
 
-        private static string s_connectionString;
+        private static string _sConnectionString;
 
         public static void Initialize()
         {
@@ -595,7 +591,7 @@ namespace NeoNetsphere
             switch (config.Engine)
             {
                 case DatabaseEngine.MySQL:
-                    s_connectionString =
+                    _sConnectionString =
                         $"SslMode=none;Server={config.Auth.Host};Port={config.Auth.Port};Database={config.Auth.Database};Uid={config.Auth.Username};Pwd={config.Auth.Password};Pooling=true;";
                     OrmConfiguration.DefaultDialect = SqlDialect.MySql;
 
@@ -611,7 +607,7 @@ namespace NeoNetsphere
                     break;
 
                 case DatabaseEngine.SQLite:
-                    s_connectionString = $"Data Source={config.Auth.Filename};";
+                    _sConnectionString = $"Data Source={config.Auth.Filename};";
                     OrmConfiguration.DefaultDialect = SqlDialect.SqLite;
 
                     if (!File.Exists(config.Auth.Filename))
@@ -636,11 +632,11 @@ namespace NeoNetsphere
             switch (engine)
             {
                 case DatabaseEngine.MySQL:
-                    connection = new MySqlConnection(s_connectionString);
+                    connection = new MySqlConnection(_sConnectionString);
                     break;
 
                 case DatabaseEngine.SQLite:
-                    connection = new SqliteConnection(s_connectionString);
+                    connection = new SqliteConnection(_sConnectionString);
                     break;
 
                 default:
@@ -660,7 +656,7 @@ namespace NeoNetsphere
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, $"-{nameof(GameDatabase)}");
 
-        private static string s_connectionString;
+        private static string _sConnectionString;
 
         public static void Initialize()
         {
@@ -670,7 +666,7 @@ namespace NeoNetsphere
             switch (config.Engine)
             {
                 case DatabaseEngine.MySQL:
-                    s_connectionString =
+                    _sConnectionString =
                         $"SslMode=none;Server={config.Game.Host};Port={config.Game.Port};Database={config.Game.Database};Uid={config.Game.Username};Pwd={config.Game.Password};Pooling=true;";
                     OrmConfiguration.DefaultDialect = SqlDialect.MySql;
 
@@ -686,7 +682,7 @@ namespace NeoNetsphere
                     break;
 
                 case DatabaseEngine.SQLite:
-                    s_connectionString = $"Data Source={config.Game.Filename};";
+                    _sConnectionString = $"Data Source={config.Game.Filename};";
                     OrmConfiguration.DefaultDialect = SqlDialect.SqLite;
 
                     if (!File.Exists(config.Game.Filename))
@@ -711,11 +707,11 @@ namespace NeoNetsphere
             switch (engine)
             {
                 case DatabaseEngine.MySQL:
-                    connection = new MySqlConnection(s_connectionString);
+                    connection = new MySqlConnection(_sConnectionString);
                     break;
 
                 case DatabaseEngine.SQLite:
-                    connection = new SqliteConnection(s_connectionString);
+                    connection = new SqliteConnection(_sConnectionString);
                     break;
 
                 default:
