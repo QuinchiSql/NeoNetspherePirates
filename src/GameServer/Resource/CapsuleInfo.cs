@@ -14,5 +14,4 @@ namespace NeoNetsphere.Resource
         public uint CapsuleId { get; set; }
         public Dictionary<uint, Tuple<string, uint>> Iteminfos { get; set; } //group, resultinfo, color
     }
-    
 }

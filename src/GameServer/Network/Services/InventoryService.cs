@@ -37,7 +37,8 @@ namespace NeoNetsphere.Network.Services
 
             if (@char == null || item == null || plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby)
             {
-                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot, message.EquipSlot,
+                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot,
+                    message.EquipSlot,
                     message.ItemId));
                 return;
             }
@@ -59,7 +60,8 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(session)
                     .Error(ex.Message, "Unable to use item");
-                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot, message.EquipSlot,
+                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot,
+                    message.EquipSlot,
                     message.ItemId));
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
             }
@@ -80,6 +82,7 @@ namespace NeoNetsphere.Network.Services
                     await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error0});
                     return;
                 }
+
                 if (item.Durability == -1)
                 {
                     Logger.ForAccount(session)
@@ -105,6 +108,7 @@ namespace NeoNetsphere.Network.Services
                     await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error4});
                     return;
                 }
+
                 if (item.Durability >= price.Durability)
                 {
                     await session.SendAsync(new ItemRepairItemAckMessage
@@ -147,6 +151,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ItemRefundItemAckMessage {Result = ItemRefundResult.Failed});
                 return;
             }
+
             if (!price.CanRefund)
             {
                 Logger.ForAccount(session)

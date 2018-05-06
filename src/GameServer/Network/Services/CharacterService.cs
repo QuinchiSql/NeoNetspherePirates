@@ -43,7 +43,7 @@ namespace NeoNetsphere.Network.Services
 
             if (plr == null)
                 return;
-            
+
             // Prevents player from changing characters while playing
             if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby &&
                 !plr.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.HalfTime))

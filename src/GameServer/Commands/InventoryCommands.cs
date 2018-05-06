@@ -34,6 +34,7 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
 
@@ -61,6 +62,7 @@ namespace NeoNetsphere.Commands
                     var itemInfo = res.GetValueOrDefault(item.ItemNumber);
                     sb.AppendLine($"#{item.Id}: {item.ItemNumber} {itemInfo?.Name}");
                 }
+
                 plr.SendConsoleMessage(sb.ToString());
                 return true;
             }

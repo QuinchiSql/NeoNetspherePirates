@@ -145,7 +145,7 @@ namespace Netsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private static DeathmatchPlayerRecord GetRecord(Player plr)
         {

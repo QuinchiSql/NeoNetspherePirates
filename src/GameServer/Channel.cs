@@ -23,7 +23,7 @@ namespace NeoNetsphere
         {
             RoomManager = new RoomManager(this);
         }
-        
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -41,26 +41,34 @@ namespace NeoNetsphere
             RoomManager.Update(delta);
         }
 
-        public async Task Join(Player plr, bool noMessage = false)
+        public void Join(Player plr, bool noMessage = false)
         {
-                if (plr.Channel != null)
-                    throw new ChannelException("Player is already inside a channel");
+            if (plr.Channel != null)
+            {
+                throw new ChannelException("Player is already inside a channel");
+            }
 
-                if (Players.Count >= PlayerLimit)
-                    throw new ChannelLimitReachedException();
+            if (Players.Count >= PlayerLimit)
+            {
+                throw new ChannelLimitReachedException();
+            }
 
             //using (_sync.Lock())
             {
                 foreach (var playr in _players.Values.Where(p => p.LocationInfo.Invisible != true))
+                {
                     playr.ChatSession.SendAsync(
                         new ChannelEnterPlayerAckMessage(plr.Map<Player, PlayerInfoShortDto>()));
-                
+                }
+
                 _players.Add(plr.Account.Id, plr);
                 plr.SentPlayerList = false;
                 plr.Channel = this;
 
                 if (!noMessage)
+                {
                     plr.Session.SendAsync(new ServerResultAckMessage(ServerResult.ChannelEnter));
+                }
                 OnPlayerJoined(new ChannelPlayerJoinedEventArgs(this, plr));
 
                 plr.ChatSession.SendAsync(new NoteCountAckMessage((byte) plr.Mailbox.Count(mail => mail.IsNew), 0, 0));
@@ -75,10 +83,12 @@ namespace NeoNetsphere
             }
         }
 
-        public async Task Leave(Player plr, bool noMessage = false)
+        public void Leave(Player plr, bool noMessage = false)
         {
-                if (plr.Channel != this)
-                    throw new ChannelException("Player is not in this channel");
+            if (plr.Channel != this)
+            {
+                throw new ChannelException("Player is not in this channel");
+            }
 
             //using (_sync.Lock())
             {
@@ -100,22 +110,32 @@ namespace NeoNetsphere
             OnMessage(new ChannelMessageEventArgs(this, plr, message));
 
             foreach (var p in Players.Values.Where(p => !p.DenyManager.Contains(plr.Account.Id) && p.Room == null))
-                p.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Channel, plr.Account.Id, plr.Account.Nickname, message));
+            {
+                p.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Channel, plr.Account.Id,
+                    plr.Account.Nickname, message));
+            }
         }
 
         public void Broadcast(IGameMessage message, bool excludeRooms = false)
         {
             foreach (var plr in Players.Values.Where(plr => !excludeRooms || plr.Room == null))
+            {
                 plr.Session?.SendAsync(message);
+            }
         }
 
         public void BroadcastCencored(RoomChangeRoomInfoAck2Message message)
         {
             foreach (var plr in Players.Values.Where(plr => plr.Room?.Id == message.Room.RoomId))
+            {
                 plr.Session?.SendAsync(message);
+            }
 
             var cencored = message.Map<RoomChangeRoomInfoAck2Message, RoomChangeRoomInfoAck2Message>();
-            cencored.Room.Password = !string.IsNullOrWhiteSpace(message.Room.Password) || !string.IsNullOrEmpty(message.Room.Password) ? "nice try :)" : "";
+            cencored.Room.Password =
+                !string.IsNullOrWhiteSpace(message.Room.Password) || !string.IsNullOrEmpty(message.Room.Password)
+                    ? "nice try :)"
+                    : "";
             foreach (var plr in Players.Values.Where(plr => plr.Room?.Id != message.Room.RoomId || plr.Room == null))
             {
                 plr.Session?.SendAsync(cencored);
@@ -125,7 +145,9 @@ namespace NeoNetsphere
         public void Broadcast(IChatMessage message, bool excludeRooms = false)
         {
             foreach (var plr in Players.Values.Where(plr => !excludeRooms || plr.Room == null))
+            {
                 plr.ChatSession?.SendAsync(message);
+            }
         }
 
         #region Events

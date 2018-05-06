@@ -11,7 +11,7 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
     internal class PracticeGameRule : GameRuleBase
     {
         private const uint PlayersNeededToStart = 1;
-        public uint KillCount = 0;
+        public uint KillCount;
 
         public PracticeGameRule(Room room)
             : base(room)
@@ -60,7 +60,7 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
         public override void Update(TimeSpan delta)
         {
             base.Update(delta);
-            
+
             if (StateMachine.IsInState(GameRuleState.Playing) &&
                 !StateMachine.IsInState(GameRuleState.EnteringResult) &&
                 !StateMachine.IsInState(GameRuleState.Result) &&
@@ -92,13 +92,12 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
             else
-            {
                 KillCount++;
-            }
 
             if (scoreAssist != null)
                 Room.Broadcast(
@@ -117,13 +116,12 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
             else
-            {
                 KillCount++;
-            }
             Room.Broadcast(
                 new ScoreTeamKillAckMessage(new Score2Dto(scoreKiller, scoreTarget,
                     attackAttribute)));
@@ -135,7 +133,8 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
             Room.Broadcast(new ScoreSuicideAckMessage(scoreTarget, AttackAttribute.KillOneSelf));
@@ -154,24 +153,24 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
 
         private static PracticePlayerRecord GetRecord(Player plr)
         {
-            return (PracticePlayerRecord)plr.RoomInfo.Stats;
+            return (PracticePlayerRecord) plr.RoomInfo.Stats;
         }
     }
 
     internal class PracticeBriefing : Briefing
     {
-        public int Kills { get; set; }
-
         public PracticeBriefing(GameRuleBase gameRule)
             : base(gameRule)
         {
             Kills = 0;
         }
 
+        public int Kills { get; set; }
+
         protected override void WriteData(BinaryWriter w, bool isResult)
         {
             base.WriteData(w, isResult);
-            var gamerule = (PracticeGameRule)GameRule;
+            var gamerule = (PracticeGameRule) GameRule;
         }
     }
 
@@ -180,7 +179,6 @@ namespace Netsphere.Game.GameRules //placeholder for real practice, c&p of death
         public PracticePlayerRecord(Player plr)
             : base(plr)
         {
-
         }
 
         public override uint TotalScore

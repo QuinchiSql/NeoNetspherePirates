@@ -93,7 +93,7 @@ namespace Netsphere.Game
 
             //NEW - UNKNOWN
             w.Write(0); //Int32
-            w.Write((byte)0); //Int8 -- player room index?? team?
+            w.Write((byte) 0); //Int8 -- player room index?? team?
             w.Write(0); //Int32
             w.Write(0); //Int32
         }

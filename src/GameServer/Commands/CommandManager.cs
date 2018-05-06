@@ -54,7 +54,8 @@ namespace NeoNetsphere.Commands
 
             if (!isConsole && plr.Account.SecurityLevel < cmd.Permission)
             {
-                Logger.ForAccount(plr).Error("Access denied for command {cmdName} - args: {args}", cmd.Name, string.Join(",", args));
+                Logger.ForAccount(plr).Error("Access denied for command {cmdName} - args: {args}", cmd.Name,
+                    string.Join(",", args));
                 plr.SendConsoleMessage(S4Color.Red + "You dont have the right");
                 return false;
             }

@@ -114,7 +114,7 @@ namespace Netsphere.Game.GameRules //placeholder for real Warfare, c&p of deathm
             Room.Broadcast(new ScoreSuicideAckMessage(scoreTarget, AttackAttribute.KillOneSelf));
             //base.OnScoreSuicide(plr);
         }
-        
+
         private bool CanStartGame()
         {
             return true;

@@ -58,13 +58,12 @@ namespace NeoNetsphere
 
                 var plr = _character.CharacterManager.Player;
                 plr.Session.SendAsync(new ItemUseItemAckMessage
-                    {
-                        CharacterSlot = _character.Slot,
-                        ItemId = item.Id,
-                        Action = UseItemAction.Equip,
-                        EquipSlot = (byte) slot
-                    });
-                    
+                {
+                    CharacterSlot = _character.Slot,
+                    ItemId = item.Id,
+                    Action = UseItemAction.Equip,
+                    EquipSlot = (byte) slot
+                });
             }
         }
 

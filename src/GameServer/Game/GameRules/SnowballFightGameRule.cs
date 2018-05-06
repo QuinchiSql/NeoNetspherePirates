@@ -113,7 +113,7 @@ namespace Netsphere.Game.GameRules
             GetRecord(plr).HealAssists++;
             base.OnScoreHeal(plr);
         }
-        
+
         private bool CanStartGame()
         {
             if (!StateMachine.IsInState(GameRuleState.Waiting))

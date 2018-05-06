@@ -5,12 +5,13 @@ namespace NeoNetsphere.Network
 {
     internal class ChatSession : ProudSession
     {
-        public GameSession GameSession { get; set; }
-        public Player Player => GameSession.Player;
-
         public ChatSession(uint hostId, IChannel channel, ProudServer server)
             : base(hostId, channel, server)
-        { }
+        {
+        }
+
+        public GameSession GameSession { get; set; }
+        public Player Player => GameSession.Player;
     }
 
     internal class ChatSessionFactory : ISessionFactory

@@ -9,7 +9,7 @@ namespace Netsphere
         AllowRoomInvite,
         AllowInfoRequest
     }
-    
+
     internal enum GameRuleState
     {
         Waiting,
@@ -23,7 +23,7 @@ namespace Netsphere
         SecondHalf,
         FullGame,
 
-        Preparing,
+        Preparing
     }
 
     internal enum GameRuleStateTrigger

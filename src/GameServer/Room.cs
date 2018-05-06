@@ -21,6 +21,7 @@ using Netsphere.Game.Systems;
 using ProudNetSrc;
 using Serilog;
 using Serilog.Core;
+using PlayerInfoAckMessage = NeoNetsphere.Network.Message.Chat.PlayerInfoAckMessage;
 
 namespace NeoNetsphere
 {
@@ -35,9 +36,9 @@ namespace NeoNetsphere
         private readonly TimeSpan _hostUpdateTime = TimeSpan.FromSeconds(30);
 
         private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
+        private readonly AsyncLock _masterSync = new AsyncLock();
         private readonly ConcurrentDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
         private readonly AsyncLock _playerSync = new AsyncLock();
-        private readonly AsyncLock _masterSync = new AsyncLock();
 
 
         private TimeSpan _changingRulesTimer;
@@ -84,8 +85,8 @@ namespace NeoNetsphere
 
         public P2PGroup Group { get; }
 
-        public bool IsChangingRules { get; private set; } = false;
-        private bool IsChangingRulesCooldown { get; set; } = false;
+        public bool IsChangingRules { get; private set; }
+        private bool IsChangingRulesCooldown { get; set; }
 
         public void Update(TimeSpan delta)
         {
@@ -93,7 +94,7 @@ namespace NeoNetsphere
             {
                 if (!(RoomManager?.Contains(this) ?? false))
                     return;
-                
+
                 if (Players.Count == 0 || !TeamManager.Players.Any())
                 {
                     if (Master.Room == this && !Master.IsLoggedIn())
@@ -106,7 +107,7 @@ namespace NeoNetsphere
                     ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
                     ChangeHostIfNeeded(GetPlayerWithLowestPing(), true);
                 }
-                
+
                 if (IsChangingRules)
                 {
                     _changingRulesTimer += delta;
@@ -135,27 +136,28 @@ namespace NeoNetsphere
 
         public void Join(Player plr)
         {
-                if (plr.Room != null)
-                    throw new RoomException("Player is already inside a room");
+            if (plr.Room != null)
+                throw new RoomException("Player is already inside a room");
 
-                if (Options.IsNoIntrusion && GameState != GameState.Waiting)
-                    throw new RoomLimitIsNoIntrutionException();
+            if (Options.IsNoIntrusion && GameState != GameState.Waiting)
+                throw new RoomLimitIsNoIntrutionException();
 
-                var joinAsSpectator = false;
-                if (TeamManager.Players.Count() >= Options.PlayerLimit)
-                {
-                    if (TeamManager.Spectators.Count() >= Options.SpectatorLimit)
-                        throw new RoomLimitReachedException();
+            var joinAsSpectator = false;
+            if (TeamManager.Players.Count() >= Options.PlayerLimit)
+            {
+                if (TeamManager.Spectators.Count() >= Options.SpectatorLimit)
+                    throw new RoomLimitReachedException();
 
-                    joinAsSpectator = true;
-                }
+                joinAsSpectator = true;
+            }
 
-                if (_kickedPlayers.ContainsKey(plr.Account.Id) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
-                    throw new RoomAccessDeniedException();
+            if (_kickedPlayers.ContainsKey(plr.Account.Id) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
+                throw new RoomAccessDeniedException();
 
             using (_playerSync.Lock())
             {
-                {//slotIdLock()
+                {
+                    //slotIdLock()
                     byte id = 3;
                     while (Players.Values.Any(p => p.RoomInfo.Slot == id))
                         id++;
@@ -174,13 +176,12 @@ namespace NeoNetsphere
                 plr.RoomInfo.Mode = joinAsSpectator ? PlayerGameMode.Spectate : PlayerGameMode.Normal;
                 plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
                 TeamManager.Join(plr);
-                
+
                 _players.TryAdd(plr.Account.Id, plr);
                 plr.Room = this;
                 plr.RoomInfo.IsConnecting = true;
 
                 if (Options.GameRule != GameRule.Horde)
-                {
                     plr.Session.SendAsync(new RoomEnterRoomInfoAck2Message
                     {
                         RoomId = Id,
@@ -198,9 +199,7 @@ namespace NeoNetsphere
                             Config.Instance.RelayListener.Port),
                         FMBURNMode = GetFMBurnModeInfo()
                     });
-                }
                 else
-                {
                     plr.Session.SendAsync(new RoomEnterRoomInfoAckMessage
                     {
                         RoomId = Id,
@@ -217,7 +216,6 @@ namespace NeoNetsphere
                         RelayEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP),
                             Config.Instance.RelayListener.Port)
                     });
-                }
 
                 plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
                 BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
@@ -227,29 +225,24 @@ namespace NeoNetsphere
 
                 var clubList = new List<PlayerClubInfoDto>();
                 foreach (var player in TeamManager.Players.Where(p => p.Club != null))
-                {
                     if (clubList.All(club => club.Id != player.Club.Id))
-                    {
                         clubList.Add(player.Map<Player, PlayerClubInfoDto>());
-                    }
-                }
 
                 if (plr.Club != null)
-                {
                     BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
-                }
 
                 plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
-                plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
+                plr.Session.SendAsync(
+                    new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                 plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
                 plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
                 plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
-                Broadcast(new Network.Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
+                Broadcast(new PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
                 OnPlayerJoining(new RoomPlayerEventArgs(plr));
             }
         }
 
-        public async Task Leave(Player plr, RoomLeaveReason roomLeaveReason = RoomLeaveReason.Left)
+        public void Leave(Player plr, RoomLeaveReason roomLeaveReason = RoomLeaveReason.Left)
         {
             using (_playerSync.Lock())
             {
@@ -280,7 +273,7 @@ namespace NeoNetsphere
                     plr.Session?.SendAsync(
                         new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                     plr.Session?.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
-                    
+
                     if (TeamManager.Players.Any())
                     {
                         ChangeMasterIfNeeded(GetPlayerWithLowestPing());
@@ -302,7 +295,7 @@ namespace NeoNetsphere
                 }
             }
         }
-        
+
         public void SetCreator(Player plr)
         {
             Master = plr;
@@ -320,6 +313,7 @@ namespace NeoNetsphere
                 Master = plr;
                 Broadcast(new RoomChangeMasterAckMessage(Master.Account.Id));
             }
+
             return true;
         }
 
@@ -330,8 +324,9 @@ namespace NeoNetsphere
                 if (plr.Room == this && Host != null && plr.Room.TeamManager.Players.Count() != 1 &&
                     (!force || Host == plr))
                     return false;
-                
-                Logger.Debug("<Room {roomId}> Changing host to {nickname} - Ping:{ping} ms", Id, plr.Account.Nickname, plr.Session.UnreliablePing);
+
+                Logger.Debug("<Room {roomId}> Changing host to {nickname} - Ping:{ping} ms", Id, plr.Account.Nickname,
+                    plr.Session.UnreliablePing);
                 Host = plr;
                 Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
                 return true;
@@ -343,7 +338,7 @@ namespace NeoNetsphere
             ChangeRules2(options.Map<ChangeRuleDto, ChangeRuleDto2>());
         }
 
-        public async Task ChangeRules2(ChangeRuleDto2 options)
+        public void ChangeRules2(ChangeRuleDto2 options)
         {
             using (_playerSync.Lock())
             {
@@ -427,6 +422,7 @@ namespace NeoNetsphere
                 var isfriendly = false;
                 var isburning = false;
                 var isWithoutStats = false;
+
                 switch (options.FMBurnMode)
                 {
                     case 0:
@@ -456,7 +452,7 @@ namespace NeoNetsphere
                 Options.PlayerLimit = options.Player_Limit;
                 Options.GameRule = (GameRule) options.GameRule;
                 Options.TimeLimit = TimeSpan.FromMinutes(options.Time);
-                Options.ScoreLimit = (ushort) options.Points;
+                Options.ScoreLimit = options.Points;
                 Options.Password = options.Password;
                 Options.IsFriendly = isfriendly;
                 Options.IsBurning = isburning;
@@ -470,7 +466,8 @@ namespace NeoNetsphere
                 RoomChangePlayers = TeamManager.Players.ToList();
                 GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapId];
                 GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
-                BroadcastExcept(Master, new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                BroadcastExcept(Master,
+                    new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
                 _changingRulesTimer = TimeSpan.Zero;
                 IsChangingRules = true;
             }
@@ -499,6 +496,7 @@ namespace NeoNetsphere
                 plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
                 TeamManager.Join(plr);
             }
+
             RoomChangePlayers = new List<Player>();
             BroadcastBriefing();
         }
@@ -512,20 +510,20 @@ namespace NeoNetsphere
 
         internal virtual byte GetFMBurnModeInfo()
         {
-            byte FMBurnMode = 0;
+            byte fmBurnMode = 0;
             if (Options.IsFriendly && Options.IsWithoutStats)
-                FMBurnMode = 5;
+                fmBurnMode = 5;
             else if (Options.IsWithoutStats)
-                FMBurnMode = 4;
+                fmBurnMode = 4;
             else if (Options.IsFriendly && Options.IsBurning)
-                FMBurnMode = 3;
+                fmBurnMode = 3;
             else if (Options.IsBurning)
-                FMBurnMode = 2;
+                fmBurnMode = 2;
             else if (Options.IsFriendly)
-                FMBurnMode = 1;
+                fmBurnMode = 1;
             else if (!Options.IsFriendly && !Options.IsBurning)
-                FMBurnMode = 0;
-            return FMBurnMode;
+                fmBurnMode = 0;
+            return fmBurnMode;
         }
 
         internal virtual RoomDto GetRoomInfo()
@@ -579,43 +577,57 @@ namespace NeoNetsphere
         public void Broadcast(IGameMessage message)
         {
             foreach (var plr in Players.Values)
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
             foreach (var plr in Players.Values)
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
             foreach (var plr in Players.Values.Where(x => x != blacklisted))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
             foreach (var plr in Players.Values.Where(x => x != blacklisted))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
             foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
             foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void Broadcast(IChatMessage message)
         {
             foreach (var plr in TeamManager.Players)
+            {
                 plr.ChatSession.SendAsync(message);
+            }
         }
 
         public void SendBriefing(Player plr, bool isResult = false)

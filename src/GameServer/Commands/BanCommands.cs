@@ -11,7 +11,6 @@ namespace NeoNetsphere.Commands
 {
     internal class UnbanCommands : ICommand
     {
-
         public UnbanCommands()
         {
             Name = "/unban";
@@ -38,9 +37,9 @@ namespace NeoNetsphere.Commands
             using (var db = AuthDatabase.Open())
             {
                 var account = db.Find<AccountDto>(statement => statement
-                        .Include<BanDto>(join => @join.LeftOuterJoin())
+                        .Include<BanDto>(join => join.LeftOuterJoin())
                         .Where($"{nameof(AccountDto.Nickname):C} = @Nickname")
-                        .WithParameters(new { Nickname = nickname }))
+                        .WithParameters(new {Nickname = nickname}))
                     .FirstOrDefault();
 
                 if (account == null)
@@ -48,7 +47,7 @@ namespace NeoNetsphere.Commands
                     plr.SendConsoleMessage(S4Color.Red + "Unknown player");
                     return true;
                 }
-                
+
                 foreach (var accountBan in account.Bans)
                 {
                     accountBan.Duration = 0;
@@ -59,6 +58,7 @@ namespace NeoNetsphere.Commands
                 Console.WriteLine($"{plr?.Account?.Nickname ?? "Unknown player"} has unbanned {account.Nickname}");
                 plr?.SendConsoleMessage(S4Color.Green + $"Unbanned {account.Nickname}");
             }
+
             return true;
         }
 
@@ -75,6 +75,7 @@ namespace NeoNetsphere.Commands
             return sb.ToString();
         }
     }
+
     internal class BanCommands : ICommand
     {
         public BanCommands()
@@ -101,7 +102,8 @@ namespace NeoNetsphere.Commands
                 plr.SendConsoleMessage(S4Color.Red + "> /ban <username> days <duration(days)> - ban for x days");
                 plr.SendConsoleMessage(S4Color.Red + "> /ban <username> mins <duration(minutes)> - ban for x minutes");
                 plr.SendConsoleMessage(S4Color.Red + "> /ban <username> secs <duration(seconds)> - ban for x seconds");
-                plr.SendConsoleMessage(S4Color.Red + "> /ban <username> <currentdate(ex:20180130)> <unk> <duration(seconds)>");
+                plr.SendConsoleMessage(S4Color.Red +
+                                       "> /ban <username> <currentdate(ex:20180130)> <unk> <duration(seconds)>");
                 return true;
             }
 
@@ -128,9 +130,9 @@ namespace NeoNetsphere.Commands
                         using (var db = AuthDatabase.Open())
                         {
                             account = db.Find<AccountDto>(statement => statement
-                                    .Include<BanDto>(join => @join.LeftOuterJoin())
+                                    .Include<BanDto>(join => join.LeftOuterJoin())
                                     .Where($"{nameof(AccountDto.Nickname):C} = @Nickname")
-                                    .WithParameters(new { Nickname = nickname }))
+                                    .WithParameters(new {Nickname = nickname}))
                                 .FirstOrDefault();
 
                             if (account == null)
@@ -139,7 +141,7 @@ namespace NeoNetsphere.Commands
                                 return true;
                             }
 
-                            var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
+                            var player = GameServer.Instance.PlayerManager.Get((ulong) account.Id);
                             if (player == null)
                             {
                                 plr.SendConsoleMessage(S4Color.Red + "Player is not online");
@@ -149,6 +151,7 @@ namespace NeoNetsphere.Commands
                             player.Room?.Leave(player, RoomLeaveReason.ModeratorKick);
                             plr.SendConsoleMessage(S4Color.Green + $"Kicked {account.Nickname} out of room");
                         }
+
                         return true;
                     case "secs":
                         int.TryParse(args[2], out durationInSeconds);
@@ -174,7 +177,7 @@ namespace NeoNetsphere.Commands
                         }
                         else
                         {
-                            durationInSeconds = (int)TimeSpan.FromDays(10 * 365).TotalSeconds;
+                            durationInSeconds = (int) TimeSpan.FromDays(10 * 365).TotalSeconds;
                         }
 
                         break;
@@ -185,7 +188,7 @@ namespace NeoNetsphere.Commands
                     account = db.Find<AccountDto>(statement => statement
                             .Include<BanDto>(join => join.LeftOuterJoin())
                             .Where($"{nameof(AccountDto.Nickname):C} = @Nickname")
-                            .WithParameters(new { Nickname = nickname }))
+                            .WithParameters(new {Nickname = nickname}))
                         .FirstOrDefault();
 
                     if (account == null)
@@ -220,7 +223,7 @@ namespace NeoNetsphere.Commands
                             Reason = "GMConsole"
                         };
 
-                        var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
+                        var player = GameServer.Instance.PlayerManager.Get((ulong) account.Id);
                         player?.Session?.CloseAsync();
 
                         db.InsertAsync(ban);

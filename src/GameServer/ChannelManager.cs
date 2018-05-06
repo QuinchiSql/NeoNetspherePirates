@@ -43,8 +43,7 @@ namespace Netsphere
 
         public Channel GetChannel(uint id)
         {
-            Channel channel;
-            _channels.TryGetValue(id, out channel);
+            _channels.TryGetValue(id, out var channel);
             return channel;
         }
 

@@ -23,22 +23,27 @@ namespace ProudNetSrc
 
         public void Listen(IPAddress address, IPAddress listenerAddress, int[] ports, IEventLoopGroup eventLoopGroup)
         {
-            if (address == null)
-                throw new ArgumentNullException(nameof(address));
-
             if (listenerAddress == null)
+            {
                 throw new ArgumentNullException(nameof(listenerAddress));
+            }
 
             if (ports == null || ports.Length == 0)
+            {
                 throw new ArgumentNullException(nameof(ports));
+            }
 
             if (eventLoopGroup == null)
+            {
                 throw new ArgumentNullException(nameof(eventLoopGroup));
+            }
 
             if (IsRunning)
+            {
                 throw new InvalidOperationException($"{nameof(UdpSocketManager)} is already running");
+            }
 
-            Address = address;
+            Address = address ?? throw new ArgumentNullException(nameof(address));
             foreach (var port in ports)
             {
                 var socket = new UdpSocket(_server);
@@ -50,7 +55,9 @@ namespace ProudNetSrc
         public UdpSocket NextSocket()
         {
             if (!IsRunning)
+            {
                 throw new InvalidOperationException($"{nameof(UdpSocketManager)} is not running");
+            }
 
             var counter = Interlocked.Increment(ref _counter);
             return Sockets[counter % Sockets.Count];
@@ -59,7 +66,9 @@ namespace ProudNetSrc
         public void Dispose()
         {
             foreach (var socket in _sockets)
+            {
                 socket.Dispose();
+            }
 
             _sockets.Clear();
         }

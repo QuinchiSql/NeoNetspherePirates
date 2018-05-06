@@ -25,9 +25,9 @@ namespace NeoNetsphere
             Log.ForContext(Constants.SourceContextPropertyName, nameof(CharacterManager));
 
         private readonly Dictionary<byte, Character> _characters = new Dictionary<byte, Character>();
-        private readonly AsyncLock _sync = new AsyncLock();
 
         private readonly ConcurrentStack<Character> _charactersToDelete = new ConcurrentStack<Character>();
+        private readonly AsyncLock _sync = new AsyncLock();
 
         internal CharacterManager(Player plr, PlayerDto dto)
         {

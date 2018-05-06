@@ -6,7 +6,6 @@ using System.Linq;
 using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using NeoNetsphere;
-using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Game;
 using Netsphere.Game;
 using ProudNetSrc;
@@ -102,7 +101,7 @@ namespace Netsphere
         {
             if (room.TeamManager.Players.Any())
                 throw new RoomException("Players are still in this room");
-            
+
             _rooms.Remove(room.Id);
             Channel.Broadcast(new RoomDisposeAckMessage(room.Id));
         }

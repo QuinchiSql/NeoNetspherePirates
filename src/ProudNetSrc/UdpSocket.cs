@@ -75,7 +75,9 @@ namespace ProudNetSrc
         private void ThrowIfDisposed()
         {
             if (_disposed)
+            {
                 throw new ObjectDisposedException(GetType().FullName);
+            }
         }
     }
 }

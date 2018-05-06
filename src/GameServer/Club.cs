@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Dapper.FastCrud;
-using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
-using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
@@ -28,20 +24,41 @@ namespace NeoNetsphere
         public ClubState State { get; set; }
         public bool IsMod { get; set; }
 
-        public AccountDto account { get; set; }
+        public AccountDto Account { get; set; }
     }
-    
+
     internal class Club
     {
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(Club));
-        private readonly Dictionary<ulong, ClubPlayerInfo> _players = new Dictionary<ulong, ClubPlayerInfo>();
-        internal bool NeedsToSave { get; set; }
 
-        public Dictionary<ulong, ClubPlayerInfo> Players => _players;
+        public Club(ClubDto dto, IEnumerable<ClubPlayerInfo> player)
+        {
+            Players = new ConcurrentDictionary<ulong, ClubPlayerInfo>(player.ToDictionary(playerinfo =>
+                playerinfo.AccountId));
+            Id = dto.Id;
+            ClanName = dto.Name;
+            ClanIcon = dto.Icon;
+            Logger.Information("New Club: {name} {type} {playercount}", ClanName, ClanIcon, Count);
+        }
 
-        public ClubPlayerInfo this[ulong id] => _players[id];
-        public int Count => _players.Count;
+        public ConcurrentDictionary<ulong, ClubPlayerInfo> Players { get; }
+
+        public ClubPlayerInfo this[ulong id] => GetPlayer(id);
+
+        public int Count => Players.Count;
+
+        public uint Id { get; }
+
+        public string ClanIcon { get; } = "1-1-1";
+
+        public string ClanName { get; } = "CC_LOVERS_C2";
+
+        public ClubPlayerInfo GetPlayer(ulong id)
+        {
+            Players.TryGetValue(id, out var returnval);
+            return returnval;
+        }
 
         public static void LogOn(Player plr)
         {
@@ -58,45 +75,19 @@ namespace NeoNetsphere
         public void Broadcast(IClubMessage message)
         {
             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
-            {
                 member.Session?.SendAsync(message);
-            }
         }
 
         public void Broadcast(IGameMessage message)
         {
             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
-            {
                 member.Session?.SendAsync(message);
-            }
         }
 
         public void Broadcast(IChatMessage message)
         {
             foreach (var member in GameServer.Instance.PlayerManager.Where(x => x.Club?.Id == Id))
-            {
                 member.ChatSession?.SendAsync(message);
-            }
         }
-
-        public Club()
-        {
-        }
-
-        public Club(ClubDto dto, ClubPlayerInfo[] Player)
-        {
-            _players = Player.ToDictionary(playerinfo => playerinfo.AccountId);
-            Id = dto.Id;
-            Clan_Name = dto.Name;
-            Clan_Icon = dto.Icon;
-
-            Logger.Information("New Club: {name} {type} {playercount}", Clan_Name, Clan_Icon, Count);
-        }
-
-        public uint Id { get; set; }
-
-        public string Clan_Icon { get; set; } = "1-1-1";
-
-        public string Clan_Name { get; set; } = "CC_LOVERS_C2";
     }
 }

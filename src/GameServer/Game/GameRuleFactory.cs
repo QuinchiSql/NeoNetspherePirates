@@ -29,7 +29,7 @@ namespace Netsphere.Game
             //Not completely supported yet
             Add(GameRule.Horde, room => new ConquestGameRule(room));
             Add(GameRule.CombatTrainingTD, room => new TouchdownTrainingGameRule(room));
-            Add(GameRule.CombatTrainingDM, room => new DeathmatchTrainingGameRule(room)); 
+            Add(GameRule.CombatTrainingDM, room => new DeathmatchTrainingGameRule(room));
             //Add(GameRule.Siege, room => new SiegeGameRule(room));
             //Add(GameRule.Captain, room => new CaptainGameRule(room));
             //Add(GameRule.Warfare, room => new WarfareGameRule(room));

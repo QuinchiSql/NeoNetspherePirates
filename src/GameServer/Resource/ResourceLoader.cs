@@ -161,6 +161,7 @@ namespace NeoNetsphere.Resource
                     {
                         name_.eng = "unknown";
                     }
+
                     var name = name_;
                     if (string.IsNullOrWhiteSpace(name.eng))
                         name.eng = mapDto.Base.map_name_key;
@@ -240,6 +241,7 @@ namespace NeoNetsphere.Resource
                 };
                 yield return item;
             }
+
             foreach (var itemDto in dto.female.item)
             {
                 var item = new DefaultItem
@@ -360,11 +362,13 @@ namespace NeoNetsphere.Resource
 
                     var name = stringTable.@string.FirstOrDefault(s =>
                         s.key.Equals(itemDto.Base.name_key, StringComparison.InvariantCultureIgnoreCase));
-                    if (!string.IsNullOrWhiteSpace(name?.eng) && name?.eng.ToLower() != "no trans" && name?.eng.ToLower() != "not trans")
+                    if (!string.IsNullOrWhiteSpace(name?.eng) && name?.eng.ToLower() != "no trans" &&
+                        name?.eng.ToLower() != "not trans")
                         yield return item;
                 }
             }
         }
+
         public IEnumerable<ItemInfo> LoadItems_3()
         {
             var dto = Deserialize<ItemInfoDto_2>("xml/item.x7");
@@ -385,18 +389,19 @@ namespace NeoNetsphere.Resource
                     ids.Add(id, item);
                 }
             }
+
             foreach (var itemdto in dto2.Item)
             {
                 ItemInfo item;
                 ids.TryGetValue(new ItemNumber(itemdto.ID), out item);
                 if (item != null)
                 {
-                    item.Colors = (int)itemdto.Color_Count;
+                    item.Colors = (int) itemdto.Color_Count;
                     item.Name = itemdto.Name;
-                    
-                    if(!string.IsNullOrWhiteSpace(item.Name) && 
-                        item.Name != "not trans" && 
-                        item.Name != "no trans" && 
+
+                    if (!string.IsNullOrWhiteSpace(item.Name) &&
+                        item.Name != "not trans" &&
+                        item.Name != "no trans" &&
                         !string.IsNullOrWhiteSpace(item.Image))
                         yield return item;
                 }

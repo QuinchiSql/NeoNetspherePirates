@@ -27,7 +27,7 @@ namespace Netsphere
 
         public IPEndPoint ServerEndPoint { get; set; }
         public Player Creator { get; set; }
-        
+
         internal virtual byte GetFMBurnModeInfo()
         {
             byte FMBurnMode = 0;

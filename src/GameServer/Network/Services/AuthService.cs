@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
@@ -11,25 +11,25 @@ using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network.Data.Chat;
+using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
+using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.Relay;
 using NeoNetsphere.Resource;
 using Netsphere;
+using Newtonsoft.Json;
 using ProudNetSrc.Handlers;
 using Serilog;
 using Serilog.Core;
-using System.Net;
-using NeoNetsphere.Network.Data.Club;
-using NeoNetsphere.Network.Message.Club;
-using Newtonsoft.Json;
+using PlayerInfoAckMessage = NeoNetsphere.Network.Message.Chat.PlayerInfoAckMessage;
 
 namespace NeoNetsphere.Network.Services
 {
     internal class AuthService : ProudMessageHandler
     {
-        private static readonly Version s_version = new Version(0, 8, 32, 63353);
+        private static readonly Version SVersion = new Version(0, 8, 32, 63353);
 
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
@@ -39,11 +39,12 @@ namespace NeoNetsphere.Network.Services
         public async Task LoginHandler(GameSession session, LoginRequestReqMessage message)
         {
             #region IPINFO
+
             var ipInfo = new IpInfo2();
             try
             {
                 //string info = new WebClient().DownloadString("" + session.RemoteEndPoint.Address);
-                string info = new WebClient().DownloadString("http://ip-api.com/json/" + session.RemoteEndPoint.Address);
+                var info = new WebClient().DownloadString("http://ip-api.com/json/" + session.RemoteEndPoint.Address);
                 ipInfo = JsonConvert.DeserializeObject<IpInfo2>(info);
                 if (string.IsNullOrWhiteSpace(ipInfo.countryCode) || string.IsNullOrEmpty(ipInfo.countryCode))
                     ipInfo.countryCode = "UNK";
@@ -52,16 +53,19 @@ namespace NeoNetsphere.Network.Services
             {
                 ipInfo.countryCode = "UNK";
             }
+
             #endregion
 
             Logger.ForAccount(message.AccountId, message.Username)
-                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint, ipInfo.countryCode);
+                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint,
+                    ipInfo.countryCode);
 
-            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.countryCode) || Config.Instance.BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
+            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.countryCode) || Config.Instance
+                    .BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
             {
                 Logger.ForAccount(message.AccountId, message.Username)
                     .Information("Denied connection from client in blocked country {country}", ipInfo.countryCode);
-                
+
                 await session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
                 return;
             }
@@ -106,17 +110,6 @@ namespace NeoNetsphere.Network.Services
 
 
             var sessionId = Hash.GetUInt32<CRC32>($"<{accountDto.Username}+{accountDto.Password}>");
-            //var md5 = MD5.Create();
-            //var inputBytes = Encoding.ASCII.GetBytes(message.SessionId);
-            //var hash = md5.ComputeHash(inputBytes);
-            //if (hash != md5.ComputeHash(Encoding.ASCII.GetBytes(sessionId.ToString())))
-            //{
-            //
-            //    Logger.ForAccount(message.AccountId, message.Username)
-            //        .Error("Wrong login(invalid sessionid) - {id} != {id2}", message.SessionId, Encoding.ASCII.GetByteCount());
-            //    session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
-            //    return;
-            //}
             var authsessionId = Hash.GetString<CRC32>($"<{accountDto.Username}+{sessionId}+{message.Datetime}>");
             if (authsessionId != message.AuthToken)
             {
@@ -136,8 +129,7 @@ namespace NeoNetsphere.Network.Services
                 await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
-
-
+            
             var now = DateTimeOffset.Now.ToUnixTimeSeconds();
             var ban = accountDto.Bans.FirstOrDefault(b => b.Date + (b.Duration ?? 0) > now);
             if (ban != null)
@@ -163,7 +155,7 @@ namespace NeoNetsphere.Network.Services
                 await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.AuthenticationFailed));
                 return;
             }
-            
+
             if (message.KickConnection)
             {
                 Logger.ForAccount(account)
@@ -181,7 +173,7 @@ namespace NeoNetsphere.Network.Services
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
                 oldPlr?.Disconnect();
             }
-            
+
             using (var db = GameDatabase.Open())
             {
                 var plrDto = (await db.FindAsync<PlayerDto>(statement => statement
@@ -202,7 +194,7 @@ namespace NeoNetsphere.Network.Services
                     // first time connecting to this server
                     if (!expTable.TryGetValue(Config.Instance.Game.StartLevel, out expValue))
                     {
-                        expValue = new Experience { TotalExperience = 0 };
+                        expValue = new Experience {TotalExperience = 0};
                         Logger.Warning("Given start level is not found in the experience table");
                     }
 
@@ -232,13 +224,15 @@ namespace NeoNetsphere.Network.Services
                             expValue = new Experience {TotalExperience = 0};
                             Logger.Warning("Given level is not found in the experience table");
                         }
+
                         plrDto.TotalExperience = expValue.TotalExperience - 1;
                         await db.UpdateAsync(plrDto);
                     }
                 }
+
                 session.Player = new Player(session, account, plrDto);
             }
-            
+
             GameServer.Instance.PlayerManager.Add(session.Player);
 
             Logger.ForAccount(account)
@@ -267,6 +261,7 @@ namespace NeoNetsphere.Network.Services
                         },
                         statement => statement.WithEntityMappingOverride(mapping));
                 }
+
                 Logger.ForAccount(account)
                     .Information($"Created Account for {session.Player.Account.Username}");
             }
@@ -290,22 +285,24 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(ItemUseChangeNickReqMessage))]
         public async Task ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
         {
-            await session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
+            await session.SendAsync(
+                new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
-        
+
         private static async Task LoginAsync(GameSession session)
         {
             var plr = session.Player;
             plr.LoggedIn = true;
 
-            await session.SendAsync(new MoneyRefreshCashInfoAckMessage { PEN = plr.PEN, AP = plr.AP });
+            await session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = plr.PEN, AP = plr.AP});
             await session.SendAsync(new CharacterCurrentSlotInfoAckMessage
             {
                 ActiveCharacter = plr.CharacterManager.CurrentSlot,
-                CharacterCount = (byte)plr.CharacterManager.Count,
+                CharacterCount = (byte) plr.CharacterManager.Count,
                 MaxSlots = 3
             });
-            await session.SendAsync(new MoenyRefreshCoinInfoAckMessage { ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2 });
+            await session.SendAsync(
+                new MoenyRefreshCoinInfoAckMessage {ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2});
             await session.SendAsync(new ShoppingBasketListInfoAckMessage());
             await session.SendAsync(new PlayeArcadeMapInfoAckMessage());
             await session.SendAsync(new PlayerArcadeStageInfoAckMessage());
@@ -422,6 +419,7 @@ namespace NeoNetsphere.Network.Services
                         counter = 0;
                         current = nickname[i];
                     }
+
                     counter++;
                 }
             }
@@ -482,7 +480,8 @@ namespace NeoNetsphere.Network.Services
                 .Information("Login success");
 
             await session.SendAsync(new LoginAckMessage(0));
-            await session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
+            await session.SendAsync(
+                new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
             if (plr.Club != null)
             {
                 Club.LogOn(plr);
@@ -491,7 +490,7 @@ namespace NeoNetsphere.Network.Services
                     .ToArray()));
             }
 
-            await session.SendAsync(new Message.Chat.PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
+            await session.SendAsync(new PlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
         }
 
         [MessageHandler(typeof(CRequestLoginMessage))]
@@ -541,9 +540,9 @@ namespace NeoNetsphere.Network.Services
             Logger.ForAccount(session)
                 .Information("Login success");
 
-            await session.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id, plr.Account.Nickname));
+            await session.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
+                plr.Account.Nickname));
             foreach (var p in plr.Room.TeamManager.Players.Where(p => p.RelaySession?.P2PGroup != null))
-            {
                 if (p.RelaySession != null)
                 {
                     await p.RelaySession.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
@@ -551,7 +550,6 @@ namespace NeoNetsphere.Network.Services
                     await session.SendAsync(new SEnterLoginPlayerMessage(p.RelaySession.HostId, p.Account.Id,
                         p.Account.Nickname));
                 }
-            }
 
             plr.Room.Group?.Join(session.HostId);
             await session.SendAsync(new SNotifyLoginResultMessage(0));

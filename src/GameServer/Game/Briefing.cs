@@ -46,12 +46,12 @@ namespace Netsphere.Game
             var players = teamMgr.Players.ToArray();
             var spectators = teamMgr.Spectators.ToArray();
 
-            w.Write((byte)GetWinnerTeam().Team);
+            w.Write((byte) GetWinnerTeam().Team);
 
             //unk
-            w.Write((byte)0);
-            w.Write((byte)0);
-            w.Write((byte)0);
+            w.Write((byte) 0);
+            w.Write((byte) 0);
+            w.Write((byte) 0);
 
             w.Write(teamMgr.Count);
             w.Write(players.Length);
@@ -62,6 +62,7 @@ namespace Netsphere.Game
                 w.WriteEnum(team.Team);
                 w.Write(team.Score);
             }
+
             foreach (var plr in players)
                 plr.RoomInfo.Stats.Serialize(w, isResult);
 

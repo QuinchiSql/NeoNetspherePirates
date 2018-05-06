@@ -42,7 +42,7 @@ namespace NeoNetsphere.Game.GameRules
                 .SubstateOf(GameRuleState.Playing)
                 .Permit(GameRuleStateTrigger.StartResult, GameRuleState.EnteringResult)
                 .OnEntry(NextChaser);
-            
+
             StateMachine.Configure(GameRuleState.EnteringResult)
                 .SubstateOf(GameRuleState.Playing)
                 .Permit(GameRuleStateTrigger.StartResult, GameRuleState.Result);
@@ -73,8 +73,10 @@ namespace NeoNetsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, (uint)Room.Options.PlayerLimit / 2, (uint) Room.Options.SpectatorLimit /2);
-            Room.TeamManager.Add(Team.Beta, (uint)Room.Options.PlayerLimit / 2, (uint) Room.Options.SpectatorLimit / 2);
+            Room.TeamManager.Add(Team.Alpha, (uint) Room.Options.PlayerLimit / 2,
+                (uint) Room.Options.SpectatorLimit / 2);
+            Room.TeamManager.Add(Team.Beta, (uint) Room.Options.PlayerLimit / 2,
+                (uint) Room.Options.SpectatorLimit / 2);
             base.Initialize();
         }
 
@@ -113,6 +115,7 @@ namespace NeoNetsphere.Game.GameRules
                             Room.Broadcast(new GameEventMessageAckMessage(GameEventMessage.ChaserIn,
                                 (ulong) SNextChaserWaitTime.TotalMilliseconds, 0, 0, ""));
                         }
+
                         if (_nextChaserTimer >= SNextChaserWaitTime)
                         {
                             NextChaser();
@@ -141,7 +144,7 @@ namespace NeoNetsphere.Game.GameRules
         {
             return new ChaserPlayerRecord(plr);
         }
-        
+
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget = null, LongPeerId scoreKiller = null, LongPeerId scoreAssist = null)
         {
@@ -231,9 +234,7 @@ namespace NeoNetsphere.Game.GameRules
                 _chaserTimer = TimeSpan.Zero;
 
                 if (Room.TeamManager.PlayersPlaying.Count() > 1)
-                {
                     Chaser = Room.TeamManager.Players.ElementAt(_random.Next(0, Room.TeamManager.Players.Count()));
-                }
                 else if (Room.TeamManager.PlayersPlaying.Count() == 1)
                     Chaser = Room.TeamManager.PlayersPlaying.ToList()[0];
 
@@ -273,14 +274,12 @@ namespace NeoNetsphere.Game.GameRules
                 return;
 
             if (Chaser != null)
-            {
                 foreach (var plr in Room.TeamManager.PlayersPlaying.Where(plr => plr != Chaser))
                 {
                     GetRecord(plr).Survived++;
                     plr.Session.SendAsync(new SlaughterRoundWinAckMessage());
                 }
-            }
-            
+
             _waitingNextChaser = true;
         }
 
@@ -296,15 +295,15 @@ namespace NeoNetsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private bool ArePlayersAlive()
         {
-            if(Room.TeamManager.PlayersPlaying.Any(plr => plr.RoomInfo.State == PlayerState.Alive && plr != Chaser))
+            if (Room.TeamManager.PlayersPlaying.Any(plr => plr.RoomInfo.State == PlayerState.Alive && plr != Chaser))
                 return true;
             return false;
         }
-        
+
         private static ChaserPlayerRecord GetRecord(Player plr)
         {
             return (ChaserPlayerRecord) plr.RoomInfo.Stats;

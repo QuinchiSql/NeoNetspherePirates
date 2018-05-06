@@ -69,9 +69,8 @@ namespace NeoNetsphere
             return Contains(plr.Account.Id);
         }
 
-    public bool Contains(ulong id)
+        public bool Contains(ulong id)
         {
-
             //using (_sync.Lock())
             {
                 return _players.ContainsKey(id);

@@ -68,6 +68,7 @@ namespace NeoNetsphere
                         .WithParameters(new {receiver})))
                     .FirstOrDefault();
             }
+
             if (account == null)
                 return false;
 
@@ -107,6 +108,7 @@ namespace NeoNetsphere
                 _mails.Remove(mail.Id);
                 _mailsToDelete.Push(mail);
             }
+
             UpdateReminderAsync();
 
             return changed;
@@ -137,6 +139,7 @@ namespace NeoNetsphere
                         idsToRemove.Append(',');
                     idsToRemove.Append(mailToDelete.Id);
                 }
+
                 db.BulkUpdate(new PlayerMailDto {IsMailDeleted = true}, statement => statement
                     .Where($"{nameof(PlayerMailDto.Id):C} IN ({idsToRemove})")
                     .WithEntityMappingOverride(deleteMapping));

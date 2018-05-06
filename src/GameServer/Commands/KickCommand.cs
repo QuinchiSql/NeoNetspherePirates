@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Dapper.FastCrud;
@@ -63,9 +61,9 @@ namespace NeoNetsphere.Commands
             using (var db = AuthDatabase.Open())
             {
                 var account = db.Find<AccountDto>(statement => statement
-                        .Include<BanDto>(join => @join.LeftOuterJoin())
+                        .Include<BanDto>(join => join.LeftOuterJoin())
                         .Where($"{nameof(AccountDto.Nickname):C} = @Nickname")
-                        .WithParameters(new { Nickname = nickname }))
+                        .WithParameters(new {Nickname = nickname}))
                     .FirstOrDefault();
 
                 if (account == null)
@@ -74,7 +72,7 @@ namespace NeoNetsphere.Commands
                     return true;
                 }
 
-                var player = GameServer.Instance.PlayerManager.Get((ulong)account.Id);
+                var player = GameServer.Instance.PlayerManager.Get((ulong) account.Id);
                 if (player == null)
                 {
                     plr.SendConsoleMessage(S4Color.Red + "Player is not online");
@@ -84,6 +82,7 @@ namespace NeoNetsphere.Commands
                 player.Disconnect();
                 plr.SendConsoleMessage(S4Color.Green + $"Kicked {account.Nickname} out of room");
             }
+
             return true;
         }
 

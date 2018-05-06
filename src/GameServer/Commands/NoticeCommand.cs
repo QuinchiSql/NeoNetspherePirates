@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NeoNetsphere.Network;
@@ -25,7 +23,7 @@ namespace NeoNetsphere.Commands
         public bool Execute(GameServer server, Player plr, string[] args)
         {
             var notice = new StringBuilder();
-            foreach (string x in args.ToList())
+            foreach (var x in args.ToList())
                 notice.Append(" " + x);
 
             server.BroadcastNotice(notice.ToString().Replace("/whole_notice", ""));
@@ -41,6 +39,7 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
     }

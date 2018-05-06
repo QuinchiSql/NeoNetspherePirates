@@ -84,7 +84,7 @@ namespace Netsphere
                 case ItemCategory.Weapon:
                     Weapons.Equip(item, (WeaponSlot) slot);
                     break;
-                    
+
                 case ItemCategory.Skill:
                     Skills.Equip(item, (SkillSlot) slot);
                     break;

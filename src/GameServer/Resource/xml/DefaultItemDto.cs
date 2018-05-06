@@ -10,36 +10,28 @@ namespace NeoNetsphere.Resource.xml
 
         public DefaultItemMaleFemaleDto female { get; set; }
 
-        [XmlAttribute]
-        public string string_table { get; set; }
+        [XmlAttribute] public string string_table { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
     public class DefaultItemMaleFemaleDto
     {
-        [XmlElement("item")]
-        public DefaultItemItemDto[] item { get; set; }
+        [XmlElement("item")] public DefaultItemItemDto[] item { get; set; }
 
-        [XmlAttribute]
-        public string name_key { get; set; }
+        [XmlAttribute] public string name_key { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
     public class DefaultItemItemDto
     {
-        [XmlAttribute]
-        public byte category { get; set; }
+        [XmlAttribute] public byte category { get; set; }
 
-        [XmlAttribute]
-        public byte sub_category { get; set; }
+        [XmlAttribute] public byte sub_category { get; set; }
 
-        [XmlAttribute]
-        public byte number { get; set; }
+        [XmlAttribute] public byte number { get; set; }
 
-        [XmlAttribute]
-        public byte variation { get; set; }
+        [XmlAttribute] public byte variation { get; set; }
 
-        [XmlText]
-        public string Value { get; set; }
+        [XmlText] public string Value { get; set; }
     }
 }

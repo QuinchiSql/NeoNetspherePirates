@@ -16,8 +16,8 @@ namespace Netsphere.Game.Systems
 {
     internal class TeamManager : IReadOnlyDictionary<Team, PlayerTeam>
     {
-        private readonly ConcurrentDictionary<Team, PlayerTeam> _teams = new ConcurrentDictionary<Team, PlayerTeam>();
         internal readonly AsyncLock _sync = new AsyncLock();
+        private readonly ConcurrentDictionary<Team, PlayerTeam> _teams = new ConcurrentDictionary<Team, PlayerTeam>();
 
         public EventHandler<TeamChangedEventArgs> TeamChanged;
 
@@ -58,10 +58,9 @@ namespace Netsphere.Game.Systems
         {
             //using (_sync.Lock())
             {
-
                 // Get teams with space
                 var teams = _teams.Values
-                    .Where(t => t.PlayerLimit > 0 && t.Players.Count() < (t.PlayerLimit + t.SpectatorLimit)).ToArray();
+                    .Where(t => t.PlayerLimit > 0 && t.Players.Count() < t.PlayerLimit + t.SpectatorLimit).ToArray();
 
                 // get teams with least player count
                 var min = (uint) teams.Min(t => t.Count);

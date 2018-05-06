@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using BlubLib.Collections.Generic;
 using BlubLib.Threading.Tasks;
-using Dapper.FastCrud;
-using MySqlX.XDevAPI.CRUD;
-using NeoNetsphere;
-using NeoNetsphere.Database.Game;
-using NeoNetsphere.Network;
 
 // ReSharper disable once CheckNamespace
 namespace NeoNetsphere
@@ -19,6 +11,16 @@ namespace NeoNetsphere
     {
         private readonly ConcurrentDictionary<uint, Club> _clubs = new ConcurrentDictionary<uint, Club>();
         internal readonly AsyncLock _sync = new AsyncLock();
+
+        public ClubManager(IEnumerable<DBClubInfoDto> clubInfos)
+        {
+            _clubs.Clear();
+            foreach (var infoDto in clubInfos)
+            {
+                var club = new Club(infoDto.ClubDto, infoDto.PlayerDto);
+                _clubs.TryAdd(infoDto.ClubDto.Id, club);
+            }
+        }
 
         public Club this[uint id] => GetClub(id);
 
@@ -40,16 +42,6 @@ namespace NeoNetsphere
             }
         }
 
-        public ClubManager(IEnumerable<DBClubInfoDto> clubInfos)
-        {
-            _clubs.Clear();
-            foreach (var infoDto in clubInfos)
-            {
-                var club = new Club(infoDto.ClubDto, infoDto.PlayerDto);
-                _clubs.TryAdd(infoDto.ClubDto.Id, club);
-            }
-        }
-
         public void Remove(Club club)
         {
             //using (_sync.Lock())
@@ -64,7 +56,6 @@ namespace NeoNetsphere
         {
             //using (_sync.Lock())
             {
-                club.NeedsToSave = true;
                 _clubs.TryAdd(club.Id, club);
             }
         }

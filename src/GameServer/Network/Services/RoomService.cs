@@ -1,6 +1,13 @@
-﻿using BlubLib.DotNetty.Handlers.MessageHandling;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using BlubLib.DotNetty.Handlers.MessageHandling;
+using ExpressMapper.Extensions;
 using NeoNetsphere.Game.GameRules;
 using NeoNetsphere.Network.Data.Game;
+using NeoNetsphere.Network.Data.GameRule;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.GameRule;
 using Netsphere;
@@ -8,13 +15,6 @@ using Netsphere.Game.GameRules;
 using ProudNetSrc.Handlers;
 using Serilog;
 using Serilog.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using NeoNetsphere.Network.Data.GameRule;
-using ExpressMapper.Extensions;
 
 namespace NeoNetsphere.Network.Services
 {
@@ -36,9 +36,9 @@ namespace NeoNetsphere.Network.Services
             var room = plr.Channel.RoomManager[message.RoomId];
             if (room == null)
                 return;
-            session.SendAsync(new RoomInfoRequestAck2Message()
+            session.SendAsync(new RoomInfoRequestAck2Message
             {
-                Info = new RoomInfoRequestDto()
+                Info = new RoomInfoRequestDto
                 {
                     MasterName = room.Master.Account.Nickname,
                     MasterLevel = room.Master.Level,
@@ -61,16 +61,16 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
                 return;
             }
-            
+
             if (!plr.Room.ChangeMasterIfNeeded(plr))
                 plr.Session.SendAsync(new RoomChangeMasterAckMessage(plr.Room.Master.Account.Id));
 
             if (!plr.Room.ChangeHostIfNeeded(plr))
                 plr.Session.SendAsync(new RoomChangeRefereeAckMessage(plr.Room.Host.Account.Id));
 
-            plr.Room.Broadcast(new RoomEnterPlayerForBookNameTagsAckMessage()
+            plr.Room.Broadcast(new RoomEnterPlayerForBookNameTagsAckMessage
             {
-                AccountId = (long)plr.Account.Id,
+                AccountId = (long) plr.Account.Id,
                 Team = plr.RoomInfo.Team.Team,
                 PlayerGameMode = plr.RoomInfo.Mode,
                 Exp = plr.TotalExperience,
@@ -79,10 +79,8 @@ namespace NeoNetsphere.Network.Services
                 Unk2 = 0
             });
 
-            plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(plr.Room.TeamManager.Players.Select(player => new NameTagDto(player.Account.Id, 0)).ToArray()));
-
-            //session.SendAsync(new GameChangeStateAckMessage(plr.Room.GameState));
-            //session.SendAsync(new GameChangeSubStateAckMessage(plr.Room.SubGameState));
+            plr.Room.Broadcast(new RoomEnterPlayerInfoListForNameTagAckMessage(plr.Room.TeamManager.Players
+                .Select(player => new NameTagDto(player.Account.Id, 0)).ToArray()));
             plr.Room.SendBriefing(plr);
         }
 
@@ -93,7 +91,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(RoomMakeReq2Message))]
-        public async Task CMakeRoomReq2(GameSession session, RoomMakeReq2Message message)
+        public void CMakeRoomReq2(GameSession session, RoomMakeReq2Message message)
         {
             var plr = session.Player;
             if (plr.Room != null)
@@ -101,6 +99,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.ImpossibleToEnterRoom));
                 return;
             }
+
             Logger.Information("CreateRoom || Nickname:{nick}({accid}) Room: {mode}, {mapid}", plr.Account.Nickname,
                 plr.Account.Id, message.GameRule, message.MapId);
             if (!plr.Channel.RoomManager.GameRuleFactory.Contains(message.GameRule))
@@ -145,10 +144,12 @@ namespace NeoNetsphere.Network.Services
                     session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
+
                 if (!map.GameRules.Contains(message.GameRule))
                 {
                     Logger.ForAccount(plr)
-                        .Error("Map {mapId}({mapName}) is not available for game rule {gameRule}", map.Id, map.Name, message.GameRule);
+                        .Error("Map {mapId}({mapName}) is not available for game rule {gameRule}", map.Id, map.Name,
+                            message.GameRule);
 
                     session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
@@ -161,7 +162,7 @@ namespace NeoNetsphere.Network.Services
             if (message.GameRule == GameRule.CombatTrainingTD ||
                 message.GameRule == GameRule.CombatTrainingDM)
                 message.PlayerLimit = 12;
-            
+
             if (message.GameRule == GameRule.CombatTrainingDM ||
                 message.GameRule == GameRule.CombatTrainingTD ||
                 message.GameRule == GameRule.Practice)
@@ -171,6 +172,7 @@ namespace NeoNetsphere.Network.Services
             var isburning = false;
             var isWithoutStats = false;
             var isNoIntrusion = message.GameRule == GameRule.Horde;
+
             switch (message.FMBURNMode)
             {
                 case 0:
@@ -213,7 +215,8 @@ namespace NeoNetsphere.Network.Services
                 IsRandom = israndom,
                 HasSpectator = message.SpectatorLimit > 1,
                 UniqueId = message.Unk3,
-                ServerEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
+                ServerEndPoint =
+                    new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
                 Creator = plr
             }, RelayServer.Instance.P2PGroupManager.Create(true));
 
@@ -304,8 +307,7 @@ namespace NeoNetsphere.Network.Services
 
                 plr.Room.Broadcast(new RoomChoiceTeamChangeAckMessage(plrToMove.Account.Id, plrToReplace.Account.Id,
                     fromTeam.Team, toTeam.Team));
-
-                // SMixChangeTeamAckMessage alone doesn't seem to change the player list
+                
                 plr.Room.BroadcastBriefing();
             }
         }
@@ -319,7 +321,7 @@ namespace NeoNetsphere.Network.Services
                 plr.RoomInfo.State = PlayerState.Alive;
             //Todo
         }
-        
+
         [MessageHandler(typeof(RoomEnterReqMessage))]
         public void CGameRoomEnterReq(GameSession session, RoomEnterReqMessage message)
         {
@@ -337,7 +339,9 @@ namespace NeoNetsphere.Network.Services
                     session.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
                     return;
                 }
-                if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
+
+                if (!string.IsNullOrEmpty(room.Options.Password) && !room.Options.Password.Equals(message.Password) &&
+                    plr.Account.SecurityLevel < SecurityLevel.GameMaster)
                 {
                     session.SendAsync(new ServerResultAckMessage(ServerResult.PasswordError));
                     return;
@@ -371,7 +375,8 @@ namespace NeoNetsphere.Network.Services
             }
             else
             {
-                Logger.ForAccount(plr).Error("Room {roomId} in channel {channelId} not found", message.RoomId, plr.Channel.Id);
+                Logger.ForAccount(plr).Error("Room {roomId} in channel {channelId} not found", message.RoomId,
+                    plr.Channel.Id);
                 session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
             }
         }
@@ -417,7 +422,7 @@ namespace NeoNetsphere.Network.Services
                 plr.Session.SendAsync(new RoomChangeTeamFailAckMessage(ChangeTeamResult.Full));
             }
         }
-        
+
         [MessageHandler(typeof(GameLoadingSuccessReqMessage))]
         public void CLoadingSucceeded(GameSession session)
         {
@@ -432,12 +437,12 @@ namespace NeoNetsphere.Network.Services
             if (!plr.Room.hasStarted)
                 return;
 
-            foreach(var member in plr.Room.Players.Where(x => x.Value.RoomInfo.HasLoaded))
-            {
+            foreach (var member in plr.Room.Players.Where(x => x.Value.RoomInfo.HasLoaded))
                 plr.Session.SendAsync(new RoomGameEndLoadingAckMessage(member.Value.Account.Id));
-            }
-            
-            plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate ? PlayerState.Spectating : PlayerState.Alive;
+
+            plr.RoomInfo.State = plr.RoomInfo.Mode == PlayerGameMode.Spectate
+                ? PlayerState.Spectating
+                : PlayerState.Alive;
             plr.Room.GameRuleManager.GameRule.IntrudeCompleted(plr);
         }
 
@@ -446,6 +451,7 @@ namespace NeoNetsphere.Network.Services
         {
             var plr = session.Player;
             var room = plr?.Room;
+
             if (room != null && room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 if (room.IsChangingRules)
@@ -454,7 +460,8 @@ namespace NeoNetsphere.Network.Services
                     return;
                 }
 
-                if (room.GameState == GameState.Result || room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
+                if (room.GameState == GameState.Result ||
+                    room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
                 {
                     //Todo, find proper result Id
                     session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
@@ -476,6 +483,7 @@ namespace NeoNetsphere.Network.Services
         {
             var plr = session.Player;
             var room = plr?.Room;
+
             if (room != null && room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 if (room.IsChangingRules)
@@ -484,7 +492,8 @@ namespace NeoNetsphere.Network.Services
                     return;
                 }
 
-                if (room.GameState == GameState.Result || room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
+                if (room.GameState == GameState.Result ||
+                    room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.EnteringResult))
                 {
                     //Todo, find proper result Id
                     session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
@@ -506,7 +515,9 @@ namespace NeoNetsphere.Network.Services
         {
             var plr = session.Player;
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
+            {
                 return;
+            }
 
             if (plr.Room.IsChangingRules)
             {
@@ -528,13 +539,16 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
 
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
+            {
                 return;
+            }
 
             if (plr.Room.IsChangingRules)
             {
                 session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
                 return;
             }
+
             if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
@@ -544,7 +558,8 @@ namespace NeoNetsphere.Network.Services
                 plr.RoomInfo.IsReady = !plr.RoomInfo.IsReady;
                 plr.Room.Broadcast(new RoomReadyRoundAckMessage(plr.Account.Id, plr.RoomInfo.IsReady));
             }
-            if(plr.Room.hasStarted)
+
+            if (plr.Room.hasStarted)
                 plr.Session.SendAsync(new RoomGameLoadingAckMessage());
         }
 
@@ -553,13 +568,18 @@ namespace NeoNetsphere.Network.Services
         public void CBeginRoundReq(GameSession session)
         {
             var plr = session.Player;
+
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
+            {
                 return;
+            }
+
             if (plr.Room.IsChangingRules)
             {
                 session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
                 return;
             }
+
             var stateMachine = plr.Room.GameRuleManager.GameRule.StateMachine;
 
             if (stateMachine.CanFire(GameRuleStateTrigger.StartPrepare))
@@ -581,6 +601,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
                 return;
             }
+
             if (plr.Room.GameRuleManager.GameRule.StateMachine.State != GameRuleState.Waiting)
             {
                 session.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
@@ -590,28 +611,38 @@ namespace NeoNetsphere.Network.Services
                 plr.RoomInfo.IsReady = !plr.RoomInfo.IsReady;
                 plr.Room.Broadcast(new RoomReadyRoundAckMessage(plr.Account.Id, plr.RoomInfo.IsReady));
             }
+
             if (plr.Room.hasStarted)
                 plr.Session.SendAsync(new RoomGameLoadingAckMessage());
         }
-        
+
         [MessageHandler(typeof(GameEventMessageReqMessage))]
         public void CEventMessageReq(GameSession session, GameEventMessageReqMessage message)
         {
             var plr = session.Player;
+
             if (plr.Room == null)
+            {
                 return;
+            }
 
             plr.Room.Broadcast(new GameEventMessageAckMessage(message.Event, session.Player.Account.Id, message.Unk1,
                 message.Value, ""));
 
             if (!plr.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing))
+            {
                 return;
+            }
 
             if (plr.RoomInfo.State != PlayerState.Lobby)
+            {
                 return;
+            }
 
             if (!plr.Room.hasStarted || plr.RoomInfo.HasLoaded)
+            {
                 return;
+            }
 
             plr.Session?.SendAsync(new RoomGameLoadingAckMessage());
         }
@@ -643,6 +674,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                 return;
             }
+
             try
             {
                 session.Player.Room.ChangeRules(message.Settings);
@@ -665,6 +697,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                 return;
             }
+
             try
             {
                 session.Player.Room.ChangeRules2(message.Settings);
@@ -689,9 +722,7 @@ namespace NeoNetsphere.Network.Services
                 // Only the master can kick people and kick is only allowed in the lobby
                 if ((room.Master != plr || plr.Account.SecurityLevel < SecurityLevel.Tester) &&
                     !room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting))
-                {
                     return;
-                }
             }
             else
             {
@@ -715,10 +746,9 @@ namespace NeoNetsphere.Network.Services
                 var rooms = new Dictionary<Room, int>();
 
                 foreach (var room in session.Player.Channel.RoomManager)
-                {
                     if (room.Options.Password == "")
                     {
-                        if (!room.Options.GameRule.Equals((GameRule)message.GameRule))
+                        if (!room.Options.GameRule.Equals((GameRule) message.GameRule))
                             continue;
 
                         if (!room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting) &&
@@ -728,22 +758,18 @@ namespace NeoNetsphere.Network.Services
 
                         var priority = 0;
                         priority += Math.Abs(room.TeamManager[Team.Alpha].Players.Count() -
-                                                    room.TeamManager[Team.Beta].Players
-                                                        .Count()); // Calculating team balance
+                                             room.TeamManager[Team.Beta].Players
+                                                 .Count()); // Calculating team balance
 
                         if (room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.SecondHalf))
-                        {
                             if (room.Options.TimeLimit.TotalSeconds / 2 -
                                 room.GameRuleManager.GameRule.RoundTime.TotalSeconds <=
                                 15) // If only 15 seconds are left...
-                            {
                                 priority -= 3; // ...lower the room priority
-                            }
-                        }
 
                         rooms.Add(room, priority);
                     }
-                }
+
                 var roomList = rooms.ToList();
 
                 if (roomList.Any())
@@ -753,6 +779,7 @@ namespace NeoNetsphere.Network.Services
 
                     return; // We don't message the Client here, because "Room.Join(...)" already does it.
                 }
+
                 await session.SendAsync(new ServerResultAckMessage(ServerResult.CannotFindRoom));
             }
             catch (Exception)
@@ -768,6 +795,82 @@ namespace NeoNetsphere.Network.Services
             session.SendAsync(new TutorialCompletedAckMessage {Unk = 0});
         }
 
+        [MessageHandler(typeof(ArcadeStageFailedReqMessage))]
+        public void ArcadeStageFailedReq(GameSession session, ArcadeStageFailedReqMessage message)
+        {
+            var plr = session.Player;
+            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
+                return;
+
+            plr.Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
+        }
+
+        [MessageHandler(typeof(ArcadeStageClearReqMessage))]
+        public void ArcadeStageClearReq(GameSession session, ArcadeStageClearReqMessage message)
+        {
+            var plr = session.Player;
+            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
+                return;
+
+            plr.Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
+        }
+
+        [MessageHandler(typeof(InGameItemGetReqMessage))]
+        public void InGameItemGetReq(GameSession session, InGameItemGetReqMessage message)
+        {
+            var plr = session.Player;
+            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
+                return;
+
+            plr.Room.Broadcast(new InGameItemGetAckMessage
+            {
+                Unk1 = (long) plr.Account.Id,
+                Unk2 = message.Unk1,
+                Unk3 = message.Unk2
+            });
+        }
+
+        [MessageHandler(typeof(InGameItemDropReqMessage))]
+        public void InGameItemDropReq(GameSession session, InGameItemDropReqMessage message)
+        {
+            var plr = session.Player;
+            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
+                return;
+
+            var gamerule = (ConquestGameRule) plr.Room.GameRuleManager.GameRule;
+
+            var num = new SecureRandom().Next(0, 10);
+
+            var unk4 = 0;
+            var unk6 = 0L;
+
+            if (num < 8) //static ammo
+            {
+                unk4 = 319717609;
+                unk6 = 28154369870397440;
+            }
+            else //static hp
+            {
+                unk4 = 319786968;
+                unk6 = 28154369635516416;
+            }
+
+            var x = new InGameItemDropAckMessage
+            {
+                Item = new ItemDropAckDto //static ammo drop
+                {
+                    Counter = gamerule.DropCount++,
+                    Unk2 = 3,
+                    Unk3 = 2,
+                    Unk4 = unk4,
+                    Position = message.Item.Position,
+                    Unk6 = unk6
+                }
+            };
+
+            plr.Room.Broadcast(x);
+        }
+
         #region Scores
 
         [MessageHandler(typeof(ScoreKillReqMessage))]
@@ -776,7 +879,7 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
             if (plr.Room == null || !plr.Room.hasStarted)
                 return;
-            
+
             var room = plr.Room;
 
             var target = room.Players.GetValueOrDefault(message.Score.Target.AccountId);
@@ -889,7 +992,7 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
             if (plr.Room == null || !plr.Room.hasStarted)
                 return;
-            
+
             var room = plr.Room;
 
             var target = room.Players.GetValueOrDefault(message.Score.Target.AccountId);
@@ -904,11 +1007,13 @@ namespace NeoNetsphere.Network.Services
             {
                 case GameRule.Touchdown:
                     ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
-                        message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
+                        message.Score
+                            .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
                     break;
                 case GameRule.PassTouchdown:
                     ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
-                        message.Score.Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
+                        message.Score
+                            .Weapon /*, message.Score.Weapon, message.Score.Target, message.Score.Killer, null*/);
                     break;
                 case GameRule.CombatTrainingTD:
                     ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreDefense(killer, null, plr,
@@ -1018,7 +1123,7 @@ namespace NeoNetsphere.Network.Services
                 return;
 
             var room = plr.Room;
-            
+
             var oldPlr = room.Players.GetValueOrDefault(message.OldId.AccountId);
             if (oldPlr != null)
                 oldPlr.RoomInfo.PeerId = message.OldId;
@@ -1031,10 +1136,12 @@ namespace NeoNetsphere.Network.Services
             switch (room.Options.GameRule)
             {
                 case GameRule.Touchdown:
-                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
+                    ((TouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId,
+                        message.OldId);
                     break;
                 case GameRule.PassTouchdown:
-                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr, message.NewId, message.OldId);
+                    ((PassTouchdownGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr,
+                        message.NewId, message.OldId);
                     break;
                 case GameRule.CombatTrainingTD:
                     ((TouchdownTrainingGameRule) room.GameRuleManager.GameRule).OnScoreRebound(newPlr, oldPlr,
@@ -1072,112 +1179,34 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(SlaughterAttackPointReqMessage))]
         public void SlaughterAttackPointReq(GameSession session, SlaughterAttackPointReqMessage message)
         {
-            //session.SendAsync(new SlaughterAttackPointAckMessage()
-            //{
-            //    Unk1 = message.Unk1,
-            //    Unk2 = message.Unk2,
-            //    AccountId = message.AccountId,
-            //});
-            return;
+            session.SendAsync(new SlaughterAttackPointAckMessage()
+            {
+                Unk1 = message.Unk1,
+                Unk2 = message.Unk2,
+                AccountId = message.AccountId,
+            });
         }
+
         [MessageHandler(typeof(SlaughterHealPointReqMessage))]
         public void SlaughterHealPointReq(GameSession session, SlaughterHealPointReqMessage message)
         {
-            //session.SendAsync(new SlaughterHealPointReqMessage()
-            //{
-            //    Unk = message.Unk,
-            //});
-            return;
+            session.SendAsync(new SlaughterHealPointReqMessage()
+            {
+                Unk = message.Unk,
+            });
         }
-        
+
         [MessageHandler(typeof(ScoreMissionScoreReqMessage))]
         public void ScoreMissionScoreReq(GameSession session, ScoreMissionScoreReqMessage message)
         {
             var plr = session.Player;
             if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Practice)
                 return;
-            
-            session.SendAsync(new ScoreMissionScoreAckMessage() {AccountId = session.Player.Account.Id, Score = message.Score});
-            
-            return;
+
+            session.SendAsync(
+                new ScoreMissionScoreAckMessage {AccountId = session.Player.Account.Id, Score = message.Score});
         }
+
         #endregion
-
-        [MessageHandler(typeof(ArcadeStageFailedReqMessage))]
-        public void ArcadeStageFailedReq(GameSession session, ArcadeStageFailedReqMessage message)
-        {
-            var plr = session.Player;
-            if(plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
-                return;
-            
-            plr.Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-        }
-
-        [MessageHandler(typeof(ArcadeStageClearReqMessage))]
-        public void ArcadeStageClearReq(GameSession session, ArcadeStageClearReqMessage message)
-        {
-            var plr = session.Player;
-            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
-                return;
-
-            plr.Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-        }
-
-        [MessageHandler(typeof(InGameItemGetReqMessage))]
-        public void InGameItemGetReq(GameSession session, InGameItemGetReqMessage message)
-        {
-            var plr = session.Player;
-            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
-                return;
-            
-            plr.Room.Broadcast(new InGameItemGetAckMessage()
-            {
-                Unk1 = (long)plr.Account.Id,
-                Unk2 = message.Unk1,
-                Unk3 = message.Unk2
-            });
-        }
-        
-        [MessageHandler(typeof(InGameItemDropReqMessage))]
-        public void InGameItemDropReq(GameSession session, InGameItemDropReqMessage message)
-        {
-            var plr = session.Player;
-            if (plr.Room == null || plr.Room.GameRuleManager.GameRule.GameRule != GameRule.Horde)
-                return;
-
-            var gamerule = (ConquestGameRule) plr.Room.GameRuleManager.GameRule;
-
-            var num = new SecureRandom().Next(0, 10);
-
-            var unk4 = 0;
-            var unk6 = 0L;
-
-            if (num < 6) //static ammo
-            {
-                unk4 = 319717609;
-                unk6 = 28154369870397440;
-            }
-            else //static hp
-            {
-                unk4 = 319786968;
-                unk6 = 28154369635516416;
-            }
-
-            var x = new InGameItemDropAckMessage()
-            {
-                Item = new ItemDropAckDto() //static ammo drop
-                {
-                    Counter = gamerule.DropCount++,
-                    Unk2 = 3,
-                    Unk3 = 2,
-                    Unk4 = unk4,
-                    Position = message.Item.Position,
-                    Unk6 = unk6,
-                }
-            };
-
-            plr.Room.Broadcast(x);
-        }
-        
     }
 }

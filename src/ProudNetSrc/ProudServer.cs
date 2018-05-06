@@ -176,7 +176,9 @@ namespace ProudNetSrc
                     .BindAsync(tcpListener).WaitEx();
 
                 if (udpListenerPorts != null)
+                {
                     UdpSocketManager.Listen(udpAddress, tcpListener.Address, udpListenerPorts, _socketWorkerThreads);
+                }
             }
             catch (Exception ex)
             {
@@ -214,7 +216,9 @@ namespace ProudNetSrc
             //using (_sync.Lock())
             {
                 foreach (var session in Sessions.Values)
+                {
                     session?.SendAsync(message, options);
+                }
             }
         }
 
@@ -223,7 +227,9 @@ namespace ProudNetSrc
             //using (_sync.Lock())
             {
                 foreach (var session in Sessions.Values)
+                {
                     session?.SendAsync(message);
+                }
             }
         }
 
@@ -322,7 +328,9 @@ namespace ProudNetSrc
         {
             var server = (ProudServer)context;
             if (!server.UdpSocketManager.IsRunning || server.IsShuttingDown || !server.IsRunning)
+            {
                 return;
+            }
 
             server.Configuration.Logger?.Debug("RetryUdpOrHolepunchIfRequired");
 
@@ -344,8 +352,8 @@ namespace ProudNetSrc
                             member.SendAsync(new S2C_RequestCreateUdpSocketMessage(new IPEndPoint(server.UdpSocketManager.Address, ((IPEndPoint)socket.Channel.LocalAddress).Port)));
                         }
                     }
-                    // Skip p2p stuff when not enabled
 
+                    // Skip p2p stuff when not enabled
                     if (!group.AllowDirectP2P)
                     {
                         continue;
@@ -356,7 +364,9 @@ namespace ProudNetSrc
                     {
                         var stateB = stateA.RemotePeer.ConnectionStates.GetValueOrDefault(member.HostId);
                         if (!stateA.RemotePeer.Session.UdpEnabled || !stateB.RemotePeer.Session.UdpEnabled)
+                        {
                             continue;
+                        }
 
                         if (stateA.IsInitialized)
                         {
@@ -387,14 +397,16 @@ namespace ProudNetSrc
 
             if (!server.IsShuttingDown && server.IsRunning)
             {
-                var __ = server.ScheduleAsync(RetryUdpOrHolepunchIfRequired, server, null, TimeSpan.FromSeconds(5));
+                server.ScheduleAsync(RetryUdpOrHolepunchIfRequired, server, null, TimeSpan.FromSeconds(5));
             }
         }
 
         private void ThrowIfDisposed()
         {
             if (_disposed)
+            {
                 throw new ObjectDisposedException(GetType().FullName);
+            }
         }
 
         private void ShutdownThreads()

@@ -275,7 +275,7 @@ namespace NeoNetsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private static TouchdownPlayerRecord GetRecord(Player plr)
         {
@@ -349,11 +349,11 @@ namespace NeoNetsphere.Game.GameRules
         private uint GetTotalScore()
         {
             return TdScore * 10 + TdAssistScore * 5
-                   + Kills * 2 + KillAssists
-                   + OffenseScore * 4 + OffenseAssistScore * 2
-                   + DefenseScore * 4 + DefenseAssistScore * 2
-                   + HealScore * 2
-                   + OffenseReboundScore * 2;
+                                + Kills * 2 + KillAssists
+                                + OffenseScore * 4 + OffenseAssistScore * 2
+                                + DefenseScore * 4 + DefenseAssistScore * 2
+                                + HealScore * 2
+                                + OffenseReboundScore * 2;
         }
 
         public override int GetExpGain(out int bonusExp)
@@ -393,12 +393,13 @@ namespace NeoNetsphere.Game.GameRules
                     rankingBonus = config.ThirdPlaceBonus;
                     break;
             }
-            var newgain = (TotalScore * config.ScoreFactor +
-                           rankingBonus +
-                           plrs.Length * config.PlayerCountFactor +
-                           Player.RoomInfo.PlayTime.TotalMinutes * config.ExpPerMin);
 
-            return (int)newgain > 5000 ? 5000 : (int)newgain;
+            var newgain = TotalScore * config.ScoreFactor +
+                          rankingBonus +
+                          plrs.Length * config.PlayerCountFactor +
+                          Player.RoomInfo.PlayTime.TotalMinutes * config.ExpPerMin;
+
+            return (int) newgain > 5000 ? 5000 : (int) newgain;
         }
     }
 

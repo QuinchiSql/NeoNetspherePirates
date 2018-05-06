@@ -71,6 +71,7 @@ namespace NeoNetsphere.Resource
 
                 _cache.Set(ResourceCacheType.Channels, value);
             }
+
             return value;
         }
 
@@ -97,29 +98,31 @@ namespace NeoNetsphere.Resource
                             AccountDto account;
                             using (var dbC = AuthDatabase.Open())
                             {
-                                account = (dbC.Find<AccountDto>(statement => statement
+                                account = dbC.Find<AccountDto>(statement => statement
                                         .Where($"{nameof(AccountDto.Id):C} = @{nameof(playerInfoDto.PlayerId)}")
-                                        .WithParameters(new { playerInfoDto.PlayerId })))
+                                        .WithParameters(new {playerInfoDto.PlayerId}))
                                     .FirstOrDefault();
 
-                                DBPlayerInfoList.Add(new ClubPlayerInfo()
+                                DBPlayerInfoList.Add(new ClubPlayerInfo
                                 {
-                                    AccountId = (ulong)playerInfoDto.PlayerId,
-                                    State = (ClubState)playerInfoDto.State,
+                                    AccountId = (ulong) playerInfoDto.PlayerId,
+                                    State = (ClubState) playerInfoDto.State,
                                     IsMod = playerInfoDto.IsMod,
-                                    account = account,
+                                    Account = account
                                 });
                             }
-
                         }
+
                         ClubInfo.PlayerDto = DBPlayerInfoList.ToArray();
                         DBClubInfoList.Add(ClubInfo);
                     }
+
                     value = DBClubInfoList.ToArray();
                 }
 
                 _cache.Set(ResourceCacheType.Clubs, value);
             }
+
             return value;
         }
 
@@ -171,6 +174,7 @@ namespace NeoNetsphere.Resource
                 value = new ShopResources();
                 _cache.Set(ResourceCacheType.Shop, value);
             }
+
             if (string.IsNullOrWhiteSpace(value.Version))
                 value.Load();
 
@@ -232,6 +236,7 @@ namespace NeoNetsphere.Resource
                 GetShop().Clear();
                 return;
             }
+
             _cache.Remove(type.ToString());
         }
     }

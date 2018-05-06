@@ -34,6 +34,7 @@ namespace ProudNetSrc
                 _udpEndPoint = value;
             }
         }
+
         public IPEndPoint UdpLocalEndPoint
         {
             get => _udpLocalEndPoint;
@@ -142,47 +143,5 @@ namespace ProudNetSrc
         {
             CloseAsync().WaitEx();
         }
-
-        //public override async Task SendAsync(IMessage message)
-        //{
-        //    var coreMessage = message as CoreMessage;
-        //    if (coreMessage != null)
-        //    {
-        //        if (UdpEnabled)
-        //        {
-        //            if (message is UnreliableRelay2Message ||
-        //                message is PeerUdp_ServerHolepunchAckMessage ||
-        //                message is UnreliablePongMessage)
-        //            {
-
-        //                await UdpSocket.SendAsync(this, coreMessage)
-        //                    .ConfigureAwait(false);
-        //                return;
-        //            }
-        //        }
-        //        var pipe = Service.Pipeline.Get("proudnet_protocol");
-        //        await pipe.OnSendMessage(new MessageEventArgs(this, message))
-        //            .ConfigureAwait(false);
-        //        return;
-        //    }
-
-        //    await base.SendAsync(message)
-        //        .ConfigureAwait(false);
-        //}
-
-        //public override void Close()
-        //{
-        //    Send(new ShutdownTcpAckMessage());
-
-        //    base.Close();
-
-        //    if (EncryptContext != null)
-        //    {
-        //        EncryptContext.Dispose();
-        //        EncryptContext = null;
-        //    }
-
-        //    ReadyEvent.Reset();
-        //}
     }
 }

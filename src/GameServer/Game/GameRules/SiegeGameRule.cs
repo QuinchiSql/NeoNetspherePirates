@@ -120,7 +120,7 @@ namespace Netsphere.Game.GameRules
                 return false;
             return true;
         }
-        
+
 
         private static SiegePlayerRecord GetRecord(Player plr)
         {

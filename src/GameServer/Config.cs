@@ -49,14 +49,11 @@ namespace NeoNetsphere
 
         public static Config Instance { get; }
 
-        [JsonProperty("server_name")]
-        public string Name { get; set; }
+        [JsonProperty("server_name")] public string Name { get; set; }
 
-        [JsonProperty("server_id")]
-        public ushort Id { get; set; }
+        [JsonProperty("server_id")] public ushort Id { get; set; }
 
-        [JsonProperty("server_ip")]
-        public string IP { get; set; }
+        [JsonProperty("server_ip")] public string IP { get; set; }
 
         [JsonProperty("listener")]
         [JsonConverter(typeof(IPEndPointConverter))]
@@ -73,39 +70,29 @@ namespace NeoNetsphere
         [JsonProperty("listener_relay_udp_ports")]
         public int[] RelayUdpPorts { get; set; }
 
-        [JsonProperty("listener_threads")]
-        public int ListenerThreads { get; set; }
+        [JsonProperty("listener_threads")] public int ListenerThreads { get; set; }
 
-        [JsonProperty("worker_threads")]
-        public int WorkerThreads { get; set; }
+        [JsonProperty("worker_threads")] public int WorkerThreads { get; set; }
 
-        [JsonProperty("player_limit")]
-        public int PlayerLimit { get; set; }
+        [JsonProperty("player_limit")] public int PlayerLimit { get; set; }
 
-        [JsonProperty("security_level")]
-        public SecurityLevel SecurityLevel { get; set; }
+        [JsonProperty("security_level")] public SecurityLevel SecurityLevel { get; set; }
 
-        [JsonProperty("blocked_countries")]
-        public string[] BlockedCountries { get; set; }
+        [JsonProperty("blocked_countries")] public string[] BlockedCountries { get; set; }
 
-        [JsonProperty("blocked_addresses")]
-        public string[] BlockedAddresses { get; set; }
+        [JsonProperty("blocked_addresses")] public string[] BlockedAddresses { get; set; }
 
-        [JsonProperty("auth_webapi")]
-        public AuthAPI AuthAPI { get; set; }
+        [JsonProperty("auth_webapi")] public AuthAPI AuthAPI { get; set; }
 
         [JsonProperty("save_interval")]
         [JsonConverter(typeof(TimeSpanConverter))]
         public TimeSpan SaveInterval { get; set; }
 
-        [JsonProperty("noob_mode")]
-        public bool NoobMode { get; set; }
+        [JsonProperty("noob_mode")] public bool NoobMode { get; set; }
 
-        [JsonProperty("database")]
-        public DatabasesConfig Database { get; set; }
+        [JsonProperty("database")] public DatabasesConfig Database { get; set; }
 
-        [JsonProperty("game")]
-        public GameSettings Game { get; set; }
+        [JsonProperty("game")] public GameSettings Game { get; set; }
 
         public void Save()
         {
@@ -123,8 +110,7 @@ namespace NeoNetsphere
             UpdateInterval = TimeSpan.FromSeconds(25);
         }
 
-        [JsonProperty("api_key")]
-        public string ApiKey { get; set; }
+        [JsonProperty("api_key")] public string ApiKey { get; set; }
 
         [JsonProperty("endpoint")]
         [JsonConverter(typeof(IPEndPointConverter))]
@@ -148,11 +134,9 @@ namespace NeoNetsphere
         [JsonConverter(typeof(StringEnumConverter))]
         public DatabaseEngine Engine { get; set; }
 
-        [JsonProperty("auth")]
-        public DatabaseConfig Auth { get; set; }
+        [JsonProperty("auth")] public DatabaseConfig Auth { get; set; }
 
-        [JsonProperty("game")]
-        public DatabaseConfig Game { get; set; }
+        [JsonProperty("game")] public DatabaseConfig Game { get; set; }
 
         public class DatabaseConfig
         {
@@ -162,23 +146,17 @@ namespace NeoNetsphere
                 Port = 3306;
             }
 
-            [JsonProperty("filename")]
-            public string Filename { get; set; }
+            [JsonProperty("filename")] public string Filename { get; set; }
 
-            [JsonProperty("host")]
-            public string Host { get; set; }
+            [JsonProperty("host")] public string Host { get; set; }
 
-            [JsonProperty("port")]
-            public int Port { get; set; }
+            [JsonProperty("port")] public int Port { get; set; }
 
-            [JsonProperty("username")]
-            public string Username { get; set; }
+            [JsonProperty("username")] public string Username { get; set; }
 
-            [JsonProperty("password")]
-            public string Password { get; set; }
+            [JsonProperty("password")] public string Password { get; set; }
 
-            [JsonProperty("database")]
-            public string Database { get; set; }
+            [JsonProperty("database")] public string Database { get; set; }
         }
     }
 
@@ -209,26 +187,19 @@ namespace NeoNetsphere
             CaptainExpRates = new ChaserExperienceRates();
         }
 
-        [JsonProperty("enable_tutorial")]
-        public bool EnableTutorial { get; set; }
+        [JsonProperty("enable_tutorial")] public bool EnableTutorial { get; set; }
 
-        [JsonProperty("max_level")]
-        public byte MaxLevel { get; set; }
+        [JsonProperty("max_level")] public byte MaxLevel { get; set; }
 
-        [JsonProperty("start_level")]
-        public byte StartLevel { get; set; }
+        [JsonProperty("start_level")] public byte StartLevel { get; set; }
 
-        [JsonProperty("start_pen")]
-        public int StartPEN { get; set; }
+        [JsonProperty("start_pen")] public int StartPEN { get; set; }
 
-        [JsonProperty("start_ap")]
-        public int StartAP { get; set; }
+        [JsonProperty("start_ap")] public int StartAP { get; set; }
 
-        [JsonProperty("start_coins1")]
-        public int StartCoins1 { get; set; }
+        [JsonProperty("start_coins1")] public int StartCoins1 { get; set; }
 
-        [JsonProperty("start_coins2")]
-        public int StartCoins2 { get; set; }
+        [JsonProperty("start_coins2")] public int StartCoins2 { get; set; }
 
         [JsonProperty("durability_loss_per_death")]
         public int DurabilityLossPerDeath { get; set; }
@@ -236,23 +207,18 @@ namespace NeoNetsphere
         [JsonProperty("durability_loss_per_minute")]
         public int DurabilityLossPerMinute { get; set; }
 
-        [JsonProperty("nick_restrictions")]
-        public NickRestrictions NickRestrictions { get; set; }
+        [JsonProperty("nick_restrictions")] public NickRestrictions NickRestrictions { get; set; }
 
-        [JsonProperty("exp_rates_touchdown")]
-        public ExperienceRates TouchdownExpRates { get; set; }
+        [JsonProperty("exp_rates_touchdown")] public ExperienceRates TouchdownExpRates { get; set; }
 
-        [JsonProperty("exp_rates_deathmatch")]
-        public ExperienceRates DeathmatchExpRates { get; set; }
+        [JsonProperty("exp_rates_deathmatch")] public ExperienceRates DeathmatchExpRates { get; set; }
 
-        [JsonProperty("exp_rates_chaser")]
-        public ChaserExperienceRates ChaserExpRates { get; set; }
+        [JsonProperty("exp_rates_chaser")] public ChaserExperienceRates ChaserExpRates { get; set; }
 
         [JsonProperty("exp_rates_battleroyal")]
         public ExperienceRates BRExpRates { get; set; }
 
-        [JsonProperty("exp_rates_captain")]
-        public ChaserExperienceRates CaptainExpRates { get; set; }
+        [JsonProperty("exp_rates_captain")] public ChaserExperienceRates CaptainExpRates { get; set; }
     }
 
     public class NickRestrictions
@@ -266,52 +232,38 @@ namespace NeoNetsphere
             AsciiOnly = true;
         }
 
-        [JsonProperty("min_length")]
-        public int MinLength { get; set; }
+        [JsonProperty("min_length")] public int MinLength { get; set; }
 
-        [JsonProperty("max_length")]
-        public int MaxLength { get; set; }
+        [JsonProperty("max_length")] public int MaxLength { get; set; }
 
-        [JsonProperty("max_repeat")]
-        public int MaxRepeat { get; set; }
+        [JsonProperty("max_repeat")] public int MaxRepeat { get; set; }
 
-        [JsonProperty("allow_whitespace")]
-        public bool WhitespaceAllowed { get; set; }
+        [JsonProperty("allow_whitespace")] public bool WhitespaceAllowed { get; set; }
 
-        [JsonProperty("only_ascii")]
-        public bool AsciiOnly { get; set; }
+        [JsonProperty("only_ascii")] public bool AsciiOnly { get; set; }
     }
 
     public class ExperienceRates
     {
-        [JsonProperty("score_factor")]
-        public float ScoreFactor { get; set; } = 0.7f;
+        [JsonProperty("score_factor")] public float ScoreFactor { get; set; } = 0.7f;
 
-        [JsonProperty("first_place_bonus")]
-        public float FirstPlaceBonus { get; set; } = 50;
+        [JsonProperty("first_place_bonus")] public float FirstPlaceBonus { get; set; } = 50;
 
-        [JsonProperty("second_place_bonus")]
-        public float SecondPlaceBonus { get; set; } = 30;
+        [JsonProperty("second_place_bonus")] public float SecondPlaceBonus { get; set; } = 30;
 
-        [JsonProperty("third_place_bonus")]
-        public float ThirdPlaceBonus { get; set; } = 10;
+        [JsonProperty("third_place_bonus")] public float ThirdPlaceBonus { get; set; } = 10;
 
-        [JsonProperty("player_count_factor")]
-        public float PlayerCountFactor { get; set; } = 0.06f;
+        [JsonProperty("player_count_factor")] public float PlayerCountFactor { get; set; } = 0.06f;
 
-        [JsonProperty("exp_per_min")]
-        public float ExpPerMin { get; set; } = 20f;
+        [JsonProperty("exp_per_min")] public float ExpPerMin { get; set; } = 20f;
     }
 
     public class ChaserExperienceRates : ExperienceRates
     {
-        [JsonProperty("exp_per_first_point")]
-        public float ExpPerFirstPoint { get; set; } = 5f;
+        [JsonProperty("exp_per_first_point")] public float ExpPerFirstPoint { get; set; } = 5f;
 
-        [JsonProperty("exp_per_second_point")]
-        public float ExpPerSecondPoint { get; set; } = 3f;
+        [JsonProperty("exp_per_second_point")] public float ExpPerSecondPoint { get; set; } = 3f;
 
-        [JsonProperty("exp_per_third_point")]
-        public float ExpPerThirdPoint { get; set; } = 2f;
+        [JsonProperty("exp_per_third_point")] public float ExpPerThirdPoint { get; set; } = 2f;
     }
 }

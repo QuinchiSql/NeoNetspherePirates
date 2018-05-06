@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlubLib.Threading.Tasks;
-using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
-using NeoNetsphere.Network.Data.Club;
-using NeoNetsphere.Network.Data.Game;
-using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Services;
 using NeoNetsphere.Resource;
-using Netsphere;
-using ProudNetSrc;
 
 namespace NeoNetsphere.Commands
 {
@@ -24,7 +17,11 @@ namespace NeoNetsphere.Commands
             Name = "reload";
             AllowConsole = true;
             Permission = SecurityLevel.Developer;
-            SubCommands = new ICommand[] {new ShopCommand(), new ReqBoxCommand(), new RoomMassKickCommand(), new ServerMassKickCommand(), new ClubCommand(),  };
+            SubCommands = new ICommand[]
+            {
+                new ShopCommand(), new ReqBoxCommand(), new RoomMassKickCommand(), new ServerMassKickCommand(),
+                new ClubCommand()
+            };
         }
 
         public string Name { get; }
@@ -46,6 +43,7 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
 
@@ -208,11 +206,9 @@ namespace NeoNetsphere.Commands
                     plr.SendConsoleMessage(S4Color.Green + message);
 
                 foreach (var session in GameServer.Instance.Sessions.Values.Cast<GameSession>())
-                {
                     session.Player?.Room?.Leave(session.Player);
-                }
 
-                GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage() {Result = 0});
+                GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
                 GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
 
                 message = "Done with kickall";
@@ -229,6 +225,7 @@ namespace NeoNetsphere.Commands
                 return Name;
             }
         }
+
         private class RoomMassKickCommand : ICommand
         {
             public RoomMassKickCommand()

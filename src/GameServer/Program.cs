@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using BlubLib;
 using Dapper;
@@ -16,13 +16,13 @@ using Microsoft.Data.Sqlite;
 using MySql.Data.MySqlClient;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
+using NeoNetsphere.Network.Message.Game;
 using Newtonsoft.Json;
 using ProudNetSrc;
+using ProudNetSrc.Serialization.Messages;
 using Serilog;
 using Serilog.Core;
 using Serilog.Formatting.Json;
-using System.Security.Permissions;
-using NeoNetsphere.Resource.xml;
 
 namespace NeoNetsphere
 {
@@ -33,6 +33,7 @@ namespace NeoNetsphere
         public static Version GlobalVersion;
 
         public static Stopwatch AppTime { get; } = Stopwatch.StartNew();
+
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
         private static void Main()
         {
@@ -54,7 +55,8 @@ namespace NeoNetsphere
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
             Logger.Information("============================================");
-            Logger.Information("Initializing GameServer build {ver}...", $"{Program.GlobalVersion.Major}.{Program.GlobalVersion.Major / 2 + Program.GlobalVersion.Minor + Program.GlobalVersion.Build + Program.GlobalVersion.Revision}");
+            Logger.Information("Initializing GameServer build {ver}...",
+                $"{GlobalVersion.Major}.{GlobalVersion.Major / 2 + GlobalVersion.Minor + GlobalVersion.Build + GlobalVersion.Revision}");
 #if NEWIDS
             Logger.Information("Set mode NEWIDS");
 #endif
@@ -89,7 +91,7 @@ namespace NeoNetsphere
                 SocketWorkerThreads = workerThreads,
                 WorkerThread = workerThread,
 #if DEBUG
-                //Logger = Logger,
+//Logger = Logger,
 #endif
             });
             GameServer.Initialize(new Configuration
@@ -153,18 +155,19 @@ namespace NeoNetsphere
                 {
                     foreach (var sess in GameServer.Instance.Sessions.Values)
                     {
-                        var session = (GameSession)sess;
+                        var session = (GameSession) sess;
                         if (session.Player != null && session.Player.Room != null)
                             session.Player.Room.Leave(session.Player);
                     }
-                    GameServer.Instance.Broadcast(new Network.Message.Game.ItemUseChangeNickAckMessage() { Result = 0 });
-                    GameServer.Instance.Broadcast(new Network.Message.Game.ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-                    GameServer.Instance.Broadcast(new ProudNetSrc.Serialization.Messages.RequestAutoPruneAckMessage(), SendOptions.Reliable);
 
+                    GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
+                    GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
+                    GameServer.Instance.Broadcast(new RequestAutoPruneAckMessage(), SendOptions.Reliable);
                 }
                 catch (Exception exception)
                 {
                 }
+
                 //var chat = Task.Run(() => ChatServer.Instance.Dispose());
                 //var relay = Task.Run(() => RelayServer.Instance.Dispose());
                 //var game = Task.Run(() => GameServer.Instance.Dispose());
@@ -173,7 +176,7 @@ namespace NeoNetsphere
                 Environment.Exit(0);
             }
         }
-        
+
         private static void OnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             e.SetObserved();
@@ -182,24 +185,25 @@ namespace NeoNetsphere
 
         private static void OnUnhandledException(object s, UnhandledExceptionEventArgs args)
         {
-            Exception e = (Exception)args.ExceptionObject;
+            var e = (Exception) args.ExceptionObject;
             Log.Error(e.ToString(), "UnhandledException");
             try
             {
                 foreach (var sess in GameServer.Instance.Sessions.Values)
                 {
-                    var session = (GameSession)sess;
+                    var session = (GameSession) sess;
                     if (session.Player != null && session.Player.Room != null)
                         session.Player.Room.Leave(session.Player);
                 }
-                GameServer.Instance.Broadcast(new Network.Message.Game.ItemUseChangeNickAckMessage() { Result = 0 });
-                GameServer.Instance.Broadcast(new Network.Message.Game.ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-                GameServer.Instance.Broadcast(new ProudNetSrc.Serialization.Messages.RequestAutoPruneAckMessage(), SendOptions.Reliable);
 
+                GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
+                GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
+                GameServer.Instance.Broadcast(new RequestAutoPruneAckMessage(), SendOptions.Reliable);
             }
             catch (Exception exception)
             {
             }
+
             Environment.Exit(-1);
         }
 
@@ -230,22 +234,22 @@ namespace NeoNetsphere
                 {
                     var effects = new Dictionary<string, Tuple<uint[], uint>> // effectids, groupid/effect
                     {
-                        {"None", Tuple.Create(Array.Empty<uint>(), (uint)0)},
+                        {"None", Tuple.Create(Array.Empty<uint>(), (uint) 0)},
                         {
                             "Shooting Weapon Defense (Head) +5%",
-                            Tuple.Create(new uint[] {1100313003, 1100315003, 1100317003},(uint) 1100315002)
+                            Tuple.Create(new uint[] {1100313003, 1100315003, 1100317003}, (uint) 1100315002)
                         },
-                        {"SP+6", Tuple.Create(new uint[] {1101301006}, (uint)1101301006)},
-                        {"Attack+1%", Tuple.Create(new uint[] {1102303001}, (uint)1102303001)},
-                        {"Attack+5%", Tuple.Create(new uint[] {1102303003}, (uint)1102303003)},
-                        {"Attack+10%", Tuple.Create(new uint[] {1299600006}, (uint)1299600006)},
-                        {"Defense+5%", Tuple.Create(new uint[] {1103302004}, (uint)1103302004)},
-                        {"HP+4", Tuple.Create(new uint[] {1105300004}, (uint)1105300004)},
-                        {"HP+30", Tuple.Create(new uint[] {1999300011}, (uint)1999300011)},
-                        {"HP+15", Tuple.Create(new uint[] {1999300009}, (uint)1999300009)},
-                        {"SP+40", Tuple.Create(new uint[] {1300301012}, (uint)1300301012)},
-                        {"HP+20 & SP+20", Tuple.Create(new uint[] {1999300010, 1999301011}, (uint)30001)},
-                        {"HP+25 & SP+25", Tuple.Create(new uint[] { 1999300012, 1999301013}, (uint)30003)}
+                        {"SP+6", Tuple.Create(new uint[] {1101301006}, (uint) 1101301006)},
+                        {"Attack+1%", Tuple.Create(new uint[] {1102303001}, (uint) 1102303001)},
+                        {"Attack+5%", Tuple.Create(new uint[] {1102303003}, (uint) 1102303003)},
+                        {"Attack+10%", Tuple.Create(new uint[] {1299600006}, (uint) 1299600006)},
+                        {"Defense+5%", Tuple.Create(new uint[] {1103302004}, (uint) 1103302004)},
+                        {"HP+4", Tuple.Create(new uint[] {1105300004}, (uint) 1105300004)},
+                        {"HP+30", Tuple.Create(new uint[] {1999300011}, (uint) 1999300011)},
+                        {"HP+15", Tuple.Create(new uint[] {1999300009}, (uint) 1999300009)},
+                        {"SP+40", Tuple.Create(new uint[] {1300301012}, (uint) 1300301012)},
+                        {"HP+20 & SP+20", Tuple.Create(new uint[] {1999300010, 1999301011}, (uint) 30001)},
+                        {"HP+25 & SP+25", Tuple.Create(new uint[] {1999300012, 1999301013}, (uint) 30003)}
                     };
 
                     #region Effects
@@ -254,7 +258,7 @@ namespace NeoNetsphere
                     {
                         var effectGroup = new ShopEffectGroupDto {Name = pair.Key, Effect = pair.Value.Item2};
                         db.Insert(effectGroup, statement => statement.AttachToTransaction(transaction));
-                        effects[pair.Key] = Tuple.Create(pair.Value.Item1, (uint)effectGroup.Id);
+                        effects[pair.Key] = Tuple.Create(pair.Value.Item1, (uint) effectGroup.Id);
 
                         foreach (var effect in pair.Value.Item1)
                             db.Insert(new ShopEffectDto {EffectGroupId = effectGroup.Id, Effect = effect},
@@ -381,6 +385,7 @@ namespace NeoNetsphere
                                         subTab = 5;
                                         break;
                                 }
+
                                 break;
                             case ItemCategory.OneTimeUse:
                                 switch ((OneTimeUseCategory) item.ItemNumber.SubCategory)
@@ -408,6 +413,7 @@ namespace NeoNetsphere
                                     default:
                                         continue;
                                 }
+
                                 break;
                             case ItemCategory.Weapon:
                                 effectToUse = effects["Attack+1%"];
@@ -443,6 +449,7 @@ namespace NeoNetsphere
                                         subTab = 6;
                                         break;
                                 }
+
                                 break;
 
                             case ItemCategory.Skill:
@@ -460,10 +467,12 @@ namespace NeoNetsphere
                                 if (item.ItemNumber.SubCategory == 0 && item.ItemNumber.Number == 3) // dual mastery
                                     effectToUse = effects["HP+20 & SP+20"];
 
-                                if (item.ItemNumber.SubCategory == 0 && item.ItemNumber.Number == 5) // dual mastery - returner
+                                if (item.ItemNumber.SubCategory == 0 && item.ItemNumber.Number == 5
+                                ) // dual mastery - returner
                                     effectToUse = effects["HP+20 & SP+20"];
 
-                                if (item.ItemNumber.SubCategory == 0 && item.ItemNumber.Number == 7) // unique dual mastery - balanced!
+                                if (item.ItemNumber.SubCategory == 0 && item.ItemNumber.Number == 7
+                                ) // unique dual mastery - balanced!
                                     effectToUse = effects["HP+25 & SP+25"];
 
                                 break;
@@ -505,6 +514,7 @@ namespace NeoNetsphere
                                         effectToUse = effects["SP+6"];
                                         break;
                                 }
+
                                 break;
 
                             default:
@@ -522,7 +532,7 @@ namespace NeoNetsphere
                             IsDestroyable = true,
                             MainTab = mainTab,
                             SubTab = subTab,
-                            Colors = (byte)item.Colors
+                            Colors = (byte) item.Colors
                         };
                         db.Insert(shopItem, statement => statement.AttachToTransaction(transaction));
 
@@ -530,18 +540,22 @@ namespace NeoNetsphere
                         {
                             ShopItemId = shopItem.Id,
                             PriceGroupId = priceGroup.Id,
-                            EffectGroupId = (int)effectToUse.Item2,
+                            EffectGroupId = (int) effectToUse.Item2,
                             IsEnabled = true
                         };
                         var shopItemInfo_onetimeuse = new ShopItemInfoDto
                         {
                             ShopItemId = shopItem.Id,
                             PriceGroupId = priceGroup2.Id,
-                            EffectGroupId = (int)effectToUse.Item2,
+                            EffectGroupId = (int) effectToUse.Item2,
                             IsEnabled = true
                         };
-                        if (item.ItemNumber.Category == ItemCategory.Costume || item.ItemNumber.Category == ItemCategory.Weapon
-                          || item.ItemNumber.Category == ItemCategory.Skill || item.ItemNumber.Category == ItemCategory.EsperChip)
+                        if (item.ItemNumber.Category == ItemCategory.Costume || item.ItemNumber.Category ==
+                                                                             ItemCategory.Weapon
+                                                                             || item.ItemNumber.Category ==
+                                                                             ItemCategory.Skill ||
+                                                                             item.ItemNumber.Category ==
+                                                                             ItemCategory.EsperChip)
                             db.Insert(shopItemInfo, statement => statement.AttachToTransaction(transaction));
                         else
                             db.Insert(shopItemInfo_onetimeuse, statement => statement.AttachToTransaction(transaction));
@@ -593,6 +607,7 @@ namespace NeoNetsphere
                             Environment.Exit(0);
                         }
                     }
+
                     break;
 
                 case DatabaseEngine.SQLite:
@@ -604,6 +619,7 @@ namespace NeoNetsphere
                         Logger.Error($"Database '{config.Auth.Filename}' not found");
                         Environment.Exit(0);
                     }
+
                     break;
 
                 default:
@@ -632,6 +648,7 @@ namespace NeoNetsphere
                     Environment.Exit(0);
                     return null;
             }
+
             connection.Open();
             return connection;
         }
@@ -665,6 +682,7 @@ namespace NeoNetsphere
                             Environment.Exit(0);
                         }
                     }
+
                     break;
 
                 case DatabaseEngine.SQLite:
@@ -676,6 +694,7 @@ namespace NeoNetsphere
                         Logger.Error($"Database '{config.Game.Filename}' not found");
                         Environment.Exit(0);
                     }
+
                     break;
 
                 default:
@@ -704,6 +723,7 @@ namespace NeoNetsphere
                     Environment.Exit(0);
                     return null;
             }
+
             connection.Open();
             return connection;
         }

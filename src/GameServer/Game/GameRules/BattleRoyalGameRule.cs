@@ -63,8 +63,10 @@ namespace Netsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, (uint)Room.Options.PlayerLimit / 2, (uint)Room.Options.SpectatorLimit / 2);
-            Room.TeamManager.Add(Team.Beta, (uint)Room.Options.PlayerLimit / 2, (uint)Room.Options.SpectatorLimit / 2);
+            Room.TeamManager.Add(Team.Alpha, (uint) Room.Options.PlayerLimit / 2,
+                (uint) Room.Options.SpectatorLimit / 2);
+            Room.TeamManager.Add(Team.Beta, (uint) Room.Options.PlayerLimit / 2,
+                (uint) Room.Options.SpectatorLimit / 2);
 
             base.Initialize();
         }
@@ -158,7 +160,7 @@ namespace Netsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private static BattleRoyalPlayerRecord GetRecord(Player plr)
         {
