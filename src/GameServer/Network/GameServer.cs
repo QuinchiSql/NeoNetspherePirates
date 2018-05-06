@@ -430,7 +430,7 @@ namespace NeoNetsphere.Network
                 .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? src.Channel.Id : -1)
                 .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int) src.Room.Id : -1)
                 .Function(dest => dest.ClanRank, src => (int)(src.Club?.GetPlayer(src.Account.Id)?.Rank ?? 0))
-                .Function(dest => dest.LastLogin, src => src.Club?.GetPlayer(src.Account.Id)?.Account.LastLogin ?? "");
+                .Function(dest => dest.LastLogin, src => src.Account?.AccountDto?.LastLogin ?? "");
             
             Mapper.Register<ClubPlayerInfo, ClubMemberDto>()
                 .Function(dest => dest.AccountId, src => src.AccountId)
