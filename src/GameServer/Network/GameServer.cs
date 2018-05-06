@@ -411,7 +411,7 @@ namespace NeoNetsphere.Network
             Mapper.Register<Player, PlayerNameTagInfoDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id);
 
-            Mapper.Register<Player, MyInfoDto>()
+            Mapper.Register<Player, ClubMyInfoDto>()
                 .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
                 .Function(dest => dest.Name, src => src.Club?.ClanName ?? "")
                 .Function(dest => dest.Level, src => src.Club?.Count ?? 0)
@@ -428,11 +428,15 @@ namespace NeoNetsphere.Network
                 .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
                 .Function(dest => dest.ServerId, src => (int) Config.Instance.Id)
                 .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? src.Channel.Id : -1)
-                .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int) src.Room.Id : -1);
-
+                .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int) src.Room.Id : -1)
+                .Function(dest => dest.ClanRank, src => (int)(src.Club?.GetPlayer(src.Account.Id)?.Rank ?? 0))
+                .Function(dest => dest.LastLogin, src => src.Club?.GetPlayer(src.Account.Id)?.Account.LastLogin ?? "");
+            
             Mapper.Register<ClubPlayerInfo, ClubMemberDto>()
                 .Function(dest => dest.AccountId, src => src.AccountId)
                 .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
+                .Function(dest => dest.LastLogin, src => src.Account.LastLogin ?? "")
+                .Function(dest => dest.ClanRank, src => (int)src.Rank)
                 .Value(dest => dest.ServerId, -1)
                 .Value(dest => dest.ChannelId, -1)
                 .Value(dest => dest.RoomId, -1);
@@ -441,7 +445,7 @@ namespace NeoNetsphere.Network
                 .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
                 .Function(dest => dest.Name, src => src.Club?.ClanName ?? "n/A")
                 .Function(dest => dest.MasterName,
-                    src => src.Club?.Players.Values.FirstOrDefault(x => x.IsMod)?.Account?.Nickname ?? "")
+                    src => src.Club?.Players.Values.FirstOrDefault(x => x.Rank == ClubRank.Master)?.Account?.Nickname ?? "")
                 .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
                 .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
 
@@ -450,7 +454,7 @@ namespace NeoNetsphere.Network
                 .Function(dest => dest.Id2, src => src.Club?.Id ?? 0)
                 .Function(dest => dest.Name, src => src.Club?.ClanName ?? "n/A")
                 .Function(dest => dest.MasterName,
-                    src => src.Club?.Players.Values.FirstOrDefault(x => x.IsMod)?.Account?.Nickname ?? "")
+                    src => src.Club?.Players.Values.FirstOrDefault(x => x.Rank == ClubRank.Master)?.Account?.Nickname ?? "")
                 .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
                 .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
 

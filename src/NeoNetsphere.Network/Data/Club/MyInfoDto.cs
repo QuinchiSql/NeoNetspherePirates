@@ -4,7 +4,7 @@ using ProudNetSrc.Serialization.Serializers;
 namespace NeoNetsphere.Network.Data.Club
 {
     [BlubContract]
-    public class MyInfoDto
+    public class ClubMyInfoDto
     {
         [BlubMember(0)]
         public uint Id { get; set; } //unique club id
@@ -42,7 +42,7 @@ namespace NeoNetsphere.Network.Data.Club
         [BlubMember(11)]
         public byte Unk7 { get; set; }
 
-        public MyInfoDto()
+        public ClubMyInfoDto()
         {
             Type = "";
             Id = 0;

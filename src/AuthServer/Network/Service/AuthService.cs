@@ -88,7 +88,6 @@ namespace NeoNetsphere.Network.Service
 
                         if (account != null)
                         {
-                            account.LastLogin = $"{DateTimeOffset.Now}";
                             account.AuthToken = "";
                             account.newToken = "";
                             await db.UpdateAsync(account);
@@ -180,13 +179,14 @@ namespace NeoNetsphere.Network.Service
             }
 
 
-            var datetime = $"{DateTimeOffset.Now.DateTime}";
+            var datetime = $"{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
             var sessionId = Hash.GetUInt32<CRC32>($"<{account.Username}+{account.Password}>");
             var authsessionId = Hash.GetString<CRC32>($"<{account.Username}+{sessionId}+{datetime}>");
             var newsessionId = Hash.GetString<CRC32>($"<{authsessionId}+{sessionId}>");
 
             using (var db = AuthDatabase.Open())
             {
+                account.LastLogin = $"{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
                 account.LoginToken = "";
                 account.AuthToken = authsessionId;
                 account.newToken = newsessionId;

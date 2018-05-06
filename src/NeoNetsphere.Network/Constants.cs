@@ -87,10 +87,23 @@
         AlreadyReady = 1
     }
 
-    public enum ClubState
+    public enum ClubState : int
     {
         NotJoined,
         AwaitingAccept,
         Member
+    }
+
+    public enum ClubRank : int
+    {
+        Master = 1,
+        TempMaster,
+        Staff,
+        Regular,
+        Normal,
+        BadManner,
+        Aclass,
+        Bclass,
+        Cclass
     }
 }

@@ -304,7 +304,7 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new ShoppingBasketListInfoAckMessage());
             await session.SendAsync(new PlayeArcadeMapInfoAckMessage());
             await session.SendAsync(new PlayerArcadeStageInfoAckMessage());
-            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));
             await session.SendAsync(new ItemInventoryInfoAckMessage
             {
                 Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()

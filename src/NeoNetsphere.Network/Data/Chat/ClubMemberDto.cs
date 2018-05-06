@@ -23,6 +23,20 @@ namespace NeoNetsphere.Network.Data.Chat
             ServerId = -1;
             ChannelId = -1;
             RoomId = -1;
+            
+            /* ClanRank
+             1 - Master
+             2 - Temp Master
+             3 - Staff
+             4 - Regular
+             5 - Normal
+             6 - Bad-Manner
+             7 - A Class
+             8 - B Class
+             9 - C Class
+            */
+
+
         }
 
         [BlubMember(0)]
@@ -38,7 +52,7 @@ namespace NeoNetsphere.Network.Data.Chat
         public int Unk2 { get; set; }
 
         [BlubMember(4)]
-        public int Unk3 { get; set; }
+        public int ClanRank { get; set; }
 
         [BlubMember(5)]
         public int Unk4 { get; set; }

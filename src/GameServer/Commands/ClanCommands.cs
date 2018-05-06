@@ -78,7 +78,7 @@ namespace NeoNetsphere.Commands
                         {
                             PlayerId = (int) player.Account.Id,
                             ClubId = club.Id,
-                            IsMod = false,
+                            Rank = (byte) ClubRank.Normal,
                             State = (int) ClubState.Member
                         });
                     }
@@ -88,10 +88,10 @@ namespace NeoNetsphere.Commands
                         {
                             AccountId = plr.Account.Id,
                             State = ClubState.Member,
-                            IsMod = false
+                            Rank = ClubRank.Regular,
                         });
                     player.Club = club;
-                    player.Session.SendAsync(new ClubMyInfoAckMessage(player.Map<Player, MyInfoDto>()));
+                    player.Session.SendAsync(new ClubMyInfoAckMessage(player.Map<Player, ClubMyInfoDto>()));
                     Club.LogOn(player);
                     plr?.SendConsoleMessage(S4Color.Green +
                                             $"Added player {player.Account.Nickname} to clan {club.ClanName}");
@@ -123,7 +123,7 @@ namespace NeoNetsphere.Commands
                     Club.LogOff(player);
                     club.Players.Remove(player.Account.Id, out _);
                     player.Club = null;
-                    player.Session.SendAsync(new ClubMyInfoAckMessage(player.Map<Player, MyInfoDto>()));
+                    player.Session.SendAsync(new ClubMyInfoAckMessage(player.Map<Player, ClubMyInfoDto>()));
                     plr?.SendConsoleMessage(S4Color.Green +
                                             $"Removed player {player.Account.Nickname} from clan {club.ClanName}");
                     return true;

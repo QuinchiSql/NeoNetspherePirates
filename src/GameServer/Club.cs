@@ -25,7 +25,7 @@ namespace NeoNetsphere
     {
         public ulong AccountId { get; set; }
         public ClubState State { get; set; }
-        public bool IsMod { get; set; }
+        public ClubRank Rank { get; set; }
 
         public AccountDto Account { get; set; }
     }

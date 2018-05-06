@@ -296,7 +296,7 @@ namespace NeoNetsphere.Database.Game
         public ClubDto Club { get; set; }
 
         public int State { get; set; }
-        public bool IsMod { get; set; }
+        public int Rank { get; set; }
     }
 
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2018 at 03:23 AM
--- Server version: 10.1.29-MariaDB
--- PHP Version: 7.2.0
+-- Erstellungszeit: 06. Mai 2018 um 08:01
+-- Server-Version: 10.1.31-MariaDB
+-- PHP-Version: 7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `s4l`
+-- Datenbank: `s4l_clean`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `accounts`
+-- Tabellenstruktur für Tabelle `accounts`
 --
 
 CREATE TABLE `accounts` (
@@ -44,7 +44,7 @@ CREATE TABLE `accounts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bans`
+-- Tabellenstruktur für Tabelle `bans`
 --
 
 CREATE TABLE `bans` (
@@ -58,7 +58,7 @@ CREATE TABLE `bans` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `channels`
+-- Tabellenstruktur für Tabelle `channels`
 --
 
 CREATE TABLE `channels` (
@@ -73,7 +73,7 @@ CREATE TABLE `channels` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `channels`
+-- Daten für Tabelle `channels`
 --
 
 INSERT INTO `channels` (`Id`, `Name`, `Description`, `PlayerLimit`, `MinLevel`, `MaxLevel`, `Color`, `TooltipColor`) VALUES
@@ -84,7 +84,7 @@ INSERT INTO `channels` (`Id`, `Name`, `Description`, `PlayerLimit`, `MinLevel`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clubs`
+-- Tabellenstruktur für Tabelle `clubs`
 --
 
 CREATE TABLE `clubs` (
@@ -96,20 +96,20 @@ CREATE TABLE `clubs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `club_players`
+-- Tabellenstruktur für Tabelle `club_players`
 --
 
 CREATE TABLE `club_players` (
   `PlayerId` int(11) NOT NULL,
   `ClubId` int(11) UNSIGNED NOT NULL,
   `State` int(11) NOT NULL,
-  `IsMod` tinyint(1) NOT NULL DEFAULT '0'
+  `Rank` int(1) NOT NULL DEFAULT '4'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `license_rewards`
+-- Tabellenstruktur für Tabelle `license_rewards`
 --
 
 CREATE TABLE `license_rewards` (
@@ -122,7 +122,7 @@ CREATE TABLE `license_rewards` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login_history`
+-- Tabellenstruktur für Tabelle `login_history`
 --
 
 CREATE TABLE `login_history` (
@@ -135,7 +135,7 @@ CREATE TABLE `login_history` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nickname_history`
+-- Tabellenstruktur für Tabelle `nickname_history`
 --
 
 CREATE TABLE `nickname_history` (
@@ -148,7 +148,7 @@ CREATE TABLE `nickname_history` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `players`
+-- Tabellenstruktur für Tabelle `players`
 --
 
 CREATE TABLE `players` (
@@ -170,7 +170,7 @@ CREATE TABLE `players` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_characters`
+-- Tabellenstruktur für Tabelle `player_characters`
 --
 
 CREATE TABLE `player_characters` (
@@ -199,7 +199,7 @@ CREATE TABLE `player_characters` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_deny`
+-- Tabellenstruktur für Tabelle `player_deny`
 --
 
 CREATE TABLE `player_deny` (
@@ -211,7 +211,7 @@ CREATE TABLE `player_deny` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_items`
+-- Tabellenstruktur für Tabelle `player_items`
 --
 
 CREATE TABLE `player_items` (
@@ -229,7 +229,7 @@ CREATE TABLE `player_items` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_licenses`
+-- Tabellenstruktur für Tabelle `player_licenses`
 --
 
 CREATE TABLE `player_licenses` (
@@ -243,7 +243,7 @@ CREATE TABLE `player_licenses` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_mails`
+-- Tabellenstruktur für Tabelle `player_mails`
 --
 
 CREATE TABLE `player_mails` (
@@ -260,7 +260,7 @@ CREATE TABLE `player_mails` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player_settings`
+-- Tabellenstruktur für Tabelle `player_settings`
 --
 
 CREATE TABLE `player_settings` (
@@ -273,7 +273,7 @@ CREATE TABLE `player_settings` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_effects`
+-- Tabellenstruktur für Tabelle `shop_effects`
 --
 
 CREATE TABLE `shop_effects` (
@@ -285,7 +285,7 @@ CREATE TABLE `shop_effects` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_effect_groups`
+-- Tabellenstruktur für Tabelle `shop_effect_groups`
 --
 
 CREATE TABLE `shop_effect_groups` (
@@ -297,7 +297,7 @@ CREATE TABLE `shop_effect_groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_iteminfos`
+-- Tabellenstruktur für Tabelle `shop_iteminfos`
 --
 
 CREATE TABLE `shop_iteminfos` (
@@ -312,7 +312,7 @@ CREATE TABLE `shop_iteminfos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_items`
+-- Tabellenstruktur für Tabelle `shop_items`
 --
 
 CREATE TABLE `shop_items` (
@@ -333,7 +333,7 @@ CREATE TABLE `shop_items` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_prices`
+-- Tabellenstruktur für Tabelle `shop_prices`
 --
 
 CREATE TABLE `shop_prices` (
@@ -350,7 +350,7 @@ CREATE TABLE `shop_prices` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_price_groups`
+-- Tabellenstruktur für Tabelle `shop_price_groups`
 --
 
 CREATE TABLE `shop_price_groups` (
@@ -362,7 +362,7 @@ CREATE TABLE `shop_price_groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shop_version`
+-- Tabellenstruktur für Tabelle `shop_version`
 --
 
 CREATE TABLE `shop_version` (
@@ -373,7 +373,7 @@ CREATE TABLE `shop_version` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `start_items`
+-- Tabellenstruktur für Tabelle `start_items`
 --
 
 CREATE TABLE `start_items` (
@@ -387,11 +387,11 @@ CREATE TABLE `start_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexes for dumped tables
+-- Indizes der exportierten Tabellen
 --
 
 --
--- Indexes for table `accounts`
+-- Indizes für die Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`Id`),
@@ -399,26 +399,26 @@ ALTER TABLE `accounts`
   ADD UNIQUE KEY `Nickname` (`Nickname`);
 
 --
--- Indexes for table `bans`
+-- Indizes für die Tabelle `bans`
 --
 ALTER TABLE `bans`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `AccountId` (`AccountId`);
 
 --
--- Indexes for table `channels`
+-- Indizes für die Tabelle `channels`
 --
 ALTER TABLE `channels`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `clubs`
+-- Indizes für die Tabelle `clubs`
 --
 ALTER TABLE `clubs`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `club_players`
+-- Indizes für die Tabelle `club_players`
 --
 ALTER TABLE `club_players`
   ADD PRIMARY KEY (`PlayerId`),
@@ -426,7 +426,7 @@ ALTER TABLE `club_players`
   ADD KEY `ClubId` (`ClubId`);
 
 --
--- Indexes for table `license_rewards`
+-- Indizes für die Tabelle `license_rewards`
 --
 ALTER TABLE `license_rewards`
   ADD PRIMARY KEY (`Id`),
@@ -434,27 +434,27 @@ ALTER TABLE `license_rewards`
   ADD KEY `ShopPriceId` (`ShopPriceId`);
 
 --
--- Indexes for table `login_history`
+-- Indizes für die Tabelle `login_history`
 --
 ALTER TABLE `login_history`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `AccountId` (`AccountId`);
 
 --
--- Indexes for table `nickname_history`
+-- Indizes für die Tabelle `nickname_history`
 --
 ALTER TABLE `nickname_history`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `AccountId` (`AccountId`);
 
 --
--- Indexes for table `players`
+-- Indizes für die Tabelle `players`
 --
 ALTER TABLE `players`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `player_characters`
+-- Indizes für die Tabelle `player_characters`
 --
 ALTER TABLE `player_characters`
   ADD PRIMARY KEY (`Id`),
@@ -473,7 +473,7 @@ ALTER TABLE `player_characters`
   ADD KEY `PetId` (`PetId`);
 
 --
--- Indexes for table `player_deny`
+-- Indizes für die Tabelle `player_deny`
 --
 ALTER TABLE `player_deny`
   ADD PRIMARY KEY (`Id`),
@@ -481,7 +481,7 @@ ALTER TABLE `player_deny`
   ADD KEY `DenyPlayerId` (`DenyPlayerId`);
 
 --
--- Indexes for table `player_items`
+-- Indizes für die Tabelle `player_items`
 --
 ALTER TABLE `player_items`
   ADD PRIMARY KEY (`Id`),
@@ -490,14 +490,14 @@ ALTER TABLE `player_items`
   ADD KEY `ShopPriceId` (`ShopPriceId`);
 
 --
--- Indexes for table `player_licenses`
+-- Indizes für die Tabelle `player_licenses`
 --
 ALTER TABLE `player_licenses`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `PlayerId` (`PlayerId`);
 
 --
--- Indexes for table `player_mails`
+-- Indizes für die Tabelle `player_mails`
 --
 ALTER TABLE `player_mails`
   ADD PRIMARY KEY (`Id`),
@@ -505,27 +505,27 @@ ALTER TABLE `player_mails`
   ADD KEY `SenderPlayerId` (`SenderPlayerId`);
 
 --
--- Indexes for table `player_settings`
+-- Indizes für die Tabelle `player_settings`
 --
 ALTER TABLE `player_settings`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `PlayerId` (`PlayerId`);
 
 --
--- Indexes for table `shop_effects`
+-- Indizes für die Tabelle `shop_effects`
 --
 ALTER TABLE `shop_effects`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `EffectGroupId` (`EffectGroupId`);
 
 --
--- Indexes for table `shop_effect_groups`
+-- Indizes für die Tabelle `shop_effect_groups`
 --
 ALTER TABLE `shop_effect_groups`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `shop_iteminfos`
+-- Indizes für die Tabelle `shop_iteminfos`
 --
 ALTER TABLE `shop_iteminfos`
   ADD PRIMARY KEY (`Id`),
@@ -534,32 +534,32 @@ ALTER TABLE `shop_iteminfos`
   ADD KEY `ShopItemId` (`ShopItemId`);
 
 --
--- Indexes for table `shop_items`
+-- Indizes für die Tabelle `shop_items`
 --
 ALTER TABLE `shop_items`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `shop_prices`
+-- Indizes für die Tabelle `shop_prices`
 --
 ALTER TABLE `shop_prices`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `PriceGroupId` (`PriceGroupId`);
 
 --
--- Indexes for table `shop_price_groups`
+-- Indizes für die Tabelle `shop_price_groups`
 --
 ALTER TABLE `shop_price_groups`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `shop_version`
+-- Indizes für die Tabelle `shop_version`
 --
 ALTER TABLE `shop_version`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `start_items`
+-- Indizes für die Tabelle `start_items`
 --
 ALTER TABLE `start_items`
   ADD PRIMARY KEY (`Id`),
@@ -568,137 +568,137 @@ ALTER TABLE `start_items`
   ADD KEY `ShopEffectId` (`ShopEffectId`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
+-- AUTO_INCREMENT für Tabelle `accounts`
 --
 ALTER TABLE `accounts`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=237;
 
 --
--- AUTO_INCREMENT for table `bans`
+-- AUTO_INCREMENT für Tabelle `bans`
 --
 ALTER TABLE `bans`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `channels`
+-- AUTO_INCREMENT für Tabelle `channels`
 --
 ALTER TABLE `channels`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `clubs`
+-- AUTO_INCREMENT für Tabelle `clubs`
 --
 ALTER TABLE `clubs`
   MODIFY `Id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `login_history`
+-- AUTO_INCREMENT für Tabelle `login_history`
 --
 ALTER TABLE `login_history`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3070;
 
 --
--- AUTO_INCREMENT for table `nickname_history`
+-- AUTO_INCREMENT für Tabelle `nickname_history`
 --
 ALTER TABLE `nickname_history`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `player_mails`
+-- AUTO_INCREMENT für Tabelle `player_mails`
 --
 ALTER TABLE `player_mails`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `player_settings`
+-- AUTO_INCREMENT für Tabelle `player_settings`
 --
 ALTER TABLE `player_settings`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shop_effects`
+-- AUTO_INCREMENT für Tabelle `shop_effects`
 --
 ALTER TABLE `shop_effects`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT for table `shop_effect_groups`
+-- AUTO_INCREMENT für Tabelle `shop_effect_groups`
 --
 ALTER TABLE `shop_effect_groups`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT for table `shop_iteminfos`
+-- AUTO_INCREMENT für Tabelle `shop_iteminfos`
 --
 ALTER TABLE `shop_iteminfos`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2619;
 
 --
--- AUTO_INCREMENT for table `shop_prices`
+-- AUTO_INCREMENT für Tabelle `shop_prices`
 --
 ALTER TABLE `shop_prices`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `shop_price_groups`
+-- AUTO_INCREMENT für Tabelle `shop_price_groups`
 --
 ALTER TABLE `shop_price_groups`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `shop_version`
+-- AUTO_INCREMENT für Tabelle `shop_version`
 --
 ALTER TABLE `shop_version`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `start_items`
+-- AUTO_INCREMENT für Tabelle `start_items`
 --
 ALTER TABLE `start_items`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Constraints for dumped tables
+-- Constraints der exportierten Tabellen
 --
 
 --
--- Constraints for table `bans`
+-- Constraints der Tabelle `bans`
 --
 ALTER TABLE `bans`
   ADD CONSTRAINT `bans_ibfk_1` FOREIGN KEY (`AccountId`) REFERENCES `accounts` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `club_players`
+-- Constraints der Tabelle `club_players`
 --
 ALTER TABLE `club_players`
   ADD CONSTRAINT `club_players_ibfk_1` FOREIGN KEY (`PlayerId`) REFERENCES `accounts` (`Id`),
   ADD CONSTRAINT `club_players_ibfk_2` FOREIGN KEY (`ClubId`) REFERENCES `clubs` (`Id`);
 
 --
--- Constraints for table `license_rewards`
+-- Constraints der Tabelle `license_rewards`
 --
 ALTER TABLE `license_rewards`
   ADD CONSTRAINT `license_rewards_ibfk_1` FOREIGN KEY (`ShopItemInfoId`) REFERENCES `shop_iteminfos` (`Id`) ON DELETE CASCADE,
   ADD CONSTRAINT `license_rewards_ibfk_2` FOREIGN KEY (`ShopPriceId`) REFERENCES `shop_prices` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `login_history`
+-- Constraints der Tabelle `login_history`
 --
 ALTER TABLE `login_history`
   ADD CONSTRAINT `login_history_ibfk_1` FOREIGN KEY (`AccountId`) REFERENCES `accounts` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `nickname_history`
+-- Constraints der Tabelle `nickname_history`
 --
 ALTER TABLE `nickname_history`
   ADD CONSTRAINT `nickname_history_ibfk_1` FOREIGN KEY (`AccountId`) REFERENCES `accounts` (`Id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `player_deny`
+-- Constraints der Tabelle `player_deny`
 --
 ALTER TABLE `player_deny`
   ADD CONSTRAINT `player_deny_ibfk_1` FOREIGN KEY (`PlayerId`) REFERENCES `players` (`Id`) ON DELETE CASCADE,

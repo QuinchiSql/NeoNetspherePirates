@@ -83,41 +83,38 @@ namespace NeoNetsphere.Resource
                 Logger.Information("Caching...");
                 using (var db = GameDatabase.Open())
                 {
-                    var Clubs = db.Find<ClubDto>().ToList();
-                    var ClubPlayers = db.Find<ClubPlayerDto>().ToList();
+                    var clubs = db.Find<ClubDto>().ToList();
+                    var clubPlayers = db.Find<ClubPlayerDto>().ToList();
 
-                    var DBClubInfoList = new List<DBClubInfoDto>();
-                    foreach (var clubDto in Clubs)
+                    var dbClubInfoList = new List<DBClubInfoDto>();
+                    foreach (var clubDto in clubs)
                     {
-                        var ClubInfo = new DBClubInfoDto();
-                        ClubInfo.ClubDto = clubDto;
-
-                        var DBPlayerInfoList = new List<ClubPlayerInfo>();
-                        foreach (var playerInfoDto in ClubPlayers.Where(p => p.ClubId == clubDto.Id))
+                        var clubInfo = new DBClubInfoDto {ClubDto = clubDto};
+                        var dbPlayerInfoList = new List<ClubPlayerInfo>();
+                        foreach (var playerInfoDto in clubPlayers.Where(p => p.ClubId == clubDto.Id))
                         {
-                            AccountDto account;
                             using (var dbC = AuthDatabase.Open())
                             {
-                                account = dbC.Find<AccountDto>(statement => statement
+                                var account = dbC.Find<AccountDto>(statement => statement
                                         .Where($"{nameof(AccountDto.Id):C} = @{nameof(playerInfoDto.PlayerId)}")
                                         .WithParameters(new {playerInfoDto.PlayerId}))
                                     .FirstOrDefault();
-
-                                DBPlayerInfoList.Add(new ClubPlayerInfo
+                                
+                                dbPlayerInfoList.Add(new ClubPlayerInfo
                                 {
                                     AccountId = (ulong) playerInfoDto.PlayerId,
                                     State = (ClubState) playerInfoDto.State,
-                                    IsMod = playerInfoDto.IsMod,
+                                    Rank = (ClubRank) playerInfoDto.Rank,
                                     Account = account
                                 });
                             }
                         }
 
-                        ClubInfo.PlayerDto = DBPlayerInfoList.ToArray();
-                        DBClubInfoList.Add(ClubInfo);
+                        clubInfo.PlayerDto = dbPlayerInfoList.ToArray();
+                        dbClubInfoList.Add(clubInfo);
                     }
 
-                    value = DBClubInfoList.ToArray();
+                    value = dbClubInfoList.ToArray();
                 }
 
                 _cache.Set(ResourceCacheType.Clubs, value);

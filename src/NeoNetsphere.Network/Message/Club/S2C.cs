@@ -351,14 +351,14 @@ namespace NeoNetsphere.Network.Message.Club
     [BlubContract]
     public class ClubMyInfoAckMessage : IClubMessage
     {
-        [BlubMember(0)] public MyInfoDto Unk { get; set; }
+        [BlubMember(0)] public ClubMyInfoDto Unk { get; set; }
 
         public ClubMyInfoAckMessage()
         {
 
         }
 
-        public ClubMyInfoAckMessage(MyInfoDto unk)
+        public ClubMyInfoAckMessage(ClubMyInfoDto unk)
         {
             Unk = unk;
         }

@@ -47,8 +47,14 @@ namespace NeoNetsphere.Network.Services
                 {
                     Club.LogOff(plr, true);
                     plr.Club = GameServer.Instance.ClubManager.GetClubByAccount(plr.Account.Id);
-                    await proudSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                    await proudSession.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));
                     Club.LogOn(plr, true);
+
+                    if (plr.Room != null)
+                    {
+                        await plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
+                        await plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
+                    }
                 }
             }
 
@@ -181,7 +187,7 @@ namespace NeoNetsphere.Network.Services
                                         AccountId = session.Player.Account.Id,
                                         Account = playerAcc,
                                         State = ClubState.Member,
-                                        IsMod = true
+                                        Rank = ClubRank.Master
                                     }
                                 });
                                 GameServer.Instance.ClubManager.Add(club);
@@ -191,7 +197,7 @@ namespace NeoNetsphere.Network.Services
                                 {
                                     PlayerId = (int) session.Player.Account.Id,
                                     ClubId = club.Id,
-                                    IsMod = true,
+                                    Rank = (byte)ClubRank.Normal,
                                     State = (int) ClubState.Member
                                 });
 
@@ -206,7 +212,7 @@ namespace NeoNetsphere.Network.Services
                         }
 
                         session.SendAsync(new ClubCreateAck2Message(0));
-                        session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                        session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));
                         Club.LogOn(plr);
                     }
                 }
@@ -236,7 +242,7 @@ namespace NeoNetsphere.Network.Services
             var targetplr = GameServer.Instance.PlayerManager[message.AccountId];
             if (targetplr?.Club != null)
             {
-                var isMod = targetplr.Club.Players.Any(x => x.Value.IsMod && x.Key == targetplr.Account.Id);
+                var isMod = targetplr.Club.Players.Any(x => x.Value.Rank == ClubRank.Master && x.Key == targetplr.Account.Id);
                 session.SendAsync(new ClubClubMemberInfoAck2Message
                 {
                     ClanId = message.ClanId,
@@ -347,7 +353,7 @@ namespace NeoNetsphere.Network.Services
 
             //using (_sync.Lock())
             {
-                if (plr.Club.Players.Values.Any(x => x.Account?.Id == (int) plr.Account.Id && !x.IsMod))
+                if (plr.Club.Players.Values.Any(x => x.Account?.Id == (int) plr.Account.Id && x.Rank != ClubRank.Master))
                 {
                     using (var db = GameDatabase.Open())
                     {
@@ -368,7 +374,7 @@ namespace NeoNetsphere.Network.Services
                                 plr.Club.Players.TryRemove(plr.Account.Id, out var _);
                                 db.Delete(new ClubPlayerDto() { PlayerId = player.PlayerId });
                                 plr.Club = null;
-                                session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                                session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));
                                 session.SendAsync(new ClubUnjoinAck2Message());
                             }
                             else
@@ -407,7 +413,7 @@ namespace NeoNetsphere.Network.Services
 
             //using (_sync.Lock())
             {
-                if (plr.Club.Players.Any(x => x.Key == plr.Account.Id && x.Value.IsMod))
+                if (plr.Club.Players.Any(x => x.Key == plr.Account.Id && x.Value.Rank == ClubRank.Master))
                 {
                     using (var db = GameDatabase.Open())
                     {
@@ -434,7 +440,7 @@ namespace NeoNetsphere.Network.Services
                             {
                                 Club.LogOff(member);
                                 member.Club = null;
-                                member.Session?.SendAsync(new ClubMyInfoAckMessage(member.Map<Player, MyInfoDto>()));
+                                member.Session?.SendAsync(new ClubMyInfoAckMessage(member.Map<Player, ClubMyInfoDto>()));
                             }
                         }
                     }
