@@ -72,13 +72,11 @@ namespace NeoNetsphere.Commands
                         Console.WriteLine(message);
                     else
                         plr.SendConsoleMessage(S4Color.Green + message);
-
-                    server.BroadcastNotice(message);
+                    
                     server.ResourceCache.Clear(ResourceCacheType.Clubs);
                     server.ClubManager = new ClubManager(server.ResourceCache.GetClubs());
                     ClubService.Update(null, true);
                     message = "Club reload completed";
-                    server.BroadcastNotice(message);
                     if (plr == null)
                         Console.WriteLine(message);
                     else

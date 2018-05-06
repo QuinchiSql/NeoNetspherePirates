@@ -14,6 +14,7 @@ using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
+using Netsphere.Game.Systems;
 using ProudNetSrc.Handlers;
 using Serilog;
 using Serilog.Core;
@@ -44,8 +45,26 @@ namespace NeoNetsphere.Network.Services
 
                 if (plr != null)
                 {
+                    Club.LogOff(plr, true);
                     plr.Club = GameServer.Instance.ClubManager.GetClubByAccount(plr.Account.Id);
                     await proudSession?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
+                    Club.LogOn(plr, true);
+                }
+            }
+
+            foreach (var channel in GameServer.Instance.ChannelManager)
+            {
+                foreach (var room in channel.RoomManager.Where(x => x.Players.Any(y => y.Value.Club?.Id != 0)))
+                {
+                    room.Broadcast(new RoomPlayerInfoListForEnterPlayerAckMessage(room.TeamManager.Players
+                        .Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
+                    var clubList = new List<PlayerClubInfoDto>();
+
+                    foreach (var player in room.TeamManager.Players.Where(p => p.Club != null))
+                        if (clubList.All(club => club.Id != player.Club.Id))
+                            clubList.Add(player.Map<Player, PlayerClubInfoDto>());
+                    
+                    room.Broadcast(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
                 }
             }
         }
@@ -347,7 +366,7 @@ namespace NeoNetsphere.Network.Services
                             {
                                 Club.LogOff(plr);
                                 plr.Club.Players.TryRemove(plr.Account.Id, out var _);
-                                db.Delete(player);
+                                db.Delete(new ClubPlayerDto() { PlayerId = player.PlayerId });
                                 plr.Club = null;
                                 session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
                                 session.SendAsync(new ClubUnjoinAck2Message());

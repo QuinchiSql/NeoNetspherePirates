@@ -1,12 +1,15 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
+using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
+using Netsphere.Game.Systems;
 using Serilog;
 using Serilog.Core;
 
@@ -60,16 +63,30 @@ namespace NeoNetsphere
             return returnval;
         }
 
-        public static void LogOn(Player plr)
+        public static void LogOn(Player plr, bool noRooms = false)
         {
             plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(1, plr.Account.Id));
             //plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"1\"  />"));
+
+            if (!noRooms)
+            {
+                plr.Room?.Broadcast(new RoomPlayerInfoListForEnterPlayerAckMessage(plr.Room.TeamManager.Players
+                    .Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
+                plr.Room?.Broadcast(new RoomEnterClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+            }
         }
 
-        public static void LogOff(Player plr)
+        public static void LogOff(Player plr, bool noRooms = false)
         {
             plr.Club?.Broadcast(new ClubMemberLoginStateAckMessage(0, plr.Account.Id));
             //plr.Club?.Broadcast(new ClubSystemMessageMessage(plr.Account.Id, $"<Chat Key =\"1\" Cnt =\"2\" Param1=\"{plr.Account.Nickname}\" Param2=\"2\"  />"));
+
+            if (!noRooms)
+            {
+                plr.Room?.Broadcast(new RoomPlayerInfoListForEnterPlayerAckMessage(plr.Room.TeamManager.Players
+                    .Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
+                plr.Room?.Broadcast(new RoomEnterClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+            }
         }
 
         public void Broadcast(IClubMessage message)
