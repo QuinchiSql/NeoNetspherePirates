@@ -387,56 +387,7 @@ namespace NeoNetsphere.Network.Services
             await session.SendAsync(new ItemEquipBoostItemInfoAckMessage());
             await session.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
 
-            if (plr.Inventory.Count == 0)
-            {
-                IEnumerable<StartItemDto> startItems;
-                using (var db = GameDatabase.Open())
-                {
-                    startItems = await db.FindAsync<StartItemDto>(statement => statement
-                        .Where(
-                            $"{nameof(StartItemDto.RequiredSecurityLevel):C} <= @{nameof(plr.Account.SecurityLevel)}")
-                        .WithParameters(new {plr.Account.SecurityLevel}));
-                }
-
-                foreach (var startItem in startItems)
-                {
-                    var shop = GameServer.Instance.ResourceCache.GetShop();
-                    var item = shop.Items.Values.First(group => group.GetItemInfo(startItem.ShopItemInfoId) != null);
-                    var itemInfo = item.GetItemInfo(startItem.ShopItemInfoId);
-                    var effect = itemInfo.EffectGroup.GetEffect(startItem.ShopEffectId);
-
-                    var price = itemInfo.PriceGroup.GetPrice(startItem.ShopPriceId);
-                    if (price == null)
-                    {
-                        Logger.Warning("Cant find ShopPrice for Start item {startItemId} - Forgot to reload the cache?",
-                            startItem.Id);
-                        continue;
-                    }
-
-                    var color = startItem.Color;
-                    if (color > item.ColorGroup)
-                    {
-                        Logger.Warning("Start item {startItemId} has an invalid color {color}", startItem.Id, color);
-                        color = 0;
-                    }
-
-                    var count = startItem.Count;
-                    if (count > 0 && item.ItemNumber.Category <= ItemCategory.Skill)
-                    {
-                        Logger.Warning("Start item {startItemId} cant have stacks(quantity={count})", startItem.Id,
-                            count);
-                        count = 0;
-                    }
-
-                    if (count < 0)
-                        count = 0;
-                    var reteff = new List<uint>
-                    {
-                        effect.Effect
-                    };
-                    plr.Inventory.Create(itemInfo, price, color, reteff.ToArray(), (uint) count);
-                }
-            }
+            
 
             await session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
             await session.SendAsync(new ItemClearEsperChipAckMessage());
