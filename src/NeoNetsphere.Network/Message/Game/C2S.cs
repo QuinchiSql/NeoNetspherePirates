@@ -454,7 +454,7 @@ namespace NeoNetsphere.Network.Message.Game
         [BlubMember(1)] public int Gender { get; set; }
 
         [BlubMember(2, typeof(FixedArraySerializer), 8)]
-        public int[] FirstItems { get; set; }
+        public ItemNumber[] FirstItems { get; set; }
     }
 
     [BlubContract]
