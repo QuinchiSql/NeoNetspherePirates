@@ -56,6 +56,9 @@ namespace NeoNetsphere.Resource
 
             Logger.Information("Caching: GameTempos");
             GetGameTempos();
+
+            Logger.Information("Caching: Capsule Rewards");
+            GetItemRewards();
         }
 
         public IReadOnlyList<ChannelDto> GetChannels()
@@ -213,6 +216,20 @@ namespace NeoNetsphere.Resource
 
                 value = _loader.LoadGameTempos().ToDictionary(t => t.Name);
                 _cache.Set(ResourceCacheType.GameTempo, value);
+            }
+
+            return value;
+        }
+
+        public IReadOnlyDictionary<ulong, CapsuleRewards> GetItemRewards()
+        {
+            var value = _cache.Get<IReadOnlyDictionary<ulong, CapsuleRewards>>(ResourceCacheType.ItemRewards);
+            if (value == null)
+            {
+                Logger.Debug("Caching...");
+
+                value = _loader.LoadItemRewards().ToDictionary(t => (ulong)t.Item);
+                _cache.Set(ResourceCacheType.ItemRewards, value);
             }
 
             return value;

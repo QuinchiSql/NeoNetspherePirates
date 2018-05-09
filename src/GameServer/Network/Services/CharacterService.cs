@@ -1,5 +1,8 @@
-﻿using System;
+using System;
+using System.Linq;
 using BlubLib.DotNetty.Handlers.MessageHandling;
+using Dapper.FastCrud;
+using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Network.Message.Game;
 using Netsphere;
 using Newtonsoft.Json;
@@ -15,6 +18,67 @@ namespace NeoNetsphere.Network.Services
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(CharacterService));
+
+        [MessageHandler(typeof(CharacterFirstCreateReqMessage))]
+        public async void CharacterFirstCreateHandler(GameSession session, CharacterFirstCreateReqMessage message)
+        {
+            var plr = session.Player;
+            var cmng = plr.CharacterManager;
+            if (!await AuthService.IsNickAvailableAsync(message.Nickname))
+            {
+                await session.SendAsync(new ServerResultAckMessage(ServerResult.NicknameUnavailable));
+                return;
+            }
+
+            using (var db = AuthDatabase.Open())
+            {
+                var result = (await db.FindAsync<AccountDto>(smtp => smtp
+                    .Where($"{nameof(AccountDto.Id):C} = @Id")
+                    .WithParameters(new { session.Player.Account.Id })
+                )).FirstOrDefault();
+
+                if (result == null)
+                {
+                    await session.SendAsync(new ServerResultAckMessage(ServerResult.CreateCharacterFailed));
+                    return;
+                }
+
+                result.Nickname = message.Nickname;
+                await db.UpdateAsync(result);
+                plr.Account.Nickname = message.Nickname;
+            }
+
+            try
+            {
+                cmng.Create(0, (CharacterGender)message.Gender, 0, 0, 0, 0);
+                cmng.Select(0);
+            }
+            catch (CharacterException ex)
+            {
+                Logger.ForAccount(session)
+                    .Error(ex.Message);
+                await session.SendAsync(new ServerResultAckMessage(ServerResult.CreateCharacterFailed));
+                return;
+            }
+
+            await AuthService.LoginAsync(session);
+
+            try
+            {
+                foreach (var itemNumber in message.FirstItems)
+                {
+                    if (itemNumber != 0)
+                    {
+                        var pi = plr.Inventory.Create(itemNumber, ItemPriceType.PEN, ItemPeriodType.None, 0, 0, new uint[] { 0 }, 1);
+                        cmng.CurrentCharacter.Costumes.Equip(pi, (CostumeSlot)pi.ItemNumber.SubCategory);
+                    }
+                }
+            }
+            catch (ArgumentException e)
+            {
+                Logger.Debug(e, "Problem creating new items");
+            }
+        }
 
         [MessageHandler(typeof(CharacterCreateReqMessage))]
         public void CreateCharacterHandler(GameSession session, CharacterCreateReqMessage message)

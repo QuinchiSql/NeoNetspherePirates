@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
 using ExpressMapper.Extensions;
@@ -203,8 +204,8 @@ namespace NeoNetsphere.Network.Services
             session.SendAsync(new ItemDiscardItemAckMessage {Result = 0, ItemId = item.Id});
         }
 
-        [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
-        public void UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
+        //[MessageHandler(typeof(ItemUseCapsuleReqMessage))]
+        public void UseCapsuleReq1(GameSession session, ItemUseCapsuleReqMessage message)
         {
             var item = session.Player.Inventory.GetItem(message.ItemId);
             if (item.ItemNumber.Id == 4030051) //capsule
@@ -264,6 +265,79 @@ namespace NeoNetsphere.Network.Services
             {
                 session.SendAsync(new ItemUseCapsuleAckMessage(1));
             }
+        }
+
+        [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
+        public void UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
+        {
+            var ItemBags = GameServer.Instance.ResourceCache.GetItemRewards();
+            var plr = session.Player;
+            var item = plr.Inventory[message.ItemId];
+
+            if (!ItemBags.ContainsKey(item.ItemNumber))
+            {
+                session.SendAsync(new ItemUseCapsuleAckMessage(1));
+                return;
+            }
+
+            item.Count--;
+            if (item.Count <= 0)
+                plr.Inventory.Remove(item);
+            else
+                session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, item.Map<PlayerItem, ItemDto>()));
+
+            var ItemBag = ItemBags[item.ItemNumber];
+
+            var Rewards = (from bag in ItemBag.Bags
+                           let reward = bag.Take()
+                           select new CapsuleRewardDto
+                           {
+                               RewardType = reward.Type,
+                               ItemNumber = reward.Item,
+                               PriceType = reward.PriceType,
+                               PeriodType = reward.PeriodType,
+                               Period = reward.Period,
+                               PEN = reward.PEN,
+                               Effect = reward.Effects.FirstOrDefault(),
+                               Unk1 = (byte)reward.Color
+                           }).ToArray();
+
+            foreach (var it in Rewards)
+            {
+                if (it.RewardType == CapsuleRewardType.PEN)
+                {
+                    plr.PEN += it.PEN;
+                }
+                else
+                {
+                    if (it.PeriodType == ItemPeriodType.Units)
+                    {
+                        var prev = plr.Inventory
+                            .FirstOrDefault(p => p.ItemNumber == it.ItemNumber
+                            && p.PeriodType == it.PeriodType
+                            && p.PriceType == it.PriceType
+                            //&& p.Effects. == it.Effect
+                            );
+
+                        if (prev == null || prev.ItemNumber == 0)
+                        {
+                            plr.Inventory.Create(it.ItemNumber, it.PriceType, it.PeriodType, (ushort)it.Period, it.Unk1, new uint[] { it.Effect }, 1);
+                        }
+                        else
+                        {
+                            prev.Count++;
+                            session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, prev.Map<PlayerItem, ItemDto>()));
+                        }
+                    }
+                    else
+                    {
+                        plr.Inventory.Create(it.ItemNumber, it.PriceType, it.PeriodType, (ushort)it.Period, it.Unk1, new uint[] { it.Effect }, 1);
+                    }
+                }
+            }
+
+            session.SendAsync(new ItemUseCapsuleAckMessage(Rewards, 3));
+            session.SendAsync(new MoneyRefreshCashInfoAckMessage(plr.PEN, plr.AP));
         }
     }
 }

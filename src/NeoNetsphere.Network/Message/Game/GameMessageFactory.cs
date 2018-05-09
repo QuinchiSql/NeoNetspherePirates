@@ -199,6 +199,9 @@ namespace NeoNetsphere.Network.Message.Game
             Register<BillingCashInfoReqMessage>(GameOpCode.BillingCashInfoReq);
             Register<PromotionCouponEventReqMessage>(GameOpCode.PromotionCouponEventReq);
 
+            // Yomalex Add message May 08, 2018
+            Register<ArchiveMissionReqMessage>(GameOpCode.AchieveMission_Req);
+            Register<DailyMissionResetReqMessage>(GameOpCode.Daily_Mission_Init_Req);
 
 #if NEWIDS
             //S2C

@@ -212,5 +212,11 @@ namespace NeoNetsphere.Network.Services
                     Location = plr.Map<Player, PlayerLocationDto>()
                 }).ToArray()));
         }
+
+        [MessageHandler(typeof(ArchiveMissionReqMessage))]
+        public void ArchiveMissionHandler(GameSession session)
+        {
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+        }
     }
 }

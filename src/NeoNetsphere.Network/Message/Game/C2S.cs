@@ -451,10 +451,10 @@ namespace NeoNetsphere.Network.Message.Game
         [BlubMember(0, typeof(StringSerializer))]
         public string Nickname { get; set; }
 
-        [BlubMember(1)] public int Unk1 { get; set; }
+        [BlubMember(1)] public int Gender { get; set; }
 
         [BlubMember(2, typeof(FixedArraySerializer), 8)]
-        public int[] Unk2 { get; set; }
+        public int[] FirstItems { get; set; }
     }
 
     [BlubContract]
@@ -617,5 +617,17 @@ namespace NeoNetsphere.Network.Message.Game
     [BlubContract]
     public class ClubNoticeRecordRefreshReqMessage : IGameMessage
     {
+    }
+
+    [BlubContract]
+    public class ArchiveMissionReqMessage : IGameMessage
+    { }
+
+    [BlubContract]
+    public class DailyMissionResetReqMessage : IGameMessage
+    {
+        [BlubMember(0)] public byte unk1 { get; set; }
+        [BlubMember(1)] public byte unk2 { get; set; }
+        [BlubMember(2)] public byte unk3 { get; set; }
     }
 }

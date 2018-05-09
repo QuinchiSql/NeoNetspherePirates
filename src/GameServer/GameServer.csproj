@@ -13,15 +13,15 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;OLDIDS</DefineConstants>
+      <DefineConstants>DEBUG;TRACE;OLDIDS;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;OLDIDS_DEBUG;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
+      <DefineConstants>DEBUG;TRACE;OLDIDS_DEBUG;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;NETCOREAPP2_0;NEWIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
-      <Optimize>true</Optimize>
-      <DefineConstants>TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4</DefineConstants>
+      <Optimize>false</Optimize>
+      <DefineConstants>DEBUG;TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4;LATEST_DEBUG;NETCOREAPP2_0</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LatestOld_Debug|AnyCPU'">
       <Optimize>true</Optimize>

@@ -48,7 +48,7 @@ namespace NeoNetsphere.Network
                 .Add(new BanCommands())
                 .Add(new UnbanCommands())
                 .Add(new UserkickCommand())
-                .Add(new UserkickCommand())
+                //.Add(new UserkickCommand())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())
                 .Add(new ClanCommands())
@@ -85,6 +85,8 @@ namespace NeoNetsphere.Network
 #if OLDUI
             config.Version = new Guid("{beb92241-8333-4117-ab92-9b4af78c688f}");
 #endif
+
+            Logger.Information("Protocol Version {version}", config.Version);
 
             config.MessageFactories = new MessageFactory[]
             {

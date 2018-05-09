@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Permissions;
+using System.Threading;
 using System.Threading.Tasks;
 using BlubLib;
 using Dapper;
@@ -52,7 +53,9 @@ namespace NeoNetsphere
                 .MinimumLevel.Verbose()
                 .CreateLogger();
             var Logger = Log.ForContext(Constants.SourceContextPropertyName, "-Initialiazor");
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+#endif
             TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
             Logger.Information("============================================");
             Logger.Information("Initializing GameServer build {ver}...",
@@ -83,7 +86,10 @@ namespace NeoNetsphere
             {
                 SocketListenerThreads = listenerThreads,
                 SocketWorkerThreads = workerThreads,
-                WorkerThread = workerThread
+                WorkerThread = workerThread,
+#if DEBUG
+                Logger = Logger,
+#endif
             });
             RelayServer.Initialize(new Configuration
             {
@@ -91,17 +97,25 @@ namespace NeoNetsphere
                 SocketWorkerThreads = workerThreads,
                 WorkerThread = workerThread,
 #if DEBUG
-//Logger = Logger,
+Logger = Logger,
 #endif
             });
             GameServer.Initialize(new Configuration
             {
                 SocketListenerThreads = listenerThreads,
                 SocketWorkerThreads = workerThreads,
-                WorkerThread = workerThread
+                WorkerThread = workerThread,
+#if DEBUG
+                Logger = Logger,
+#endif
             });
 
-            FillShop();
+            var filler = new Thread(() =>
+            {
+                FillShop();
+            });
+            // FillShop();
+            filler.Start();
 
             ChatServer.Instance.Listen(Config.Instance.ChatListener);
             RelayServer.Instance.Listen(Config.Instance.RelayListener, IPAddress.Parse(Config.Instance.IP),
@@ -248,7 +262,7 @@ namespace NeoNetsphere
                         {"HP+25 & SP+25", Tuple.Create(new uint[] {1999300012, 1999301013}, (uint) 30003)}
                     };
 
-                    #region Effects
+#region Effects
 
                     foreach (var pair in effects.ToArray())
                     {
@@ -261,9 +275,9 @@ namespace NeoNetsphere
                                 statement => statement.AttachToTransaction(transaction));
                     }
 
-                    #endregion
+#endregion
 
-                    #region Price
+#region Price
 
                     var priceGroup = new ShopPriceGroupDto
                     {
@@ -338,11 +352,19 @@ namespace NeoNetsphere
                     db.Insert(price_unit_five);
                     db.Insert(price_unit_ten);
 
-                    #endregion
+#endregion
 
-                    #region Items
+#region Items
 
-                    var items = GameServer.Instance.ResourceCache.GetItems().Values.ToArray();
+                    Resource.ItemInfo[] items;
+                    do
+                    {
+                        Thread.Sleep(5000);
+                        items = GameServer.Instance.ResourceCache.GetItems().Values.ToArray();
+                        Log.Information("{count} items cargados", items.Count());
+                    }
+                    while (!items.Any());
+
                     for (var i = 0; i < items.Length; ++i)
                     {
                         var item = items[i];
@@ -559,7 +581,7 @@ namespace NeoNetsphere
                         Log.Information($"[{i}/{items.Length}] {item.ItemNumber}: {item.Name} | Colors: {item.Colors}");
                     }
 
-                    #endregion
+#endregion
 
                     try
                     {

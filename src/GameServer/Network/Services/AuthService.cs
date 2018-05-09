@@ -245,36 +245,36 @@ namespace NeoNetsphere.Network.Services
             var result = string.IsNullOrWhiteSpace(account.Nickname)
                 ? GameLoginResult.ChooseNickname
                 : GameLoginResult.OK;
-            if (result == GameLoginResult.ChooseNickname)
-            {
-                session.Player.Account.Nickname = session.Player.Account.Username;
-                session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
-                using (var db = AuthDatabase.Open())
-                {
-                    var mapping = OrmConfiguration
-                        .GetDefaultEntityMapping<AccountDto>()
-                        .Clone()
-                        .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true,
-                            nameof(AccountDto.Nickname));
+            //if (result == GameLoginResult.ChooseNickname)
+            //{
+            //    session.Player.Account.Nickname = session.Player.Account.Username;
+            //    session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
+            //    using (var db = AuthDatabase.Open())
+            //    {
+            //        var mapping = OrmConfiguration
+            //            .GetDefaultEntityMapping<AccountDto>()
+            //            .Clone()
+            //            .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true,
+            //                nameof(AccountDto.Nickname));
 
-                    await db.UpdateAsync(
-                        new AccountDto
-                        {
-                            Id = (int) session.Player.Account.Id,
-                            Nickname = session.Player.Account.Username
-                        },
-                        statement => statement.WithEntityMappingOverride(mapping));
-                }
+            //        await db.UpdateAsync(
+            //            new AccountDto
+            //            {
+            //                Id = (int) session.Player.Account.Id,
+            //                Nickname = session.Player.Account.Username
+            //            },
+            //            statement => statement.WithEntityMappingOverride(mapping));
+            //    }
 
-                Logger.ForAccount(account)
-                    .Information($"Created Account for {session.Player.Account.Username}");
-            }
-            else if (!session.Player.CharacterManager.CheckChars())
-            {
-                session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
-            }
+            //    Logger.ForAccount(account)
+            //        .Information($"Created Account for {session.Player.Account.Username}");
+            //}
+            //else if (!session.Player.CharacterManager.CheckChars())
+            //{
+            //    session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
+            //}
 
-            await session.SendAsync(new LoginReguestAckMessage(0, session.Player.Account.Id));
+            await session.SendAsync(new LoginReguestAckMessage(result, session.Player.Account.Id));
 
             if (!string.IsNullOrWhiteSpace(account.Nickname))
                 await LoginAsync(session);
@@ -292,7 +292,55 @@ namespace NeoNetsphere.Network.Services
             session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
 
-        private static async Task LoginAsync(GameSession session)
+        public static async Task<bool> IsNickAvailableAsync(string nickname)
+        {
+            var minLength = Config.Instance.Game.NickRestrictions.MinLength;
+            var maxLength = Config.Instance.Game.NickRestrictions.MaxLength;
+            var whitespace = Config.Instance.Game.NickRestrictions.WhitespaceAllowed;
+            var ascii = Config.Instance.Game.NickRestrictions.AsciiOnly;
+
+            if (string.IsNullOrWhiteSpace(nickname) || (!whitespace && nickname.Contains(" ")) ||
+                nickname.Length < minLength || nickname.Length > maxLength ||
+                (ascii && Encoding.UTF8.GetByteCount(nickname) != nickname.Length))
+            {
+                return false;
+            }
+
+            // check for repeating chars example: (AAAHello, HeLLLLo)
+            var maxRepeat = Config.Instance.Game.NickRestrictions.MaxRepeat;
+            if (maxRepeat > 0)
+            {
+                var counter = 1;
+                var current = nickname[0];
+                for (var i = 1; i < nickname.Length; i++)
+                {
+                    if (current != nickname[i])
+                    {
+                        if (counter > maxRepeat) return false;
+                        counter = 0;
+                        current = nickname[i];
+                    }
+                    counter++;
+                }
+            }
+
+            var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+            using (var db = AuthDatabase.Open())
+            {
+                var nickExists = (await db.FindAsync<AccountDto>(statement => statement
+                            .Where($"{nameof(AccountDto.Nickname):C} = @{nameof(nickname)}")
+                            .WithParameters(new { nickname })))
+                    .Any();
+
+                var nickReserved = (await db.FindAsync<NicknameHistoryDto>(statement => statement
+                            .Where($"{nameof(NicknameHistoryDto.Nickname):C} = @{nameof(nickname)} AND ({nameof(NicknameHistoryDto.ExpireDate):C} = -1 OR {nameof(NicknameHistoryDto.ExpireDate):C} > @{nameof(now)})")
+                            .WithParameters(new { nickname, now })))
+                    .Any();
+                return !nickExists && !nickReserved;
+            }
+        }
+
+        public static async Task LoginAsync(GameSession session)
         {
             var plr = session.Player;
             plr.LoggedIn = true;

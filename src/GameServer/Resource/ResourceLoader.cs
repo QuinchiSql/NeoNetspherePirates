@@ -45,7 +45,7 @@ namespace NeoNetsphere.Resource
 
         public IEnumerable<MapInfo> LoadMaps()
         {
-            var stringTable = Deserialize<StringTableDto>("language/xml/gameinfo_string_table.xml");
+            var stringTable = Deserialize<StringTableDto>("language/xml/gameinfo_string_table.x7");
             var dto = Deserialize<MapInfoDto>("xml/map.x7");
 
             //Logger.Information($"LoadMaps() called ({dto.map.Length})");
@@ -174,7 +174,7 @@ namespace NeoNetsphere.Resource
         public IEnumerable<ItemEffect> LoadEffects()
         {
             var dto = Deserialize<ItemEffectDto>("xml/item_effect.x7");
-            var stringTable = Deserialize<StringTableDto>("language/xml/item_effect_string_table.xml");
+            var stringTable = Deserialize<StringTableDto>("language/xml/item_effect_string_table.x7");
 
             foreach (var itemEffectDto in dto.item.Where(itemEffect => itemEffect.id != 0))
             {
@@ -192,8 +192,12 @@ namespace NeoNetsphere.Resource
                         Rate = float.Parse(attributeDto.rate, CultureInfo.InvariantCulture)
                     });
 
-                var name = stringTable.@string.First(s =>
+                var name = stringTable.@string.FirstOrDefault(s =>
                     s.key.Equals(itemEffectDto.text_key, StringComparison.InvariantCultureIgnoreCase));
+
+                if (name == null)
+                    name = new StringTableStringDto();
+
                 if (string.IsNullOrWhiteSpace(name.eng))
                     name.eng = itemEffectDto.NAME;
 
@@ -598,6 +602,47 @@ namespace NeoNetsphere.Resource
                 item.Values = itemDto.weapon.integer.Select(i => i.value).ToList();
 
             return item;
+        }
+
+        public IEnumerable<CapsuleRewards> LoadItemRewards()
+        {
+            var dto = Deserialize<ItemRewardDto>("xml/ItemBag.xml");
+
+            foreach (var it in dto.Items)
+            {
+                var ret = new CapsuleRewards { Item = it.Number, Bags = new List<BagReward>() };
+
+                foreach (var group in it.Groups)
+                {
+                    var bag = new BagReward
+                    {
+                        Bag = new List<ItemReward>()
+                    };
+
+                    foreach (var rw in group.Rewards)
+                    {
+                        var PEN = (CapsuleRewardType)rw.Type == CapsuleRewardType.PEN ? rw.Value : 0;
+                        var Period = (CapsuleRewardType)rw.Type == CapsuleRewardType.PEN ? 0 : rw.Value;
+
+                        bag.Bag.Add(new ItemReward
+                        {
+                            Type = (CapsuleRewardType)rw.Type,
+                            Item = rw.Data,
+                            PriceType = (ItemPriceType)rw.PriceType,
+                            PeriodType = (ItemPeriodType)rw.PeriodType,
+                            Period = Period,
+                            PEN = PEN,
+                            Effects = rw.Effects.Split(",").Select(e => uint.Parse(e)).ToArray(),
+                            Rate = rw.Rate,
+                            Color = rw.Color
+                        });
+                    }
+
+                    ret.Bags.Add(bag);
+                }
+
+                yield return ret;
+            }
         }
 
         #endregion

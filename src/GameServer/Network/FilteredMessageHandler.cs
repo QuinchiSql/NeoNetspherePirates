@@ -47,6 +47,12 @@ namespace NeoNetsphere.Network
 
         private async Task HandleMessage(IChannelHandlerContext context, object message)
         {
+            if (message.GetType().Name == "RecvContext")
+            {
+                var recv = (RecvContext)message;
+                Logger.Debug("message {msgtype}", recv.Message.GetType().Name);
+            }
+
             if (!GetParameter(context, message, out TSession session))
                 throw new Exception("Unable to retrieve session");
             var handled = false;

@@ -136,7 +136,8 @@ namespace NeoNetsphere.Network.Services
                     message.MapId = 66;
                 }
 
-                var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(message.MapId);
+                var maps = GameServer.Instance.ResourceCache.GetMaps();
+                var map = maps.GetValueOrDefault(message.MapId);
                 if (map == null)
                 {
                     Logger.ForAccount(plr)

@@ -10,6 +10,7 @@ namespace NeoNetsphere.Resource
         Shop,
         Exp,
         Maps,
-        GameTempo
+        GameTempo,
+        ItemRewards
     }
 }

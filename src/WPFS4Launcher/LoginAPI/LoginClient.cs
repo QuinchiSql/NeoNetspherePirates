@@ -52,7 +52,7 @@ namespace TestServer_Launcher.LoginAPI
                 _netSocket = sck;
                 var timer = new Thread(() =>
                 {
-                    Thread.Sleep(5000);
+                    Thread.Sleep(15000);
                     if (!_connected)
                     {
                         sck.Close();
