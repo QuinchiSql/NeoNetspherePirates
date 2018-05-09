@@ -123,29 +123,11 @@ namespace NeoNetsphere.Game.GameRules
             teamMgr.Remove(Team.Beta);
             base.Cleanup();
         }
-
-        //public override void PlayerLeft(object room, RoomPlayerEventArgs e)
-        //{
-        //    if (StateMachine.IsInState(GameRuleState.FirstHalf))
-        //        e.Player.CaptainMode.Loss++;
-        //
-        //    base.PlayerLeft(room, e);
-        //}
-
+        
         public override PlayerRecord GetPlayerRecord(Player plr)
         {
             return new CaptainPlayerRecord(plr);
         }
-
-        //public override void OnScoreTeamKill(Player killer, Player target, AttackAttribute attackAttribute)
-        //{
-        //    if (_captainHelper.Dead(target) && _captainHelper.Any())
-        //        SubRoundEnd();
-        //
-        //    GetRecord(target).Deaths++;
-        //
-        //    base.OnScoreTeamKill(killer, target, attackAttribute);
-        //}
 
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget = null, LongPeerId scoreKiller = null, LongPeerId scoreAssist = null)

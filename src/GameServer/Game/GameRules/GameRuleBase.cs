@@ -268,7 +268,8 @@ namespace Netsphere.Game.GameRules
                     foreach (var plr in Room.GameRuleManager.GameRule.Briefing.GetWinnerTeam().Values)
                     {
                         if (CountMatch)
-                            plr.TotalWins++;
+                            plr.stats.Won++;
+
                         winners.Add(plr);
                     }
 
@@ -276,7 +277,7 @@ namespace Netsphere.Game.GameRules
                         foreach (var plr in Room.TeamManager.PlayersPlaying)
                         {
                             if (!winners.Contains(plr))
-                                plr.TotalLosses++;
+                                plr.stats.Loss++;
 
                             foreach (var @char in plr.CharacterManager)
                             {
@@ -336,10 +337,15 @@ namespace Netsphere.Game.GameRules
             killer.RoomInfo.Stats.Kills++;
             target.RoomInfo.Stats.Deaths++;
 
+            // Player statistical record
+            killer.stats.Kills++;
+            target.stats.Deaths++;
+
             Respawn(target);
             if (assist != null)
             {
                 assist.RoomInfo.Stats.KillAssists++;
+                assist.stats.KillAssists++;
 
                 Room.Broadcast(
                     new ScoreKillAssistAckMessage(new ScoreAssistDto(killer.RoomInfo.PeerId, assist.RoomInfo.PeerId,
@@ -358,6 +364,8 @@ namespace Netsphere.Game.GameRules
         {
             target.RoomInfo.Stats.Deaths++;
 
+            target.stats.Deaths++;
+
             Respawn(target);
             Room.Broadcast(
                 new ScoreTeamKillAckMessage(new Score2Dto(killer.RoomInfo.PeerId, target.RoomInfo.PeerId,
@@ -367,12 +375,18 @@ namespace Netsphere.Game.GameRules
         public virtual void OnScoreHeal(Player plr, LongPeerId scoreTarget = null)
         {
             Room.Broadcast(new ScoreHealAssistAckMessage(plr.RoomInfo.PeerId));
+
+            // Statistical record
+            plr.stats.Heal++;
         }
 
         public virtual void OnScoreSuicide(Player plr, LongPeerId scoreTarget = null)
         {
             Respawn(plr);
             plr.RoomInfo.Stats.Deaths++;
+
+            // Statistical record
+            plr.stats.Deaths++;
             Room.Broadcast(new ScoreSuicideAckMessage(plr.RoomInfo.PeerId, AttackAttribute.KillOneSelf));
         }
 

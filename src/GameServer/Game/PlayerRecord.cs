@@ -121,9 +121,9 @@ namespace Netsphere.Game
 
             var ExpGained = (TimeExp + PlayersExp + ScoreExp) * rankingBonus;
 
-            bonusExp = (uint)(ExpGained * Player.GetExpRate());
+            bonusExp = (int)(ExpGained/* * Player.GetExpRate()*/);
 
-            return (uint)ExpGained + bonusExp;
+            return (int)ExpGained + bonusExp;
         }
 
         public virtual void Reset()

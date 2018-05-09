@@ -299,11 +299,18 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.GameTime, src => TimeSpan.Parse(src.PlayTime))
                 .Member(dest => dest.TotalExp, src => src.TotalExperience)
                 .Function(dest => dest.TutorialState,
-                    src => (uint) (Config.Instance.Game.EnableTutorial ? src.TutorialState : 1))
+                    src => (uint)(Config.Instance.Game.EnableTutorial ? src.TutorialState : 1))
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.TotalMatches, src => src.TotalLosses + src.TotalWins)
                 .Member(dest => dest.MatchesWon, src => src.TotalWins)
-                .Member(dest => dest.MatchesLost, src => src.TotalLosses);
+                .Member(dest => dest.MatchesLost, src => src.TotalLosses)
+                .Member(dest => dest.BRStats, src => src.stats.BattleRoyal.GetStatsDto())
+                .Member(dest => dest.ChaserStats, src => src.stats.Chaser.GetStatsDto())
+                .Member(dest => dest.CPTStats, src => src.stats.Captain.GetStatsDto())
+                .Member(dest => dest.DMStats, src => src.stats.DeathMatch.GetStatsDto())
+                .Member(dest => dest.TDStats, src => src.stats.TouchDown.GetStatsDto())
+                .Member(dest => dest.SiegeStats, src => src.stats.Siege.GetStatsDto());
+                //.Member(dest => dest.;
 
 
             Mapper.Register<Channel, ChannelInfoDto>()
@@ -408,7 +415,20 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.TotalGames, src => src.TotalMatches)
                 .Member(dest => dest.GamesWon, src => src.TotalWins)
                 .Member(dest => dest.GamesLost, src => src.TotalLosses)
-                .Member(dest => dest.Level, src => src.Level);
+                .Member(dest => dest.Level, src => src.Level)
+                .Member(dest => dest.BattleRoyalStats, src => src.stats.BattleRoyal.GetUserDataDto())
+                .Member(dest => dest.BRScore, src => 0)
+                .Member(dest => dest.CaptainStats, src => src.stats.Captain.GetUserDataDto())
+                .Member(dest => dest.CaptainScore, src => 0)
+                .Member(dest => dest.ChaserStats, src => src.stats.Chaser.GetUserDataDto())
+                .Member(dest => dest.ChaserSurvivability, src => 0)
+                .Member(dest => dest.DMStats, src => src.stats.DeathMatch.GetUserDataDto())
+                .Member(dest => dest.DMScore, src => 0)
+                .Member(dest => dest.TDStats, src => src.stats.TouchDown.GetUserDataDto())
+                .Member(dest => dest.TDScore, src => 0)
+                .Member(dest => dest.SiegeStats, src => src.stats.Siege.GetUserDataDto())
+                .Member(dest => dest.SiegeScore, src => 0);
+                //.Member(dest => dest.;
 
             Mapper.Register<Player, PlayerNameTagInfoDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id);

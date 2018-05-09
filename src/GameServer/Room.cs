@@ -238,6 +238,7 @@ namespace NeoNetsphere
                 plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
                 Broadcast(new ChatPlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
                 OnPlayerJoining(new RoomPlayerEventArgs(plr));
+                plr.stats.OnJoin(GameRuleManager.GameRule);
             }
         }
 
@@ -272,6 +273,9 @@ namespace NeoNetsphere
                     plr.Session?.SendAsync(
                         new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
                     plr.Session?.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
+
+                    if (GameState == GameState.Playing)
+                        plr.stats.Loss++;
 
                     if (TeamManager.Players.Any())
                     {

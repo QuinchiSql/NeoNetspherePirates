@@ -27,7 +27,105 @@ namespace NeoNetsphere.Database.Game
         public IList<PlayerItemDto> Items { get; set; } = new List<PlayerItemDto>();
         public IList<PlayerMailDto> Inbox { get; set; } = new List<PlayerMailDto>();
         public IList<PlayerSettingDto> Settings { get; set; } = new List<PlayerSettingDto>();
+
+        public IList<PlayerDeathMatchDto> DeathMatchInfo { get; set; } = new List<PlayerDeathMatchDto>();
+        public IList<PlayerTouchDownDto> TouchDownInfo { get; set; } = new List<PlayerTouchDownDto>();
+        public IList<PlayerChaserDto> ChaserInfo { get; set; } = new List<PlayerChaserDto>();
+        public IList<PlayerBattleRoyalDto> BattleRoyalInfo { get; set; } = new List<PlayerBattleRoyalDto>();
+        public IList<PlayerCaptainDto> CaptainInfo { get; set; } = new List<PlayerCaptainDto>();
     }
+
+    [Table("player_info_deathmatch")]
+    public class PlayerDeathMatchDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+
+        public ulong Won { get; set; }
+        public ulong Loss { get; set; }
+        public ulong Kills { get; set; }
+        public ulong KillAssists { get; set; }
+        public ulong Deaths { get; set; }
+    }
+
+    [Table("player_info_touchdown")]
+    public class PlayerTouchDownDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+
+        public ulong Won { get; set; }
+        public ulong Loss { get; set; }
+        public ulong TD { get; set; }
+        public ulong TDAssist { get; set; }
+        public ulong Offense { get; set; }
+        public ulong OffenseAssist { get; set; }
+        public ulong Defense { get; set; }
+        public ulong DefenseAssist { get; set; }
+        public ulong Kill { get; set; }
+        public ulong KillAssist { get; set; }
+        public ulong OffenseRebound { get; set; }
+        public ulong Heal { get; set; }
+    }
+
+    [Table("player_info_chaser")]
+    public class PlayerChaserDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+
+        public ulong ChasedWon { get; set; }
+        public ulong ChasedRounds { get; set; }
+        public ulong ChaserWon { get; set; }
+        public ulong ChaserRounds { get; set; }
+    }
+
+    [Table("player_info_battleroyal")]
+    public class PlayerBattleRoyalDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+
+        public ulong Won { get; set; }
+        public ulong Loss { get; set; }
+        public ulong Kills { get; set; }
+        public ulong KillAssists { get; set; }
+        public ulong FirstKilled { get; set; }
+        public ulong FirstPlace { get; set; }
+    }
+
+    [Table("player_info_captain")]
+    public class PlayerCaptainDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+
+        public ulong Won { get; set; }
+        public ulong Loss { get; set; }
+        public ulong CPTKilled { get; set; }
+        public ulong CPTCount { get; set; }
+    }
+
+    //[Table("player_info_siege")]
+    //public class PlayerSiegeDto
+    //{
+    //    [Key]
+    //    [ForeignKey(nameof(Player))]
+    //    public int PlayerId { get; set; }
+    //    public PlayerDto Player { get; set; }
+
+
+    //}
 
     [Table("player_characters")]
     public class PlayerCharacterDto

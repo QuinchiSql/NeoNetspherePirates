@@ -143,6 +143,11 @@ namespace NeoNetsphere.Game.GameRules
             return new TouchdownPlayerRecord(plr);
         }
 
+        public static TDStats GetStats(Player plr)
+        {
+            return plr.stats.GetStats<TDStats>();
+        }
+
         public void OnScoreOffense(Player killer, Player assist, Player target, AttackAttribute attackAttribute)
         {
             if (IsInTouchdown)
@@ -150,8 +155,13 @@ namespace NeoNetsphere.Game.GameRules
 
             Respawn(target);
             GetRecord(killer).OffenseScore++;
+            GetStats(killer).Offense++;
+
             if (assist != null)
+            {
                 GetRecord(assist).OffenseAssistScore++;
+                GetStats(assist).OffenseAssist++;
+            }
 
             if (assist != null)
                 Room.Broadcast(new ScoreOffenseAssistAckMessage(new ScoreAssistDto(killer.RoomInfo.PeerId,
@@ -168,8 +178,12 @@ namespace NeoNetsphere.Game.GameRules
 
             Respawn(target);
             GetRecord(killer).DefenseScore++;
+            GetStats(killer).Defense++;
             if (assist != null)
+            {
                 GetRecord(assist).DefenseAssistScore++;
+                GetStats(assist).DefenseAssist++;
+            }
 
             if (assist != null)
                 Room.Broadcast(new ScoreDefenseAssistAckMessage(new ScoreAssistDto(killer.RoomInfo.PeerId,
@@ -188,7 +202,10 @@ namespace NeoNetsphere.Game.GameRules
                 _touchdownAssistHelper.Update(oldPlr);
 
             if (newPlr != null)
+            {
                 GetRecord(newPlr).OffenseReboundScore++;
+                GetStats(newPlr).OffenseRebound++;
+            }
             BallOwner = newPlr;
             if (oldId == 0)
                 oldId = newid;
@@ -206,10 +223,12 @@ namespace NeoNetsphere.Game.GameRules
             {
                 assist = _touchdownAssistHelper.LastPlayer;
                 GetRecord(assist).TdAssistScore++;
+                GetStats(assist).TDAssist++;
             }
 
             plr.RoomInfo.Team.Score++;
             GetRecord(plr).TdScore++;
+            GetStats(plr).TD++;
 
             if (assist != null)
                 Room.Broadcast(new ScoreGoalAssistAckMessage(plr.RoomInfo.PeerId, assist.RoomInfo.PeerId));

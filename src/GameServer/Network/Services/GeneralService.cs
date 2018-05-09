@@ -15,8 +15,8 @@ namespace NeoNetsphere.Network.Services
                 ServerTime = (uint) Program.AppTime.ElapsedMilliseconds
             });
 
-            if (session.Player?.Room == null && session.UnreliablePing > 500)
-                session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
+            //if (session.Player?.Room == null && session.UnreliablePing > 500)
+            //    session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
         }
 
         [MessageHandler(typeof(CheckhashKeyvaluereqMessage))]

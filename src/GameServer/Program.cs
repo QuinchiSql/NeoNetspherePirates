@@ -110,12 +110,7 @@ Logger = Logger,
 #endif
             });
 
-            var filler = new Thread(() =>
-            {
-                FillShop();
-            });
-            // FillShop();
-            filler.Start();
+            FillShop();
 
             ChatServer.Instance.Listen(Config.Instance.ChatListener);
             RelayServer.Instance.Listen(Config.Instance.RelayListener, IPAddress.Parse(Config.Instance.IP),
@@ -356,14 +351,8 @@ Logger = Logger,
 
 #region Items
 
-                    Resource.ItemInfo[] items;
-                    do
-                    {
-                        Thread.Sleep(5000);
-                        items = GameServer.Instance.ResourceCache.GetItems().Values.ToArray();
-                        Log.Information("{count} items cargados", items.Count());
-                    }
-                    while (!items.Any());
+                    var items = GameServer.Instance.ResourceCache.GetItems().Values.ToArray();
+                    Log.Information("{count} items cargados", items.Count());
 
                     for (var i = 0; i < items.Length; ++i)
                     {

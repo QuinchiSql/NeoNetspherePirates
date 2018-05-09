@@ -231,6 +231,31 @@ namespace NeoNetsphere.Network.Services
                     }
                 }
 
+                plrDto.DeathMatchInfo = (List<PlayerDeathMatchDto>)(await db.FindAsync<PlayerDeathMatchDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerDeathMatchDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.TouchDownInfo = (List<PlayerTouchDownDto>)(await db.FindAsync<PlayerTouchDownDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerTouchDownDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.ChaserInfo = (List<PlayerChaserDto>)(await db.FindAsync<PlayerChaserDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerChaserDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.BattleRoyalInfo = (List<PlayerBattleRoyalDto>)(await db.FindAsync<PlayerBattleRoyalDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerBattleRoyalDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.CaptainInfo = (List<PlayerCaptainDto>)(await db.FindAsync<PlayerCaptainDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerCaptainDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
                 session.Player = new Player(session, account, plrDto);
             }
 

@@ -26,6 +26,7 @@ namespace NeoNetsphere
         private uint _totallosses;
         private uint _totalwins;
         private byte _tutorialState;
+        public StatsManager stats;
 
         public bool LoggedIn = false;
 
@@ -49,6 +50,7 @@ namespace NeoNetsphere
             Settings = new PlayerSettingManager(this, dto);
             DenyManager = new DenyManager(this, dto);
             Mailbox = new Mailbox(this, dto);
+            stats = new StatsManager(this, dto);
 
             Inventory = new Inventory(this, dto);
             CharacterManager = new CharacterManager(this, dto);
@@ -168,6 +170,7 @@ namespace NeoNetsphere
                 CharacterManager.Save(db);
                 DenyManager.Save(db);
                 Mailbox.Save(db);
+                stats.Save(db);
             }
         }
 

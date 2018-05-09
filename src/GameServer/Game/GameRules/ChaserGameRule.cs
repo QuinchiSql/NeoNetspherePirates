@@ -251,9 +251,14 @@ namespace NeoNetsphere.Game.GameRules
             }
 
             foreach (var plr in Room.TeamManager.PlayersPlaying)
+            {
                 plr.RoomInfo.State = PlayerState.Alive;
+                if (plr != Chaser)
+                    GetStats(plr).ChaserRounds++;
+            }
 
             GetRecord(Chaser).ChaserCount++;
+            GetStats(Chaser).ChasedRounds++;
             
             NextTarget();
             Room.Broadcast(new SlaughterChangeSlaughterAckMessage(
@@ -271,6 +276,12 @@ namespace NeoNetsphere.Game.GameRules
                 return;
 
             GetRecord(Chaser).Wins++;
+            GetStats(Chaser).ChasedWon++;
+
+            foreach (var plr in Room.TeamManager.PlayersPlaying.Where(plr => plr != Chaser))
+            {
+                GetStats(Chaser).ChaserWon++;
+            }
             Room.Broadcast(new SlaughterSLRoundWinAckMessage());
             RoundEnd();
         }
@@ -312,6 +323,11 @@ namespace NeoNetsphere.Game.GameRules
         private static ChaserPlayerRecord GetRecord(Player plr)
         {
             return (ChaserPlayerRecord) plr.RoomInfo.Stats;
+        }
+
+        private static ChaserStats GetStats(Player plr)
+        {
+            return plr.stats.GetStats<ChaserStats>();
         }
     }
 

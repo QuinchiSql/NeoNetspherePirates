@@ -62,6 +62,12 @@ namespace NeoNetsphere.Network.Services
                 return;
             }
 
+            if (session.UnreliablePing > 500)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.InternetSlow));
+                return;
+            }
+
             if (!plr.Room.ChangeMasterIfNeeded(plr))
                 plr.Session.SendAsync(new RoomChangeMasterAckMessage(plr.Room.Master.Account.Id));
 
