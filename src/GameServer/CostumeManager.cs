@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BlubLib.Threading.Tasks;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network.Message.Game;
 using Netsphere;
@@ -11,6 +12,7 @@ namespace NeoNetsphere
     {
         private readonly Character _character;
         private readonly PlayerItem[] _items = new PlayerItem[8];
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         internal CostumeManager(Character @char, PlayerCharacterDto dto)
         {
@@ -34,130 +36,147 @@ namespace NeoNetsphere
 
         public void Equip(PlayerItem item, CostumeSlot slot)
         {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
-
-            if (!CanEquip(item, slot))
-                throw new CharacterException($"Cannot equip item {item.ItemNumber} on slot {slot}");
-
-            switch (slot)
+            //using (_sync.Lock())
             {
-                case CostumeSlot.Hair:
-                case CostumeSlot.Face:
-                case CostumeSlot.Shirt:
-                case CostumeSlot.Pants:
-                case CostumeSlot.Gloves:
-                case CostumeSlot.Shoes:
-                case CostumeSlot.Accessory:
-                case CostumeSlot.Pet:
-                    if (_items[(int) slot] != item)
-                    {
-                        _character.NeedsToSave = true;
-                        _items[(int) slot] = item;
-                    }
-                    break;
+                if (item == null)
+                    throw new ArgumentNullException(nameof(item));
 
-                default:
-                    throw new CharacterException("Invalid slot: " + (byte) slot);
+                if (!CanEquip(item, slot))
+                    throw new CharacterException($"Cannot equip item {item.ItemNumber} on slot {slot}");
+
+                switch (slot)
+                {
+                    case CostumeSlot.Hair:
+                    case CostumeSlot.Face:
+                    case CostumeSlot.Shirt:
+                    case CostumeSlot.Pants:
+                    case CostumeSlot.Gloves:
+                    case CostumeSlot.Shoes:
+                    case CostumeSlot.Accessory:
+                    case CostumeSlot.Pet:
+                        if (_items[(int) slot] != item)
+                        {
+                            _character.NeedsToSave = true;
+                            _items[(int) slot] = item;
+                        }
+
+                        break;
+
+                    default:
+                        throw new CharacterException("Invalid slot: " + (byte) slot);
+                }
+
+                var plr = _character.CharacterManager.Player;
+                plr.Session.SendAsync(new ItemUseItemAckMessage
+                {
+                    CharacterSlot = _character.Slot,
+                    ItemId = item?.Id ?? 0,
+                    Action = UseItemAction.Equip,
+                    EquipSlot = (byte) slot
+                });
             }
-
-            var plr = _character.CharacterManager.Player;
-            plr.Session.SendAsync(new ItemUseItemAckMessage
-            {
-                CharacterSlot = _character.Slot,
-                ItemId = item?.Id ?? 0,
-                Action = UseItemAction.Equip,
-                EquipSlot = (byte) slot
-            });
         }
 
         public void UnEquip(CostumeSlot slot)
         {
-            var plr = _character.CharacterManager.Player;
-            if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby) // Cant change items while playing
-                throw new CharacterException("Can't change items while playing");
-
-            PlayerItem item;
-            switch (slot)
+            //using (_sync.Lock())
             {
-                case CostumeSlot.Hair:
-                case CostumeSlot.Face:
-                case CostumeSlot.Shirt:
-                case CostumeSlot.Pants:
-                case CostumeSlot.Gloves:
-                case CostumeSlot.Shoes:
-                case CostumeSlot.Accessory:
-                case CostumeSlot.Pet:
-                    item = _items[(int) slot];
-                    if (item != null)
-                    {
-                        _character.NeedsToSave = true;
-                        _items[(int) slot] = null;
-                    }
-                    break;
+                var plr = _character.CharacterManager.Player;
+                if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby) // Cant change items while playing
+                    throw new CharacterException("Can't change items while playing");
 
-                default:
-                    throw new CharacterException("Invalid slot: " + slot);
+                PlayerItem item;
+                switch (slot)
+                {
+                    case CostumeSlot.Hair:
+                    case CostumeSlot.Face:
+                    case CostumeSlot.Shirt:
+                    case CostumeSlot.Pants:
+                    case CostumeSlot.Gloves:
+                    case CostumeSlot.Shoes:
+                    case CostumeSlot.Accessory:
+                    case CostumeSlot.Pet:
+                        item = _items[(int) slot];
+                        if (item != null)
+                        {
+                            _character.NeedsToSave = true;
+                            _items[(int) slot] = null;
+                        }
+
+                        break;
+
+                    default:
+                        throw new CharacterException("Invalid slot: " + slot);
+                }
+
+                plr.Session.SendAsync(new ItemUseItemAckMessage
+                {
+                    CharacterSlot = _character.Slot,
+                    ItemId = item?.Id ?? 0,
+                    Action = UseItemAction.UnEquip,
+                    EquipSlot = (byte) slot
+                });
             }
-
-            plr.Session.SendAsync(new ItemUseItemAckMessage
-            {
-                CharacterSlot = _character.Slot,
-                ItemId = item?.Id ?? 0,
-                Action = UseItemAction.UnEquip,
-                EquipSlot = (byte) slot
-            });
         }
 
         public PlayerItem GetItem(CostumeSlot slot)
         {
-            switch (slot)
+            //using (_sync.Lock())
             {
-                case CostumeSlot.Hair:
-                case CostumeSlot.Face:
-                case CostumeSlot.Shirt:
-                case CostumeSlot.Pants:
-                case CostumeSlot.Gloves:
-                case CostumeSlot.Shoes:
-                case CostumeSlot.Accessory:
-                case CostumeSlot.Pet:
-                    return _items[(int) slot];
+                switch (slot)
+                {
+                    case CostumeSlot.Hair:
+                    case CostumeSlot.Face:
+                    case CostumeSlot.Shirt:
+                    case CostumeSlot.Pants:
+                    case CostumeSlot.Gloves:
+                    case CostumeSlot.Shoes:
+                    case CostumeSlot.Accessory:
+                    case CostumeSlot.Pet:
+                        return _items[(int) slot];
 
-                default:
-                    throw new CharacterException("Invalid slot: " + slot);
+                    default:
+                        throw new CharacterException("Invalid slot: " + slot);
+                }
             }
         }
 
         public IReadOnlyList<PlayerItem> GetItems()
         {
-            return _items;
+            //using (_sync.Lock())
+            {
+                return _items;
+            }
         }
 
         public bool CanEquip(PlayerItem item, CostumeSlot slot)
         {
-            // ReSharper disable once UseNullPropagation
-            if (item == null)
-                return false;
-
-            if (item.ItemNumber.Category != ItemCategory.Costume)
-                return false;
-
-            if (slot > CostumeSlot.Pet || slot < CostumeSlot.Hair)
-                return false;
-
-            if (_items[(int) slot] != null) // Slot needs to be empty
-                return false;
-
-            var plr = _character.CharacterManager.Player;
-            if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby) // Cant change items while playing
-                return false;
-
-            foreach (var @char in plr.CharacterManager)
-                if (@char.Costumes.GetItems().Any(i => i?.Id == item.Id)
-                ) // Dont allow items that are already equipped on a character
+            //using (_sync.Lock())
+            {
+                // ReSharper disable once UseNullPropagation
+                if (item == null)
                     return false;
 
-            return true;
+                if (item.ItemNumber.Category != ItemCategory.Costume)
+                    return false;
+
+                if (slot > CostumeSlot.Pet || slot < CostumeSlot.Hair)
+                    return false;
+
+                if (_items[(int) slot] != null) // Slot needs to be empty
+                    return false;
+
+                var plr = _character.CharacterManager.Player;
+                if (plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby) // Cant change items while playing
+                    return false;
+
+                foreach (var @char in plr.CharacterManager)
+                    if (@char.Costumes.GetItems().Any(i => i?.Id == item.Id)
+                    ) // Dont allow items that are already equipped on a character
+                        return false;
+
+                return true;
+            }
         }
     }
 }

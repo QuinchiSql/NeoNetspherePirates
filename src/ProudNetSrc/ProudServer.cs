@@ -29,6 +29,7 @@ namespace ProudNetSrc
         private readonly IEventLoopGroup _socketWorkerThreads;
         private readonly IEventLoop _workerThread;
         private readonly ConcurrentDictionary<uint, ProudSession> _sessions = new ConcurrentDictionary<uint, ProudSession>();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public bool IsRunning { get; private set; }
         public IReadOnlyDictionary<uint, ProudSession> Sessions => _sessions;
@@ -175,7 +176,9 @@ namespace ProudNetSrc
                     .BindAsync(tcpListener).WaitEx();
 
                 if (udpListenerPorts != null)
+                {
                     UdpSocketManager.Listen(udpAddress, tcpListener.Address, udpListenerPorts, _socketWorkerThreads);
+                }
             }
             catch (Exception ex)
             {
@@ -210,14 +213,24 @@ namespace ProudNetSrc
 
         public void Broadcast(object message, SendOptions options)
         {
-            foreach (var session in Sessions.Values)
-                session?.SendAsync(message, options);
+            //using (_sync.Lock())
+            {
+                foreach (var session in Sessions.Values)
+                {
+                    session?.SendAsync(message, options);
+                }
+            }
         }
 
         public void Broadcast(object message)
         {
-            foreach (var session in Sessions.Values)
-                session.SendAsync(message);
+            //using (_sync.Lock())
+            {
+                foreach (var session in Sessions.Values)
+                {
+                    session?.SendAsync(message);
+                }
+            }
         }
 
         #region EventLoop tasks
@@ -292,24 +305,32 @@ namespace ProudNetSrc
 
         internal void AddSession(ProudSession session)
         {
-            Configuration.Logger?.Debug("Adding new session {HostId}", session.HostId);
-            _sessions[session.HostId] = session;
-            OnConnected(session);
+            //using (_sync.Lock())
+            {
+                Configuration.Logger?.Debug("Adding new session {HostId}", session.HostId);
+                _sessions[session.HostId] = session;
+                OnConnected(session);
+            }
         }
 
         internal void RemoveSession(ProudSession session)
         {
-            Configuration.Logger?.Debug("Removing session {HostId}", session.HostId);
-            _sessions.Remove(session.HostId);
-            SessionsByUdpId.Remove(session.UdpSessionId);
-            OnDisconnected(session);
+            //using (_sync.Lock())
+            {
+                Configuration.Logger?.Debug("Removing session {HostId}", session.HostId);
+                _sessions.Remove(session.HostId);
+                SessionsByUdpId.Remove(session.UdpSessionId);
+                OnDisconnected(session);
+            }
         }
 
         private static void RetryUdpOrHolepunchIfRequired(object context, object _)
         {
             var server = (ProudServer)context;
             if (!server.UdpSocketManager.IsRunning || server.IsShuttingDown || !server.IsRunning)
+            {
                 return;
+            }
 
             server.Configuration.Logger?.Debug("RetryUdpOrHolepunchIfRequired");
 
@@ -330,25 +351,22 @@ namespace ProudNetSrc
                             member.Session.HolepunchMagicNumber = Guid.NewGuid();
                             member.SendAsync(new S2C_RequestCreateUdpSocketMessage(new IPEndPoint(server.UdpSocketManager.Address, ((IPEndPoint)socket.Channel.LocalAddress).Port)));
                         }
-                        //else if (diff >= server.Configuration.PingTimeout)
-                        //{
-                        //    member.Session.Logger?.Information("Fallback to tcp relay by server");
-                        //    //member.Session.UdpEnabled = false;
-                        //    //server.SessionsByUdpId.Remove(member.Session.UdpSessionId);
-                        //    member.SendAsync(new NotifyUdpToTcpFallbackByServerMessage());
-                        //}
                     }
-                    
+
                     // Skip p2p stuff when not enabled
-                    if(!group.AllowDirectP2P)
+                    if (!group.AllowDirectP2P)
+                    {
                         continue;
+                    }
 
                     // Retry p2p holepunch
                     foreach (var stateA in member.ConnectionStates.Values)
                     {
                         var stateB = stateA.RemotePeer.ConnectionStates.GetValueOrDefault(member.HostId);
                         if (!stateA.RemotePeer.Session.UdpEnabled || !stateB.RemotePeer.Session.UdpEnabled)
+                        {
                             continue;
+                        }
 
                         if (stateA.IsInitialized)
                         {
@@ -362,8 +380,6 @@ namespace ProudNetSrc
                                 stateA.LastHolepunch = stateB.LastHolepunch = now;
                                 member.SendAsync(new RenewP2PConnectionStateMessage(stateA.RemotePeer.HostId));
                                 stateA.RemotePeer.SendAsync(new RenewP2PConnectionStateMessage(member.HostId));
-                                //member.SendAsync(new P2PRecycleCompleteMessage(stateA.RemotePeer.HostId));
-                                //stateA.RemotePeer.SendAsync(new P2PRecycleCompleteMessage(member.HostId));
                             }
                         }
                         else
@@ -381,14 +397,16 @@ namespace ProudNetSrc
 
             if (!server.IsShuttingDown && server.IsRunning)
             {
-                var __ = server.ScheduleAsync(RetryUdpOrHolepunchIfRequired, server, null, TimeSpan.FromSeconds(5));
+                server.ScheduleAsync(RetryUdpOrHolepunchIfRequired, server, null, TimeSpan.FromSeconds(5));
             }
         }
 
         private void ThrowIfDisposed()
         {
             if (_disposed)
+            {
                 throw new ObjectDisposedException(GetType().FullName);
+            }
         }
 
         private void ShutdownThreads()

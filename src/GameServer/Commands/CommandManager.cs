@@ -54,19 +54,19 @@ namespace NeoNetsphere.Commands
 
             if (!isConsole && plr.Account.SecurityLevel < cmd.Permission)
             {
-                Logger.ForAccount(plr)
-                    .Error("Access denied for command {cmdName} - args: {args}", cmd.Name, string.Join(",", args));
-                plr.SendConsoleMessage(S4Color.Red + "Unknown command");
-                return true;
+                Logger.ForAccount(plr).Error("Access denied for command {cmdName} - args: {args}", cmd.Name,
+                    string.Join(",", args));
+                plr.SendConsoleMessage(S4Color.Red + "You dont have the right");
+                return false;
             }
 
             if (cmd.SubCommands.Count == 0)
             {
-                if (!cmd.Execute(Server, plr, tmp))
-                    if (plr == null)
-                        Console.WriteLine(cmd.Help());
-                    else
-                        plr.SendConsoleMessage(S4Color.Red + cmd.Help());
+                if (cmd.Execute(Server, plr, tmp)) return true;
+                if (plr == null)
+                    Console.WriteLine(cmd.Help());
+                else
+                    plr.SendConsoleMessage(S4Color.Red + cmd.Help());
                 return true;
             }
 

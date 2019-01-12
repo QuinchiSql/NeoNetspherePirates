@@ -29,7 +29,7 @@ namespace Netsphere.Game
             //Not completely supported yet
             Add(GameRule.Horde, room => new ConquestGameRule(room));
             Add(GameRule.CombatTrainingTD, room => new TouchdownTrainingGameRule(room));
-            Add(GameRule.CombatTrainingDM, room => new DeathmatchTrainingGameRule(room)); 
+            Add(GameRule.CombatTrainingDM, room => new DeathmatchTrainingGameRule(room));
             //Add(GameRule.Siege, room => new SiegeGameRule(room));
             //Add(GameRule.Captain, room => new CaptainGameRule(room));
             //Add(GameRule.Warfare, room => new WarfareGameRule(room));
@@ -49,8 +49,7 @@ namespace Netsphere.Game
 
         public GameRuleBase Get(GameRule gameRule, Room room)
         {
-            Func<Room, GameRuleBase> gameRuleFactory;
-            if (!_gameRules.TryGetValue(gameRule, out gameRuleFactory))
+            if (!_gameRules.TryGetValue(gameRule, out var gameRuleFactory))
                 throw new Exception($"GameRule {gameRule} not registered");
 
             return gameRuleFactory(room);

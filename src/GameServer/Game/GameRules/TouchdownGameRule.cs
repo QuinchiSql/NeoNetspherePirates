@@ -64,8 +64,8 @@ namespace NeoNetsphere.Game.GameRules
         public override void Initialize()
         {
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
 
             base.Initialize();
         }
@@ -143,6 +143,11 @@ namespace NeoNetsphere.Game.GameRules
             return new TouchdownPlayerRecord(plr);
         }
 
+        public static TDStats GetStats(Player plr)
+        {
+            return plr.stats.GetStats<TDStats>();
+        }
+
         public void OnScoreOffense(Player killer, Player assist, Player target, AttackAttribute attackAttribute)
         {
             if (IsInTouchdown)
@@ -150,8 +155,13 @@ namespace NeoNetsphere.Game.GameRules
 
             Respawn(target);
             GetRecord(killer).OffenseScore++;
+            GetStats(killer).Offense++;
+
             if (assist != null)
+            {
                 GetRecord(assist).OffenseAssistScore++;
+                GetStats(assist).OffenseAssist++;
+            }
 
             if (assist != null)
                 Room.Broadcast(new ScoreOffenseAssistAckMessage(new ScoreAssistDto(killer.RoomInfo.PeerId,
@@ -168,8 +178,12 @@ namespace NeoNetsphere.Game.GameRules
 
             Respawn(target);
             GetRecord(killer).DefenseScore++;
+            GetStats(killer).Defense++;
             if (assist != null)
+            {
                 GetRecord(assist).DefenseAssistScore++;
+                GetStats(assist).DefenseAssist++;
+            }
 
             if (assist != null)
                 Room.Broadcast(new ScoreDefenseAssistAckMessage(new ScoreAssistDto(killer.RoomInfo.PeerId,
@@ -188,7 +202,10 @@ namespace NeoNetsphere.Game.GameRules
                 _touchdownAssistHelper.Update(oldPlr);
 
             if (newPlr != null)
+            {
                 GetRecord(newPlr).OffenseReboundScore++;
+                GetStats(newPlr).OffenseRebound++;
+            }
             BallOwner = newPlr;
             if (oldId == 0)
                 oldId = newid;
@@ -206,10 +223,12 @@ namespace NeoNetsphere.Game.GameRules
             {
                 assist = _touchdownAssistHelper.LastPlayer;
                 GetRecord(assist).TdAssistScore++;
+                GetStats(assist).TDAssist++;
             }
 
             plr.RoomInfo.Team.Score++;
             GetRecord(plr).TdScore++;
+            GetStats(plr).TD++;
 
             if (assist != null)
                 Room.Broadcast(new ScoreGoalAssistAckMessage(plr.RoomInfo.PeerId, assist.RoomInfo.PeerId));
@@ -275,7 +294,7 @@ namespace NeoNetsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private static TouchdownPlayerRecord GetRecord(Player plr)
         {
@@ -349,11 +368,11 @@ namespace NeoNetsphere.Game.GameRules
         private uint GetTotalScore()
         {
             return TdScore * 10 + TdAssistScore * 5
-                   + Kills * 2 + KillAssists
-                   + OffenseScore * 4 + OffenseAssistScore * 2
-                   + DefenseScore * 4 + DefenseAssistScore * 2
-                   + HealScore * 2
-                   + OffenseReboundScore * 2;
+                                + Kills * 2 + KillAssists
+                                + OffenseScore * 4 + OffenseAssistScore * 2
+                                + DefenseScore * 4 + DefenseAssistScore * 2
+                                + HealScore * 2
+                                + OffenseReboundScore * 2;
         }
 
         public override int GetExpGain(out int bonusExp)
@@ -393,12 +412,13 @@ namespace NeoNetsphere.Game.GameRules
                     rankingBonus = config.ThirdPlaceBonus;
                     break;
             }
-            var newgain = (TotalScore * config.ScoreFactor +
-                           rankingBonus +
-                           plrs.Length * config.PlayerCountFactor +
-                           Player.RoomInfo.PlayTime.TotalMinutes * config.ExpPerMin);
 
-            return (int)newgain > 5000 ? 5000 : (int)newgain;
+            var newgain = TotalScore * config.ScoreFactor +
+                          rankingBonus +
+                          plrs.Length * config.PlayerCountFactor +
+                          Player.RoomInfo.PlayTime.TotalMinutes * config.ExpPerMin;
+
+            return (int) newgain > 5000 ? 5000 : (int) newgain;
         }
     }
 

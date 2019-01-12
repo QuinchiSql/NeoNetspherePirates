@@ -12,9 +12,11 @@ namespace ProudNetSrc.Handlers
     {
         protected override void Encode(IChannelHandlerContext context, SendContext message, List<object> output)
         {
-            var buffer = message.Message as IByteBuffer;
+            var buffer = (IByteBuffer)message.Message;
             if (buffer == null)
+            {
                 throw new ProudException($"{nameof(SendContextEncoder)} can only handle {nameof(IByteBuffer)}");
+            }
 
             try
             {
@@ -27,10 +29,9 @@ namespace ProudNetSrc.Handlers
                 var server = context.Channel.GetAttribute(ChannelAttributes.Server).Get();
 
                 if (data.Length > server.Configuration.MessageMaxLength)
+                {
                     throw new ProudException("Message is longer than max messagelength!");
-                //else if (data.Length > server.Configuration.MaxUncompressedMessageLength &&
-                //    coreMessage.GetType() != typeof(CompressedMessage))
-                //    message.SendOptions.Compress = true;
+                }
 
                 if (message.SendOptions.Compress)
                 {
@@ -47,6 +48,7 @@ namespace ProudNetSrc.Handlers
                         session.Crypt?.Encrypt(context.Allocator, EncryptMode.Secure, src, dst, true);
                         data = dst.ToArray();
                     }
+
                     coreMessage = new EncryptedReliableMessage(data, EncryptMode.Secure);
                 }
 

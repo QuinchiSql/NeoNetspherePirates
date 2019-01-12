@@ -3,17 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlubLib.Threading.Tasks;
-using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
-using NeoNetsphere.Network.Data.Club;
-using NeoNetsphere.Network.Data.Game;
-using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Services;
 using NeoNetsphere.Resource;
-using Netsphere;
-using ProudNetSrc;
 
 namespace NeoNetsphere.Commands
 {
@@ -24,7 +17,11 @@ namespace NeoNetsphere.Commands
             Name = "reload";
             AllowConsole = true;
             Permission = SecurityLevel.Developer;
-            SubCommands = new ICommand[] {new ShopCommand(), new ReqBoxCommand(), new RoomMassKickCommand(), new ServerMassKickCommand(), new ClubCommand(),  };
+            SubCommands = new ICommand[]
+            {
+                new ShopCommand(), new ReqBoxCommand(), new RoomMassKickCommand(), new ServerMassKickCommand(),
+                new ClubCommand()
+            };
         }
 
         public string Name { get; }
@@ -46,6 +43,7 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
 
@@ -74,13 +72,11 @@ namespace NeoNetsphere.Commands
                         Console.WriteLine(message);
                     else
                         plr.SendConsoleMessage(S4Color.Green + message);
-
-                    server.BroadcastNotice(message);
+                    
                     server.ResourceCache.Clear(ResourceCacheType.Clubs);
                     server.ClubManager = new ClubManager(server.ResourceCache.GetClubs());
                     ClubService.Update(null, true);
                     message = "Club reload completed";
-                    server.BroadcastNotice(message);
                     if (plr == null)
                         Console.WriteLine(message);
                     else
@@ -207,17 +203,13 @@ namespace NeoNetsphere.Commands
                 else
                     plr.SendConsoleMessage(S4Color.Green + message);
 
-                foreach (var sess in GameServer.Instance.Sessions.Values)
-                {
-                    var session = (GameSession)sess;
-                    if (session.Player != null && session.Player.Room != null)
-                        session.Player.Room.Leave(session.Player);
-                }
-                GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage() {Result = 0});
+                foreach (var session in GameServer.Instance.Sessions.Values.Cast<GameSession>())
+                    session.Player?.Room?.Leave(session.Player);
+
+                GameServer.Instance.Broadcast(new ItemUseChangeNickAckMessage {Result = 0});
                 GameServer.Instance.Broadcast(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-                //GameServer.Instance.Broadcast(new ProudNetSrc.Serialization.Messages.RequestAutoPruneAckMessage(), SendOptions.Reliable);
+
                 message = "Done with kickall";
-                //server.BroadcastNotice(message);
                 if (plr == null)
                     Console.WriteLine(message);
                 else
@@ -231,6 +223,7 @@ namespace NeoNetsphere.Commands
                 return Name;
             }
         }
+
         private class RoomMassKickCommand : ICommand
         {
             public RoomMassKickCommand()
@@ -258,12 +251,10 @@ namespace NeoNetsphere.Commands
                 foreach (var sess in GameServer.Instance.Sessions.Values)
                 {
                     var session = (GameSession) sess;
-                    if (session.Player != null && session.Player.Room != null)
-                        session.Player.Room.Leave(session.Player);
+                    session.Player?.Room?.Leave(session.Player);
                 }
 
                 message = "Done kicking all players from all rooms.";
-                //server.BroadcastNotice(message);
                 if (plr == null)
                     Console.WriteLine(message);
                 else

@@ -54,7 +54,7 @@ namespace NeoNetsphere.Network.Services
             }
 
             mail.IsNew = false;
-            session.Player.Mailbox.UpdateReminderAsync();
+            session.Player.Mailbox.UpdateReminder();
             session.SendAsync(new NoteReadAckMessage(mail.Id, mail.Map<Mail, NoteContentDto>(), 0));
         }
 

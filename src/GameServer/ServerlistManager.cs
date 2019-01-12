@@ -129,6 +129,7 @@ namespace NeoNetsphere
                         endPoint);
                     return false;
                 }
+
                 Logger.Error(baseException,
                     "Failed to connect authserver on endpoint {endpoint}. Retrying on next update.", endPoint);
                 return false;
@@ -166,6 +167,7 @@ namespace NeoNetsphere
                         Config.Instance.AuthAPI.ApiKey);
                     break;
             }
+
             return false;
         }
 

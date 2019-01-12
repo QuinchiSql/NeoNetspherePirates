@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using NeoNetsphere;
 
 // ReSharper disable once CheckNamespace
@@ -22,13 +23,107 @@ namespace Netsphere.Game
         public virtual uint GetPenGain(out uint bonusPen)
         {
             bonusPen = 0;
-            return 0;
+            var exp = GetExpGain(out var bonus);
+            return (uint)(exp - bonus);
         }
 
         public virtual int GetExpGain(out int bonusExp)
         {
+            var place = 1;
+            ExperienceRates ExpRates = null;
+            var game = Config.Instance.Game;
             bonusExp = 0;
-            return 0;
+
+            switch (Player.Room.GameRuleManager.GameRule.GameRule)
+            {
+                case GameRule.Arcade:
+                    break;
+                case GameRule.Arena:
+                    break;
+                case GameRule.BattleRoyal:
+                    ExpRates = game.BRExpRates;
+                    break;
+                case GameRule.Captain:
+                    ExpRates = game.CaptainExpRates;
+                    break;
+                case GameRule.Challenge:
+                    break;
+                case GameRule.Chaser:
+                    ExpRates = game.ChaserExpRates;
+                    break;
+                case GameRule.CombatTrainingDM:
+                    break;
+                case GameRule.CombatTrainingTD:
+                    break;
+                case GameRule.Deathmatch:
+                    ExpRates = game.DeathmatchExpRates;
+                    break;
+                case GameRule.Horde:
+                    break;
+                case GameRule.PassTouchdown:
+                    break;
+                case GameRule.Practice:
+                    break;
+                case GameRule.SemiTouchdown:
+                    break;
+                case GameRule.Siege:
+                    break;
+                case GameRule.SnowballFight:
+                    break;
+                case GameRule.Survival:
+                    break;
+                case GameRule.Touchdown:
+                    ExpRates = game.TouchdownExpRates;
+                    break;
+                case GameRule.Tutorial:
+                    break;
+                case GameRule.Warfare:
+                    break;
+            }
+
+            if (ExpRates == null)
+                return 0;
+
+            var plrs = Player.Room.TeamManager.Players
+                .Where(plr => plr.RoomInfo.State == PlayerState.Waiting &&
+                    plr.RoomInfo.Mode == PlayerGameMode.Normal)
+                .ToArray();
+
+            foreach (var plr in plrs.OrderByDescending(plr => plr.RoomInfo.Stats.TotalScore))
+            {
+                if (plr == Player)
+                    break;
+
+                place++;
+                if (place > 3)
+                    break;
+            }
+
+            var rankingBonus = 1.0f;
+            switch (place)
+            {
+                case 1:
+                    rankingBonus += ExpRates.FirstPlaceBonus / 100.0f;
+                    break;
+
+                case 2:
+                    rankingBonus += ExpRates.SecondPlaceBonus / 100.0f;
+                    break;
+
+                case 3:
+                    rankingBonus += ExpRates.ThirdPlaceBonus / 100.0f;
+                    break;
+            }
+
+            var TimeExp = ExpRates.ExpPerMin * Player.RoomInfo.PlayTime.Minutes;
+            var PlayersExp = plrs.Length * ExpRates.PlayerCountFactor;
+            var ScoreExp = ExpRates.ExpPerMin * TotalScore;
+
+            var ExpGained = (TimeExp + PlayersExp + ScoreExp) * rankingBonus;
+
+            bonusExp = (int)(ExpGained/* * Player.GetExpRate()*/);
+
+            return (int)ExpGained + bonusExp;
         }
 
         public virtual void Reset()
@@ -93,7 +188,7 @@ namespace Netsphere.Game
 
             //NEW - UNKNOWN
             w.Write(0); //Int32
-            w.Write((byte)0); //Int8 -- player room index?? team?
+            w.Write((byte) 0); //Int8 -- player room index?? team?
             w.Write(0); //Int32
             w.Write(0); //Int32
         }

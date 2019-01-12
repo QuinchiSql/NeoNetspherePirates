@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
 using ExpressMapper.Extensions;
@@ -37,7 +38,8 @@ namespace NeoNetsphere.Network.Services
 
             if (@char == null || item == null || plr.Room != null && plr.RoomInfo.State != PlayerState.Lobby)
             {
-                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot, message.EquipSlot,
+                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot,
+                    message.EquipSlot,
                     message.ItemId));
                 return;
             }
@@ -59,14 +61,15 @@ namespace NeoNetsphere.Network.Services
             {
                 Logger.ForAccount(session)
                     .Error(ex.Message, "Unable to use item");
-                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot, message.EquipSlot,
+                session.SendAsync(new ItemUseItemAckMessage(UseItemAction.NoAction, message.CharacterSlot,
+                    message.EquipSlot,
                     message.ItemId));
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
             }
         }
 
         [MessageHandler(typeof(ItemRepairItemReqMessage))]
-        public async Task RepairItemHandler(GameSession session, ItemRepairItemReqMessage message)
+        public void RepairItemHandler(GameSession session, ItemRepairItemReqMessage message)
         {
             var shop = GameServer.Instance.ResourceCache.GetShop();
 
@@ -77,22 +80,23 @@ namespace NeoNetsphere.Network.Services
                 {
                     Logger.ForAccount(session)
                         .Error("Item {id} not found", id);
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error0});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error0});
                     return;
                 }
+
                 if (item.Durability == -1)
                 {
                     Logger.ForAccount(session)
                         .Error("Item {item} can not be repaired",
                             new {item.ItemNumber, item.PriceType, item.PeriodType, item.Period});
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error1});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error1});
                     return;
                 }
 
                 var cost = item.CalculateRepair();
                 if (session.Player.PEN < cost)
                 {
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.NotEnoughMoney});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.NotEnoughMoney});
                     return;
                 }
 
@@ -102,12 +106,13 @@ namespace NeoNetsphere.Network.Services
                     Logger.ForAccount(session)
                         .Error("No shop entry found for {item}",
                             new {item.ItemNumber, item.PriceType, item.PeriodType, item.Period});
-                    await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error4});
+                    session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.Error4});
                     return;
                 }
+
                 if (item.Durability >= price.Durability)
                 {
-                    await session.SendAsync(new ItemRepairItemAckMessage
+                    session.SendAsync(new ItemRepairItemAckMessage
                     {
                         Result = ItemRepairResult.OK,
                         ItemId = item.Id
@@ -118,9 +123,8 @@ namespace NeoNetsphere.Network.Services
                 item.Durability = price.Durability;
                 session.Player.PEN -= cost;
 
-                await session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.OK, ItemId = item.Id});
-                await session.SendAsync(
-                    new MoneyRefreshCashInfoAckMessage {PEN = session.Player.PEN, AP = session.Player.AP});
+                session.SendAsync(new ItemRepairItemAckMessage {Result = ItemRepairResult.OK, ItemId = item.Id});
+                session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = session.Player.PEN, AP = session.Player.AP});
             }
         }
 
@@ -147,6 +151,7 @@ namespace NeoNetsphere.Network.Services
                 session.SendAsync(new ItemRefundItemAckMessage {Result = ItemRefundResult.Failed});
                 return;
             }
+
             if (!price.CanRefund)
             {
                 Logger.ForAccount(session)
@@ -199,8 +204,8 @@ namespace NeoNetsphere.Network.Services
             session.SendAsync(new ItemDiscardItemAckMessage {Result = 0, ItemId = item.Id});
         }
 
-        [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
-        public async Task UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
+        //[MessageHandler(typeof(ItemUseCapsuleReqMessage))]
+        public void UseCapsuleReq1(GameSession session, ItemUseCapsuleReqMessage message)
         {
             var item = session.Player.Inventory.GetItem(message.ItemId);
             if (item.ItemNumber.Id == 4030051) //capsule
@@ -230,8 +235,7 @@ namespace NeoNetsphere.Network.Services
                     count = 2;
                 else if (count >= 1)
                     count = 1;
-
-
+                
                 var pencount = 0;
                 pencount = random.Next(300, (int) (count + 300 * 100));
                 pencount = 5 * (int) Math.Round(pencount / 5.0);
@@ -245,7 +249,7 @@ namespace NeoNetsphere.Network.Services
                         ItemPriceType.PEN, ItemPeriodType.None, 0)
                 };
 
-                await session.SendAsync(new ItemUseCapsuleAckMessage(reward.ToArray(), 3));
+                session.SendAsync(new ItemUseCapsuleAckMessage(reward.ToArray(), 3));
                 if (item.Count <= 1)
                 {
                     session.Player.Inventory.Remove(item);
@@ -254,14 +258,86 @@ namespace NeoNetsphere.Network.Services
                 {
                     item.Count -= 1;
                     item.NeedsToSave = true;
-                    await session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update,
-                        item.Map<PlayerItem, ItemDto>()));
+                    session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, item.Map<PlayerItem, ItemDto>()));
                 }
             }
             else
             {
-                await session.SendAsync(new ItemUseCapsuleAckMessage(1));
+                session.SendAsync(new ItemUseCapsuleAckMessage(1));
             }
+        }
+
+        [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
+        public void UseCapsuleReq(GameSession session, ItemUseCapsuleReqMessage message)
+        {
+            var ItemBags = GameServer.Instance.ResourceCache.GetItemRewards();
+            var plr = session.Player;
+            var item = plr.Inventory[message.ItemId];
+
+            if (!ItemBags.ContainsKey(item.ItemNumber))
+            {
+                session.SendAsync(new ItemUseCapsuleAckMessage(1));
+                return;
+            }
+
+            item.Count--;
+            if (item.Count <= 0)
+                plr.Inventory.Remove(item);
+            else
+                session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, item.Map<PlayerItem, ItemDto>()));
+
+            var ItemBag = ItemBags[item.ItemNumber];
+
+            var Rewards = (from bag in ItemBag.Bags
+                           let reward = bag.Take()
+                           select new CapsuleRewardDto
+                           {
+                               RewardType = reward.Type,
+                               ItemNumber = reward.Item,
+                               PriceType = reward.PriceType,
+                               PeriodType = reward.PeriodType,
+                               Period = reward.Period,
+                               PEN = reward.PEN,
+                               Effect = reward.Effects.FirstOrDefault(),
+                               Unk1 = (byte)reward.Color
+                           }).ToArray();
+
+            foreach (var it in Rewards)
+            {
+                if (it.RewardType == CapsuleRewardType.PEN)
+                {
+                    plr.PEN += it.PEN;
+                }
+                else
+                {
+                    if (it.PeriodType == ItemPeriodType.Units)
+                    {
+                        var prev = plr.Inventory
+                            .FirstOrDefault(p => p.ItemNumber == it.ItemNumber
+                            && p.PeriodType == it.PeriodType
+                            && p.PriceType == it.PriceType
+                            //&& p.Effects. == it.Effect
+                            );
+
+                        if (prev == null || prev.ItemNumber == 0)
+                        {
+                            plr.Inventory.Create(it.ItemNumber, it.PriceType, it.PeriodType, (ushort)it.Period, it.Unk1, new uint[] { it.Effect }, 1);
+                        }
+                        else
+                        {
+                            prev.Count++;
+                            session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, prev.Map<PlayerItem, ItemDto>()));
+                        }
+                    }
+                    else
+                    {
+                        plr.Inventory.Create(it.ItemNumber, it.PriceType, it.PeriodType, (ushort)it.Period, it.Unk1, new uint[] { it.Effect }, 1);
+                    }
+                }
+            }
+
+            session.SendAsync(new ItemUseCapsuleAckMessage(Rewards, 3));
+            session.SendAsync(new MoneyRefreshCashInfoAckMessage(plr.PEN, plr.AP));
         }
     }
 }

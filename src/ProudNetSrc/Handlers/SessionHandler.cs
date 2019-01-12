@@ -54,7 +54,9 @@ namespace ProudNetSrc.Handlers
                 catch (OperationCanceledException)
                 {
                     if (!session.IsConnected)
+                    {
                         return;
+                    }
 
                     log?.Debug("Client({HostId}) handshake timeout");
                     await session.SendAsync(new ConnectServerTimedoutMessage());
@@ -62,6 +64,7 @@ namespace ProudNetSrc.Handlers
                     return;
                 }
             }
+
             base.ChannelActive(context);
         }
 

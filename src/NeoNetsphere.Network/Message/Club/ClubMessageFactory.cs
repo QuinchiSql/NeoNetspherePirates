@@ -35,7 +35,7 @@ namespace NeoNetsphere.Network.Message.Club
             Register<ClubAdminJoinConditionModifyAckMessage>(ClubOpCode.ClubAdminJoinConditionModifyAck);
             Register<ClubAdminBoardModifyAckMessage>(ClubOpCode.ClubAdminBoardModifyAck);
             Register<ClubSearchAckMessage>(ClubOpCode.ClubSearchAck);
-            Register<ClubInfoAckMessage>(ClubOpCode.ClubInfoAck);
+            Register<ClubClubInfoAckMessage>(ClubOpCode.ClubInfoAck);
             Register<ClubJoinWaiterInfoAckMessage>(ClubOpCode.ClubJoinWaiterInfoAck);
             Register<ClubNewJoinMemberInfoAckMessage>(ClubOpCode.ClubNewJoinMemberInfoAck);
             Register<ClubJoinConditionInfoAckMessage>(ClubOpCode.ClubJoinConditionInfoAck);
@@ -51,10 +51,7 @@ namespace NeoNetsphere.Network.Message.Club
             Register<ClubBoardDeleteAckMessage>(ClubOpCode.ClubBoardDeleteAck);
             Register<ClubBoardDeleteAllAckMessage>(ClubOpCode.ClubBoardDeleteAllAck);
             Register<ClubBoardReadFailedAckMessage>(ClubOpCode.ClubBoardReadFailedAck);
-#if NEWIDS
-            Register<ClubCreateAck2Message>(ClubOpCode.Club_Create_Ack_2);
-            Register<ClubInfoAck2Message>(ClubOpCode.Club_ClubInfo_Ack_2);
-#endif
+
             // C2S
             Register<ClubCreateReqMessage>(ClubOpCode.ClubCreateReq);
             Register<ClubCloseReqMessage>(ClubOpCode.ClubCloseReq);
@@ -72,7 +69,7 @@ namespace NeoNetsphere.Network.Message.Club
             Register<ClubAdminJoinConditionModifyReqMessage>(ClubOpCode.ClubAdminJoinConditionModifyReq);
             Register<ClubAdminBoardModifyReqMessage>(ClubOpCode.ClubAdminBoardModifyReq);
             Register<ClubSearchReqMessage>(ClubOpCode.ClubSearchReq);
-            Register<ClubInfoReqMessage>(ClubOpCode.ClubInfoReq);
+            Register<ClubClubInfoReqMessage>(ClubOpCode.ClubInfoReq);
             Register<ClubJoinWaiterInfoReqMessage>(ClubOpCode.ClubJoinWaiterInfoReq);
             Register<ClubNewJoinMemberInfoReqMessage>(ClubOpCode.ClubNewJoinMemberInfoReq);
             Register<ClubJoinConditionInfoReqMessage>(ClubOpCode.ClubJoinConditionInfoReq);
@@ -90,9 +87,21 @@ namespace NeoNetsphere.Network.Message.Club
             Register<ClubBoardReadOtherClubReqMessage>(ClubOpCode.ClubBoardReadOtherClubReq);
             Register<ClubBoardReadMineReqMessage>(ClubOpCode.ClubBoardReadMineReq);
 #if NEWIDS
+            //S2C
+            Register<ClubCreateAck2Message>(ClubOpCode.Club_Create_Ack_2);
+            Register<ClubClubInfoAck2Message>(ClubOpCode.Club_ClubInfo_Ack_2);
+            Register<ClubRankListAckMessage>(ClubOpCode.Club_Rank_List_Ack);
+            Register<ClubStuffListAck2Message>(ClubOpCode.Club_Stuff_List_Ack_2);
+            Register<ClubCloseAck2Message>(ClubOpCode.Club_Close_Ack_2);
+            Register<ClubUnjoinAck2Message>(ClubOpCode.Club_Unjoin_Ack_2);
+
+            //C2S
+            Register<ClubUnjoinReq2Message>(ClubOpCode.Club_Unjoin_Req_2);
             Register<ClubCreateReq2Message>(ClubOpCode.Club_Create_Req_2);
             Register<ClubRankListReqMessage>(ClubOpCode.Club_Rank_List_Req);
-            Register<ClubInfoReq2Message>(ClubOpCode.Club_ClubInfo_Req_2);
+            Register<ClubClubInfoReq2Message>(ClubOpCode.Club_ClubInfo_Req_2);
+            Register<ClubStuffListReq2Message>(ClubOpCode.Club_Stuff_List_Req_2);
+            Register<ClubCloseReq2Message>(ClubOpCode.Club_Close_Req_2);
 #endif
         }
     }

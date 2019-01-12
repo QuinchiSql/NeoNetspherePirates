@@ -14,8 +14,8 @@ namespace NeoNetsphere.Network
     internal class ChatServer : ProudServer
     {
         // ReSharper disable once InconsistentNaming
-        private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(ChatServer))
-            ;
+        private static readonly ILogger
+            Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(ChatServer));
 
         private ChatServer(Configuration config)
             : base(config)
@@ -34,9 +34,20 @@ namespace NeoNetsphere.Network
             config.SessionFactory = new ChatSessionFactory();
 
             // ReSharper disable InconsistentNaming
-            bool MustBeLoggedIn(ChatSession session) => session.IsLoggedIn();
-            bool MustNotBeLoggedIn(ChatSession session) => !session.IsLoggedIn();
-            bool MustBeInChannel(ChatSession session) => session.Player.Channel != null;
+            bool MustBeLoggedIn(ChatSession session)
+            {
+                return session.IsLoggedIn();
+            }
+
+            bool MustNotBeLoggedIn(ChatSession session)
+            {
+                return !session.IsLoggedIn();
+            }
+
+            bool MustBeInChannel(ChatSession session)
+            {
+                return session.Player.Channel != null;
+            }
             // ReSharper restore InconsistentNaming
 
             config.MessageHandlers = new IMessageHandler[]
@@ -86,6 +97,7 @@ namespace NeoNetsphere.Network
             {
                 log.Error(e.Exception, "Unhandled server error");
             }
+
             base.OnError(e);
         }
 

@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 
 namespace NeoNetsphere
 {
     internal class PlayerManager : IReadOnlyCollection<Player>
     {
         private readonly IDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
+        internal readonly AsyncLock _sync = new AsyncLock();
 
         public Player this[ulong id] => Get(id);
 
@@ -26,31 +29,39 @@ namespace NeoNetsphere
 
         public Player Get(ulong id)
         {
-            _players.TryGetValue(id, out var plr);
-            return plr;
+            //using (_sync.Lock())
+            {
+                _players.TryGetValue(id, out var plr);
+                return plr;
+            }
         }
 
         public Player Get(string nick)
         {
-            return _players.Values.FirstOrDefault(plr =>
-                plr.Account.Nickname != null &&
-                plr.Account.Nickname.Equals(nick, StringComparison.InvariantCultureIgnoreCase));
+            //using (_sync.Lock())
+            {
+                return _players.Values.FirstOrDefault(plr =>
+                    plr.Account.Nickname != null &&
+                    plr.Account.Nickname.Equals(nick, StringComparison.InvariantCultureIgnoreCase));
+            }
         }
 
         public void Add(Player plr)
         {
-            if (!_players.TryAdd(plr.Account.Id, plr))
-                throw new Exception("Player " + plr.Account.Id + " already exists");
+            //using (_sync.Lock())
+            {
+                if (!CollectionExtensions.TryAdd(_players, plr.Account.Id, plr))
+                    throw new Exception("Player " + plr.Account.Id + " already exists");
+            }
         }
 
         public void Remove(Player plr)
         {
-            Remove(plr.Account.Id);
-        }
-
-        public void Remove(ulong id)
-        {
-            _players.Remove(id);
+            //using (_sync.Lock())
+            {
+                if (plr?.Account != null)
+                    _players.TryRemove(plr.Account.Id, out _);
+            }
         }
 
         public bool Contains(Player plr)
@@ -60,7 +71,10 @@ namespace NeoNetsphere
 
         public bool Contains(ulong id)
         {
-            return _players.ContainsKey(id);
+            //using (_sync.Lock())
+            {
+                return _players.ContainsKey(id);
+            }
         }
     }
 }

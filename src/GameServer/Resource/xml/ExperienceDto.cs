@@ -6,23 +6,18 @@ namespace NeoNetsphere.Resource.xml
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "experience")]
     public class ExperienceDto
     {
-        [XmlElement("exp")]
-        public ExperienceEXPDto[] exp { get; set; }
+        [XmlElement("exp")] public ExperienceEXPDto[] exp { get; set; }
 
-        [XmlAttribute]
-        public string string_table { get; set; }
+        [XmlAttribute] public string string_table { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
     public class ExperienceEXPDto
     {
-        [XmlAttribute]
-        public uint require { get; set; }
+        [XmlAttribute] public uint require { get; set; }
 
-        [XmlAttribute]
-        public uint accumulate { get; set; }
+        [XmlAttribute] public uint accumulate { get; set; }
 
-        [XmlAttribute]
-        public string name_key { get; set; }
+        [XmlAttribute] public string name_key { get; set; }
     }
 }

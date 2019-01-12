@@ -11,7 +11,7 @@ namespace NeoNetsphere
     internal static class Extensions
     {
         public static ILogger ForAccount(this ILogger logger, ulong id, string user,
-            SecurityLevel securityLevel = SecurityLevel.User)
+            SecurityLevel securityLevel = SecurityLevel.Tester)
         {
             return logger
                 .ForContext("account_id", id)
@@ -46,34 +46,22 @@ namespace NeoNetsphere
 
         public static bool IsLoggedIn(this GameSession session)
         {
-            if (session == null || session.Player == null)
-                return false;
-
-            return session?.Player.LoggedIn ?? false;
+            return !string.IsNullOrWhiteSpace(session?.Player?.Account.Nickname) && session.IsConnected;
         }
 
         public static bool IsLoggedIn(this ChatSession session)
         {
-            if (session == null || session.GameSession == null || session.GameSession.Player == null)
-                return false;
-
-            return session.GameSession.Player.LoggedIn;
+            return !string.IsNullOrWhiteSpace(session?.GameSession?.Player?.Account.Nickname) && session.IsConnected;
         }
 
         public static bool IsLoggedIn(this RelaySession session)
         {
-            if (session == null || session.GameSession == null || session.GameSession.Player == null)
-                return false;
-
-            return session.GameSession.Player.LoggedIn;
+            return !string.IsNullOrWhiteSpace(session?.GameSession?.Player?.Account.Nickname) && session.IsConnected;
         }
 
         public static bool IsLoggedIn(this Player plr)
         {
-            if (plr == null || plr.Session == null || plr.ChatSession == null)
-                return false;
-
-            return plr.Session.IsLoggedIn() && plr.ChatSession.IsLoggedIn();
+            return (plr.Session?.IsLoggedIn() ?? false) && (plr.ChatSession?.IsLoggedIn() ?? false);
         }
 
         public static void Serialize(this BinaryWriter w, ICollection<ShopPriceGroup> value)

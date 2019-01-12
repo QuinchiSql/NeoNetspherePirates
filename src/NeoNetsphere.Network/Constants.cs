@@ -21,7 +21,8 @@
         ChooseNickname = 6,
 
         FailedAndRestart = 7,
-        SessionTimeout = 8
+        SessionTimeout = 8,
+        AuthenticationFailed = 9
     }
 
     public enum ServerResult : uint
@@ -86,10 +87,23 @@
         AlreadyReady = 1
     }
 
-    public enum ClubState
+    public enum ClubState : int
     {
         NotJoined,
         AwaitingAccept,
         Member
+    }
+
+    public enum ClubRank : int
+    {
+        Master = 1,
+        TempMaster,
+        Staff,
+        Regular,
+        Normal,
+        BadManner,
+        Aclass,
+        Bclass,
+        Cclass
     }
 }

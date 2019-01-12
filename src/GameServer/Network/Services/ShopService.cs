@@ -113,19 +113,19 @@ namespace NeoNetsphere.Network.Services
         }
 
         [MessageHandler(typeof(RandomShopUpdateCheckReqMessage))]
-        public async Task RandomShopUpdateCheckHandler(GameSession session, RandomShopUpdateCheckReqMessage message)
+        public void RandomShopUpdateCheckHandler(GameSession session, RandomShopUpdateCheckReqMessage message)
         {
             //Todo
         }
 
         [MessageHandler(typeof(CollectBookItemRegistReqMessage))]
-        public async Task CollectBookItemRegistReq(GameSession session, CollectBookItemRegistReqMessage message)
+        public void CollectBookItemRegistReq(GameSession session, CollectBookItemRegistReqMessage message)
         {
             //Todo
         }
 
         [MessageHandler(typeof(ItemBuyItemReqMessage))]
-        public async Task BuyItemHandler(GameSession session, ItemBuyItemReqMessage message)
+        public void BuyItemHandler(GameSession session, ItemBuyItemReqMessage message)
         {
             try
             {
@@ -140,16 +140,17 @@ namespace NeoNetsphere.Network.Services
                             .Error("No shop entry found for {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
+
                     if (!shopItemInfo.IsEnabled)
                     {
                         Logger.ForAccount(session)
                             .Error("Shop entry is not enabled {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -161,7 +162,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Invalid price group for shop entry {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -171,7 +172,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Shop entry is not enabled {item}",
                                 new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -181,7 +182,7 @@ namespace NeoNetsphere.Network.Services
                             .Error("Shop entry has no color {color} {item}",
                                 item.Color, new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                        await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                         return;
                     }
 
@@ -198,23 +199,13 @@ namespace NeoNetsphere.Network.Services
                                 .Error("Shop entry has no effect {effect} {item}",
                                     item.Effect, new {item.ItemNumber, item.PriceType, item.Period, item.PeriodType});
 
-                            await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
+                            session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
                             return;
                         }
                     else
+                    {
                         itemeffects.Add(0);
-                    //if (item.Effect != 0)
-                    //{
-                    //    if (shopItemInfo.EffectGroup.Effects.All(effect => effect.Effect != item.Effect))
-                    //    {
-                    //        Logger.ForAccount(session)
-                    //            .Error("Shop entry has no effect {effect} {item}",
-                    //                item.Effect, new { item.ItemNumber, item.PriceType, item.Period, item.PeriodType });
-                    //
-                    //        session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.UnkownItem));
-                    //        return;
-                    //    }
-                    //}
+                    }
 
                     // ToDo missing price types
                     switch (shopItemInfo.PriceGroup.PriceType)
@@ -222,9 +213,10 @@ namespace NeoNetsphere.Network.Services
                         case ItemPriceType.PEN:
                             if (plr.PEN < price.Price)
                             {
-                                await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
+                                session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
                                 return;
                             }
+
                             plr.PEN -= (uint) price.Price;
                             break;
 
@@ -232,9 +224,10 @@ namespace NeoNetsphere.Network.Services
                         case ItemPriceType.Premium:
                             if (plr.AP < price.Price)
                             {
-                                await session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
+                                session.SendAsync(new ItemBuyItemAckMessage(ItemBuyResult.NotEnoughMoney));
                                 return;
                             }
+
                             plr.AP -= (uint) price.Price;
                             break;
 
@@ -258,6 +251,7 @@ namespace NeoNetsphere.Network.Services
                                 stackitem.NeedsToSave = true;
                                 stacked = true;
                             }
+
                             break;
                         case ItemPeriodType.Days:
                         case ItemPeriodType.Hours:
@@ -267,18 +261,23 @@ namespace NeoNetsphere.Network.Services
                                 .Error("Unknown PriceType {priceType}", item.PeriodType);
                             break;
                     }
+
                     var plrItem = stackitem;
 
                     if (!stacked)
+                    {
                         plrItem = session.Player.Inventory.Create(shopItemInfo, price, item.Color,
                             itemeffects.ToArray(),
                             (uint) (price.PeriodType == ItemPeriodType.Units ? price.Period : 0));
+                    }
                     else
-                        await session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update,
+                    {
+                        session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update,
                             plrItem.Map<PlayerItem, ItemDto>()));
+                    }
 
-                    await session.SendAsync(new ItemBuyItemAckMessage(new[] {plrItem.Id}, item));
-                    await session.SendAsync(new MoneyRefreshCashInfoAckMessage(plr.PEN, plr.AP));
+                    session.SendAsync(new ItemBuyItemAckMessage(new[] {plrItem.Id}, item));
+                    session.SendAsync(new MoneyRefreshCashInfoAckMessage(plr.PEN, plr.AP));
                 }
             }
             catch (Exception ex)
@@ -286,39 +285,5 @@ namespace NeoNetsphere.Network.Services
                 Console.WriteLine(ex.ToString());
             }
         }
-
-        //[MessageHandler(typeof(RandomShopRollingStartReqMessage))]
-        //public void RandomShopRollHandler(GameSession session, RandomShopRollingStartReqMessage message)
-        //{
-        //    var shop = GameServer.Instance.ResourceCache.GetShop();
-
-        //    session.SendAsync(new SRandomShopItemInfoAckMessage
-        //    {
-        //        Item = new RandomShopItemDto()
-        //    });
-        //    //session.Send(new SRandomShopItemInfoAckMessage
-        //    //{
-        //    //    Item = new RandomShopItemDto
-        //    //    {
-        //    //        Unk1 = 2000001,
-        //    //        Value = 2000001,
-        //    //        CurrentWeapon = 2000001,
-        //    //        Unk4 = 2000001,
-        //    //        Unk5 = 2000001,
-        //    //        Unk6 = 0,
-        //    //    }
-        //    //});
-        //}
-
-        //[MessageHandler(typeof(CRandomShopItemSaleReqMessage))]
-        //public void RandomShopItemSaleHandler(GameSession session, CRandomShopItemSaleReqMessage message)
-        //{
-        //    var shop = GameServer.Instance.ResourceCache.GetShop();
-
-        //    session.SendAsync(new SRandomShopItemInfoAckMessage
-        //    {
-        //        Item = new RandomShopItemDto()
-        //    });
-        //}
     }
 }

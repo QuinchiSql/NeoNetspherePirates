@@ -45,7 +45,7 @@ namespace NeoNetsphere.Resource
 
         public IEnumerable<MapInfo> LoadMaps()
         {
-            var stringTable = Deserialize<StringTableDto>("language/xml/gameinfo_string_table.xml");
+            var stringTable = Deserialize<StringTableDto>("language/xml/gameinfo_string_table.x7");
             var dto = Deserialize<MapInfoDto>("xml/map.x7");
 
             //Logger.Information($"LoadMaps() called ({dto.map.Length})");
@@ -124,6 +124,8 @@ namespace NeoNetsphere.Resource
                                     map.GameRules.Add(GameRule.Chaser);
                                 if (!map.GameRules.Contains(GameRule.Captain))
                                     map.GameRules.Add(GameRule.Captain);
+                                if (!map.GameRules.Contains(GameRule.Horde))
+                                    map.GameRules.Add(GameRule.Horde);
                                 break;
 
                             case "s":
@@ -159,6 +161,7 @@ namespace NeoNetsphere.Resource
                     {
                         name_.eng = "unknown";
                     }
+
                     var name = name_;
                     if (string.IsNullOrWhiteSpace(name.eng))
                         name.eng = mapDto.Base.map_name_key;
@@ -171,7 +174,7 @@ namespace NeoNetsphere.Resource
         public IEnumerable<ItemEffect> LoadEffects()
         {
             var dto = Deserialize<ItemEffectDto>("xml/item_effect.x7");
-            var stringTable = Deserialize<StringTableDto>("language/xml/item_effect_string_table.xml");
+            var stringTable = Deserialize<StringTableDto>("language/xml/item_effect_string_table.x7");
 
             foreach (var itemEffectDto in dto.item.Where(itemEffect => itemEffect.id != 0))
             {
@@ -189,8 +192,12 @@ namespace NeoNetsphere.Resource
                         Rate = float.Parse(attributeDto.rate, CultureInfo.InvariantCulture)
                     });
 
-                var name = stringTable.@string.First(s =>
+                var name = stringTable.@string.FirstOrDefault(s =>
                     s.key.Equals(itemEffectDto.text_key, StringComparison.InvariantCultureIgnoreCase));
+
+                if (name == null)
+                    name = new StringTableStringDto();
+
                 if (string.IsNullOrWhiteSpace(name.eng))
                     name.eng = itemEffectDto.NAME;
 
@@ -238,6 +245,7 @@ namespace NeoNetsphere.Resource
                 };
                 yield return item;
             }
+
             foreach (var itemDto in dto.female.item)
             {
                 var item = new DefaultItem
@@ -358,11 +366,13 @@ namespace NeoNetsphere.Resource
 
                     var name = stringTable.@string.FirstOrDefault(s =>
                         s.key.Equals(itemDto.Base.name_key, StringComparison.InvariantCultureIgnoreCase));
-                    if (!string.IsNullOrWhiteSpace(name?.eng) && name?.eng.ToLower() != "no trans" && name?.eng.ToLower() != "not trans")
+                    if (!string.IsNullOrWhiteSpace(name?.eng) && name?.eng.ToLower() != "no trans" &&
+                        name?.eng.ToLower() != "not trans")
                         yield return item;
                 }
             }
         }
+
         public IEnumerable<ItemInfo> LoadItems_3()
         {
             var dto = Deserialize<ItemInfoDto_2>("xml/item.x7");
@@ -383,18 +393,19 @@ namespace NeoNetsphere.Resource
                     ids.Add(id, item);
                 }
             }
+
             foreach (var itemdto in dto2.Item)
             {
                 ItemInfo item;
                 ids.TryGetValue(new ItemNumber(itemdto.ID), out item);
                 if (item != null)
                 {
-                    item.Colors = (int)itemdto.Color_Count;
+                    item.Colors = (int) itemdto.Color_Count;
                     item.Name = itemdto.Name;
-                    
-                    if(!string.IsNullOrWhiteSpace(item.Name) && 
-                        item.Name != "not trans" && 
-                        item.Name != "no trans" && 
+
+                    if (!string.IsNullOrWhiteSpace(item.Name) &&
+                        item.Name != "not trans" &&
+                        item.Name != "no trans" &&
                         !string.IsNullOrWhiteSpace(item.Image))
                         yield return item;
                 }
@@ -591,6 +602,47 @@ namespace NeoNetsphere.Resource
                 item.Values = itemDto.weapon.integer.Select(i => i.value).ToList();
 
             return item;
+        }
+
+        public IEnumerable<CapsuleRewards> LoadItemRewards()
+        {
+            var dto = Deserialize<ItemRewardDto>("xml/ItemBag.xml");
+
+            foreach (var it in dto.Items)
+            {
+                var ret = new CapsuleRewards { Item = it.Number, Bags = new List<BagReward>() };
+
+                foreach (var group in it.Groups)
+                {
+                    var bag = new BagReward
+                    {
+                        Bag = new List<ItemReward>()
+                    };
+
+                    foreach (var rw in group.Rewards)
+                    {
+                        var PEN = (CapsuleRewardType)rw.Type == CapsuleRewardType.PEN ? rw.Value : 0;
+                        var Period = (CapsuleRewardType)rw.Type == CapsuleRewardType.PEN ? 0 : rw.Value;
+
+                        bag.Bag.Add(new ItemReward
+                        {
+                            Type = (CapsuleRewardType)rw.Type,
+                            Item = rw.Data,
+                            PriceType = (ItemPriceType)rw.PriceType,
+                            PeriodType = (ItemPeriodType)rw.PeriodType,
+                            Period = Period,
+                            PEN = PEN,
+                            Effects = rw.Effects.Split(",").Select(e => uint.Parse(e)).ToArray(),
+                            Rate = rw.Rate,
+                            Color = rw.Color
+                        });
+                    }
+
+                    ret.Bags.Add(bag);
+                }
+
+                yield return ret;
+            }
         }
 
         #endregion

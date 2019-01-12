@@ -20,7 +20,7 @@ namespace NeoNetsphere.Network.Message.GameRule
             AccountId = accountId;
             Unk1 = unk1;
             PlayerGameMode = mode;
-            Unk3 = unk3;
+            ClanId = unk3;
             Nickname = nickname;
         }
 
@@ -34,13 +34,13 @@ namespace NeoNetsphere.Network.Message.GameRule
         public PlayerGameMode PlayerGameMode { get; set; }
 
         [BlubMember(3)]
-        public int Unk3 { get; set; }
+        public int ClanId { get; set; }
 
         [BlubMember(4, typeof(StringSerializer))]
         public string Nickname { get; set; }
 
         [BlubMember(5)]
-        public byte Unk2 { get; set; }
+        public Team Team { get; set; }
     }
 
     [BlubContract]
@@ -377,16 +377,16 @@ namespace NeoNetsphere.Network.Message.GameRule
     {
         public RoomChangeRuleNotifyAck2Message()
         {
-            Settings = new ChangeRuleDto();
+            Settings = new ChangeRuleDto2();
         }
 
-        public RoomChangeRuleNotifyAck2Message(ChangeRuleDto settings)
+        public RoomChangeRuleNotifyAck2Message(ChangeRuleDto2 settings)
         {
             Settings = settings;
         }
 
         [BlubMember(0)]
-        public ChangeRuleDto Settings { get; set; }
+        public ChangeRuleDto2 Settings { get; set; }
     }
 
     [BlubContract]
@@ -1172,7 +1172,16 @@ namespace NeoNetsphere.Network.Message.GameRule
     public class RoomGamePlayCountDownAckMessage : IGameRuleMessage
     {
         [BlubMember(0)]
-        public short Unk { get; set; }
+        public int TimeinMs { get; set; }
+
+        public RoomGamePlayCountDownAckMessage()
+        {
+        }
+
+        public RoomGamePlayCountDownAckMessage(int timeinMs)
+        {
+            TimeinMs = timeinMs;
+        }
     }
 
     [BlubContract]
@@ -1249,22 +1258,23 @@ namespace NeoNetsphere.Network.Message.GameRule
         public uint Unk1 { get; set; }
 
         [BlubMember(6)]
-        public uint Unk2 { get; set; } 
+        public byte Unk2 { get; set; } 
     }
 
     [BlubContract]
     public class RoomEnterPlayerInfoListForNameTagAckMessage : IGameRuleMessage
     {
-        [BlubMember(0)]
-        public int Tag { get; set; }
+        [BlubMember(0, typeof(ArrayWithIntPrefixSerializer))]
+        public NameTagDto[] Tags { get; set; }
 
         public RoomEnterPlayerInfoListForNameTagAckMessage()
         {
+            Tags = Array.Empty<NameTagDto>();
         }
 
-        public RoomEnterPlayerInfoListForNameTagAckMessage(int tag)
+        public RoomEnterPlayerInfoListForNameTagAckMessage(NameTagDto[] tags)
         {
-            Tag = tag;
+            Tags = tags;
         }
     }
 }

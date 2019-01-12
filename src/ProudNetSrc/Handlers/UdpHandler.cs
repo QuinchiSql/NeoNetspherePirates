@@ -81,21 +81,24 @@ namespace ProudNetSrc.Handlers
             }
             finally
             {
-                message.Content.Release();
+                message?.Content.Release();
             }
         }
 
         public override Task WriteAsync(IChannelHandlerContext context, object message)
         {
             var sendContext = message as SendContext;
-            Debug.Assert(sendContext != null);
-            var coreMessage = sendContext.Message as ICoreMessage;
-            Debug.Assert(coreMessage != null);
+            var coreMessage = (ICoreMessage)sendContext?.Message;
 
             var buffer = context.Allocator.Buffer();
             try
             {
                 CoreMessageEncoder.Encode(coreMessage, buffer);
+
+                if (sendContext == null)
+                {
+                    return Task.CompletedTask;
+                }
 
                 return base.WriteAsync(context, new UdpMessage
                 {

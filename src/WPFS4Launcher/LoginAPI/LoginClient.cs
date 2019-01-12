@@ -13,13 +13,13 @@ namespace TestServer_Launcher.LoginAPI
         public Socket WorkSocket;
     }
 
-    internal class LoginClient
+    internal static class LoginClient
     {
-        public const short Magic = 0x5713;
-        
-        public static Socket NetSocket;
+        private const short Magic = 0x5713;
 
-        public static bool Connected;
+        private static Socket _netSocket;
+
+        private static bool _connected;
 
         //not actually needed 
         private static readonly ManualResetEvent ConnectDone =
@@ -45,15 +45,15 @@ namespace TestServer_Launcher.LoginAPI
                 {
                     LingerState = {Enabled = false}
                 };
-            Connected = false;
+            _connected = false;
             try
             {
                 sck.BeginConnect(localEndPoint, ConnectCallback, sck);
-                NetSocket = sck;
+                _netSocket = sck;
                 var timer = new Thread(() =>
                 {
-                    Thread.Sleep(5000);
-                    if (!Connected)
+                    Thread.Sleep(15000);
+                    if (!_connected)
                     {
                         sck.Close();
                         Constants.LoginWindow.Reset();
@@ -131,7 +131,6 @@ namespace TestServer_Launcher.LoginAPI
                                         sendmsg.Write(Constants.LoginWindow.GetUsername());
                                         sendmsg.Write(Constants.LoginWindow.GetPassword());
                                         sendmsg.Write(false);
-                                        sendmsg.Write(Constants.KRClient);
 
                                         RmiSend(client, 15, sendmsg);
                                         Constants.LoginWindow.UpdateLabel("Authenticating..");
@@ -156,7 +155,6 @@ namespace TestServer_Launcher.LoginAPI
                                         case 16:
                                         {
                                             var success = false;
-                                            var koreaclient = false;
                                             if (message.Read(ref success) && success)
                                             {
                                                 ReceiveDone.Set();
@@ -164,10 +162,8 @@ namespace TestServer_Launcher.LoginAPI
                                                 message.Read(ref code);
                                                 Constants.LoginWindow.UpdateLabel(
                                                     $"Authentication succeeded. code={code}");
-                                                Constants.LoginWindow.Ready(code, koreaclient);
-
-                                                //message.Read(ref koreaclient);
-                                                Connected = true;
+                                                Constants.LoginWindow.Ready(code);
+                                                _connected = true;
                                                 var sendmsg = new CCMessage();
                                                 RmiSend(client, 17, sendmsg);
                                                 client.Disconnect(false);
@@ -180,7 +176,7 @@ namespace TestServer_Launcher.LoginAPI
                                                 message.Read(ref errcode);
                                                 Constants.LoginWindow.Reset();
                                                 Constants.LoginWindow.UpdateErrorLabel($"Failed: {errcode}");
-                                                Connected = true;
+                                                _connected = true;
                                                 client.Disconnect(false);
                                                 client.Close();
                                             }
@@ -198,7 +194,7 @@ namespace TestServer_Launcher.LoginAPI
                             }
                         }
 
-                        if (!Connected)
+                        if (!_connected)
                             client.BeginReceive(state.Buffer, 0, StateObject.BufferSize, 0,
                                 ReceiveCallback, state);
                     }

@@ -63,8 +63,8 @@ namespace NeoNetsphere.Game.GameRules
         public override void Initialize()
         {
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
 
             base.Initialize();
         }
@@ -272,7 +272,7 @@ namespace NeoNetsphere.Game.GameRules
             // Is atleast one player per team ready?
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
-        
+
 
         private static PassTouchdownPlayerRecord GetRecord(Player plr)
         {
@@ -346,11 +346,11 @@ namespace NeoNetsphere.Game.GameRules
         private uint GetTotalScore()
         {
             return TDScore * 10 + TDAssistScore * 5
-                   + Kills * 2 + KillAssists
-                   + OffenseScore * 4 + OffenseAssistScore * 2
-                   + DefenseScore * 4 + DefenseAssistScore * 2
-                   + HealScore * 2
-                   + OffenseReboundScore * 2;
+                                + Kills * 2 + KillAssists
+                                + OffenseScore * 4 + OffenseAssistScore * 2
+                                + DefenseScore * 4 + DefenseAssistScore * 2
+                                + HealScore * 2
+                                + OffenseReboundScore * 2;
         }
 
         public override int GetExpGain(out int bonusExp)

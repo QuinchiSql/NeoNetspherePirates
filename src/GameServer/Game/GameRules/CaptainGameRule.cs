@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NeoNetsphere.Network.Data.GameRule;
 using NeoNetsphere.Network.Message.GameRule;
 using Netsphere;
@@ -21,10 +20,6 @@ namespace NeoNetsphere.Game.GameRules
         private TimeSpan _nextRoundTime = TimeSpan.Zero;
         private TimeSpan _subRoundTime = TimeSpan.Zero;
         private bool _waitingNextRoom;
-
-        public override GameRule GameRule => GameRule.Captain;
-        public override Briefing Briefing { get; }
-        public override bool CountMatch => true;
 
         public CaptainGameRule(Room room)
             : base(room)
@@ -53,12 +48,15 @@ namespace NeoNetsphere.Game.GameRules
                 .OnEntry(UpdatePlayerStats);
         }
 
+        public override GameRule GameRule => GameRule.Captain;
+        public override Briefing Briefing { get; }
+        public override bool CountMatch => true;
+
         public override void Initialize()
         {
-
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint)(Room.Options.PlayerLimit / 2), (uint)(Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
             _currentRound = 0;
             base.Initialize();
         }
@@ -72,13 +70,14 @@ namespace NeoNetsphere.Game.GameRules
             if (StateMachine.IsInState(GameRuleState.Playing) &&
                 !StateMachine.IsInState(GameRuleState.EnteringResult) &&
                 !StateMachine.IsInState(GameRuleState.Result) &&
-                RoundTime >= TimeSpan.FromSeconds(5)) // Let the round run for at least 5 seconds - Fixes StartResult trigger on game start(race condition)
+                RoundTime >= TimeSpan.FromSeconds(5)
+            ) // Let the round run for at least 5 seconds - Fixes StartResult trigger on game start(race condition)
             {
                 // Still have enough players?
                 var min = teamMgr.Values.Min(team =>
-                team.Values.Count(plr =>
-                    plr.RoomInfo.State != PlayerState.Lobby &&
-                    plr.RoomInfo.State != PlayerState.Spectating));
+                    team.Values.Count(plr =>
+                        plr.RoomInfo.State != PlayerState.Lobby &&
+                        plr.RoomInfo.State != PlayerState.Spectating));
                 if (min == 0)
                     StateMachine.Fire(GameRuleStateTrigger.StartResult);
 
@@ -124,30 +123,12 @@ namespace NeoNetsphere.Game.GameRules
             teamMgr.Remove(Team.Beta);
             base.Cleanup();
         }
-
-        //public override void PlayerLeft(object room, RoomPlayerEventArgs e)
-        //{
-        //    if (StateMachine.IsInState(GameRuleState.FirstHalf))
-        //        e.Player.CaptainMode.Loss++;
-        //
-        //    base.PlayerLeft(room, e);
-        //}
-
+        
         public override PlayerRecord GetPlayerRecord(Player plr)
         {
             return new CaptainPlayerRecord(plr);
         }
 
-        //public override void OnScoreTeamKill(Player killer, Player target, AttackAttribute attackAttribute)
-        //{
-        //    if (_captainHelper.Dead(target) && _captainHelper.Any())
-        //        SubRoundEnd();
-        //
-        //    GetRecord(target).Deaths++;
-        //
-        //    base.OnScoreTeamKill(killer, target, attackAttribute);
-        //}
-        
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget = null, LongPeerId scoreKiller = null, LongPeerId scoreAssist = null)
         {
@@ -217,10 +198,11 @@ namespace NeoNetsphere.Game.GameRules
                     new CaptainSubRoundWinAckMessage
                     {
                         Unk1 = 0,
-                        Unk2 = (byte)(teamwin.Team == Team.Alpha ? 1 : 2)
+                        Unk2 = (byte) (teamwin.Team == Team.Alpha ? 1 : 2)
                     });
                 Room.Broadcast(
-                    new GameEventMessageAckMessage(GameEventMessage.NextRoundIn, (ulong)s_captainNextroundTime.TotalMilliseconds, 0, 0, ""));
+                    new GameEventMessageAckMessage(GameEventMessage.NextRoundIn,
+                        (ulong) s_captainNextroundTime.TotalMilliseconds, 0, 0, ""));
 
                 _nextRoundTime = TimeSpan.Zero;
             }
@@ -232,7 +214,7 @@ namespace NeoNetsphere.Game.GameRules
 
         private static CaptainPlayerRecord GetRecord(Player plr)
         {
-            return (CaptainPlayerRecord)plr.RoomInfo.Stats;
+            return (CaptainPlayerRecord) plr.RoomInfo.Stats;
         }
 
         private void UpdatePlayerStats()
@@ -242,17 +224,14 @@ namespace NeoNetsphere.Game.GameRules
                 .PlayersPlaying
                 .Aggregate(
                     (highestTeam, player) =>
-                    (highestTeam == null || player.RoomInfo.Team.Score > highestTeam.RoomInfo.Team.Score) ?
-                    player : highestTeam).RoomInfo.Team;
-            
+                        highestTeam == null || player.RoomInfo.Team.Score > highestTeam.RoomInfo.Team.Score
+                            ? player
+                            : highestTeam).RoomInfo.Team;
         }
     }
 
     internal class CaptainHelper
     {
-
-        public Room Room { get; private set; }
-
         private IEnumerable<Player> _alpha;
         private IEnumerable<Player> _beta;
         private float _teamLife;
@@ -260,39 +239,38 @@ namespace NeoNetsphere.Game.GameRules
         public CaptainHelper(Room room)
         {
             Room = room;
-            _alpha = from plr in this.Room.TeamManager.PlayersPlaying
-                     where plr.RoomInfo.Team.Team == Team.Alpha
-                     select plr;
+            _alpha = from plr in Room.TeamManager.PlayersPlaying
+                where plr.RoomInfo.Team.Team == Team.Alpha
+                select plr;
 
-            _beta = from plr in this.Room.TeamManager.PlayersPlaying
-                    where plr.RoomInfo.Team.Team == Team.Beta
-                    select plr;
+            _beta = from plr in Room.TeamManager.PlayersPlaying
+                where plr.RoomInfo.Team.Team == Team.Beta
+                select plr;
         }
+
+        public Room Room { get; }
 
         public void Reset()
         {
-            _alpha = from plr in this.Room.TeamManager.PlayersPlaying
-                     where plr.RoomInfo.Team.Team == Team.Alpha
-                     select plr;
+            _alpha = from plr in Room.TeamManager.PlayersPlaying
+                where plr.RoomInfo.Team.Team == Team.Alpha
+                select plr;
 
-            _beta = from plr in this.Room.TeamManager.PlayersPlaying
-                    where plr.RoomInfo.Team.Team == Team.Beta
-                    select plr;
+            _beta = from plr in Room.TeamManager.PlayersPlaying
+                where plr.RoomInfo.Team.Team == Team.Beta
+                select plr;
 
-            float max = (_alpha.Count() > _beta.Count()) ? _alpha.Count() : _beta.Count();
+            float max = _alpha.Count() > _beta.Count() ? _alpha.Count() : _beta.Count();
 
             _teamLife = max * 500.0f;
 
-            var players = (from plr in this.Room.TeamManager.PlayersPlaying
-                           select new CaptainLifeDto { AccountId = plr.Account.Id, HP = _teamLife / plr.RoomInfo.Team.Count() })
-                          .ToArray();
+            var players = (from plr in Room.TeamManager.PlayersPlaying
+                    select new CaptainLifeDto {AccountId = plr.Account.Id, HP = _teamLife / plr.RoomInfo.Team.Count()})
+                .ToArray();
 
-            foreach (var plr in Room.TeamManager.PlayersPlaying)
-            {
-                plr.RoomInfo.State = PlayerState.Alive;
-            }
+            foreach (var plr in Room.TeamManager.PlayersPlaying) plr.RoomInfo.State = PlayerState.Alive;
 
-            Room.Broadcast(new CaptainRoundCaptainLifeInfoAckMessage { Players = players });
+            Room.Broadcast(new CaptainRoundCaptainLifeInfoAckMessage {Players = players});
             Room.Broadcast(new GameEventMessageAckMessage(GameEventMessage.ResetRound, 0, 0, 0, ""));
         }
 
@@ -301,14 +279,15 @@ namespace NeoNetsphere.Game.GameRules
             if (target.RoomInfo.Team.Team == Team.Alpha)
             {
                 var isCaptain = (from plr in _alpha
-                                 where plr == target
-                                 select plr).Any();
+                    where plr == target
+                    select plr).Any();
 
                 _alpha = from plr in _alpha
-                         where plr != target
-                         select plr;
+                    where plr != target
+                    select plr;
 
-                target.Room.Broadcast(new CaptainCurrentRoundInfoAckMessage { Unk1 = _alpha.Count(), Unk2 = _beta.Count() });
+                target.Room.Broadcast(
+                    new CaptainCurrentRoundInfoAckMessage {Unk1 = _alpha.Count(), Unk2 = _beta.Count()});
 
                 return isCaptain;
             }
@@ -316,19 +295,20 @@ namespace NeoNetsphere.Game.GameRules
             if (target.RoomInfo.Team.Team == Team.Beta)
             {
                 var isCaptain = (from plr in _beta
-                                 where plr == target
-                                 select plr).Any();
+                    where plr == target
+                    select plr).Any();
 
                 _beta = from plr in _beta
-                        where plr != target
-                        select plr;
+                    where plr != target
+                    select plr;
 
-                target.Room.Broadcast(new CaptainCurrentRoundInfoAckMessage { Unk1 = _alpha.Count(), Unk2 = _beta.Count() });
+                target.Room.Broadcast(
+                    new CaptainCurrentRoundInfoAckMessage {Unk1 = _alpha.Count(), Unk2 = _beta.Count()});
 
                 return isCaptain;
             }
 
-            return false;// we need this?
+            return false; // we need this?
         }
 
         public bool Any()
@@ -344,20 +324,20 @@ namespace NeoNetsphere.Game.GameRules
             if (!_beta.Any())
                 return Room.TeamManager.GetValueOrDefault(Team.Alpha);
 
-            return (_alpha.Count() > _beta.Count()) ?
-                Room.TeamManager.GetValueOrDefault(Team.Alpha) :
-                Room.TeamManager.GetValueOrDefault(Team.Beta);
+            return _alpha.Count() > _beta.Count()
+                ? Room.TeamManager.GetValueOrDefault(Team.Alpha)
+                : Room.TeamManager.GetValueOrDefault(Team.Beta);
         }
 
         public void Update(TimeSpan delta)
         {
             _alpha = from plr in Room.TeamManager.PlayersPlaying
-                     join oplr in _alpha on plr equals oplr
-                     select plr;
+                join oplr in _alpha on plr equals oplr
+                select plr;
 
             _beta = from plr in Room.TeamManager.PlayersPlaying
-                    join oplr in _beta on plr equals oplr
-                    select plr;
+                join oplr in _beta on plr equals oplr
+                select plr;
         }
     }
 
@@ -371,16 +351,16 @@ namespace NeoNetsphere.Game.GameRules
 
     internal class CaptainPlayerRecord : PlayerRecord
     {
-        public override uint TotalScore => (5 * (WinRound + KillCaptains)) + (2 * Kills) + KillAssists + Heal - Suicides;
-        public uint KillCaptains { get; set; }
-        public uint KillAssistCaptains { get; set; }
-        public uint WinRound { get; set; }
-        public uint Heal { get; set; }
-
         public CaptainPlayerRecord(Player plr)
             : base(plr)
         {
         }
+
+        public override uint TotalScore => 5 * (WinRound + KillCaptains) + 2 * Kills + KillAssists + Heal - Suicides;
+        public uint KillCaptains { get; set; }
+        public uint KillAssistCaptains { get; set; }
+        public uint WinRound { get; set; }
+        public uint Heal { get; set; }
 
         public override void Serialize(BinaryWriter w, bool isResult)
         {

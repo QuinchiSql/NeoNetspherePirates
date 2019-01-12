@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using BlubLib.DotNetty.Handlers.MessageHandling;
@@ -11,25 +11,24 @@ using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Auth;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network.Data.Chat;
+using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Chat;
+using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.Relay;
 using NeoNetsphere.Resource;
 using Netsphere;
+using Newtonsoft.Json;
 using ProudNetSrc.Handlers;
 using Serilog;
 using Serilog.Core;
-using System.Net;
-using NeoNetsphere.Network.Data.Club;
-using NeoNetsphere.Network.Message.Club;
-using Newtonsoft.Json;
 
 namespace NeoNetsphere.Network.Services
 {
     internal class AuthService : ProudMessageHandler
     {
-        private static readonly Version s_version = new Version(0, 8, 32, 63353);
+        private static readonly Version SVersion = new Version(0, 8, 32, 63353);
 
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger =
@@ -39,30 +38,34 @@ namespace NeoNetsphere.Network.Services
         public async Task LoginHandler(GameSession session, LoginRequestReqMessage message)
         {
             #region IPINFO
-            IpInfo ipInfo = new IpInfo();
+
+            var ipInfo = new IpInfo2();
             try
             {
-                string info =
-                    new WebClient().DownloadString("http://freegeoip.net/json/" + session.RemoteEndPoint.Address);
-                ipInfo = JsonConvert.DeserializeObject<IpInfo>(info);
-                if (string.IsNullOrWhiteSpace(ipInfo.country_code) || string.IsNullOrEmpty(ipInfo.country_code))
-                    ipInfo.country_code = "UNK";
+                //string info = new WebClient().DownloadString("" + session.RemoteEndPoint.Address);
+                var info = new WebClient().DownloadString("http://ip-api.com/json/" + session.RemoteEndPoint.Address);
+                ipInfo = JsonConvert.DeserializeObject<IpInfo2>(info);
+                if (string.IsNullOrWhiteSpace(ipInfo.countryCode) || string.IsNullOrEmpty(ipInfo.countryCode))
+                    ipInfo.countryCode = "UNK";
             }
             catch (Exception)
             {
-                ipInfo.country_code = "UNK";
+                ipInfo.countryCode = "UNK";
             }
+
             #endregion
 
             Logger.ForAccount(message.AccountId, message.Username)
-                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint, ipInfo.country_code);
+                .Information("GameServer login from {remoteEndPoint} : Country: {country}", session.RemoteEndPoint,
+                    ipInfo.countryCode);
 
-            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.country_code) || Config.Instance.BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
+            if (Config.Instance.BlockedCountries.ToList().Contains(ipInfo.countryCode) || Config.Instance
+                    .BlockedAddresses.ToList().Contains(session.RemoteEndPoint.Address.ToString()))
             {
                 Logger.ForAccount(message.AccountId, message.Username)
-                    .Information("Denied connection from client in blocked country {country}", ipInfo.country_code);
-                
-                session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
+                    .Information("Denied connection from client in blocked country {country}", ipInfo.countryCode);
+
+                await session.SendAsync(new ServerResultAckMessage(ServerResult.IPLocked));
                 return;
             }
             //if (message.Version != s_version)
@@ -106,17 +109,6 @@ namespace NeoNetsphere.Network.Services
 
 
             var sessionId = Hash.GetUInt32<CRC32>($"<{accountDto.Username}+{accountDto.Password}>");
-            //var md5 = MD5.Create();
-            //var inputBytes = Encoding.ASCII.GetBytes(message.SessionId);
-            //var hash = md5.ComputeHash(inputBytes);
-            //if (hash != md5.ComputeHash(Encoding.ASCII.GetBytes(sessionId.ToString())))
-            //{
-            //
-            //    Logger.ForAccount(message.AccountId, message.Username)
-            //        .Error("Wrong login(invalid sessionid) - {id} != {id2}", message.SessionId, Encoding.ASCII.GetByteCount());
-            //    session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
-            //    return;
-            //}
             var authsessionId = Hash.GetString<CRC32>($"<{accountDto.Username}+{sessionId}+{message.Datetime}>");
             if (authsessionId != message.AuthToken)
             {
@@ -136,8 +128,7 @@ namespace NeoNetsphere.Network.Services
                 await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.SessionTimeout));
                 return;
             }
-
-
+            
             var now = DateTimeOffset.Now.ToUnixTimeSeconds();
             var ban = accountDto.Bans.FirstOrDefault(b => b.Date + (b.Duration ?? 0) > now);
             if (ban != null)
@@ -160,7 +151,7 @@ namespace NeoNetsphere.Network.Services
                     .Error("No permission to enter this server({securityLevel} or above required)",
                         Config.Instance.SecurityLevel);
 
-                await session.SendAsync(new LoginReguestAckMessage((GameLoginResult) 9));
+                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.AuthenticationFailed));
                 return;
             }
 
@@ -170,23 +161,19 @@ namespace NeoNetsphere.Network.Services
                     .Information("Kicking old connection");
 
                 var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
+                GameServer.Instance.PlayerManager.Remove(oldPlr);
                 oldPlr?.Disconnect();
-                if (GameServer.Instance.PlayerManager.Contains(account.Id))
-                    GameServer.Instance.PlayerManager.Remove(oldPlr);
-
-                //await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.ExistingExit));
-                //return;
             }
 
             if (GameServer.Instance.PlayerManager.Contains(account.Id))
             {
                 Logger.ForAccount(account)
-                    .Error("Already online");
+                    .Information("Kicking old connection");
 
-                await session.SendAsync(new LoginReguestAckMessage(GameLoginResult.TerminateOtherConnection));
-                return;
+                var oldPlr = GameServer.Instance.PlayerManager.Get(account.Id);
+                GameServer.Instance.PlayerManager.Remove(oldPlr);
+                oldPlr?.Disconnect();
             }
-
 
             using (var db = GameDatabase.Open())
             {
@@ -201,15 +188,14 @@ namespace NeoNetsphere.Network.Services
                     .FirstOrDefault();
 
                 var expTable = GameServer.Instance.ResourceCache.GetExperience();
-                Experience expValue = new Experience();
+                Experience expValue;
 
                 if (plrDto == null)
                 {
                     // first time connecting to this server
                     if (!expTable.TryGetValue(Config.Instance.Game.StartLevel, out expValue))
                     {
-                        expValue = new Experience();
-                        expValue.TotalExperience = 0;
+                        expValue = new Experience {TotalExperience = 0};
                         Logger.Warning("Given start level is not found in the experience table");
                     }
 
@@ -236,237 +222,114 @@ namespace NeoNetsphere.Network.Services
                     {
                         if (!expTable.TryGetValue(plrDto.Level, out expValue))
                         {
-                            expValue = new Experience();
-                            expValue.TotalExperience = 0;
+                            expValue = new Experience {TotalExperience = 0};
                             Logger.Warning("Given level is not found in the experience table");
                         }
+
                         plrDto.TotalExperience = expValue.TotalExperience - 1;
                         await db.UpdateAsync(plrDto);
                     }
                 }
+
+                plrDto.DeathMatchInfo = (List<PlayerDeathMatchDto>)(await db.FindAsync<PlayerDeathMatchDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerDeathMatchDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.TouchDownInfo = (List<PlayerTouchDownDto>)(await db.FindAsync<PlayerTouchDownDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerTouchDownDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.ChaserInfo = (List<PlayerChaserDto>)(await db.FindAsync<PlayerChaserDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerChaserDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.BattleRoyalInfo = (List<PlayerBattleRoyalDto>)(await db.FindAsync<PlayerBattleRoyalDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerBattleRoyalDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
+                plrDto.CaptainInfo = (List<PlayerCaptainDto>)(await db.FindAsync<PlayerCaptainDto>(
+                                        statament => statament
+                                        .Where($"{nameof(PlayerCaptainDto.PlayerId):C} = @PlayerId")
+                                        .WithParameters(new { PlayerId = message.AccountId })));
+
                 session.Player = new Player(session, account, plrDto);
             }
-            
+
+            if (session.Player == null)
+                return;
+
             GameServer.Instance.PlayerManager.Add(session.Player);
 
             Logger.ForAccount(account)
-                .Information("Login success");
+                .Information("Login success for {0}", account.Username);
 
             var result = string.IsNullOrWhiteSpace(account.Nickname)
                 ? GameLoginResult.ChooseNickname
                 : GameLoginResult.OK;
-            if (result == GameLoginResult.ChooseNickname)
-            {
-                session.Player.Account.Nickname = session.Player.Account.Username;
-                session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
-                using (var db = AuthDatabase.Open())
-                {
-                    var mapping = OrmConfiguration
-                        .GetDefaultEntityMapping<AccountDto>()
-                        .Clone()
-                        .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true,
-                            nameof(AccountDto.Nickname));
+            //if (result == GameLoginResult.ChooseNickname)
+            //{
+            //    session.Player.Account.Nickname = session.Player.Account.Username;
+            //    session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
+            //    using (var db = AuthDatabase.Open())
+            //    {
+            //        var mapping = OrmConfiguration
+            //            .GetDefaultEntityMapping<AccountDto>()
+            //            .Clone()
+            //            .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true,
+            //                nameof(AccountDto.Nickname));
 
-                    await db.UpdateAsync(
-                        new AccountDto
-                        {
-                            Id = (int) session.Player.Account.Id,
-                            Nickname = session.Player.Account.Username
-                        },
-                        statement => statement.WithEntityMappingOverride(mapping));
-                }
-                Logger.ForAccount(account)
-                    .Information($"Created Account for {session.Player.Account.Username}");
-            }
-            else if (!session.Player.CharacterManager.CheckChars())
-            {
-                session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
-            }
+            //        await db.UpdateAsync(
+            //            new AccountDto
+            //            {
+            //                Id = (int) session.Player.Account.Id,
+            //                Nickname = session.Player.Account.Username
+            //            },
+            //            statement => statement.WithEntityMappingOverride(mapping));
+            //    }
 
-            await session.SendAsync(new LoginReguestAckMessage(0, session.Player.Account.Id));
+            //    Logger.ForAccount(account)
+            //        .Information($"Created Account for {session.Player.Account.Username}");
+            //}
+            //else if (!session.Player.CharacterManager.CheckChars())
+            //{
+            //    session.Player.CharacterManager.CreateFirst(0, 0, 0, 0, 0, 0);
+            //}
+
+            await session.SendAsync(new LoginReguestAckMessage(result, session.Player.Account.Id));
 
             if (!string.IsNullOrWhiteSpace(account.Nickname))
                 await LoginAsync(session);
         }
 
         [MessageHandler(typeof(NickCheckReqMessage))]
-        public async Task CheckNickHandler(GameSession session, NickCheckReqMessage message)
+        public void CheckNickHandler(GameSession session, NickCheckReqMessage message)
         {
             session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-            //if (session.Player == null || !string.IsNullOrWhiteSpace(session.Player.Account.Nickname))
-            //{
-            //    session.SendAsync(new NickCheckAckMessage(true));
-            //    return;
-            //}
-            //
-            //Logger.ForAccount(session)
-            //    .Information("Checking nickname {nickname}", message.Nickname);
-            //
-            //var available = await IsNickAvailableAsync(message.Nickname);
-            //if (!available)
-            //    Logger.ForAccount(session)
-            //        .Information("Nickname not available: {nickname}", message.Nickname);
-            //
-            //session.SendAsync(new NickCheckAckMessage(!available));
         }
 
         [MessageHandler(typeof(ItemUseChangeNickReqMessage))]
-        public async Task ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
+        public void ChangeNickHandler(GameSession session, ItemUseChangeNickReqMessage message)
         {
             session.SendAsync(new ItemUseChangeNickAckMessage {Result = 1, Unk2 = 0, Unk3 = session.Player.Account.Nickname});
         }
 
-        //[MessageHandler(typeof(CCreateNickReqMessage))]
-        //public async Task CreateNickHandler(GameSession session, CCreateNickReqMessage message)
-        //{
-        //    if (session.Player == null || !string.IsNullOrWhiteSpace(session.Player.Account.Nickname))
-        //    {
-        //        session.CloseAsync();
-        //        return;
-        //    }
-
-        //    Logger.ForAccount(session)
-        //        .Information("Creating nickname {nickname}", message.Nickname);
-
-        //    if (!await IsNickAvailableAsync(message.Nickname))
-        //    {
-        //        Logger.ForAccount(session)
-        //            .Error("Nickname not available: {nickname}", message.Nickname);
-
-        //        session.SendAsync(new NickCheckAckMessage(false));
-        //        return;
-        //    }
-
-        //    session.Player.Account.Nickname = message.Nickname;
-        //    using (var db = AuthDatabase.Open())
-        //    {
-        //        var mapping = OrmConfiguration
-        //            .GetDefaultEntityMapping<AccountDto>()
-        //            .Clone()
-        //            .UpdatePropertiesExcluding(prop => prop.IsExcludedFromUpdates = true, nameof(AccountDto.Nickname));
-
-        //        await db.UpdateAsync(new AccountDto { Id = (int)session.Player.Account.Id, Nickname = message.Nickname },
-        //                    statement => statement.WithEntityMappingOverride(mapping));
-
-        //    }
-        //    //session.Send(new SCreateNickAckMessage { Nickname = msg.Nickname });
-        //    await session.SendAsync(new ServerResultAckMessage(ServerResult.CreateNicknameSuccess));
-
-        //    Logger.ForAccount(session)
-        //        .Information("Created nickname {nickname}", message.Nickname);
-
-        //    await LoginAsync(session);
-        //}
-
-        private static async Task LoginAsync(GameSession session)
-        {
-            var plr = session.Player;
-            plr.LoggedIn = true;
-
-            await session.SendAsync(new ItemInventoryInfoAckMessage
-            {
-                Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
-            });
-
-            // Todo random shop
-            //await session.SendAsync(new SRandomShopChanceInfoAckMessage { Progress = 10000 });
-            await session.SendAsync(new CharacterCurrentSlotInfoAckMessage
-            {
-                ActiveCharacter = plr.CharacterManager.CurrentSlot,
-                CharacterCount = (byte) plr.CharacterManager.Count,
-                MaxSlots = 3
-            });
-
-            foreach (var @char in plr.CharacterManager)
-            {
-                await session.SendAsync(new CharacterCurrentInfoAckMessage
-                {
-                    Slot = @char.Slot,
-                    Style = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
-                        @char.Shirt.Variation, @char.Pants.Variation, @char.Slot)
-                });
-
-
-                var message = new CharacterCurrentItemInfoAckMessage
-                {
-                    Slot = @char.Slot,
-                    Weapons = @char.Weapons.GetItems().Select(i => i?.Id ?? 0).ToArray(),
-                    Skills = new[] {@char.Skills.GetItem(SkillSlot.Skill)?.Id ?? 0},
-                    Clothes = @char.Costumes.GetItems().Select(i => i?.Id ?? 0).ToArray()
-                };
-
-                await session.SendAsync(message);
-            }
-
-            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, MyInfoDto>()));
-            await session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = plr.PEN, AP = plr.AP});
-            await session.SendAsync(new MoenyRefreshCoinInfoAckMessage {ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2});
-            await session.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
-
-            if (plr.Inventory.Count == 0)
-            {
-                IEnumerable<StartItemDto> startItems;
-                using (var db = GameDatabase.Open())
-                {
-                    startItems = await db.FindAsync<StartItemDto>(statement => statement
-                        .Where(
-                            $"{nameof(StartItemDto.RequiredSecurityLevel):C} <= @{nameof(plr.Account.SecurityLevel)}")
-                        .WithParameters(new {plr.Account.SecurityLevel}));
-                }
-
-                foreach (var startItem in startItems)
-                {
-                    var shop = GameServer.Instance.ResourceCache.GetShop();
-                    var item = shop.Items.Values.First(group => group.GetItemInfo(startItem.ShopItemInfoId) != null);
-                    var itemInfo = item.GetItemInfo(startItem.ShopItemInfoId);
-                    var effect = itemInfo.EffectGroup.GetEffect(startItem.ShopEffectId);
-
-                    var price = itemInfo.PriceGroup.GetPrice(startItem.ShopPriceId);
-                    if (price == null)
-                    {
-                        Logger.Warning("Cant find ShopPrice for Start item {startItemId} - Forgot to reload the cache?",
-                            startItem.Id);
-                        continue;
-                    }
-
-                    var color = startItem.Color;
-                    if (color > item.ColorGroup)
-                    {
-                        Logger.Warning("Start item {startItemId} has an invalid color {color}", startItem.Id, color);
-                        color = 0;
-                    }
-
-                    var count = startItem.Count;
-                    if (count > 0 && item.ItemNumber.Category <= ItemCategory.Skill)
-                    {
-                        Logger.Warning("Start item {startItemId} cant have stacks(quantity={count})", startItem.Id,
-                            count);
-                        count = 0;
-                    }
-
-                    if (count < 0)
-                        count = 0;
-                    var reteff = new List<uint>();
-                    reteff.Add(effect.Effect);
-                    plr.Inventory.Create(itemInfo, price, color, reteff.ToArray(), (uint) count);
-                }
-            }
-            //session.Send(new ItemEquipBoostItemInfoAckMessage());
-            await session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
-            await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
-        }
-
-        private static async Task<bool> IsNickAvailableAsync(string nickname)
+        public static async Task<bool> IsNickAvailableAsync(string nickname)
         {
             var minLength = Config.Instance.Game.NickRestrictions.MinLength;
             var maxLength = Config.Instance.Game.NickRestrictions.MaxLength;
             var whitespace = Config.Instance.Game.NickRestrictions.WhitespaceAllowed;
             var ascii = Config.Instance.Game.NickRestrictions.AsciiOnly;
 
-            if (string.IsNullOrWhiteSpace(nickname) || !whitespace && nickname.Contains(" ") ||
+            if (string.IsNullOrWhiteSpace(nickname) || (!whitespace && nickname.Contains(" ")) ||
                 nickname.Length < minLength || nickname.Length > maxLength ||
-                ascii && Encoding.UTF8.GetByteCount(nickname) != nickname.Length)
+                (ascii && Encoding.UTF8.GetByteCount(nickname) != nickname.Length))
+            {
                 return false;
+            }
 
             // check for repeating chars example: (AAAHello, HeLLLLo)
             var maxRepeat = Config.Instance.Game.NickRestrictions.MaxRepeat;
@@ -490,19 +353,73 @@ namespace NeoNetsphere.Network.Services
             using (var db = AuthDatabase.Open())
             {
                 var nickExists = (await db.FindAsync<AccountDto>(statement => statement
-                        .Where($"{nameof(AccountDto.Nickname):C} = @{nameof(nickname)}")
-                        .WithParameters(new {nickname})))
+                            .Where($"{nameof(AccountDto.Nickname):C} = @{nameof(nickname)}")
+                            .WithParameters(new { nickname })))
                     .Any();
 
                 var nickReserved = (await db.FindAsync<NicknameHistoryDto>(statement => statement
-                        .Where(
-                            $"{nameof(NicknameHistoryDto.Nickname):C} = @{nameof(nickname)} AND ({nameof(NicknameHistoryDto.ExpireDate):C} = -1 OR {nameof(NicknameHistoryDto.ExpireDate):C} > @{nameof(now)})")
-                        .WithParameters(new {nickname, now})))
+                            .Where($"{nameof(NicknameHistoryDto.Nickname):C} = @{nameof(nickname)} AND ({nameof(NicknameHistoryDto.ExpireDate):C} = -1 OR {nameof(NicknameHistoryDto.ExpireDate):C} > @{nameof(now)})")
+                            .WithParameters(new { nickname, now })))
                     .Any();
                 return !nickExists && !nickReserved;
             }
         }
 
+        public static async Task LoginAsync(GameSession session)
+        {
+            var plr = session.Player;
+            plr.LoggedIn = true;
+
+            await session.SendAsync(new MoneyRefreshCashInfoAckMessage {PEN = plr.PEN, AP = plr.AP});
+            await session.SendAsync(new CharacterCurrentSlotInfoAckMessage
+            {
+                ActiveCharacter = plr.CharacterManager.CurrentSlot,
+                CharacterCount = (byte) plr.CharacterManager.Count,
+                MaxSlots = 3
+            });
+            await session.SendAsync(
+                new MoenyRefreshCoinInfoAckMessage {ArcadeCoins = plr.Coins1, BuffCoins = plr.Coins2});
+            await session.SendAsync(new ShoppingBasketListInfoAckMessage());
+            await session.SendAsync(new PlayeArcadeMapInfoAckMessage());
+            await session.SendAsync(new PlayerArcadeStageInfoAckMessage());
+            await session.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));
+            await session.SendAsync(new ItemInventoryInfoAckMessage
+            {
+                Items = plr.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
+            });
+
+            foreach (var @char in plr.CharacterManager)
+            {
+                await session.SendAsync(new CharacterCurrentInfoAckMessage
+                {
+                    Slot = @char.Slot,
+                    Style = new CharacterStyle(@char.Gender, @char.Hair.Variation, @char.Face.Variation,
+                        @char.Shirt.Variation, @char.Pants.Variation, @char.Slot)
+                });
+
+
+                var message = new CharacterCurrentItemInfoAckMessage
+                {
+                    Slot = @char.Slot,
+                    Weapons = @char.Weapons.GetItems().Select(i => i?.Id ?? 0).ToArray(),
+                    Skills = new[] {@char.Skills.GetItem(SkillSlot.Skill)?.Id ?? 0},
+                    Clothes = @char.Costumes.GetItems().Select(i => i?.Id ?? 0).ToArray()
+                };
+
+                await session.SendAsync(message);
+            }
+
+            await session.SendAsync(new ItemEquipBoostItemInfoAckMessage());
+            await session.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
+
+            
+
+            await session.SendAsync(new ItemClearInvalidEquipItemAckMessage());
+            await session.SendAsync(new ItemClearEsperChipAckMessage());
+            await session.SendAsync(new MapOpenInfosMessage());
+            await session.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));
+        }
+        
         [MessageHandler(typeof(LoginReqMessage))]
         public async Task Chat_LoginHandler(ChatServer server, ChatSession session, LoginReqMessage message)
         {
@@ -540,21 +457,19 @@ namespace NeoNetsphere.Network.Services
 
             Logger.ForAccount(session)
                 .Information("Login success");
-            await session.SendAsync(new LoginAckMessage(0));
-            await session.SendAsync(new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
 
+            await session.SendAsync(new LoginAckMessage(0));
+            await session.SendAsync(
+                new DenyListAckMessage(plr.DenyManager.Select(d => d.Map<Deny, DenyDto>()).ToArray()));
             if (plr.Club != null)
             {
-                await session.SendAsync(new
-                    ClubMemberLoginStateAckMessage()
-                    { Unk1 = 0, AccountId = plr.Account.Id });
-                await session.SendAsync(new
-                    ClubSystemMessageMessage()
-                {
-                    Unk1 = plr.Account.Id,
-                    Unk2 = "Welcome!",
-                });
+                Club.LogOn(plr);
+                await session.SendAsync(new ClanMemberListAckMessage(GameServer.Instance.PlayerManager
+                    .Where(x => (x.Club?.Id ?? 0) == plr.Club.Id).Select(x => x.Map<Player, PlayerInfoDto>())
+                    .ToArray()));
             }
+            
+            await session.SendAsync(new ChatPlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
         }
 
         [MessageHandler(typeof(CRequestLoginMessage))]
@@ -606,21 +521,20 @@ namespace NeoNetsphere.Network.Services
 
             await session.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
                 plr.Account.Nickname));
-            foreach (var p in plr.Room.Players.Values.Where(
-                p => p.RelaySession?.P2PGroup != null /*&& p.Account.Id != plr.Account.Id*/))
-            {
-                await p.RelaySession.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
-                    plr.Account.Nickname));
-                await session.SendAsync(new SEnterLoginPlayerMessage(p.RelaySession.HostId, p.Account.Id,
-                    p.Account.Nickname));
-            }
+            foreach (var p in plr.Room.TeamManager.Players.Where(p => p.RelaySession?.P2PGroup != null))
+                if (p.RelaySession != null)
+                {
+                    await p.RelaySession.SendAsync(new SEnterLoginPlayerMessage(plr.RelaySession.HostId, plr.Account.Id,
+                        plr.Account.Nickname));
+                    await session.SendAsync(new SEnterLoginPlayerMessage(p.RelaySession.HostId, p.Account.Id,
+                        p.Account.Nickname));
+                }
 
-            plr.Room.Group.Join(session.HostId);
+            plr.Room.Group?.Join(session.HostId);
             await session.SendAsync(new SNotifyLoginResultMessage(0));
 
             plr.RoomInfo.IsConnecting = false;
             plr.Room.OnPlayerJoined(new RoomPlayerEventArgs(plr));
         }
-        
     }
 }

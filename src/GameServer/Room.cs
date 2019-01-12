@@ -3,13 +3,17 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using ExpressMapper.Extensions;
 using NeoNetsphere.Network;
+using NeoNetsphere.Network.Data.Chat;
+using NeoNetsphere.Network.Data.Club;
 using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Data.GameRule;
 using NeoNetsphere.Network.Message.Chat;
+using NeoNetsphere.Network.Message.Club;
 using NeoNetsphere.Network.Message.Game;
 using NeoNetsphere.Network.Message.GameRule;
 using Netsphere;
@@ -29,10 +33,13 @@ namespace NeoNetsphere
 
         private readonly TimeSpan _changingRulesTime = TimeSpan.FromSeconds(2);
         private readonly TimeSpan _hostUpdateTime = TimeSpan.FromSeconds(30);
-        private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
 
+        private readonly ConcurrentDictionary<ulong, object> _kickedPlayers = new ConcurrentDictionary<ulong, object>();
+        private readonly AsyncLock _masterSync = new AsyncLock();
         private readonly ConcurrentDictionary<ulong, Player> _players = new ConcurrentDictionary<ulong, Player>();
-        private readonly AsyncLock _slotIdSync = new AsyncLock();
+        private readonly AsyncLock _playerSync = new AsyncLock();
+
+
         private TimeSpan _changingRulesTimer;
 
         private TimeSpan _hostUpdateTimer;
@@ -51,7 +58,7 @@ namespace NeoNetsphere
             TeamManager.TeamChanged += TeamManager_TeamChanged;
 
             GameRuleManager.GameRuleChanged += GameRuleManager_OnGameRuleChanged;
-            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[options.MapID];
+            GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[options.MapId];
             GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
         }
 
@@ -68,7 +75,8 @@ namespace NeoNetsphere
         public GameTimeState SubGameState { get; set; } = GameTimeState.None;
         public TimeSpan RoundTime { get; set; } = TimeSpan.Zero;
 
-        public IReadOnlyDictionary<ulong, Player> Players => _players;
+        public IReadOnlyDictionary<ulong, Player> Players => TeamManager.Players.ToDictionary(x => x.Account?.Id ?? 0);
+        public List<Player> RoomChangePlayers { get; set; }
 
         public Player Master { get; private set; }
         public Player Host { get; private set; }
@@ -76,49 +84,50 @@ namespace NeoNetsphere
 
         public P2PGroup Group { get; }
 
-        public bool IsChangingRules { get; private set; } = false;
-        private bool IsChangingRulesCooldown { get; set; } = false;
+        public bool IsChangingRules { get; private set; }
+        private bool IsChangingRulesCooldown { get; set; }
 
         public void Update(TimeSpan delta)
         {
-            if (Players.Count == 0)
-                return;
-
-            //if (Host != null)
-            //{
-            //    _hostUpdateTimer += delta;
-            //    if (_hostUpdateTimer >= _hostUpdateTime)
-            //    {
-            //        var lowest = GetPlayerWithLowestPing();
-            //        if (Host != lowest)
-            //        {
-            //            var diff = Math.Abs(Host.Session.UnreliablePing - lowest.Session.UnreliablePing);
-            //            if (diff >= PingDifferenceForChange)
-            //                ChangeHostIfNeeded(lowest, true);
-            //        }
-            //
-            //        _hostUpdateTimer = TimeSpan.Zero;
-            //    }
-            //}
-
-            if (IsChangingRules)
+            try
             {
-                _changingRulesTimer += delta;
-                if (_changingRulesTimer >= _changingRulesTime && IsChangingRulesCooldown != true)
+                if (!(RoomManager?.Contains(this) ?? false))
+                    return;
+
+                if (Players.Count == 0 || !TeamManager.Players.Any())
                 {
-                    GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapID];
-                    GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
-                    Broadcast(new RoomChangeRuleAckMessage(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
-                    Broadcast(new RoomChangeRuleFailAckMessage {Result = 0});
-                    BroadcastBriefing();
-                    IsChangingRulesCooldown = true;
+                    if (Master.Room == this && !Master.IsLoggedIn())
+                        RoomManager?.Remove(this);
+                    return;
                 }
 
-                if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                if (!(Master?.IsLoggedIn() ?? true) || Master?.Room != this)
                 {
-                    IsChangingRules = false;
-                    IsChangingRulesCooldown = false;
+                    ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
+                    ChangeHostIfNeeded(GetPlayerWithLowestPing(), true);
                 }
+
+                if (IsChangingRules)
+                {
+                    _changingRulesTimer += delta;
+                    if (_changingRulesTimer >= _changingRulesTime && IsChangingRulesCooldown != true)
+                    {
+                        RoomManager.Channel.BroadcastCencored(new RoomChangeRoomInfoAck2Message(GetRoomInfo()));
+                        Broadcast(new RoomChangeRuleAckMessage(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
+                        Broadcast(new GameChangeStateAckMessage(GameState));
+                        IsChangingRulesCooldown = true;
+                    }
+
+                    if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                    {
+                        IsChangingRules = false;
+                        IsChangingRulesCooldown = false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
             }
 
             GameRuleManager.Update(delta);
@@ -129,301 +138,347 @@ namespace NeoNetsphere
             if (plr.Room != null)
                 throw new RoomException("Player is already inside a room");
 
-            if (Math.Max((int)Options.PlayerLimit, 1) < Players.Count)
-                throw new RoomLimitReachedException();
+            if (Options.IsNoIntrusion && GameState != GameState.Waiting)
+                throw new RoomLimitIsNoIntrutionException();
 
-            if (_kickedPlayers.ContainsKey(plr.Account.Id))
+            var joinAsSpectator = false;
+            if (TeamManager.Players.Count() >= Options.PlayerLimit)
+            {
+                if (TeamManager.Spectators.Count() >= Options.SpectatorLimit)
+                    throw new RoomLimitReachedException();
+
+                joinAsSpectator = true;
+            }
+
+            if (_kickedPlayers.ContainsKey(plr.Account.Id) && plr.Account.SecurityLevel < SecurityLevel.GameMaster)
                 throw new RoomAccessDeniedException();
 
-            using (_slotIdSync.Lock())
+            using (_playerSync.Lock())
             {
-                byte id = 3;
-                while (Players.Values.Any(p => p.RoomInfo.Slot == id))
-                    id++;
-
-                plr.RoomInfo.Slot = id;
-            }
-
-            if (plr.Channel != null)
-            {
-                plr.LocationInfo = new PlayerLocationInfo(plr.Channel.Id) {Invisible = true};
-                plr.Channel.Broadcast(new ChannelLeavePlayerAckMessage(plr.Account.Id));
-            }
-
-            plr.RoomInfo.Reset();
-            plr.RoomInfo.State = PlayerState.Lobby;
-            plr.RoomInfo.Mode = PlayerGameMode.Normal;
-            plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
-            TeamManager.Join(plr);
-
-            _players.TryAdd(plr.Account.Id, plr);
-            plr.Room = this;
-            plr.RoomInfo.IsConnecting = true;
-
-            plr.Session.SendAsync(new RoomEnterRoomInfoAck2Message
-            {
-                RoomID = Id,
-                GameRule = Options.GameRule,
-                MapID = (byte) Options.MapID,
-                PlayerLimit = Options.PlayerLimit,
-                GameTimeState = SubGameState,
-                GameState = (uint) GameState,
-                TimeLimit = (uint) Options.TimeLimit.TotalMilliseconds,
-                mUnknow01 = 0,
-                Time_Sync = (uint) GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
-                Score_Limit = Options.ScoreLimit,
-                mUnknow02 = 0,
-                IP = new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
-                Spectator = Options.hasSpectator ? (byte) 1 : (byte) 0,
-                mUnknow03 = (uint) Options.Spectator,
-                FMBURNMode = GetFMBurnModeInfo()
-                //mUnknow04 = (ulong)Creator.Account.Id,
-            });
-
-            BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
-            if (plr.Club != null)
-            {
-                BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(new PlayerClubInfoDto()
                 {
-                    Id = plr.Club.Clan_ID,
-                    Name = plr.Club.Clan_Name,
-                    Type = plr.Club.Clan_Icon,
-                }));
-            }
+                    //slotIdLock()
+                    byte id = 3;
+                    while (Players.Values.Any(p => p.RoomInfo.Slot == id))
+                        id++;
 
-            var clubList = new List<PlayerClubInfoDto>();
-            foreach (var player in _players.Values.Where(p => p.Club != null))
-            {
-                if (clubList.All(club => club.Id != player.Club.Clan_ID))
-                {
-                    clubList.Add(new PlayerClubInfoDto()
-                    {
-                        Id = player.Club.Clan_ID,
-                        Name = player.Club.Clan_Name,
-                        Type = player.Club.Clan_Icon,
-                    });
+                    plr.RoomInfo.Slot = id;
                 }
+
+                if (plr.Channel != null)
+                {
+                    plr.LocationInfo = new PlayerLocationInfo(plr.Channel.Id) {Invisible = true};
+                    plr.Channel.Broadcast(new ChannelLeavePlayerAckMessage(plr.Account.Id));
+                }
+
+                plr.RoomInfo.Reset();
+                plr.RoomInfo.State = PlayerState.Lobby;
+                plr.RoomInfo.Mode = joinAsSpectator ? PlayerGameMode.Spectate : PlayerGameMode.Normal;
+                plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
+                TeamManager.Join(plr);
+
+                _players.TryAdd(plr.Account.Id, plr);
+                plr.Room = this;
+                plr.RoomInfo.IsConnecting = true;
+
+                if (Options.GameRule != GameRule.Horde)
+                    plr.Session.SendAsync(new RoomEnterRoomInfoAck2Message
+                    {
+                        RoomId = Id,
+                        GameRule = Options.GameRule,
+                        MapId = (byte) Options.MapId,
+                        PlayerLimit = Options.PlayerLimit,
+                        GameState = GameState,
+                        GameTimeState = SubGameState,
+                        TimeLimit = (uint) Options.TimeLimit.TotalMilliseconds,
+                        Unk1 = 0,
+                        TimeSync = (uint) GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
+                        ScoreLimit = Options.ScoreLimit,
+                        Unk2 = 0,
+                        RelayEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP),
+                            Config.Instance.RelayListener.Port),
+                        FMBURNMode = GetFMBurnModeInfo()
+                    });
+                else
+                    plr.Session.SendAsync(new RoomEnterRoomInfoAckMessage
+                    {
+                        RoomId = Id,
+                        GameRule = Options.GameRule,
+                        MapId = (byte) Options.MapId,
+                        PlayerLimit = Options.PlayerLimit,
+                        GameState = GameState,
+                        GameTimeState = SubGameState,
+                        TimeLimit = (uint) Options.TimeLimit.TotalMilliseconds,
+                        Unk1 = 0,
+                        TimeSync = (uint) GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
+                        ScoreLimit = Options.ScoreLimit,
+                        Unk2 = 0,
+                        RelayEndPoint = new IPEndPoint(IPAddress.Parse(Config.Instance.IP),
+                            Config.Instance.RelayListener.Port)
+                    });
+
+                plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
+                BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(plr.Map<Player, RoomPlayerDto>()));
+                plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(TeamManager.Players
+                    .Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
+                plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage());
+
+                var clubList = new List<PlayerClubInfoDto>();
+                foreach (var player in TeamManager.Players.Where(p => p.Club != null))
+                    if (clubList.All(club => club.Id != player.Club.Id))
+                        clubList.Add(player.Map<Player, PlayerClubInfoDto>());
+
+                if (plr.Club != null)
+                    BroadcastExcept(plr, new RoomEnterClubInfoAckMessage(plr.Map<Player, PlayerClubInfoDto>()));
+
+                plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
+                plr.Session.SendAsync(
+                    new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
+                plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
+                plr.Session.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
+                plr.Session.SendAsync(new ClubClubInfoAck2Message(plr.Map<Player, ClubInfoDto2>()));
+                Broadcast(new ChatPlayerInfoAckMessage(plr.Map<Player, PlayerInfoDto>()));
+                OnPlayerJoining(new RoomPlayerEventArgs(plr));
+                plr.stats.OnJoin(GameRuleManager.GameRule);
             }
-
-            plr.Session.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
-            plr.Session.SendAsync(new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
-            plr.Session.SendAsync(new RoomCurrentCharacterSlotAckMessage(1, plr.RoomInfo.Slot));
-            plr.Session.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(_players.Values.Select(r => r.Map<Player, RoomPlayerDto>()).ToArray()));
-            plr.Session.SendAsync(new RoomClubInfoListForEnterPlayerAckMessage(clubList.ToArray()));
-
-            OnPlayerJoining(new RoomPlayerEventArgs(plr));
         }
 
         public void Leave(Player plr, RoomLeaveReason roomLeaveReason = RoomLeaveReason.Left)
         {
-            if (plr.Room != this)
-                return;
-            try
+            using (_playerSync.Lock())
             {
-                if (plr.RelaySession?.HostId != null)
-                    Group?.Leave(plr.RelaySession.HostId);
-
-                Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
-                Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
-
-                if (roomLeaveReason == RoomLeaveReason.Kicked ||
-                    roomLeaveReason == RoomLeaveReason.ModeratorKick ||
-                    roomLeaveReason == RoomLeaveReason.VoteKick)
-                    _kickedPlayers.TryAdd(plr.Account.Id, null);
-                
-                plr.LocationInfo.Invisible = false;
-                var curchannelid = (uint)plr.Channel.Id;
-                plr.Channel.Leave(plr, true);
-                GameServer.Instance.ChannelManager[curchannelid].Join(plr);
-
-                plr.RoomInfo.PeerId = 0;
-                plr.RoomInfo?.Team?.Leave(plr);
-                _players?.Remove(plr.Account.Id);
-                plr.Room = null;
-                
-                if (_players != null && _players.Count > 0)
+                if (plr.Room != this)
+                    return;
+                try
                 {
-                    if (Master == plr)
-                        ChangeMasterIfNeeded(GetPlayerWithLowestPing(), true);
+                    if (plr.RelaySession?.HostId != null)
+                        Group?.Leave(plr.RelaySession.HostId);
 
-                    if (Host == plr)
-                        ChangeHostIfNeeded(GetPlayerWithLowestPing(), true);
+                    Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
 
-                    OnPlayerLeft(new RoomPlayerEventArgs(plr));
+                    if (roomLeaveReason == RoomLeaveReason.Kicked ||
+                        roomLeaveReason == RoomLeaveReason.ModeratorKick ||
+                        roomLeaveReason == RoomLeaveReason.VoteKick)
+                        _kickedPlayers.TryAdd(plr.Account.Id, null);
+
+                    plr.LocationInfo.Invisible = false;
+                    var curchannelid = (uint) (plr.Channel?.Id ?? 0);
+                    plr.Channel?.Leave(plr, true);
+                    GameServer.Instance.ChannelManager[curchannelid].Join(plr);
+
+                    plr.RoomInfo.PeerId = 0;
+                    plr.RoomInfo.Team?.Leave(plr);
+                    _players?.Remove(plr.Account.Id);
+                    plr.Room = null;
+                    plr.Session?.SendAsync(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
+                    plr.Session?.SendAsync(
+                        new ItemClearInvalidEquipItemAckMessage {Items = new InvalidateItemInfoDto[] { }});
+                    plr.Session?.SendAsync(new ItemClearEsperChipAckMessage {Unk = new ClearEsperChipDto[] { }});
+
+                    if (GameState == GameState.Playing)
+                        plr.stats.Loss++;
+
+                    if (TeamManager.Players.Any())
+                    {
+                        ChangeMasterIfNeeded(GetPlayerWithLowestPing());
+                        ChangeHostIfNeeded(GetPlayerWithLowestPing());
+                        OnPlayerLeft(new RoomPlayerEventArgs(plr));
+                    }
+                    else
+                    {
+                        RoomManager.Remove(this);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    RoomManager.Remove(this);
+                    Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
+                    Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
+
+                    _players?.Remove(plr.Account.Id);
+                    Logger.Error(ex.ToString());
                 }
-            }
-            catch (Exception ex)
-            {
-                Broadcast(new RoomLeavePlayerAckMessage(plr.Account.Id, plr.Account.Nickname, roomLeaveReason));
-                Broadcast(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
-
-                if (_players.Count == 1)
-                    plr?.Channel?.RoomManager?.Remove(this);
-
-                _players?.Remove(plr.Account.Id);
-                Logger.Error(ex.ToString());
             }
         }
-        
+
         public void SetCreator(Player plr)
         {
             Master = plr;
             Host = plr;
         }
 
-        public void ChangeMasterIfNeeded(Player plr, bool force = false)
+        public bool ChangeMasterIfNeeded(Player plr, bool force = false)
         {
-            if (plr.Room == this && plr.Room.Players.Count != 1 && plr.Room.Master != null &&
-                (!force || Master == plr))
-                return;
+            using (_masterSync.Lock())
+            {
+                if (plr.Room == this && plr.Room.TeamManager.Players.Count() != 1 && plr.Room.Master != null &&
+                    (!force || Master == plr))
+                    return false;
 
-            Master = plr;
-            Broadcast(new RoomChangeMasterAckMessage(Master.Account.Id));
+                Master = plr;
+                Broadcast(new RoomChangeMasterAckMessage(Master.Account.Id));
+            }
+
+            return true;
         }
 
-        public void ChangeHostIfNeeded(Player plr, bool force = false)
+        public bool ChangeHostIfNeeded(Player plr, bool force = false)
         {
-            if (plr.Room == this && Host != null && plr.Room.Players.Count != 1 && (!force || Host == plr))
-                return;
+            using (_masterSync.Lock())
+            {
+                if (plr.Room == this && Host != null && plr.Room.TeamManager.Players.Count() != 1 &&
+                    (!force || Host == plr))
+                    return false;
 
-            // TODO Add Room extension?
-            Logger.Debug("<Room {roomId}> Changing host to {nickname} - Ping:{ping} ms", Id, plr.Account.Nickname,
-                plr.Session.UnreliablePing);
-            Host = plr;
-            Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
+                Logger.Debug("<Room {roomId}> Changing host to {nickname} - Ping:{ping} ms", Id, plr.Account.Nickname,
+                    plr.Session.UnreliablePing);
+                Host = plr;
+                Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
+                return true;
+            }
         }
 
         public void ChangeRules(ChangeRuleDto options)
         {
-            if (IsChangingRules)
-                return;
+            ChangeRules2(options.Map<ChangeRuleDto, ChangeRuleDto2>());
+        }
 
-            if (!RoomManager.GameRuleFactory.Contains((GameRule) options.GameRule))
+        public void ChangeRules2(ChangeRuleDto2 options)
+        {
+            using (_playerSync.Lock())
             {
-                Logger.ForAccount(Master)
-                    .Error("Game rule {gameRule} does not exist", options.GameRule);
-                //throw new Exception("gamerule is not available");
-                Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                return;
-            }
-
-            // ToDo check if current player count is not above the new player limit
-            var israndom = false;
-            if ((GameRule) options.GameRule != GameRule.Practice &&
-                (GameRule) options.GameRule != GameRule.CombatTrainingTD &&
-                (GameRule) options.GameRule != GameRule.CombatTrainingDM)
-            {
-                if (options.Map_ID == 228 && (GameRule) options.GameRule == GameRule.BattleRoyal) //random br
+                if (IsChangingRules)
                 {
-                    israndom = true;
-                    options.Map_ID = 112;
-                }
-                else if (options.Map_ID == 229 && (GameRule) options.GameRule == GameRule.Chaser) //random chaser
-                {
-                    israndom = true;
-                    options.Map_ID = 225;
-                }
-                else if (options.Map_ID == 231 && (GameRule) options.GameRule == GameRule.Deathmatch) //random deathmatch
-                {
-                    israndom = true;
-                    options.Map_ID = 20;
-                }
-                else if (options.Map_ID == 230 && (GameRule) options.GameRule == GameRule.Touchdown) //random touchdown
-                {
-                    israndom = true;
-                    options.Map_ID = 66;
+                    Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
+                    return;
                 }
 
-                var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(options.Map_ID);
-                if (map == null)
+                if (!RoomManager.GameRuleFactory.Contains((GameRule) options.GameRule))
                 {
                     Logger.ForAccount(Master)
-                        .Error($"Map {options.Map_ID} does not exist");
+                        .Error("Game rule {gameRule} does not exist", options.GameRule);
+                    //throw new Exception("gamerule is not available");
                     Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                     return;
                 }
-                if (!map.GameRules.Contains((GameRule) options.GameRule))
+
+                // ToDo check if current player count is not above the new player limit
+                var israndom = false;
+                if ((GameRule) options.GameRule != GameRule.Practice &&
+                    (GameRule) options.GameRule != GameRule.CombatTrainingTD &&
+                    (GameRule) options.GameRule != GameRule.CombatTrainingDM)
                 {
-                    Logger.ForAccount(Master)
-                        .Error($"Map {map.Id}({map.Name}) is not available for game rule {(GameRule)options.GameRule}");
-                    Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
-                    return;
+                    if (options.Map_ID == 228 && (GameRule) options.GameRule == GameRule.BattleRoyal) //random br
+                    {
+                        israndom = true;
+                        options.Map_ID = 112;
+                    }
+                    else if (options.Map_ID == 229 && (GameRule) options.GameRule == GameRule.Chaser) //random chaser
+                    {
+                        israndom = true;
+                        options.Map_ID = 225;
+                    }
+                    else if (options.Map_ID == 231 && (GameRule) options.GameRule == GameRule.Deathmatch
+                    ) //random deathmatch
+                    {
+                        israndom = true;
+                        options.Map_ID = 20;
+                    }
+                    else if (options.Map_ID == 230 && (GameRule) options.GameRule == GameRule.Touchdown
+                    ) //random touchdown
+                    {
+                        israndom = true;
+                        options.Map_ID = 66;
+                    }
+
+                    var map = GameServer.Instance.ResourceCache.GetMaps().GetValueOrDefault(options.Map_ID);
+                    if (map == null)
+                    {
+                        Logger.ForAccount(Master)
+                            .Error($"Map {options.Map_ID} does not exist");
+                        Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+                        return;
+                    }
+
+                    if (!map.GameRules.Contains((GameRule) options.GameRule))
+                    {
+                        Logger.ForAccount(Master)
+                            .Error(
+                                $"Map {map.Id}({map.Name}) is not available for game rule {(GameRule) options.GameRule}");
+                        Master?.Session?.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
+                        return;
+                    }
                 }
+
+                if (options.Player_Limit < 1)
+                    options.Player_Limit = 1;
+
+                if ((GameRule) options.GameRule == GameRule.CombatTrainingTD ||
+                    (GameRule) options.GameRule == GameRule.CombatTrainingDM)
+                    options.Player_Limit = 12;
+
+                var matchkey = new MatchKey();
+
+                if ((GameRule) options.GameRule == GameRule.CombatTrainingDM ||
+                    (GameRule) options.GameRule == GameRule.CombatTrainingTD ||
+                    (GameRule) options.GameRule == GameRule.Practice)
+                    options.FMBurnMode = 1;
+
+                var isfriendly = false;
+                var isburning = false;
+                var isWithoutStats = false;
+
+                switch (options.FMBurnMode)
+                {
+                    case 0:
+                        isfriendly = false;
+                        break;
+                    case 1:
+                        isfriendly = true;
+                        break;
+                    case 2:
+                        isfriendly = false;
+                        isburning = true;
+                        break;
+                    case 3:
+                        isburning = true;
+                        isfriendly = true;
+                        break;
+                    case 4:
+                        isWithoutStats = true;
+                        break;
+                    case 5:
+                        isWithoutStats = isfriendly = true;
+                        break;
+                }
+
+                Options.Name = options.Name;
+                Options.MapId = options.Map_ID;
+                Options.PlayerLimit = options.Player_Limit;
+                Options.GameRule = (GameRule) options.GameRule;
+                Options.TimeLimit = TimeSpan.FromMinutes(options.Time);
+                Options.ScoreLimit = options.Points;
+                Options.Password = options.Password;
+                Options.IsFriendly = isfriendly;
+                Options.IsBurning = isburning;
+                Options.IsRandom = israndom;
+                Options.ItemLimit = (byte) options.Weapon_Limit;
+                Options.HasSpectator = options.HasSpectator;
+                Options.SpectatorLimit = options.SpectatorLimit;
+                Options.IsWithoutStats = isWithoutStats;
+                Players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
+
+                RoomChangePlayers = TeamManager.Players.ToList();
+                GameRuleManager.MapInfo = GameServer.Instance.ResourceCache.GetMaps()[Options.MapId];
+                GameRuleManager.GameRule = RoomManager.GameRuleFactory.Get(Options.GameRule, this);
+                BroadcastExcept(Master,
+                    new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                _changingRulesTimer = TimeSpan.Zero;
+                IsChangingRules = true;
             }
-
-            if (options.Player_Limit < 1)
-                options.Player_Limit = 1;
-
-            if ((GameRule) options.GameRule == GameRule.CombatTrainingTD ||
-                (GameRule) options.GameRule == GameRule.CombatTrainingDM)
-                options.Player_Limit = 12;
-
-            var matchkey = new MatchKey();
-
-            if ((GameRule) options.GameRule == GameRule.CombatTrainingDM ||
-                (GameRule) options.GameRule == GameRule.CombatTrainingTD ||
-                (GameRule) options.GameRule == GameRule.Practice)
-                options.FMBurnMode = 1;
-
-            var isfriendly = false;
-            var isbalanced = true;
-            var isburning = false;
-            var isWithoutStats = false;
-            switch (options.FMBurnMode)
-            {
-                case 0:
-                    isbalanced = true;
-                    isfriendly = false;
-                    break;
-                case 1:
-                    isbalanced = isfriendly = true;
-                    break;
-                case 2:
-                    isbalanced = true;
-                    isfriendly = false;
-                    isburning = true;
-                    break;
-                case 3:
-                    isburning = true;
-                    isbalanced = isfriendly = true;
-                    break;
-                case 4:
-                    isWithoutStats = true;
-                    break;
-                case 5:
-                    isWithoutStats = isfriendly = true;
-                    break;
-            }
-            _changingRulesTimer = TimeSpan.Zero;
-            IsChangingRules = true;
-            Options.Name = options.Name;
-            Options.MapID = options.Map_ID;
-            Options.PlayerLimit = options.Player_Limit;
-            Options.GameRule = (GameRule) options.GameRule;
-            Options.TimeLimit = TimeSpan.FromMinutes(options.Time);
-            Options.ScoreLimit = (ushort) options.Points;
-            Options.Password = options.Password;
-            Options.IsFriendly = isfriendly;
-            Options.IsBalanced = isbalanced;
-            Options.IsBurning = isburning;
-            Options.IsRandom = israndom;
-            Options.ItemLimit = (byte) options.Weapon_Limit;
-            Options.hasSpectator = options.HasSpectator;
-            Options.Spectator = options.SpectatorLimit;
-            Options.IsWithoutStats = isWithoutStats;
-            _players.Values.ToList().ForEach(playr => { playr.RoomInfo.IsReady = false; });
-
-            RoomManager.Channel.BroadcastCencored(new RoomChangeRoomInfoAck2Message(GetRoomInfo()));
-            Broadcast(new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto>()));
         }
 
         private Player GetPlayerWithLowestPing()
         {
-            return _players.Values.Aggregate((lowestPlayer, player) =>
+            return TeamManager.Players.Aggregate((lowestPlayer, player) =>
                 lowestPlayer == null || player.Session.UnreliablePing < lowestPlayer.Session.UnreliablePing
                     ? player
                     : lowestPlayer);
@@ -437,12 +492,15 @@ namespace NeoNetsphere
         private void GameRuleManager_OnGameRuleChanged(object sender, EventArgs e)
         {
             GameRuleManager.GameRule.StateMachine.OnTransitioned(t => OnStateChanged());
-
-            foreach (var plr in Players.Values)
+            if (RoomChangePlayers == null)
+                RoomChangePlayers = _players.Values.ToList();
+            foreach (var plr in RoomChangePlayers)
             {
                 plr.RoomInfo.Stats = GameRuleManager.GameRule.GetPlayerRecord(plr);
                 TeamManager.Join(plr);
             }
+
+            RoomChangePlayers = new List<Player>();
             BroadcastBriefing();
         }
 
@@ -455,20 +513,20 @@ namespace NeoNetsphere
 
         internal virtual byte GetFMBurnModeInfo()
         {
-            byte FMBurnMode = 0;
+            byte fmBurnMode = 0;
             if (Options.IsFriendly && Options.IsWithoutStats)
-                FMBurnMode = 5;
+                fmBurnMode = 5;
             else if (Options.IsWithoutStats)
-                FMBurnMode = 4;
+                fmBurnMode = 4;
             else if (Options.IsFriendly && Options.IsBurning)
-                FMBurnMode = 3;
+                fmBurnMode = 3;
             else if (Options.IsBurning)
-                FMBurnMode = 2;
+                fmBurnMode = 2;
             else if (Options.IsFriendly)
-                FMBurnMode = 1;
+                fmBurnMode = 1;
             else if (!Options.IsFriendly && !Options.IsBurning)
-                FMBurnMode = 0;
-            return FMBurnMode;
+                fmBurnMode = 0;
+            return fmBurnMode;
         }
 
         internal virtual RoomDto GetRoomInfo()
@@ -480,19 +538,14 @@ namespace NeoNetsphere
                 PlayerLimit = Options.PlayerLimit,
                 State = (byte) GameRuleManager.GameRule.StateMachine.State,
                 GameRule = (int) Options.GameRule,
-                Map = (byte) Options.MapID,
+                Map = (byte) Options.MapId,
                 WeaponLimit = Options.ItemLimit,
                 Name = Options.Name,
                 Password = Options.Password,
                 FMBURNMode = GetFMBurnModeInfo(),
-                SpectatorEnabled = Options.hasSpectator,
+                HasSpectator = Options.HasSpectator,
                 IsRandom = Options.IsRandom ? 1 : 0
             };
-
-            //roomDto.State2 = (byte) GameRuleManager.GameRule.StateMachine.State;
-            //roomDto.Unk1 = (byte)GameRuleManager.GameRule.StateMachine.State;
-            //roomDto.Unk1 = Options.UniqueID;
-            //roomDto.Spectator = Options.Spectator;
             return roomDto;
         }
 
@@ -526,48 +579,69 @@ namespace NeoNetsphere
 
         public void Broadcast(IGameMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in Players.Values)
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void Broadcast(IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in Players.Values)
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(Player blacklisted, IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => x != blacklisted))
+            foreach (var plr in Players.Values.Where(x => x != blacklisted))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void BroadcastExcept(Player blacklisted, IGameMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => x != blacklisted))
+            foreach (var plr in Players.Values.Where(x => x != blacklisted))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
+
         public void BroadcastExcept(List<Player> blacklist, IGameMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
+
         public void BroadcastExcept(List<Player> blacklist, IGameRuleMessage message)
         {
-            foreach (var plr in _players.Values.Where(x => !blacklist.Contains(x)))
+            foreach (var plr in Players.Values.Where(x => !blacklist.Contains(x)))
+            {
                 plr.Session.SendAsync(message);
+            }
         }
 
         public void Broadcast(IChatMessage message)
         {
-            foreach (var plr in _players.Values)
+            foreach (var plr in TeamManager.Players)
+            {
                 plr.ChatSession.SendAsync(message);
+            }
+        }
+
+        public void SendBriefing(Player plr, bool isResult = false)
+        {
+            var gameRule = GameRuleManager.GameRule;
+            plr.Session.SendAsync(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
         }
 
         public void BroadcastBriefing(bool isResult = false)
         {
             var gameRule = GameRuleManager.GameRule;
-            //var isResult = gameRule.StateMachine.IsInState(GameRuleState.Result);
             Broadcast(new GameBriefingInfoAckMessage(isResult, false, gameRule.Briefing.ToArray(isResult)));
         }
 

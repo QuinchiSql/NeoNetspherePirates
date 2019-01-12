@@ -3,9 +3,10 @@
     public enum SecurityLevel : byte
     {
         User = 0,
-        GameMaster = 1,
-        Developer = 2,
-        Administrator = 3
+        Tester = 1,
+        GameMaster = 2,
+        Developer = 3,
+        Administrator = 4
     }
 
     public enum ServerType : uint
@@ -207,6 +208,7 @@
         FirstHalf = 1,
         HalfTime = 2,
         SecondHalf = 3,
+        StartGameCounter = 10,
     }
 
     public enum Team : byte
@@ -525,7 +527,9 @@
         PlasmaAttack,
         CounterAttack,
         StormAttack,
-        KatanaAttack,
+        KatanaaAttack,
+        BreakerAttack,
+        SigmaAttack,
         HeavyAttack,
         SentryAttack,
         SentiWallAttack,
@@ -553,7 +557,11 @@
         LightBombAttack,
         ChainLightGunAttack,
         SparkRifleAttack,
+        AssultrifleAttack,
+        TurretAttack,
+        RescuegunAttack,
         AllWeaponAttack,
+        IntergrationAttack,
         SubmachineReload,
         SemiReload,
         RevolverReload,
@@ -568,17 +576,23 @@
         Smg3Reload,
         Smg4Reload,
         MindOroraReload,
+        RescuegunReload,
         AirgunReload,
         Smg2HomingReload,
         EarthBombReload,
         LightBombReload,
         ChainLightGunReload,
         SparkRifleReload,
+        AssultrifleReload,
+        TurretReload,
         SubmachineReloadammo,
         SemiReloadammo,
         RevolverReloadammo,
         Revolver2Reloadammo,
+        TurretReloadammo,
         GaussrifleReloadammo,
+        AssultrifleReloadammo,
+        RescuegunReloadammo,
         MineReloadammo,
         HeavyReloadammo,
         RailReloadammo,

@@ -5,9 +5,7 @@ using ExpressMapper.Extensions;
 using NeoNetsphere.Database.Game;
 using NeoNetsphere.Network;
 using NeoNetsphere.Network.Data.Game;
-using NeoNetsphere.Network.Message.Chat;
 using NeoNetsphere.Network.Message.Game;
-using Netsphere;
 using Serilog;
 using Serilog.Core;
 
@@ -17,7 +15,7 @@ namespace NeoNetsphere
     {
         // ReSharper disable once InconsistentNaming
         private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(Player));
-        
+
         private uint _ap;
         private uint _coins1;
         private uint _coins2;
@@ -26,9 +24,9 @@ namespace NeoNetsphere
         private string _playtime;
         private uint _totalExperience;
         private uint _totallosses;
-        private uint _totalmatches;
         private uint _totalwins;
         private byte _tutorialState;
+        public StatsManager stats;
 
         public bool LoggedIn = false;
 
@@ -45,13 +43,14 @@ namespace NeoNetsphere
             _ap = (uint) dto.AP;
             _coins1 = (uint) dto.Coins1;
             _coins2 = (uint) dto.Coins2;
-            _totalmatches = (uint) dto.TotalMatches;
+            TotalMatches = (uint) dto.TotalMatches;
             _totallosses = (uint) dto.TotalLosses;
             _totalwins = (uint) dto.TotalWins;
 
             Settings = new PlayerSettingManager(this, dto);
             DenyManager = new DenyManager(this, dto);
             Mailbox = new Mailbox(this, dto);
+            stats = new StatsManager(this, dto);
 
             Inventory = new Inventory(this, dto);
             CharacterManager = new CharacterManager(this, dto);
@@ -91,7 +90,7 @@ namespace NeoNetsphere
             // Did we level up?
             // Using a loop for multiple level ups
             while (expInfo.ExperienceToNextLevel != 0 &&
-                expInfo.ExperienceToNextLevel <= (int)(TotalExperience - expInfo.TotalExperience))
+                   expInfo.ExperienceToNextLevel <= (int) (TotalExperience - expInfo.TotalExperience))
             {
                 var newLevel = Level + 1;
                 expInfo = expTable.GetValueOrDefault(newLevel);
@@ -113,11 +112,11 @@ namespace NeoNetsphere
             }
 
 
-            Session.SendAsync(new ExpRefreshInfoAckMessage { Unk = TotalExperience });
+            Session.SendAsync(new ExpRefreshInfoAckMessage(TotalExperience));
             Session.SendAsync(new PlayerAccountInfoAckMessage(this.Map<Player, PlayerAccountInfoDto>()));
             return leveledUp;
         }
-        
+
         /// <param name="attribute">The attribute to retrieve</param>
         /// <returns></returns>
         /// <summary>
@@ -126,7 +125,7 @@ namespace NeoNetsphere
         /// <param name="message">The message to send</param>
         public void SendConsoleMessage(string message)
         {
-            Session.SendAsync(new AdminActionAckMessage {Result = 1, Message = message});
+            Session.SendAsync(new AdminActionAckMessage {Result = 0, Message = message});
         }
 
         /// <summary>
@@ -165,11 +164,13 @@ namespace NeoNetsphere
                     });
                     NeedsToSave = false;
                 }
+
                 Settings.Save(db);
                 Inventory.Save(db);
                 CharacterManager.Save(db);
                 DenyManager.Save(db);
                 Mailbox.Save(db);
+                stats.Save(db);
             }
         }
 
@@ -315,7 +316,7 @@ namespace NeoNetsphere
                 if (_totalwins == value)
                     return;
                 _totalwins = value;
-                _totalmatches = _totalwins + _totallosses;
+                TotalMatches = _totalwins + _totallosses;
                 NeedsToSave = true;
             }
         }
@@ -328,14 +329,12 @@ namespace NeoNetsphere
                 if (_totallosses == value)
                     return;
                 _totallosses = value;
-                _totalmatches = _totalwins + _totallosses;
+                TotalMatches = _totalwins + _totallosses;
                 NeedsToSave = true;
             }
         }
-        public uint TotalMatches
-        {
-            get => _totalmatches;
-        }
+
+        public uint TotalMatches { get; private set; }
 
         #endregion
 

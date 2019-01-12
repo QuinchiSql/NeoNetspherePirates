@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using AuthServer.ServiceModel;
 using BlubLib.DotNetty.Handlers.MessageHandling;
 using BlubLib.Threading;
@@ -30,43 +29,35 @@ namespace NeoNetsphere.Network
     internal class GameServer : ProudServer
     {
         // ReSharper disable once InconsistentNaming
-        private static readonly ILogger Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(GameServer))
-            ;
+        private static readonly ILogger
+            Logger = Log.ForContext(Constants.SourceContextPropertyName, nameof(GameServer));
 
         private readonly ServerlistManager _serverlistManager;
 
         private readonly ILoop _worker;
-
-        private TimeSpan _mailBoxCheckTimer;
         private TimeSpan _saveTimer;
 
         private GameServer(Configuration config)
             : base(config)
         {
             RegisterMappings();
-
-            //Logger.Information("To get sure that u know how to work with this server, i've added this");
-            //Logger.Information("Remove the lines located in the given file named by this log's prefix");
-            //
-            ////
-            //Environment.Exit(-1);
-            ////
-
-            //ServerTime = TimeSpan.Zero;
-
             CommandManager = new CommandManager(this);
             CommandManager.Add(new ServerCommand())
                 .Add(new ReloadCommand())
                 .Add(new GameCommands())
                 .Add(new BanCommands())
+                .Add(new UnbanCommands())
+                .Add(new UserkickCommand())
+                //.Add(new UserkickCommand())
                 .Add(new AdminCommands())
                 .Add(new NoticeCommand())
+                .Add(new ClanCommands())
                 .Add(new InventoryCommands());
 
             PlayerManager = new PlayerManager();
             ResourceCache = new ResourceCache();
             ChannelManager = new ChannelManager(ResourceCache.GetChannels());
-            ClubManager = new ClubManager(ResourceCache.GetClubs()); 
+            ClubManager = new ClubManager(ResourceCache.GetClubs());
 
             _worker = new ThreadLoop(TimeSpan.FromMilliseconds(100), Worker);
             _serverlistManager = new ServerlistManager();
@@ -90,6 +81,13 @@ namespace NeoNetsphere.Network
 #else
             config.Version = new Guid("{beb92241-8333-4117-ab92-9b4af78c688f}");
 #endif
+
+#if OLDUI
+            config.Version = new Guid("{beb92241-8333-4117-ab92-9b4af78c688f}");
+#endif
+
+            Logger.Information("Protocol Version {version}", config.Version);
+
             config.MessageFactories = new MessageFactory[]
             {
                 new RelayMessageFactory(), new GameMessageFactory(), new GameRuleMessageFactory(),
@@ -98,13 +96,40 @@ namespace NeoNetsphere.Network
             config.SessionFactory = new GameSessionFactory();
 
             // ReSharper disable InconsistentNaming
-            bool MustBeLoggedIn(GameSession session) => session.IsLoggedIn();
-            bool MustNotBeLoggedIn(GameSession session) => !session.IsLoggedIn();
-            bool MustBeInChannel(GameSession session) => session.Player.Channel != null;
-            bool MustBeInRoom(GameSession session) => session.Player.Room != null;
-            bool MustNotBeInRoom(GameSession session) => session.Player.Room == null;
-            bool MustBeRoomHost(GameSession session) => session.Player.Room.Host == session.Player;
-            bool MustBeRoomMaster(GameSession session) => session.Player.Room.Master == session.Player;
+            bool MustBeLoggedIn(GameSession session)
+            {
+                return session.IsLoggedIn();
+            }
+
+            bool MustNotBeLoggedIn(GameSession session)
+            {
+                return !session.IsLoggedIn();
+            }
+
+            bool MustBeInChannel(GameSession session)
+            {
+                return session.Player.Channel != null;
+            }
+
+            bool MustBeInRoom(GameSession session)
+            {
+                return session.Player.Room != null;
+            }
+
+            bool MustNotBeInRoom(GameSession session)
+            {
+                return session.Player.Room == null;
+            }
+
+            bool MustBeRoomHost(GameSession session)
+            {
+                return session.Player.Room.Host == session.Player;
+            }
+
+            bool MustBeRoomMaster(GameSession session)
+            {
+                return session.Player.Room.Master == session.Player;
+            }
             // ReSharper restore InconsistentNaming
 
             config.MessageHandlers = new IMessageHandler[]
@@ -129,11 +154,8 @@ namespace NeoNetsphere.Network
                     .RegisterRule<NewShopUpdateCheckReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ChannelEnterReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ChannelLeaveReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<LicenseGainReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<LicenseExerciseReqMessage>(MustBeLoggedIn, MustBeInChannel)
                     .RegisterRule<ItemBuyItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<RandomShopRollingStartReqMessage>(MustBeLoggedIn)
-                    //.RegisterRule<CRandomShopItemSaleReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemUseItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemRepairItemReqMessage>(MustBeLoggedIn)
                     .RegisterRule<ItemRefundItemReqMessage>(MustBeLoggedIn)
@@ -186,7 +208,6 @@ namespace NeoNetsphere.Network
                         session =>
                             session.Player.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Waiting))
                     .RegisterRule<ClubAddressReqMessage>(MustBeLoggedIn, MustBeInChannel)
-                    //.RegisterRule<ClubInfoReqMessage>(MustBeLoggedIn, MustBeInChannel)
                     .RegisterRule<RoomLeaveReguestReqMessage>(MustBeLoggedIn, MustBeInChannel, MustBeInRoom)
             };
 
@@ -200,41 +221,15 @@ namespace NeoNetsphere.Network
 
         private void Worker(TimeSpan delta)
         {
-            ChannelManager.Update(delta);
-
-            foreach (var plr in PlayerManager)
+            try
             {
-                if (plr != null)
-                {
-                    if (!plr.Session.IsConnected)
-                        plr.LoggedIn = false;
-
-                    if (!plr.Session.IsConnected || !plr.Session.IsLoggedIn())
-                    {
-                        plr.Room?.Leave(plr);
-                        plr.Room = null;
-                    }
-                    else
-                    {
-                        var curtime = TimeSpan.Parse(plr.PlayTime);
-                        plr.PlayTime = (curtime += delta).ToString();
-                    }
-                }
+                ChannelManager.Update(delta);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
             }
 
-            foreach (var channel in ChannelManager)
-            {
-                foreach (var room in channel.RoomManager.Where(x => !x.Master.IsLoggedIn() || !x.Master.Session.IsConnected))
-                {
-                    if (room.Players.Count - 1 <= 0)
-                        channel?.RoomManager?.Remove(room, true);
-                    else
-                        if (!room.Players.Any(x => x.Value.IsLoggedIn() || x.Value.Session.IsConnected))
-                        channel?.RoomManager?.Remove(room, true);
-                }
-            }
-
-            // ToDo Use another thread for this?
             _saveTimer = _saveTimer.Add(delta);
             if (_saveTimer < Config.Instance.SaveInterval) return;
             {
@@ -255,18 +250,33 @@ namespace NeoNetsphere.Network
                             Logger.ForAccount(plr)
                                 .Error(ex, "Failed to save playerdata");
                         }
+
                     Logger.Information("Saving playerdata completed");
                 }
             }
 
-            //_mailBoxCheckTimer = _mailBoxCheckTimer.Add(delta);
-            //if (_mailBoxCheckTimer >= TimeSpan.FromMinutes(10))
-            //{
-            //    _mailBoxCheckTimer = TimeSpan.Zero;
-            //
-            //    //foreach (var plr in PlayerManager.Where(plr => plr.IsLoggedIn()))
-            //    //    plr.Mailbox.Remove(plr.Mailbox.Where(mail => mail.Expires >= DateTimeOffset.Now));
-            //}
+
+            foreach (var plr in PlayerManager.Where(plr => !plr.IsLoggedIn() &&
+                                                           plr.Session?.ConnectDate.Add(TimeSpan.FromMinutes(5)) <
+                                                           DateTimeOffset.Now))
+                plr.Disconnect();
+
+            foreach (var channel in ChannelManager)
+            {
+                foreach (var room in channel.RoomManager)
+                {
+                    foreach (var player in room.TeamManager.Players)
+                        if (!player.IsLoggedIn())
+                            room.Leave(player);
+
+                    if (!room.TeamManager.Any())
+                        channel.RoomManager.Remove(room);
+                }
+
+                foreach (var player in channel.Players.Values)
+                    if (!player.IsLoggedIn())
+                        channel.Leave(player);
+            }
         }
 
         private static void RegisterMappings()
@@ -274,7 +284,9 @@ namespace NeoNetsphere.Network
             Mapper.Register<GameServer, ServerInfoDto>()
                 .Member(dest => dest.ApiKey, src => Config.Instance.AuthAPI.ApiKey)
                 .Member(dest => dest.Id, src => Config.Instance.Id)
-                .Member(dest => dest.Name, src => $"{Config.Instance.Name}[{Program.GlobalVersion.Major}.{Program.GlobalVersion.Major / 2 + Program.GlobalVersion.Minor + Program.GlobalVersion.Build + Program.GlobalVersion.Revision}]")
+                .Member(dest => dest.Name,
+                    src =>
+                        $"{Config.Instance.Name}[{Program.GlobalVersion.Major}.{Program.GlobalVersion.Major / 2 + Program.GlobalVersion.Minor + Program.GlobalVersion.Build + Program.GlobalVersion.Revision}]")
                 .Member(dest => dest.PlayerLimit, src => Config.Instance.PlayerLimit)
                 .Member(dest => dest.PlayerOnline, src => src.Sessions.Count)
                 .Member(dest => dest.EndPoint,
@@ -283,15 +295,22 @@ namespace NeoNetsphere.Network
                     src => new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.ChatListener.Port));
 
             Mapper.Register<Player, PlayerAccountInfoDto>()
-                .Function(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User)
+                .Function(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.Tester)
                 .Member(dest => dest.GameTime, src => TimeSpan.Parse(src.PlayTime))
                 .Member(dest => dest.TotalExp, src => src.TotalExperience)
                 .Function(dest => dest.TutorialState,
-                    src => (uint) (Config.Instance.Game.EnableTutorial ? src.TutorialState : 1))
+                    src => (uint)(Config.Instance.Game.EnableTutorial ? src.TutorialState : 1))
                 .Member(dest => dest.Nickname, src => src.Account.Nickname)
                 .Member(dest => dest.TotalMatches, src => src.TotalLosses + src.TotalWins)
                 .Member(dest => dest.MatchesWon, src => src.TotalWins)
-                .Member(dest => dest.MatchesLost, src => src.TotalLosses);
+                .Member(dest => dest.MatchesLost, src => src.TotalLosses)
+                .Member(dest => dest.BRStats, src => src.stats.BattleRoyal.GetStatsDto())
+                .Member(dest => dest.ChaserStats, src => src.stats.Chaser.GetStatsDto())
+                .Member(dest => dest.CPTStats, src => src.stats.Captain.GetStatsDto())
+                .Member(dest => dest.DMStats, src => src.stats.DeathMatch.GetStatsDto())
+                .Member(dest => dest.TDStats, src => src.stats.TouchDown.GetStatsDto())
+                .Member(dest => dest.SiegeStats, src => src.stats.Siege.GetStatsDto());
+                //.Member(dest => dest.;
 
 
             Mapper.Register<Channel, ChannelInfoDto>()
@@ -318,38 +337,40 @@ namespace NeoNetsphere.Network
                 .Member(dest => dest.Nickname, src => src.Nickname);
 
             Mapper.Register<Player, RoomPlayerDto>()
-                .Member(dest => dest.ClanId, src => (uint)src.Club.Clan_ID)
-                .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Value(dest => dest.Unk1, (byte)0x9A)
-                .Member(dest => dest.Nickname, src => src.Account.Nickname)
-                .Member(dest => dest.Unk2, src => (byte)src.Room.Players.Values.ToList().IndexOf(src))
-                .Member(dest => dest.IsGM, src => src.Account.SecurityLevel > SecurityLevel.User ? (byte)1 : (byte)0)
-                .Value(dest => dest.Unk3, (byte)0x58);
-
+                .Member(dest => dest.ClanId, src => src.Club.Id)
+                .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)
+                .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
+                .Member(dest => dest.Unk2, src => (byte) src.Room.Players.Values.ToList().IndexOf(src))
+                .Function(dest => dest.IsGM, src => src.Account?.SecurityLevel > SecurityLevel.Tester);
 
             Mapper.Register<PlayerItem, Data.P2P.ItemDto>()
                 .Function(dest => dest.ItemNumber, src => src?.ItemNumber ?? 0);
 
             Mapper.Register<RoomCreationOptions, ChangeRuleDto>()
-                .Member(dest => dest.Name, src => src.Name)
+                .Function(dest => dest.GameRule, src => (int) src.GameRule)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapId)
                 .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
-                .Member(dest => dest.Password, src => src.Password)
-                .Function(dest => dest.GameRule, src => (int)src.GameRule)
-                .Member(dest => dest.Time, src => src.TimeLimit.TotalMinutes)
                 .Member(dest => dest.Points, src => src.ScoreLimit)
-                .Member(dest => dest.Map_ID, src => src.MapID)
-                .Member(dest => dest.HasSpectator, src => src.hasSpectator)
-                .Member(dest => dest.SpectatorLimit, src => src.Spectator)
-                .Member(dest => dest.FMBurnMode, src => src.GetFMBurnModeInfo())
-                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit);
-                //.Value(dest => dest.Unk1, 0)
-                //.Value(dest => dest.Unk3, 0)
-                //.Value(dest => dest.Unk4, 0)
-                //.Value(dest => dest.Unk5, 0)
-                //.Value(dest => dest.Unk6, 0)
-                //.Value(dest => dest.Unk7, 0)
-                //.Value(dest => dest.Unk8, 0)
-                //.Value(dest => dest.Unk9, 0);
+                .Member(dest => dest.Time, src => (byte) src.TimeLimit.TotalMinutes)
+                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
+                .Member(dest => dest.Password, src => src.Password)
+                .Member(dest => dest.Name, src => src.Name)
+                .Member(dest => dest.HasSpectator, src => src.HasSpectator)
+                .Member(dest => dest.SpectatorLimit, src => src.SpectatorLimit);
+
+            Mapper.Register<RoomCreationOptions, ChangeRuleDto2>()
+                .Function(dest => dest.GameRule, src => (int) src.GameRule)
+                .Member(dest => dest.Map_ID, src => (byte) src.MapId)
+                .Member(dest => dest.Player_Limit, src => src.PlayerLimit)
+                .Member(dest => dest.Points, src => src.ScoreLimit)
+                .Value(dest => dest.Unk1, 0)
+                .Member(dest => dest.Time, src => (byte) src.TimeLimit.TotalMinutes)
+                .Member(dest => dest.Weapon_Limit, src => src.ItemLimit)
+                .Member(dest => dest.Password, src => src.Password)
+                .Member(dest => dest.Name, src => src.Name)
+                .Member(dest => dest.HasSpectator, src => src.HasSpectator)
+                .Member(dest => dest.SpectatorLimit, src => src.SpectatorLimit)
+                .Member(dest => dest.FMBurnMode, src => src.GetFMBurnModeInfo());
 
             Mapper.Register<Mail, NoteDto>()
                 .Function(dest => dest.ReadCount, src => src.IsNew ? 0 : 1)
@@ -370,18 +391,17 @@ namespace NeoNetsphere.Network
                 });
 
             Mapper.Register<Player, PlayerInfoShortDto>()
-                .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Member(dest => dest.Nickname, src => src.Account.Nickname)
-                .Member(dest => dest.IsGM, src => (src.Account.SecurityLevel > SecurityLevel.User))
-                .Function(dest => dest.TotalExp, src => src.TotalExperience);
+                .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)
+                .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
+                .Function(dest => dest.IsGM, src => src.Account?.SecurityLevel > SecurityLevel.Tester)
+                .Member(dest => dest.TotalExp, src => src.TotalExperience);
 
             Mapper.Register<Player, PlayerLocationDto>()
                 .Function(dest => dest.ServerGroupId, src => (int) Config.Instance.Id)
-                .Function(dest => dest.ChannelId, src => src.Channel != null ? src.Channel.Id : -1)
-                .Function(dest => dest.RoomId,
-                    src => src.Room?.Id > 1 ? (int) src.Room?.Id : 0) // ToDo: Tutorial, License
-                .Function(dest => dest.GameServerId, src => 0) // TODO Server ids
-                .Function(dest => dest.ChatServerId, src => 0);
+                .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? (int) src.Channel?.Id : -1)
+                .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int) src.Room?.Id : -1)
+                .Function(dest => dest.GameServerId, src => Config.Instance.Id) // TODO Server ids
+                .Function(dest => dest.ChatServerId, src => Config.Instance.Id);
 
             Mapper.Register<Player, PlayerInfoDto>()
                 .Function(dest => dest.Info, src => src.Map<Player, PlayerInfoShortDto>())
@@ -389,39 +409,94 @@ namespace NeoNetsphere.Network
 
             Mapper.Register<Player, UserDataDto>()
                 .Member(dest => dest.TotalExp, src => src.TotalExperience)
-                .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Member(dest => dest.Nickname, src => src.Account.Nickname)
+                .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)
+                .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
                 .Member(dest => dest.PlayTime, src => TimeSpan.Parse(src.PlayTime))
                 .Member(dest => dest.TotalGames, src => src.TotalMatches)
                 .Member(dest => dest.GamesWon, src => src.TotalWins)
                 .Member(dest => dest.GamesLost, src => src.TotalLosses)
-                .Member(dest => dest.Level, src => src.Level);
+                .Member(dest => dest.Level, src => src.Level)
+                .Member(dest => dest.BattleRoyalStats, src => src.stats.BattleRoyal.GetUserDataDto())
+                .Member(dest => dest.BRScore, src => 0)
+                .Member(dest => dest.CaptainStats, src => src.stats.Captain.GetUserDataDto())
+                .Member(dest => dest.CaptainScore, src => 0)
+                .Member(dest => dest.ChaserStats, src => src.stats.Chaser.GetUserDataDto())
+                .Member(dest => dest.ChaserSurvivability, src => 0)
+                .Member(dest => dest.DMStats, src => src.stats.DeathMatch.GetUserDataDto())
+                .Member(dest => dest.DMScore, src => 0)
+                .Member(dest => dest.TDStats, src => src.stats.TouchDown.GetUserDataDto())
+                .Member(dest => dest.TDScore, src => 0)
+                .Member(dest => dest.SiegeStats, src => src.stats.Siege.GetUserDataDto())
+                .Member(dest => dest.SiegeScore, src => 0);
+                //.Member(dest => dest.;
 
             Mapper.Register<Player, PlayerNameTagInfoDto>()
                 .Member(dest => dest.AccountId, src => src.Account.Id);
 
-            Mapper.Register<Player, MyInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Clan_ID : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.MemberCount, src => src.Club != null ? src.Club.Count : 0)
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "")
-                .Member(dest => dest.State, src => src.Club != null ? src.Club[src.Account.Id].State : 0);
+            Mapper.Register<Player, ClubMyInfoDto>()
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "")
+                .Function(dest => dest.Level, src => src.Club?.Count ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "")
+                .Function(dest => dest.State, src => src.Club?[src.Account?.Id ?? 0].State ?? 0);
 
             Mapper.Register<Player, PlayerClubInfoDto>()
-                .Member(dest => dest.Id, src => src.Club != null ? src.Club.Clan_ID : 0)
-                .Member(dest => dest.Name, src => src.Club != null ? src.Club.Clan_Name : "")
-                .Member(dest => dest.Type, src => src.Club != null ? src.Club.Clan_Icon : "");
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "")
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
 
             Mapper.Register<Player, ClubMemberDto>()
-                .Member(dest => dest.AccountId, src => src.Account.Id)
-                .Member(dest => dest.Nickname, src => src.Account.Nickname);
+                .Function(dest => dest.AccountId, src => src.Account?.Id ?? 0)
+                .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
+                .Function(dest => dest.ServerId, src => (int) Config.Instance.Id)
+                .Function(dest => dest.ChannelId, src => src.Channel?.Id > 0 ? src.Channel.Id : -1)
+                .Function(dest => dest.RoomId, src => src.Room?.Id > 0 ? (int) src.Room.Id : -1)
+                .Function(dest => dest.ClanRank, src => (int)(src.Club?.GetPlayer(src.Account.Id)?.Rank ?? 0))
+                .Function(dest => dest.LastLogin, src => src.Account?.AccountDto?.LastLogin ?? "");
+            
+            Mapper.Register<ClubPlayerInfo, ClubMemberDto>()
+                .Function(dest => dest.AccountId, src => src.AccountId)
+                .Function(dest => dest.Nickname, src => src.Account?.Nickname ?? "n/A")
+                .Function(dest => dest.LastLogin, src => src.Account.LastLogin ?? "")
+                .Function(dest => dest.ClanRank, src => (int)src.Rank)
+                .Value(dest => dest.ServerId, -1)
+                .Value(dest => dest.ChannelId, -1)
+                .Value(dest => dest.RoomId, -1);
+
+            Mapper.Register<Player, ClubInfoDto>()
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "n/A")
+                .Function(dest => dest.MasterName,
+                    src => src.Club?.Players.Values.FirstOrDefault(x => x.Rank == ClubRank.Master)?.Account?.Nickname ?? "")
+                .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
+
+            Mapper.Register<Player, ClubInfoDto2>()
+                .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Id2, src => src.Club?.Id ?? 0)
+                .Function(dest => dest.Name, src => src.Club?.ClanName ?? "n/A")
+                .Function(dest => dest.MasterName,
+                    src => src.Club?.Players.Values.FirstOrDefault(x => x.Rank == ClubRank.Master)?.Account?.Nickname ?? "")
+                .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
+                .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? "");
 
 
+            Mapper.Register<ClubPlayerInfo, PlayerInfoDto>()
+                .Function(dest => dest.Info, src =>
+                {
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account?.Id == src.AccountId);
+                    return plr.Map<Player, PlayerInfoShortDto>();
+                })
+                .Function(dest => dest.Location, src =>
+                {
+                    var plr = Instance.PlayerManager.FirstOrDefault(x => x.Account?.Id == src.AccountId);
+                    return plr.Map<Player, PlayerLocationDto>();
+                });
 
             Mapper.Compile(CompilationTypes.Source);
         }
 
-#region Events
+        #region Events
 
         protected override void OnStarted()
         {
@@ -438,35 +513,42 @@ namespace NeoNetsphere.Network
 
         protected override void OnDisconnected(ProudSession session)
         {
-            var gameSession = (GameSession) session;
-            if (gameSession.Player != null)
+            try
             {
-                gameSession.Player.Room?.Leave(gameSession.Player);
-                gameSession.Player.Channel?.Leave(gameSession.Player);
-
-                gameSession.Player.Save();
-
-                PlayerManager.Remove(gameSession.Player);
-
-                Logger.ForAccount(gameSession)
-                    .Debug($"Client {session.RemoteEndPoint} disconnected");
-
-                if (gameSession.Player.ChatSession != null)
+                var gameSession = (GameSession) session;
+                if (gameSession.Player != null)
                 {
-                    gameSession.Player.ChatSession.GameSession = null;
-                    gameSession.Player.ChatSession.Dispose();
-                }
+                    gameSession.Player.Room?.Leave(gameSession.Player);
+                    gameSession.Player.Channel?.Leave(gameSession.Player);
+                    gameSession.Player.Save();
 
-                if (gameSession.Player.RelaySession != null)
-                {
-                    gameSession.Player.RelaySession.GameSession = null;
-                    gameSession.Player.RelaySession.Dispose();
-                }
+                    PlayerManager.Remove(gameSession.Player);
 
-                gameSession.Player.Session = null;
-                gameSession.Player.ChatSession = null;
-                gameSession.Player.RelaySession = null;
-                gameSession.Player = null;
+                    Logger.ForAccount(gameSession)
+                        .Debug($"Client {session.RemoteEndPoint} disconnected");
+
+                    if (gameSession.Player.ChatSession != null)
+                    {
+                        Club.LogOff(gameSession.Player);
+                        gameSession.Player.ChatSession.GameSession = null;
+                        gameSession.Player.ChatSession.Dispose();
+                    }
+
+                    if (gameSession.Player.RelaySession != null)
+                    {
+                        gameSession.Player.RelaySession.GameSession = null;
+                        gameSession.Player.RelaySession.Dispose();
+                    }
+
+                    gameSession.Player.Session = null;
+                    gameSession.Player.ChatSession = null;
+                    gameSession.Player.RelaySession = null;
+                    gameSession.Player = null;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.ToString());
             }
 
             base.OnDisconnected(session);
@@ -479,7 +561,8 @@ namespace NeoNetsphere.Network
             if (e.Session != null)
                 log = log.ForAccount((GameSession) e.Session);
 
-            if (e.Exception.ToString().Contains("opcode") || e.Exception.ToString().Contains("Bad format in"))
+            if (e.Exception.ToString().ToLower().Contains("opcode") ||
+                e.Exception.ToString().ToLower().Contains("bad format in"))
             {
                 log.Warning(e.Exception.InnerException.Message);
                 gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
@@ -489,13 +572,14 @@ namespace NeoNetsphere.Network
                                                         .State == GameRuleState.Waiting
                                                     || gameSession.Player.Room == null))
             {
-                log.Warning(e.Exception.InnerException.Message);
+                log.Warning(e.Exception.ToString());
                 gameSession?.SendAsync(new ServerResultAckMessage(ServerResult.ServerError));
             }
             else
             {
                 log.Error(e.Exception, "Unhandled server error");
             }
+
             base.OnError(e);
         }
 
@@ -508,6 +592,6 @@ namespace NeoNetsphere.Network
         //        .Write();
         //}
 
-#endregion
+        #endregion
     }
 }

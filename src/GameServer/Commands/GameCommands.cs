@@ -36,6 +36,7 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
 
@@ -61,6 +62,7 @@ namespace NeoNetsphere.Commands
                     plr.SendConsoleMessage(S4Color.Red + "You're not inside a room");
                     return false;
                 }
+
                 var stateMachine = plr.Room.GameRuleManager.GameRule.StateMachine;
                 if (args.Length == 0)
                 {

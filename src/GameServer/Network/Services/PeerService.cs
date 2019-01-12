@@ -29,6 +29,7 @@ namespace NeoNetsphere.Network.Services
             var plr = session.Player;
 
             if (plr?.RoomInfo.Mode == PlayerGameMode.Normal && plr.RoomInfo.State != PlayerState.Lobby)
+            {
                 switch (message.State)
                 {
                     case ActorState.Death:
@@ -44,6 +45,7 @@ namespace NeoNetsphere.Network.Services
                         plr.RoomInfo.State = PlayerState.Alive;
                         break;
                 }
+            }
         }
     }
 }

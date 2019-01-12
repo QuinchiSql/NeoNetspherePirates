@@ -40,7 +40,7 @@ namespace NeoNetsphere.Network.Data.Game
         public string Name { get; set; }
 
         [BlubMember(9)]
-        public bool SpectatorEnabled { get; set; }
+        public bool HasSpectator { get; set; }
 
         [BlubMember(10)]
         public byte Unk1 { get; set; }

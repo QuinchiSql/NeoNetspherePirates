@@ -36,9 +36,10 @@ namespace NeoNetsphere.Commands
                 sb.Append(" ");
                 sb.AppendLine(cmd.Help());
             }
+
             return sb.ToString();
         }
-        
+
 
         private class StatusCommand : ICommand
         {

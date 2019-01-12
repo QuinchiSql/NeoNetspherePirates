@@ -62,7 +62,7 @@ namespace NeoNetsphere
 
             foreach (var xbn in Enum.GetValues(typeof(XBNType)).Cast<XBNType>().ToList())
             {
-                var name = $"XBN\\{xbn.ToString()}.xbn";
+                var name = $"XBN//{xbn.ToString()}.xbn";
                 if (File.Exists(name))
                 {
                     var data = File.ReadAllBytes(name);

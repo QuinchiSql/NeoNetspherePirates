@@ -6,6 +6,22 @@ namespace NeoNetsphere.Network.Data.Club
     [BlubContract]
     public class JoinWaiterInfoDto
     {
+        public JoinWaiterInfoDto()
+        {
+            Unk2 = "";
+            Unk5 = "";
+            Unk6 = "";
+            Unk7 = "";
+            Unk8 = "";
+            Unk9 = "";
+            Unk10 = "";
+            Unk11 = "";
+            Unk12 = "";
+            Unk13 = "";
+            Unk14 = "";
+            Unk15 = "";
+        }
+
         [BlubMember(0)]
         public ulong Unk1 { get; set; }
 

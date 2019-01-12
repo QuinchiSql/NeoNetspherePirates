@@ -1,9 +1,9 @@
-﻿using System;
-using System.Net.Sockets;
-using DotNetty.Transport.Channels;
-
-namespace ProudNetSrc.Handlers
+﻿namespace ProudNetSrc.Handlers
 {
+    using System;
+    using System.Net.Sockets;
+    using DotNetty.Transport.Channels;
+
     internal class ErrorHandler : ChannelHandlerAdapter
     {
         private readonly ProudServer _server;

@@ -15,43 +15,33 @@ namespace NeoNetsphere.Resource.xml
 
         public GameInfoTimeDto time { get; set; }
 
-        [XmlAttribute]
-        public string string_table { get; set; }
+        [XmlAttribute] public string string_table { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
     public class GameInfoMapDto
     {
-        [XmlAttribute]
-        public short id { get; set; }
+        [XmlAttribute] public short id { get; set; }
 
-        [XmlAttribute]
-        public string map_name_key { get; set; }
+        [XmlAttribute] public string map_name_key { get; set; }
 
-        [XmlAttribute]
-        public byte require_level { get; set; }
+        [XmlAttribute] public byte require_level { get; set; }
 
-        [XmlAttribute]
-        public byte require_server { get; set; }
+        [XmlAttribute] public byte require_server { get; set; }
 
-        [XmlAttribute]
-        public byte require_channel { get; set; }
+        [XmlAttribute] public byte require_channel { get; set; }
 
-        [XmlAttribute]
-        public byte respawn_type { get; set; }
+        [XmlAttribute] public byte respawn_type { get; set; }
 
-        [XmlAttribute]
-        public string bginfo_path { get; set; }
+        [XmlAttribute] public string bginfo_path { get; set; }
 
-        [XmlAttribute]
-        public bool dev_mode { get; set; }
+        [XmlAttribute] public bool dev_mode { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
     public class GameInfoTutorialDto
     {
-        [XmlAttribute]
-        public byte map_id { get; set; }
+        [XmlAttribute] public byte map_id { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
@@ -88,11 +78,9 @@ namespace NeoNetsphere.Resource.xml
     [XmlType(AnonymousType = true)]
     public class GameInfoScoreDataDto
     {
-        [XmlAttribute]
-        public short score { get; set; }
+        [XmlAttribute] public short score { get; set; }
 
-        [XmlAttribute]
-        public string score_string_key { get; set; }
+        [XmlAttribute] public string score_string_key { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
@@ -129,10 +117,8 @@ namespace NeoNetsphere.Resource.xml
     [XmlType(AnonymousType = true)]
     public class GameInfoTimeDataDto
     {
-        [XmlAttribute]
-        public short time { get; set; }
+        [XmlAttribute] public short time { get; set; }
 
-        [XmlAttribute]
-        public string time_string_key { get; set; }
+        [XmlAttribute] public string time_string_key { get; set; }
     }
 }

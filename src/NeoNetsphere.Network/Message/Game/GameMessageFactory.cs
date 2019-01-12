@@ -36,6 +36,7 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RoomEnterPlayerInfoAckMessage>(GameOpCode.RoomEnterPlayerInfoAck);
             Register<RoomEnterClubInfoAckMessage>(GameOpCode.RoomEnterClubInfoAck);
             Register<RoomPlayerInfoListForEnterPlayerAckMessage>(GameOpCode.RoomPlayerInfoListForEnterPlayerAck);
+            Register<RoomPlayerInfoListForEnterPlayerForCollectBookAckMessage>(GameOpCode.Room_PlayerInfoListForEnterPlayerForCollectBook_Ack);
             Register<RoomClubInfoListForEnterPlayerAckMessage>(GameOpCode.RoomClubInfoListForEnterPlayerAck);
             Register<RoomEnterRoomInfoAck2Message>(GameOpCode.Room_EnterRoomInfo_Ack_2);
             Register<RoomEnterRoomInfoAckMessage>(GameOpCode.RoomEnterRoomInfoAck);
@@ -48,7 +49,7 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RoomDeployAck2Message>(GameOpCode.Room_Deploy_Ack_2);
             Register<RoomDeployAckMessage>(GameOpCode.RoomDeployAck);
             Register<RoomDisposeAckMessage>(GameOpCode.RoomDisposeAck);
-            Register<PlayerInfoAckMessage>(GameOpCode.PlayerInfoAck);
+            Register<GamePlayerInfoAckMessage>(GameOpCode.PlayerInfoAck);
             Register<ItemBuyItemAckMessage>(GameOpCode.ItemBuyItemAck);
             Register<ItemRepairItemAckMessage>(GameOpCode.ItemRepairItemAck);
             Register<ItemDurabilityItemAckMessage>(GameOpCode.ItemDurabilityItemAck);
@@ -103,7 +104,6 @@ namespace NeoNetsphere.Network.Message.Game
             Register<RandomShopRollingStartAckMessage>(GameOpCode.RandomShopRollingStartAck);
             Register<RoomInfoRequestAckMessage>(GameOpCode.RoomInfoRequestAck);
             Register<RoomInfoRequestAck2Message>(GameOpCode.Room_InfoRequest_Ack_2);
-
             Register<NoteGiftItemAckMessage>(GameOpCode.NoteGiftItemAck);
             Register<NoteImportuneItemAckMessage>(GameOpCode.NoteImportuneItemAck);
             Register<NoteGiftItemGainAckMessage>(GameOpCode.NoteGiftItemGainAck);
@@ -198,10 +198,22 @@ namespace NeoNetsphere.Network.Message.Game
             Register<CPromotionCardShuffleReqMessage>(GameOpCode.CPromotionCardShuffleReq);
             Register<BillingCashInfoReqMessage>(GameOpCode.BillingCashInfoReq);
             Register<PromotionCouponEventReqMessage>(GameOpCode.PromotionCouponEventReq);
+
+            // Yomalex Add message May 08, 2018
+            Register<ArchiveMissionReqMessage>(GameOpCode.AchieveMission_Req);
+            Register<DailyMissionResetReqMessage>(GameOpCode.Daily_Mission_Init_Req);
+
 #if NEWIDS
+            //S2C
+            Register<ClubNoticePointRefreshAckMessage>(GameOpCode.ClubNotice_Point_Refresh_Ack);
+            Register<ClubNoticeRecordRefreshAckMessage>(GameOpCode.ClubNotice_Record_Refresh_Ack);
+
+            //C2S
             Register<CollectBookItemRegistReqMessage>(GameOpCode.CollectBook_ItemRegist_Req);
             Register<Btc_Clear_ReqMessage>(GameOpCode.Btc_Clear_Req);
             Register<CheckhashKeyvaluereqMessage>(GameOpCode.Check_hash_Key_value_req);
+            Register<ClubNoticePointRefreshReqMessage>(GameOpCode.ClubNotice_Point_Refresh_Req);
+            Register<ClubNoticeRecordRefreshReqMessage>(GameOpCode.ClubNotice_Record_Refresh_Req);
 #endif
         }
     }

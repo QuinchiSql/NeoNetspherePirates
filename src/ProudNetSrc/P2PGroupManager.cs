@@ -2,12 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using BlubLib.Collections.Generic;
+using BlubLib.Threading.Tasks;
 
 namespace ProudNetSrc
 {
     public class P2PGroupManager : IReadOnlyDictionary<uint, P2PGroup>
     {
         private readonly ConcurrentDictionary<uint, P2PGroup> _groups = new ConcurrentDictionary<uint, P2PGroup>();
+        internal readonly AsyncLock _sync = new AsyncLock();
         private readonly ProudServer _server;
 
         internal P2PGroupManager(ProudServer server)
@@ -17,23 +19,30 @@ namespace ProudNetSrc
 
         public P2PGroup Create(bool allowDirectP2P)
         {
-            var group = new P2PGroup(_server, allowDirectP2P);
-            _groups.TryAdd(group.HostId, group);
-            _server.Configuration.Logger?.Debug("Created P2PGroup({HostId}) directP2P={AllowDirectP2P}", group.HostId, allowDirectP2P);
-            return group;
+            //using (_sync.Lock())
+            {
+                var group = new P2PGroup(_server, allowDirectP2P);
+                _groups.TryAdd(group.HostId, group);
+                _server.Configuration.Logger?.Debug("Created P2PGroup({HostId}) directP2P={AllowDirectP2P}",
+                    group.HostId, allowDirectP2P);
+                return group;
+            }
         }
 
         public void Remove(uint groupHostId)
         {
-            if (_groups.TryRemove(groupHostId, out var group))
+            //using (_sync.Lock())
             {
-                foreach (var member in group.Members)
-                    group.Leave(member.Key);
+                if (_groups.TryRemove(groupHostId, out var group))
+                {
+                    foreach (var member in group.Members)
+                        group.Leave(member.Key);
 
-                _server.Configuration.HostIdFactory.Free(groupHostId);
+                    _server.Configuration.HostIdFactory.Free(groupHostId);
+                }
+
+                _server.Configuration.Logger?.Debug("Removed P2PGroup({HostId})", group.HostId);
             }
-            
-            _server.Configuration.Logger?.Debug("Removed P2PGroup({HostId})", group.HostId);
         }
 
         public void Remove(P2PGroup group)

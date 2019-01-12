@@ -4,7 +4,7 @@ using ProudNetSrc.Serialization.Serializers;
 namespace NeoNetsphere.Network.Data.Club
 {
     [BlubContract]
-    public class MyInfoDto
+    public class ClubMyInfoDto
     {
         [BlubMember(0)]
         public uint Id { get; set; } //unique club id
@@ -19,38 +19,35 @@ namespace NeoNetsphere.Network.Data.Club
         public ClubState State { get; set; } //0 not joined, 1 awaiting acception, 2 joined
 
         [BlubMember(4)]
-        public byte Unk2 { get; set; }
+        public int Unk1 { get; set; }
 
         [BlubMember(5)]
-        public byte Unk3 { get; set; }
+        public int Level { get; set; } //?
 
         [BlubMember(6)]
-        public byte Unk4 { get; set; }
+        public int Unk2 { get; set; }
 
         [BlubMember(7)]
-        public int MemberCount { get; set; } //membercount
+        public int Unk3 { get; set; }
 
         [BlubMember(8)]
-        public int Unk5 { get; set; }
+        public int Unk4 { get; set; }
 
         [BlubMember(9)]
-        public int Unk6 { get; set; }
+        public long Unk5 { get; set; }
 
         [BlubMember(10)]
-        public int Unk7 { get; set; }
+        public int Unk6 { get; set; } //rank?
 
         [BlubMember(11)]
-        public long Unk8 { get; set; } //always maxval? 0xFFFFFFFFFFFFFFF
+        public byte Unk7 { get; set; }
 
-        [BlubMember(12)]
-        public int Unk9 { get; set; }
-
-        public MyInfoDto()
+        public ClubMyInfoDto()
         {
             Type = "";
             Id = 0;
             State = 0;
-            MemberCount = 0;
+            Unk5 = -1;
         }
     }
 }

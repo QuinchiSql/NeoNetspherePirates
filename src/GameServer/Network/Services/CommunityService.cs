@@ -18,39 +18,8 @@ namespace NeoNetsphere.Network.Services
         [MessageHandler(typeof(OptionSaveBinaryReqMessage))]
         public void OptionSaveBinaryReq(ChatSession session, OptionSaveBinaryReqMessage message)
         {
-            //handle
-            Console.WriteLine($"Save Option: 0x{message.Checksum:X} : {message.Data.Length}");
+            //ToDo
         }
-        //[MessageHandler(typeof(CSetUserDataReqMessage))]
-        //public void SetUserDataHandler(ChatSession session, CSetUserDataReqMessage message)
-        //{
-        //    var plr = session.Player;
-        //    if (message.UserData.ChannelId > 0 && !plr.SentPlayerList && plr.Channel != null)
-        //    {
-        //        // We can't send the channel player list in Channel.Join because the client only accepts it here :/
-        //        plr.SentPlayerList = true;
-        //        var data = plr.Channel.Players.Values.Select(p => p.Map<Player, UserDataWithNickDto>()).ToArray();
-        //        session.SendAsync(new ChannelPlayerListAckMessage(data));
-        //    }
-
-        //    // Save settings if any of them changed
-        //    var settings = plr.Settings;
-        //    var name = nameof(UserDataDto.AllowCombiInvite);
-        //    if (!settings.Contains(name) || settings.Get<CommunitySetting>(name) != message.UserData.AllowCombiInvite)
-        //        settings.AddOrUpdate(name, message.UserData.AllowCombiInvite);
-
-        //    name = nameof(UserDataDto.AllowFriendRequest);
-        //    if (!settings.Contains(name) || settings.Get<CommunitySetting>(name) != message.UserData.AllowFriendRequest)
-        //        settings.AddOrUpdate(name, message.UserData.AllowFriendRequest);
-
-        //    name = nameof(UserDataDto.AllowRoomInvite);
-        //    if (!settings.Contains(name) || settings.Get<CommunitySetting>(name) != message.UserData.AllowRoomInvite)
-        //        settings.AddOrUpdate(name, message.UserData.AllowRoomInvite);
-
-        //    name = nameof(UserDataDto.AllowInfoRequest);
-        //    if (!settings.Contains(name) || settings.Get<CommunitySetting>(name) != message.UserData.AllowInfoRequest)
-        //        settings.AddOrUpdate(name, message.UserData.AllowInfoRequest);
-        //}
 
         [MessageHandler(typeof(UserDataOneReqMessage))]
         public void GetUserDataHandler(ChatSession session, UserDataOneReqMessage message)

@@ -52,7 +52,7 @@ namespace NeoNetsphere
         internal void Add(Mail mail)
         {
             if (_mails.TryAdd(mail.Id, mail))
-                UpdateReminderAsync();
+                UpdateReminder();
         }
 
         public async Task<bool> SendAsync(string receiver, string title, string message)
@@ -68,6 +68,7 @@ namespace NeoNetsphere
                         .WithParameters(new {receiver})))
                     .FirstOrDefault();
             }
+
             if (account == null)
                 return false;
 
@@ -107,14 +108,15 @@ namespace NeoNetsphere
                 _mails.Remove(mail.Id);
                 _mailsToDelete.Push(mail);
             }
-            UpdateReminderAsync();
+
+            UpdateReminder();
 
             return changed;
         }
 
-        public Task UpdateReminderAsync()
+        public void UpdateReminder()
         {
-            return Player.ChatSession.SendAsync(new NoteCountAckMessage((byte) this.Count(m => m.IsNew), 0, 0));
+            Player.ChatSession.SendAsync(new NoteCountAckMessage((byte) this.Count(m => m.IsNew), 0, 0));
         }
 
         internal void Save(IDbConnection db)
@@ -137,6 +139,7 @@ namespace NeoNetsphere
                         idsToRemove.Append(',');
                     idsToRemove.Append(mailToDelete.Id);
                 }
+
                 db.BulkUpdate(new PlayerMailDto {IsMailDeleted = true}, statement => statement
                     .Where($"{nameof(PlayerMailDto.Id):C} IN ({idsToRemove})")
                     .WithEntityMappingOverride(deleteMapping));

@@ -56,8 +56,8 @@ namespace Netsphere.Game.GameRules
         public override void Initialize()
         {
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
 
             base.Initialize();
         }
@@ -123,11 +123,12 @@ namespace Netsphere.Game.GameRules
         public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreTarget, LongPeerId scoreKiller, LongPeerId scoreAssist)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+                                                                 && p.RoomInfo.PeerId == scoreTarget.PeerId
+                                                                 && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
+                                                                 && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
+                                                                 && p.RoomInfo.PeerId.PeerId.Category ==
+                                                                 scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -144,11 +145,12 @@ namespace Netsphere.Game.GameRules
         public override void OnScoreTeamKill(Player killer, Player target, AttackAttribute attackAttribute,
             LongPeerId scoreKiller, LongPeerId scoreTarget)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+                                                                 && p.RoomInfo.PeerId == scoreTarget.PeerId
+                                                                 && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
+                                                                 && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
+                                                                 && p.RoomInfo.PeerId.PeerId.Category ==
+                                                                 scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -159,11 +161,12 @@ namespace Netsphere.Game.GameRules
 
         public override void OnScoreSuicide(Player target, LongPeerId scoreTarget)
         {
-            var realplayer = Room.Players.Values.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
-                                                            && p.RoomInfo.PeerId == scoreTarget.PeerId
-                                                            && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
-                                                            && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+            var realplayer = Room.TeamManager.Players.Where(p => p.RoomInfo.Slot == scoreTarget.PeerId.Slot
+                                                                 && p.RoomInfo.PeerId == scoreTarget.PeerId
+                                                                 && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
+                                                                 && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
+                                                                 && p.RoomInfo.PeerId.PeerId.Category ==
+                                                                 scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -178,7 +181,7 @@ namespace Netsphere.Game.GameRules
 
             return true;
         }
-        
+
 
         private static DeathmatchTrainingPlayerRecord GetRecord(Player plr)
         {

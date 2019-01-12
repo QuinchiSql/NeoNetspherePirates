@@ -4,23 +4,28 @@
         <TargetFramework>netcoreapp2.0</TargetFramework>
         <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
         <RootNamespace>NeoNetsphere</RootNamespace>
-        <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+        <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release;LatestOld_Release;LatestOld_Debug</Configurations>
         <Version>2.0.0</Version>
-        <AssemblyVersion>2018.2.42.130</AssemblyVersion>
-        <FileVersion>2018.2.42.130</FileVersion>
+        <AssemblyVersion>2018.2.42.183</AssemblyVersion>
+        <FileVersion>2018.2.42.183</FileVersion>
         <StartupObject>NeoNetsphere.Program</StartupObject>
+        <PackageReleaseNotes />
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;OLDIDS</DefineConstants>
+      <DefineConstants>DEBUG;TRACE;OLDIDS;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0;OLDIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NewIDs_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;OLDIDS_DEBUG;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
+      <DefineConstants>DEBUG;TRACE;OLDIDS_DEBUG;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;NETCOREAPP2_0;NEWIDS_DEBUG;NETCOREAPP2_0</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Debug|AnyCPU'">
+      <Optimize>false</Optimize>
+      <DefineConstants>DEBUG;TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4;LATEST_DEBUG;NETCOREAPP2_0</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LatestOld_Debug|AnyCPU'">
       <Optimize>true</Optimize>
-      <DefineConstants>TRACE;NETCOREAPP2_0;NEWIDS;NEWIDS_DEBUG;LATEST_DEBUG;LATESTS4</DefineConstants>
+      <DefineConstants>TRACE;LATESTS4;NEWIDS;OLDUI;DEBUG</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OldIDs_Release|AnyCPU'">
       <DefineConstants>TRACE;OLDIDS</DefineConstants>
@@ -30,6 +35,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Latest_Release|AnyCPU'">
       <DefineConstants>TRACE;LATESTS4;NEWIDS</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LatestOld_Release|AnyCPU'">
+      <DefineConstants>TRACE;LATESTS4;NEWIDS;OLDUI</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Expressmapper" Version="1.9.1" />

@@ -57,8 +57,7 @@ namespace Netsphere.Game.GameRules
 
         public override void Initialize()
         {
-            Room.TeamManager.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2),
-                (uint) (Room.Options.Spectator / 2));
+            Room.TeamManager.Add(Team.Alpha, Room.Options.PlayerLimit, (uint) Room.Options.SpectatorLimit);
 
             base.Initialize();
         }
@@ -121,7 +120,7 @@ namespace Netsphere.Game.GameRules
                 return false;
             return true;
         }
-        
+
 
         private static SiegePlayerRecord GetRecord(Player plr)
         {

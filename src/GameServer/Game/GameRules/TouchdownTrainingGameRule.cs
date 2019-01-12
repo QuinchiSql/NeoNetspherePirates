@@ -17,7 +17,6 @@ namespace NeoNetsphere.Game.GameRules
             new TouchdownTrainingAssistHelper();
 
         private TimeSpan _TouchdownTrainingTime;
-        public Player BallOwner { get; private set; }
 
         public TouchdownTrainingGameRule(Room room)
             : base(room)
@@ -58,6 +57,8 @@ namespace NeoNetsphere.Game.GameRules
                 .Permit(GameRuleStateTrigger.EndGame, GameRuleState.Waiting);
         }
 
+        public Player BallOwner { get; private set; }
+
         public override bool CountMatch => false;
         public override GameRule GameRule => GameRule.CombatTrainingTD;
         public override Briefing Briefing { get; }
@@ -66,8 +67,8 @@ namespace NeoNetsphere.Game.GameRules
         public override void Initialize()
         {
             var teamMgr = Room.TeamManager;
-            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
-            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.Spectator / 2));
+            teamMgr.Add(Team.Alpha, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
+            teamMgr.Add(Team.Beta, (uint) (Room.Options.PlayerLimit / 2), (uint) (Room.Options.SpectatorLimit / 2));
 
             base.Initialize();
         }
@@ -155,7 +156,8 @@ namespace NeoNetsphere.Game.GameRules
                                                             && p.RoomInfo.PeerId == Target.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == Target.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == Target.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == Target.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            Target.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
             //GetRecord(killer).OffenseScore++;
@@ -179,7 +181,8 @@ namespace NeoNetsphere.Game.GameRules
                                                             && p.RoomInfo.PeerId == Target.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == Target.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == Target.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == Target.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            Target.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
             //GetRecord(killer).DefenseScore++;
@@ -197,7 +200,7 @@ namespace NeoNetsphere.Game.GameRules
         {
             if (IsInTouchdownTraining || newPlr == BallOwner)
                 return;
-            
+
             if (newPlr != null)
                 GetRecord(newPlr).OffenseReboundScore++;
             BallOwner = newPlr;
@@ -254,7 +257,8 @@ namespace NeoNetsphere.Game.GameRules
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -278,7 +282,8 @@ namespace NeoNetsphere.Game.GameRules
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -296,7 +301,8 @@ namespace NeoNetsphere.Game.GameRules
                                                             && p.RoomInfo.PeerId == scoreTarget.PeerId
                                                             && p.RoomInfo.PeerId.PeerId.Id == scoreTarget.PeerId.Id
                                                             && p.RoomInfo.PeerId.AccountId == scoreTarget.AccountId
-                                                            && p.RoomInfo.PeerId.PeerId.Category == scoreTarget.PeerId.Category);
+                                                            && p.RoomInfo.PeerId.PeerId.Category ==
+                                                            scoreTarget.PeerId.Category);
             if (realplayer.Any())
                 Respawn(realplayer.First());
 
@@ -310,7 +316,7 @@ namespace NeoNetsphere.Game.GameRules
                 return false;
             return true;
         }
-        
+
         private static TouchdownTrainingPlayerRecord GetRecord(Player plr)
         {
             return (TouchdownTrainingPlayerRecord) plr.RoomInfo.Stats;
@@ -385,11 +391,11 @@ namespace NeoNetsphere.Game.GameRules
         private uint GetTotalScore()
         {
             return TDScore * 10 + TDAssistScore * 5
-                   + Kills * 2 + KillAssists
-                   + OffenseScore * 4 + OffenseAssistScore * 2
-                   + DefenseScore * 4 + DefenseAssistScore * 2
-                   + HealScore * 2
-                   + OffenseReboundScore * 2;
+                                + Kills * 2 + KillAssists
+                                + OffenseScore * 4 + OffenseAssistScore * 2
+                                + DefenseScore * 4 + DefenseAssistScore * 2
+                                + HealScore * 2
+                                + OffenseReboundScore * 2;
         }
 
         public override int GetExpGain(out int bonusExp)

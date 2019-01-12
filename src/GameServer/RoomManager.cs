@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using BlubLib.Collections.Concurrent;
 using BlubLib.Threading.Tasks;
 using NeoNetsphere;
-using NeoNetsphere.Network.Data.Game;
 using NeoNetsphere.Network.Message.Game;
 using Netsphere.Game;
 using ProudNetSrc;
@@ -15,7 +15,7 @@ namespace Netsphere
 {
     internal class RoomManager : IReadOnlyCollection<Room>
     {
-        private readonly ConcurrentDictionary<uint, Room> _rooms = new ConcurrentDictionary<uint, Room>();
+        public readonly ConcurrentDictionary<uint, Room> _rooms = new ConcurrentDictionary<uint, Room>();
         private readonly AsyncLock _sync = new AsyncLock();
 
         public RoomManager(Channel channel)
@@ -35,8 +35,7 @@ namespace Netsphere
 
         public Room Get(uint id)
         {
-            Room room;
-            _rooms.TryGetValue(id, out room);
+            _rooms.TryGetValue(id, out var room);
             return room;
         }
 
@@ -44,7 +43,7 @@ namespace Netsphere
         {
             try
             {
-                using (_sync.Lock())
+                //using (_sync.Lock())
                 {
                     uint id = 1;
                     while (true)
@@ -55,7 +54,7 @@ namespace Netsphere
                     }
 
                     var room = new Room(this, id, options, p2pGroup, options.Creator);
-                    _rooms.TryAdd(id, room);
+                    //_rooms.TryAdd(id, room);
                     var roomDto = room.GetRoomInfo();
                     roomDto.Password =
                         !string.IsNullOrWhiteSpace(room.Options.Password) ||
@@ -75,7 +74,7 @@ namespace Netsphere
 
         public Room Create(RoomCreationOptions options, P2PGroup p2pGroup)
         {
-            using (_sync.Lock())
+            //using (_sync.Lock())
             {
                 uint id = 1;
                 while (true)
@@ -86,7 +85,6 @@ namespace Netsphere
                 }
 
                 var room = new Room(this, id, options, p2pGroup, options.Creator);
-                _rooms.TryAdd(id, room);
                 var roomDto = room.GetRoomInfo();
                 roomDto.Password =
                     !string.IsNullOrWhiteSpace(room.Options.Password) ||
@@ -99,18 +97,10 @@ namespace Netsphere
             }
         }
 
-        public void Remove(Room room, bool force = false)
+        public void Remove(Room room)
         {
-            if (room.Players.Count > 0 && !force)
+            if (room.TeamManager.Players.Any())
                 throw new RoomException("Players are still in this room");
-
-            if (force)
-            {
-                foreach (var plr in room.Players)
-                {
-                    room.Leave(plr.Value);
-                }
-            }
 
             _rooms.Remove(room.Id);
             Channel.Broadcast(new RoomDisposeAckMessage(room.Id));
